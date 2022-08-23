@@ -4,11 +4,6 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
-variable "vpc_name" {
-  type        = string
-  description = "The name of an existing VPC"
-}
-
 variable "region" {
   type        = string
   description = "Region where existing resources exist"
