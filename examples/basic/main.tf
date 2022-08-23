@@ -94,7 +94,7 @@ module "powervs_infratructure" {
   access_host_or_ip       = var.access_host_or_ip
   pvs_zone                = var.pvs_zone
   ssh_private_key         = trimspace(tls_private_key.tls_key.private_key_openssh)
-  pvs_resource_group_name = var.pvs_resource_group_name
+  pvs_resource_group_name = var.resource_group
   ssh_public_key          = ibm_is_ssh_key.ssh_key.public_key
   reuse_cloud_connections = var.reuse_cloud_connections
   #### add / change ###

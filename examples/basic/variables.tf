@@ -9,7 +9,13 @@ variable "pvs_zone" {
   default     = "mon01"
 }
 
-variable "pvs_resource_group_name" {
+variable "resource_group" {
+  type        = string
+  description = "An existing resource group name to use for this example"
+  default     = "Default"
+}
+
+variable "region" {
   type        = string
   description = "An existing resource group name to use for this example"
   default     = "Default"

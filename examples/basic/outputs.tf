@@ -8,6 +8,11 @@ output "hana_ips" {
   value       = module.sap_systems.hana_instance_private_ips
 }
 
+output "region" {
+  description = "Region for deployment"
+  value       = var.region
+}
+
 /***
 output "PVS_NW_IPS" {
   description = "All private IPs of NW instances"
