@@ -99,17 +99,11 @@
                     "name": "terraform-ibm-powervs-catalog-powervs-sap-infrastructure"
                 }
             ],
-            "features": [
-                {
-                    "description": "3",
-                    "title": "Power LPARs"
-                }
-            ],
             "architecture": {
                 "features": [
                     {
-                        "description": "1",
-                        "title": "PowerVS Service"
+                        "description": "3",
+                        "title": "Power LPARs"
                     }
                 ],
                 "diagrams": [
