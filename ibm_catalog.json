@@ -5,7 +5,7 @@
             "label": "Empty systems for SAP",
             "name": "empty-systems",
             "working_directory": "examples/ibm-catalog/empty-system-solution",
-            "usage": "module \"power-infrastructure\" {\n   source                  = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz\u0026kind=terraform\u0026name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure\u0026version=1.1.0\"\n  }",
+            "usage": "module \"power-infrastructure\" {\n   source = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz\u0026kind=terraform\u0026name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure\u0026version=1.1.0\"\n  }",
             "compliance": {
                 "controls": [
                     {
@@ -93,11 +93,16 @@
             "dependencies": [
                 {
                     "flavors": [
-                        "power"
+                        "standard"
                     ],
-                    "id": "a87ed9a5-d130-47a3-980b-5ceb1d4f9280-global",
-                    "name": "slz-vpc-with-vsis",
-                    "version": "^=0.0.20"
+                    "id": "07e92c55-6a5b-4f3d-aa0e-30212e108af9-global",
+                    "name": "terraform-ibm-powervs-catalog-powervs-sap-infrastructure"
+                }
+            ],
+            "features": [
+                {
+                    "description": "3",
+                    "title": "Power LPARs"
                 }
             ],
             "architecture": {
@@ -111,7 +116,7 @@
                     {
                         "diagram": {
                             "caption": "IBM Power Virtual Service",
-                            "url": "https://globalcatalog.cloud.ibm.com/api/v1/goldeneye-artifacts/artifacts/sap_power_slz-infrastructure-layer.drawio.svg",
+                            "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/sprint-2/examples/ibm-catalog/empty-system-solution/layer_deployment_target.svg",
                             "metadata": []
                         },
                         "description": "Building upon the management VPC and workload VPC that were previously created by using Secure Landing Zone VPC with VSIs, Power VS Infrastructure creates a Power Virtual Server instance. In the instance, Direct Link Connections provide consistent connectivity and access between the IBM Cloud Management VPC and Power Virtual Service networking zones. \n\n\n\n\nAfter the creation of the Power Virtual Server instance, the management VPC provides a secure virtual machine to access the Power Virtual Servers. The workload VPC provides virtual machines that run critical services such as Domain Name System, Lightweight Directory Access Protocol, and Network File System that are accessible to the Power Virtual Server service and LPARs."
