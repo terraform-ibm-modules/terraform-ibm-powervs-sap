@@ -173,6 +173,7 @@ module "sap_systems" {
   pvs_sap_network_cidr      = var.pvs_sap_network_cidr
   pvs_additional_networks   = local.networks
   pvs_image_list_for_import = var.images_for_import
+  pvs_cloud_connection_count = var.cloud_connection_count
 
   pvs_share_number_of_instances  = var.pvs_sap_share_instance_config["number_of_instances"]
   pvs_share_image_name           = var.pvs_sap_share_instance_config["sap_image_name"]
