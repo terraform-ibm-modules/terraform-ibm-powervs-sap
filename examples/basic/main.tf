@@ -162,15 +162,17 @@ locals {
 #####################################################
 
 module "sap_systems" {
-  depends_on              = [module.powervs_infratructure, ibm_pi_image.import_images]
-  source                  = "../../"
-  greenfield              = true
-  pvs_zone                = module.powervs_infratructure.pvs_zone
-  pvs_resource_group_name = module.powervs_infratructure.pvs_resource_group_name
-  pvs_service_name        = module.powervs_infratructure.pvs_service_name
-  pvs_sshkey_name         = module.powervs_infratructure.pvs_ssh_key_name
-  pvs_sap_network         = var.pvs_sap_network
-  pvs_additional_networks = local.networks
+  depends_on                = [module.powervs_infratructure, ibm_pi_image.import_images]
+  source                    = "../../"
+  greenfield                = true
+  pvs_zone                  = module.powervs_infratructure.pvs_zone
+  pvs_resource_group_name   = module.powervs_infratructure.pvs_resource_group_name
+  pvs_service_name          = module.powervs_infratructure.pvs_service_name
+  pvs_sshkey_name           = module.powervs_infratructure.pvs_ssh_key_name
+  pvs_sap_network_name      = var.pvs_sap_network_name
+  pvs_sap_network_cidr      = var.pvs_sap_network_cidr
+  pvs_additional_networks   = local.networks
+  pvs_image_list_for_import = var.images_for_import
 
   pvs_share_number_of_instances  = var.pvs_sap_share_instance_config["number_of_instances"]
   pvs_share_image_name           = var.pvs_sap_share_instance_config["sap_image_name"]

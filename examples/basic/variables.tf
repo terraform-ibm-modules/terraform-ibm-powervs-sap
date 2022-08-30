@@ -175,6 +175,12 @@ variable "nfs_server_config" {
   }
 }
 
+variable "images_for_import" {
+  description = "List of images to be imported"
+  type        = list(string)
+  default     = ["SLES15-SP3-SAP", "SLES15-SP3-SAP-NETWEAVER", "RHEL8-SP4-SAP", "RHEL8-SP4-SAP-NETWEAVER"]
+}
+
 #####################################################
 # Parameters for the SAP on PowerVs deployment layer
 # Copyright 2022 IBM
@@ -186,13 +192,16 @@ variable "ibmcloud_api_key" {
   default     = null
 }
 
-variable "pvs_sap_network" {
-  description = "New Network for SAP system"
-  type        = map(any)
-  default = {
-    "name" = "sap_net"
-    "cidr" = "10.111.1.1/24"
-  }
+variable "pvs_sap_network_cidr" {
+  description = "CIDR for new Network for SAP system"
+  type        = string
+  default     = "10.111.1.1/24"
+}
+
+variable "pvs_sap_network_name" {
+  description = "Name for new Network for SAP system"
+  type        = string
+  default     = "sap_net"
 }
 
 variable "pvs_sap_hana_instance_config" {

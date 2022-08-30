@@ -14,74 +14,18 @@ variable "pvs_zone" {
   type        = string
 }
 
-variable "resource_group_name" {
-  type        = string
-  description = "An existing resource group name to use for this example"
-}
-
-variable "pvs_service_name" {
-  description = "Name of IBM Cloud PowerVS service which will be created"
-  type        = string
-}
-
-variable "pvs_sshkey_name" {
-  description = "Name of IBM Cloud PowerVS SSH Key which will be created"
+variable "powervs_infrastructure_workspace_id" {
+  description = "IBM cloud schematics workspace ID to reuse values from IBM PowerVS infrastructure workspace"
   type        = string
 }
 
 variable "ssh_private_key" {
-  description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'pvs_sshkey_name'."
+  description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'pvs_sshkey_name'. Entered data must be in heredoc strings format (https://www.terraform.io/language/expressions/strings#heredoc-strings)."
   type        = string
-}
-
-variable "additional_networks" {
-  description = "Additional existing private networks that will be attached to IBM PowerVS instances."
-  type        = list(string)
-  default     = ["mgmt_net", "bkp_net"]
-}
-
-variable "cloud_connection_count" {
-  description = "Required number of Cloud connections which will be created/Reused. Maximum is 2 per location"
-  type        = string
-  default     = 2
-}
-
-variable "access_host_or_ip" {
-  description = "Jump/Access server public host name or IP address. This host name/IP is used to reach the landscape."
-  type        = string
-}
-
-variable "proxy_host_or_ip" {
-  description = "Private IP address of proxy server."
-  type        = string
-}
-
-variable "dns_host_or_ip" {
-  description = "Private IP address of DNS server, resolver or forwarder."
-  type        = string
-  default     = ""
-}
-
-variable "ntp_host_or_ip" {
-  description = "Private IP address of NTP time server or forwarder."
-  type        = string
-  default     = ""
-}
-
-variable "nfs_host_or_ip" {
-  description = "Private IP address of NFS server."
-  type        = string
-  default     = ""
 }
 
 variable "prefix" {
-  description = "Prefix for resources which will be created."
-  type        = string
-  default     = "pvs"
-}
-
-variable "sap_domain_name" {
-  description = "Default network domain name for all IBM powerVS instances. May be overwritten by individual instance configurations."
+  description = "Unique prefix for resources to be created (e.g., SAP system name)."
   type        = string
 }
 
@@ -90,8 +34,13 @@ variable "pvs_sap_network_cidr" {
   type        = string
 }
 
+variable "sap_domain_name" {
+  description = "Default network domain name for all IBM PowerVS instances. May be overwritten by individual instance configurations in optional paramteres."
+  type        = string
+}
+
 variable "os_image_distro" {
-  description = "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
+  description = "OS image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
   type        = string
 }
 
@@ -101,13 +50,13 @@ variable "sap_hana_hostname" {
 }
 
 variable "sap_hana_ip" {
-  description = "Optional SAP HANA IP address (in SAP system network)."
+  description = "Optional SAP HANA IP address (in SAP system network, specified over 'pvs_sap_network_cidr' parameter)."
   type        = string
   default     = ""
 }
 
 variable "sap_hana_profile" {
-  description = "SAP HANA profile to use. Must be one of the supported profiles."
+  description = "SAP HANA profile to use. Must be one of the supported profiles. See XXX."
   type        = string
 }
 
@@ -118,7 +67,7 @@ variable "calculate_hana_fs_sizes_automatically" {
 }
 
 variable "sap_netweaver_instance_number" {
-  description = "Number of SAP for SAP NetWeaver instances that should be created."
+  description = "Number of SAP NetWeaver instances that should be created."
   type        = number
   default     = 1
 }
@@ -129,7 +78,7 @@ variable "sap_netweaver_hostname" {
 }
 
 variable "sap_netweaver_ips" {
-  description = "List of optional SAP NetWeaver IP addresses (in SAP system network)."
+  description = "List of optional SAP NetWeaver IP addresses (in SAP system network, specified over 'pvs_sap_network_cidr' parameter)."
   type        = list(string)
   default     = []
 }

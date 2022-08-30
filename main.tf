@@ -5,7 +5,7 @@
 
 locals {
   #os_release_list = split("-", var.pvs_instance_image_name)
-  os_image_names = var.greenfield ? [] : [var.pvs_hana_image_name]
+  os_image_names = var.greenfield ? [] : var.pvs_image_list_for_import
 }
 
 module "new_sap_network" {
@@ -13,17 +13,18 @@ module "new_sap_network" {
   pvs_zone                   = var.pvs_zone
   pvs_resource_group_name    = var.pvs_resource_group_name
   pvs_service_name           = var.pvs_service_name
-  pvs_additional_network     = var.pvs_sap_network
+  pvs_sap_network_name       = var.pvs_sap_network_name
+  pvs_sap_network_cidr       = var.pvs_sap_network_cidr
   pvs_cloud_connection_count = var.pvs_cloud_connection_count
 }
 
 module "sap_images_import" {
   source                  = "./submodules/power_image_import"
-  for_each                = toset(local.os_image_names)
+  count                   = length(local.os_image_names)
   pvs_zone                = var.pvs_zone
   pvs_resource_group_name = var.pvs_resource_group_name
   pvs_service_name        = var.pvs_service_name
-  pvs_os_image_name       = each.value
+  pvs_os_image_name       = local.os_image_names[count.index]
 }
 
 module "share_fs_instance" {
@@ -54,7 +55,7 @@ module "sap_hana_instance" {
   pvs_sshkey_name         = var.pvs_sshkey_name
   pvs_os_image_name       = var.pvs_hana_image_name
   pvs_sap_profile_id      = var.pvs_hana_sap_profile_id
-  pvs_networks            = concat(var.pvs_additional_networks, [var.pvs_sap_network["name"]])
+  pvs_networks            = concat(var.pvs_additional_networks, [var.pvs_sap_network_name])
   pvs_storage_config      = var.pvs_hana_storage_config
 }
 
@@ -65,14 +66,14 @@ module "sap_netweaver_instance" {
   pvs_zone                 = var.pvs_zone
   pvs_resource_group_name  = var.pvs_resource_group_name
   pvs_service_name         = var.pvs_service_name
-  pvs_instance_name        = var.pvs_netweaver_instance_name
+  pvs_instance_name        = "${var.pvs_netweaver_instance_name}-${count.index + 1}"
   pvs_sshkey_name          = var.pvs_sshkey_name
   pvs_os_image_name        = var.pvs_netweaver_image_name
   pvs_server_type          = var.pvs_netweaver_server_type
   pvs_cpu_proc_type        = var.pvs_netweaver_cpu_proc_type
   pvs_number_of_processors = var.pvs_netweaver_number_of_processors
   pvs_memory_size          = var.pvs_netweaver_memory_size
-  pvs_networks             = concat(var.pvs_additional_networks, [var.pvs_sap_network["name"]])
+  pvs_networks             = concat(var.pvs_additional_networks, [var.pvs_sap_network_name])
   pvs_storage_config       = var.pvs_netweaver_storage_config
 }
 

@@ -32,12 +32,17 @@ variable "pvs_sshkey_name" {
 variable "pvs_cloud_connection_count" {
   description = "Required number of Cloud connections which will be created/Reused. Maximum is 2 per location"
   type        = string
-  default     = 0
+  default     = 2
 }
 
 variable "pvs_additional_networks" {
   description = "Existing list of subnets name to be attached to node. First network has to be a management network"
   type        = list(any)
+}
+
+variable "pvs_image_list_for_import" {
+  description = "Image Names to import into the service"
+  type        = list(string)
 }
 
 #####################################################
@@ -146,7 +151,6 @@ variable "pvs_share_image_name" {
 variable "pvs_share_number_of_instances" {
   description = "Number of instances"
   type        = string
-  default     = 1
 }
 
 variable "pvs_share_server_type" {
@@ -261,7 +265,12 @@ variable "sap_solution" {
 }
 ***/
 
-variable "pvs_sap_network" {
-  description = "New Network for SAP system"
-  type        = map(any)
+variable "pvs_sap_network_name" {
+  description = "Name for new network for SAP system"
+  type        = string
+}
+
+variable "pvs_sap_network_cidr" {
+  description = "CIDR for new network for SAP system"
+  type        = string
 }

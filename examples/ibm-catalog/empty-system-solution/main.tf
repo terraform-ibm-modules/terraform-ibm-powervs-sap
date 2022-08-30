@@ -9,6 +9,34 @@ provider "ibm" {
   zone             = var.pvs_zone
   ibmcloud_api_key = var.ibmcloud_api_key != null ? var.ibmcloud_api_key : null
 }
+
+data "ibm_schematics_workspace" "schematics_workspace" {
+  workspace_id = var.powervs_infrastructure_workspace_id
+}
+
+data "ibm_schematics_output" "schematics_output" {
+  workspace_id = var.powervs_infrastructure_workspace_id
+  template_id  = data.ibm_schematics_workspace.schematics_workspace.runtime_data[0].id
+}
+
+locals {
+  powerinfra_output = jsondecode(data.ibm_schematics_output.schematics_output.output_json)
+
+  #pvs_zone = local.powerinfra_output[0].pvs_zone.value
+  resource_group_name = local.powerinfra_output[0].resource_group_name.value
+  pvs_service_name    = local.powerinfra_output[0].pvs_service_name.value
+  pvs_sshkey_name     = local.powerinfra_output[0].pvs_sshkey_name.value
+  access_host_or_ip   = local.powerinfra_output[0].access_host_or_ip.value
+  #proxy_host_or_ip        = local.powerinfra_output[0].squid_config["server_host_or_ip"].value
+  #dns_host_or_ip          = local.powerinfra_output[0].dns_forwarder_config["server_host_or_ip"].value
+  #ntp_host_or_ip          = local.powerinfra_output[0].ntp_forwarder_config["server_host_or_ip"].value
+  #nfs_host_or_ip          = local.powerinfra_output[0].nfs_config["server_host_or_ip"].value
+  management_network_name = local.powerinfra_output[0].pvs_management_network.value
+  backup_network_name     = local.powerinfra_output[0].pvs_backup_network.value
+  cloud_connection_count  = local.powerinfra_output[0].cloud_connection_count.value
+
+}
+
 locals {
 
   def_share_memory_size          = 2
@@ -35,6 +63,7 @@ locals {
   #pvs_hana_domain           = var.sap_hana_instance_config["domain"] != null && var.sap_hana_instance_config["domain"] != "" ? var.sap_hana_instance_config["domain"] : var.sap_domain_name
   pvs_hana_sap_profile_id = var.sap_hana_instance_config["sap_profile_id"] != null && var.sap_hana_instance_config["sap_profile_id"] != "" ? var.sap_hana_instance_config["sap_profile_id"] : var.sap_hana_profile
 
+
   pvs_sap_netweaver_instance_number = var.sap_netweaver_instance_config["number_of_instances"] != null && var.sap_netweaver_instance_config["number_of_instances"] != "" ? var.sap_netweaver_instance_config["number_of_instances"] : var.sap_netweaver_instance_number
   pvs_netweaver_default_os_image    = var.os_image_distro == "SLES" ? var.default_netweaver_sles_image : var.default_netweaver_rhel_image
   pvs_netweaver_os_image            = var.sap_netweaver_instance_config["os_image_name"] != null && var.sap_netweaver_instance_config["os_image_name"] != "" ? var.sap_netweaver_instance_config["os_image_name"] : local.pvs_netweaver_default_os_image
@@ -59,17 +88,17 @@ locals {
 
 
 module "sap_systems" {
-  source                     = "../../"
+  source                     = "../../../"
   greenfield                 = false
   pvs_zone                   = var.pvs_zone
-  pvs_resource_group_name    = var.resource_group_name
-  pvs_service_name           = var.pvs_service_name
-  pvs_sshkey_name            = var.pvs_sshkey_name
-  pvs_sap_network_cidr       = var.pvs_sap_network_cidr
+  pvs_resource_group_name    = local.resource_group_name
+  pvs_service_name           = local.pvs_service_name
+  pvs_sshkey_name            = local.pvs_sshkey_name
   pvs_sap_network_name       = local.pvs_sap_network_name
-  pvs_additional_networks    = var.additional_networks
+  pvs_sap_network_cidr       = var.pvs_sap_network_cidr
+  pvs_additional_networks    = [local.management_network_name, local.backup_network_name]
   pvs_image_list_for_import  = local.all_images
-  pvs_cloud_connection_count = var.cloud_connection_count
+  pvs_cloud_connection_count = local.cloud_connection_count
 
   pvs_share_number_of_instances  = local.pvs_share_number_of_instances
   pvs_share_image_name           = local.pvs_share_os_image
@@ -94,5 +123,5 @@ module "sap_systems" {
   pvs_netweaver_server_type          = local.pvs_netweaver_server_type
   pvs_netweaver_storage_config       = var.sap_netweaver_storage_config
 
-  access_host_or_ip = var.access_host_or_ip
+  access_host_or_ip = local.access_host_or_ip
 }

@@ -15,10 +15,6 @@ output "entered_data_non_sensitive" {
     sap_hana_ip                           = var.sap_hana_ip
     sap_domain_name                       = var.sap_domain_name
     sap_netweaver_ips                     = var.sap_netweaver_ips
-    nfs_host_or_ip                        = var.nfs_host_or_ip
-    ntp_host_or_ip                        = var.ntp_host_or_ip
-    dns_host_or_ip                        = var.dns_host_or_ip
-    proxy_host_or_ip                      = var.proxy_host_or_ip
   }
 }
 

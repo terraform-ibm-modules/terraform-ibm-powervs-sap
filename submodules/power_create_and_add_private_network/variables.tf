@@ -13,9 +13,14 @@ variable "pvs_service_name" {
   type        = string
 }
 
-variable "pvs_additional_network" {
-  description = "IBM Cloud PowerVS Management Subnet name and cidr which will be created."
-  type        = map(any)
+variable "pvs_sap_network_name" {
+  description = "Name for new network for SAP system"
+  type        = string
+}
+
+variable "pvs_sap_network_cidr" {
+  description = "CIDR for new network for SAP system"
+  type        = string
 }
 
 variable "pvs_cloud_connection_count" {
