@@ -21,22 +21,7 @@ data "ibm_resource_instance" "pvs_service_ds" {
 # Create Additional Private Subnet
 #####################################################
 
-resource "ibm_pi_network" "additional_network" {
-  pi_cloud_instance_id = data.ibm_resource_instance.pvs_service_ds.guid
-  pi_network_name      = var.pvs_sap_network_name
-  pi_cidr              = var.pvs_sap_network_cidr
-  pi_dns               = ["127.0.0.1"]
-  pi_network_type      = "vlan"
-  pi_network_jumbo     = true
-}
-
-resource "time_sleep" "network_resource_propagation" {
-  depends_on      = [ibm_pi_network.additional_network]
-  create_duration = "60s"
-}
-
 data "ibm_pi_network" "additional_network_ds" {
-  depends_on           = [time_sleep.network_resource_propagation]
   pi_cloud_instance_id = data.ibm_resource_instance.pvs_service_ds.guid
   pi_network_name      = var.pvs_sap_network_name
 }
@@ -54,11 +39,10 @@ data "ibm_pi_cloud_connections" "cloud_connection_ds" {
 #########################################################################
 
 resource "ibm_pi_cloud_connection_network_attach" "pvs_subnet_instance_nw_attach" {
-  depends_on             = [data.ibm_pi_network.additional_network_ds]
   count                  = var.pvs_cloud_connection_count > 0 ? 1 : 0
   pi_cloud_instance_id   = data.ibm_resource_instance.pvs_service_ds.guid
   pi_cloud_connection_id = data.ibm_pi_cloud_connections.cloud_connection_ds.connections[0].cloud_connection_id
-  pi_network_id          = data.ibm_pi_network.additional_network_ds.id
+  pi_network_id          = data.ibm_pi_network.additional_network_ds.pi_network_name
 }
 
 resource "ibm_pi_cloud_connection_network_attach" "pvs_subnet_instance_nw_attach_backup" {
@@ -66,5 +50,5 @@ resource "ibm_pi_cloud_connection_network_attach" "pvs_subnet_instance_nw_attach
   count                  = var.pvs_cloud_connection_count > 1 ? 1 : 0
   pi_cloud_instance_id   = data.ibm_resource_instance.pvs_service_ds.guid
   pi_cloud_connection_id = data.ibm_pi_cloud_connections.cloud_connection_ds.connections[1].cloud_connection_id
-  pi_network_id          = data.ibm_pi_network.additional_network_ds.id
+  pi_network_id          = data.ibm_pi_network.additional_network_ds.pi_network_name
 }

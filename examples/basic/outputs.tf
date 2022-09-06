@@ -8,14 +8,12 @@ output "hana_ips" {
   value       = module.sap_systems.hana_instance_private_ips
 }
 
-output "region" {
-  description = "Region for deployment"
-  value       = var.region
+output "netweaver_ips" {
+  description = "All private IPs of NetWeaver instances"
+  value       = module.sap_systems.netweaver_instance_private_ips
 }
 
-/***
-output "PVS_NW_IPS" {
-  description = "All private IPs of NW instances"
-  value       = module.sap_systems.*.instance_private_ips
+output "share_fs_ips" {
+  description = "All private IPs of share FS instance (if created)"
+  value       = module.sap_systems.netweaver_instance_private_ips
 }
-***/

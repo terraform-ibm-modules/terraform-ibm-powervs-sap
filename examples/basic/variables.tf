@@ -9,16 +9,10 @@ variable "pvs_zone" {
   default     = "mon01"
 }
 
-variable "resource_group" {
+variable "existing_resource_group_name" {
   type        = string
-  description = "An existing resource group name to use for this example"
-  default     = "Default"
-}
-
-variable "region" {
-  type        = string
-  description = "An existing resource group name to use for this example"
-  default     = "Default"
+  description = "Existing resource group name to use for this example. If null, a new resource group will be created."
+  default     = null
 }
 
 variable "pvs_service_name" {
@@ -65,32 +59,14 @@ variable "reuse_cloud_connections" {
 
 variable "cloud_connection_count" {
   description = "Required number of Cloud connections which will be created/Reused. Maximum is 2 per location"
-  type        = string
+  type        = number
   default     = 0
 }
 
 variable "cloud_connection_speed" {
   description = "Speed in megabits per sec. Supported values are 50, 100, 200, 500, 1000, 2000, 5000, 10000. Required when creating new connection"
-  type        = string
-  default     = "5000"
-}
-
-variable "access_host_or_ip" {
-  description = "Jump/Access server public host name or IP address. This host name/IP is used to reach the landscape."
-  type        = string
-  default     = "not_used"
-}
-
-variable "private_services_host_or_ip" {
-  description = "Private IP address where management services should be configured. Not used here."
-  type        = string
-  default     = "not_used"
-}
-
-variable "internet_services_host_or_ip" {
-  description = "Private IP address where internet services (like proxy) should be configured. Not used here."
-  type        = string
-  default     = "not_used"
+  type        = number
+  default     = 5000
 }
 
 variable "configure_proxy" {
@@ -173,12 +149,6 @@ variable "nfs_server_config" {
     nfs_server_host_or_ip = null
     nfs_directory         = "/nfs"
   }
-}
-
-variable "images_for_import" {
-  description = "List of images to be imported"
-  type        = list(string)
-  default     = ["SLES15-SP3-SAP", "SLES15-SP3-SAP-NETWEAVER", "RHEL8-SP4-SAP", "RHEL8-SP4-SAP-NETWEAVER"]
 }
 
 #####################################################

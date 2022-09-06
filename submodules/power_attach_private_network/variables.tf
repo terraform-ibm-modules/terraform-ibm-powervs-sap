@@ -18,13 +18,7 @@ variable "pvs_sap_network_name" {
   type        = string
 }
 
-variable "pvs_sap_network_cidr" {
-  description = "CIDR for new network for SAP system"
-  type        = string
-}
-
 variable "pvs_cloud_connection_count" {
   description = "Required number of Cloud connections which will be created/Reused. Maximum is 2 per location"
-  type        = string
-  default     = 0
+  type        = number
 }

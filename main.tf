@@ -3,33 +3,27 @@
 # Copyright 2022 IBM
 #####################################################
 
-locals {
-  #os_release_list = split("-", var.pvs_instance_image_name)
-  os_image_names = var.greenfield ? [] : var.pvs_image_list_for_import
+module "create_sap_network" {
+  source                  = "./submodules/power_create_private_network"
+  pvs_zone                = var.pvs_zone
+  pvs_resource_group_name = var.pvs_resource_group_name
+  pvs_service_name        = var.pvs_service_name
+  pvs_sap_network_name    = var.pvs_sap_network_name
+  pvs_sap_network_cidr    = var.pvs_sap_network_cidr
 }
 
-module "new_sap_network" {
-  source                     = "./submodules/power_create_and_add_private_network"
+module "attach_sap_network" {
+  source                     = "./submodules/power_attach_private_network"
+  depends_on                 = [module.create_sap_network]
   pvs_zone                   = var.pvs_zone
   pvs_resource_group_name    = var.pvs_resource_group_name
   pvs_service_name           = var.pvs_service_name
   pvs_sap_network_name       = var.pvs_sap_network_name
-  pvs_sap_network_cidr       = var.pvs_sap_network_cidr
   pvs_cloud_connection_count = var.pvs_cloud_connection_count
-}
-
-module "sap_images_import" {
-  source                  = "./submodules/power_image_import"
-  count                   = length(local.os_image_names)
-  pvs_zone                = var.pvs_zone
-  pvs_resource_group_name = var.pvs_resource_group_name
-  pvs_service_name        = var.pvs_service_name
-  pvs_os_image_name       = local.os_image_names[count.index]
 }
 
 module "share_fs_instance" {
   source                   = "./submodules/power_instance"
-  depends_on               = [module.sap_images_import]
   count                    = var.pvs_share_number_of_instances
   pvs_zone                 = var.pvs_zone
   pvs_resource_group_name  = var.pvs_resource_group_name
@@ -47,7 +41,7 @@ module "share_fs_instance" {
 
 module "sap_hana_instance" {
   source                  = "./submodules/power_instance"
-  depends_on              = [module.sap_images_import, module.new_sap_network]
+  depends_on              = [module.attach_sap_network]
   pvs_zone                = var.pvs_zone
   pvs_resource_group_name = var.pvs_resource_group_name
   pvs_service_name        = var.pvs_service_name
@@ -61,7 +55,7 @@ module "sap_hana_instance" {
 
 module "sap_netweaver_instance" {
   source                   = "./submodules/power_instance"
-  depends_on               = [module.sap_images_import, module.new_sap_network]
+  depends_on               = [module.attach_sap_network]
   count                    = var.pvs_netweaver_number_of_instances
   pvs_zone                 = var.pvs_zone
   pvs_resource_group_name  = var.pvs_resource_group_name

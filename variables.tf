@@ -3,12 +3,6 @@
 # Copyright 2022 IBM
 #####################################################
 
-variable "greenfield" {
-  description = "Specifies if PowerVS service is created in the workflow directly (greenfield deployment)."
-  type        = bool
-  default     = false
-}
-
 variable "pvs_zone" {
   description = "IBM Cloud Zone"
   type        = string
@@ -38,11 +32,6 @@ variable "pvs_cloud_connection_count" {
 variable "pvs_additional_networks" {
   description = "Existing list of subnets name to be attached to node. First network has to be a management network"
   type        = list(any)
-}
-
-variable "pvs_image_list_for_import" {
-  description = "Image Names to import into the service"
-  type        = list(string)
 }
 
 #####################################################

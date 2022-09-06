@@ -3,7 +3,6 @@
 # Copyright 2022 IBM
 #####################################################
 
-# There are discrepancies between the region inputs on the powervs terraform resource, and the vpc ("is") resources
 provider "ibm" {
   region           = lookup(var.ibm_pvs_zone_region_map, var.pvs_zone, null)
   zone             = var.pvs_zone
@@ -22,15 +21,10 @@ data "ibm_schematics_output" "schematics_output" {
 locals {
   powerinfra_output = jsondecode(data.ibm_schematics_output.schematics_output.output_json)
 
-  #pvs_zone = local.powerinfra_output[0].pvs_zone.value
-  resource_group_name = local.powerinfra_output[0].resource_group_name.value
-  pvs_service_name    = local.powerinfra_output[0].pvs_service_name.value
-  pvs_sshkey_name     = local.powerinfra_output[0].pvs_sshkey_name.value
-  access_host_or_ip   = local.powerinfra_output[0].access_host_or_ip.value
-  #proxy_host_or_ip        = local.powerinfra_output[0].squid_config["server_host_or_ip"].value
-  #dns_host_or_ip          = local.powerinfra_output[0].dns_forwarder_config["server_host_or_ip"].value
-  #ntp_host_or_ip          = local.powerinfra_output[0].ntp_forwarder_config["server_host_or_ip"].value
-  #nfs_host_or_ip          = local.powerinfra_output[0].nfs_config["server_host_or_ip"].value
+  resource_group_name     = local.powerinfra_output[0].resource_group_name.value
+  pvs_service_name        = local.powerinfra_output[0].pvs_service_name.value
+  pvs_sshkey_name         = local.powerinfra_output[0].pvs_sshkey_name.value
+  access_host_or_ip       = local.powerinfra_output[0].access_host_or_ip.value
   management_network_name = local.powerinfra_output[0].pvs_management_network.value
   backup_network_name     = local.powerinfra_output[0].pvs_backup_network.value
   cloud_connection_count  = local.powerinfra_output[0].cloud_connection_count.value
@@ -73,11 +67,6 @@ locals {
   pvs_netweaver_number_of_processors = var.sap_netweaver_instance_config["number_of_processors"] != null && var.sap_netweaver_instance_config["number_of_processors"] != "" ? var.sap_netweaver_instance_config["number_of_processors"] : var.sap_netweaver_cpu_number
   pvs_netweaver_cpu_proc_type        = var.sap_netweaver_instance_config["cpu_proc_type"] != null && var.sap_netweaver_instance_config["cpu_proc_type"] != "" ? var.sap_netweaver_instance_config["cpu_proc_type"] : local.def_netweaver_cpu_proc_type
   pvs_netweaver_server_type          = var.sap_netweaver_instance_config["server_type"] != null && var.sap_netweaver_instance_config["server_type"] != "" ? var.sap_netweaver_instance_config["server_type"] : local.def_netweaver_server_type
-
-  add_shared_image    = local.pvs_share_os_image != null && local.pvs_share_os_image != "" ? concat([], [local.pvs_share_os_image]) : []
-  add_hana_image      = local.pvs_hana_os_image != null && local.pvs_hana_os_image != "" ? concat(local.add_shared_image, [local.pvs_hana_os_image]) : local.add_shared_image
-  add_netweaver_image = local.pvs_netweaver_os_image != null && local.pvs_netweaver_os_image != "" ? concat(local.add_hana_image, [local.pvs_netweaver_os_image]) : local.add_hana_image
-  all_images          = distinct(local.add_netweaver_image)
 }
 
 
@@ -89,7 +78,6 @@ locals {
 
 module "sap_systems" {
   source                     = "../../../"
-  greenfield                 = false
   pvs_zone                   = var.pvs_zone
   pvs_resource_group_name    = local.resource_group_name
   pvs_service_name           = local.pvs_service_name
@@ -97,7 +85,6 @@ module "sap_systems" {
   pvs_sap_network_name       = local.pvs_sap_network_name
   pvs_sap_network_cidr       = var.pvs_sap_network_cidr
   pvs_additional_networks    = [local.management_network_name, local.backup_network_name]
-  pvs_image_list_for_import  = local.all_images
   pvs_cloud_connection_count = local.cloud_connection_count
 
   pvs_share_number_of_instances  = local.pvs_share_number_of_instances
