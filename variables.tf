@@ -188,53 +188,66 @@ variable "access_host_or_ip" {
   type        = string
 }
 
-/***
+
 variable "ssh_private_key" {
   description = "Private Key to configure Instance, Will not be uploaded to server"
   type        = string
 }
 
-variable "proxy_ip_or_post" {
+variable "proxy_host_or_ip" {
   description = "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128"
   type        = string
-  default     = null
+  default     = ""
 }
 
-variable "nfs_server_ip_or_post" {
+variable "nfs_host_or_ip" {
   description = "NFS server hosname or IP address. E.g., 10.10.10.5"
   type        = string
-  default     = null
+  default     = ""
 }
 
-variable "dns_ip_or_post" {
+variable "dns_host_or_ip" {
   description = "DNS forwarder/server hosname or IP address. E.g., 10.10.10.6"
   type        = string
-  default     = null
+  default     = ""
 }
 
-variable "ntp_ip_or_post" {
+variable "ntp_host_or_ip" {
   description = "NTP forwarder/server hosname or IP address. E.g., 10.10.10.7"
   type        = string
-  default     = null
-}
-
-variable "os_activation" {
-  description = "SUSE/RHEL activation email and code to register OS. Used only for OS images without IBM subscription."
-  type        = map(any)
-  default = {
-    required            = false
-    activation_username = ""
-    activation_password = ""
-  }
+  default     = ""
 }
 
 variable "sap_domain" {
-  description = "Domain name to be set. Required when using RHEL image"
+  description = "Domain name to be set."
   type        = string
-  default     = null
+  default     = ""
 }
 
+variable "configure_os" {
+  description = "Specify if OS on PowerVS instances should be configure for SAP or if only PowerVS instances should be created."
+  type        = bool
+  default     = true
+}
 
+variable "os_image_distro" {
+  description = "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
+  type        = string
+}
+
+variable "nfs_path" {
+  description = "NFS directory on NFS server."
+  type        = string
+  default     = "/nfs"
+}
+
+variable "nfs_client_directory" {
+  description = "NFS directory on PowerVS instances."
+  type        = string
+  default     = "/nfs"
+}
+
+/***
 #### weiter hier
 variable "hana_hostname" {
   description = "Hostname for HANA instance"

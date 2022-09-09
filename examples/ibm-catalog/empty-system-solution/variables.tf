@@ -24,6 +24,11 @@ variable "ssh_private_key" {
   type        = string
 }
 
+variable "os_image_distro" {
+  description = "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
+  type        = string
+}
+
 variable "prefix" {
   description = "Unique prefix for resources to be created (e.g., SAP system name)."
   type        = string
@@ -36,11 +41,6 @@ variable "pvs_sap_network_cidr" {
 
 variable "sap_domain_name" {
   description = "Default network domain name for all IBM PowerVS instances. May be overwritten by individual instance configurations in optional paramteres."
-  type        = string
-}
-
-variable "os_image_distro" {
-  description = "OS image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
   type        = string
 }
 

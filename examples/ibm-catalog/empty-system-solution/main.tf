@@ -1,6 +1,5 @@
 #####################################################
 # PVS SAP Instance Deployment example for SAP SYSTEM with new private network
-# Copyright 2022 IBM
 #####################################################
 
 provider "ibm" {
@@ -72,7 +71,6 @@ locals {
 
 #####################################################
 # Deploy SAP systems
-# Copyright 2022 IBM
 #####################################################
 
 
@@ -111,4 +109,6 @@ module "sap_systems" {
   pvs_netweaver_storage_config       = var.sap_netweaver_storage_config
 
   access_host_or_ip = local.access_host_or_ip
+  ssh_private_key   = var.ssh_private_key
+  os_image_distro   = var.os_image_distro
 }

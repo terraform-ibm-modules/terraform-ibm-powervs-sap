@@ -54,7 +54,6 @@ provider "ibm" {
 
 #####################################################
 # Create a new PowerVS infrastructure from scratch
-# Copyright 2022 IBM
 #####################################################
 
 locals {
@@ -62,6 +61,8 @@ locals {
   def_access_host_or_ip            = "not_used"
   def_internet_services_host_or_ip = "not_used"
   def_private_services_host_or_ip  = "not_used"
+
+  def_os_image_distro = "SLES"
 
   squid_config = merge(var.squid_proxy_config, {
     "squid_enable"      = var.configure_proxy
@@ -131,7 +132,6 @@ locals {
 
 #####################################################
 # Deploy SAP systems
-# Copyright 2022 IBM
 #####################################################
 
 module "sap_systems" {
@@ -168,4 +168,7 @@ module "sap_systems" {
   pvs_netweaver_storage_config       = var.pvs_sap_netweaver_storage_config
 
   access_host_or_ip = local.def_access_host_or_ip
+  ssh_private_key   = trimspace(tls_private_key.tls_key.private_key_openssh)
+  os_image_distro   = local.def_os_image_distro
+  configure_os      = false
 }

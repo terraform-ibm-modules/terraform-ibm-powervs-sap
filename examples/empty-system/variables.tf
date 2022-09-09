@@ -74,6 +74,18 @@ variable "nfs_host_or_ip" {
   default     = ""
 }
 
+variable "nfs_path" {
+  description = "NFS directory on NFS server."
+  type        = string
+  default     = "/nfs"
+}
+
+variable "nfs_client_directory" {
+  description = "NFS directory on PowerVS instances."
+  type        = string
+  default     = "/nfs"
+}
+
 variable "prefix" {
   description = "Prefix for resources which will be created."
   type        = string

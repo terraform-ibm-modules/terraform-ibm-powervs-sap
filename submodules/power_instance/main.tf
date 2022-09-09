@@ -1,6 +1,5 @@
 #####################################################
 # PowerVs SAP Instance Create Configuration
-# Copyright 2022 IBM
 #####################################################
 
 locals {
@@ -36,7 +35,6 @@ data "ibm_pi_network" "pvs_subnets_ds" {
 
 #####################################################
 # Create PowerVs Instance
-# Copyright 2022 IBM
 #####################################################
 
 resource "ibm_pi_instance" "sap_instance" {

@@ -1,6 +1,5 @@
 #####################################################
 # PVS SAP instance Configuration
-# Copyright 2022 IBM
 #####################################################
 
 module "create_sap_network" {
@@ -71,41 +70,48 @@ module "sap_netweaver_instance" {
   pvs_storage_config       = var.pvs_netweaver_storage_config
 }
 
-/****
-module "instance_sap_init_sles" {
-  count                          = length(regexall(".*SUSE.*", var.pvs_instance_image_name)) > 0 ? 1: 0
-  source                         = "./power-sap-instance-init-sles"
-  depends_on                     = [module.instance-sap]
+locals {
+  perform_proxy_client_setup = {
+    enable       = var.proxy_host_or_ip != null && var.proxy_host_or_ip != "" ? true : false
+    server_ip    = var.proxy_host_or_ip
+    no_proxy_env = "161.0.0.0/8, 10.0.0.0/8"
+  }
+  perform_ntp_client_setup = {
+    enable    = var.ntp_host_or_ip != null && var.ntp_host_or_ip != "" ? true : false
+    server_ip = var.ntp_host_or_ip
+  }
+  perform_dns_client_setup = {
+    enable    = var.dns_host_or_ip != null && var.dns_host_or_ip != "" ? true : false
+    server_ip = var.dns_host_or_ip
+  }
+  perform_nfs_client_setup = {
+    enable          = var.nfs_host_or_ip != null && var.nfs_host_or_ip != "" ? true : false
+    nfs_server_path = "${var.nfs_host_or_ip}:${var.nfs_path}"
+    nfs_client_path = var.nfs_client_directory
+  }
+  target_server_ips         = concat([module.sap_hana_instance.instance_mgmt_ip], module.share_fs_instance.*.instance_mgmt_ip, module.sap_netweaver_instance.*.instance_mgmt_ip)
+  hana_storage_configs      = [merge(var.pvs_hana_storage_config, { "wwns" = join(",", module.sap_hana_instance.instance_wwns) })]
+  sharefs_storage_configs   = [for instance_wwns in module.share_fs_instance.*.instance_wwns : merge(var.pvs_share_storage_config, { "wwns" = join(",", instance_wwns) })]
+  netweaver_storage_configs = [for instance_wwns in module.sap_netweaver_instance.*.instance_wwns : merge(var.pvs_netweaver_storage_config, { "wwns" = join(",", instance_wwns) })]
+  all_storage_configs       = concat(local.hana_storage_configs, local.sharefs_storage_configs, local.netweaver_storage_configs)
 
-  bastion_public_ip              = var.bastion_public_ip
-  host_private_ip                = module.instance-sap.instance_mgmt_ip
-  ssh_private_key                = var.ssh_private_key
-  vpc_bastion_proxy_config       = {
-                                     required               = var.proxy_config == "SQUID" ? true : false
-                                     vpc_bastion_private_ip = var.bastion_private_ip
-                                     no_proxy_ips           = module.instance-sap.instance_private_ips
-                                   }
-  os_activation                  = merge(var.os_activation,{"os_release" = "${element(local.os_release_list, length(local.os_release_list) - 2)}.${element(local.os_release_list, length(local.os_release_list) - 1)}"})
-  pvs_instance_storage_config    = merge(var.pvs_instance_storage_config,{"wwns" = join(",", module.instance-sap.instance_wwns)})
-  sap_solution                   = var.sap_solution
+  sap_solutions = concat(["HANA"], [for ip in module.share_fs_instance.*.instance_mgmt_ip : "NONE"], [for ip in module.sap_netweaver_instance.*.instance_mgmt_ip : "NETWEAVER"])
 }
 
-module "instance_sap_init_rhel" {
-  count                          = length(regexall(".*RHEL.*", var.pvs_instance_image_name)) > 0 ? 1: 0
-  source                         = "./power-sap-instance-init-rhel"
-  depends_on                     = [module.instance-sap]
+module "instance_init" {
 
-  bastion_public_ip            = var.bastion_public_ip
-  host_private_ip              = module.instance-sap.instance_mgmt_ip
+  source                       = "./submodules/power_sap_instance_init"
+  depends_on                   = [module.share_fs_instance, module.sap_hana_instance, module.sap_netweaver_instance]
+  count                        = var.configure_os == true ? 1 : 0
+  access_host_or_ip            = var.access_host_or_ip
+  os_image_distro              = var.os_image_distro
+  target_server_ips            = local.target_server_ips
+  pvs_instance_storage_configs = local.all_storage_configs
+  sap_solutions                = local.sap_solutions
   ssh_private_key              = var.ssh_private_key
-  vpc_bastion_proxy_config     = {
-                                   required               = var.proxy_config == "SQUID" ? true : false
-                                   vpc_bastion_private_ip = var.bastion_private_ip
-                                   no_proxy_ips           = module.instance-sap.instance_private_ips
-                                 }
-  os_activation                = merge(var.os_activation,{"os_release" = "${element(local.os_release_list, length(local.os_release_list) - 2)}.${element(local.os_release_list, length(local.os_release_list) - 1)}"})
-  pvs_instance_storage_config  = merge(var.pvs_instance_storage_config,{"wwns" = join(",", module.instance-sap.instance_wwns)})
-  sap_solution                 = var.sap_solution
+  perform_proxy_client_setup   = local.perform_proxy_client_setup
+  perform_nfs_client_setup     = local.perform_nfs_client_setup
+  perform_ntp_client_setup     = local.perform_ntp_client_setup
+  perform_dns_client_setup     = local.perform_dns_client_setup
   sap_domain                   = var.sap_domain
 }
-****/
