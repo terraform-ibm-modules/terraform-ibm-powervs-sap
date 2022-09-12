@@ -107,7 +107,7 @@ module "powervs_infratructure" {
   access_host_or_ip        = local.def_access_host_or_ip
   pvs_zone                 = var.pvs_zone
   ssh_private_key          = trimspace(tls_private_key.tls_key.private_key_openssh)
-  pvs_resource_group_name  = var.existing_resource_group_name
+  pvs_resource_group_name  = var.resource_group
   ssh_public_key           = ibm_is_ssh_key.ssh_key.public_key
   reuse_cloud_connections  = var.reuse_cloud_connections
   pvs_service_name         = local.pvs_service_name
@@ -138,7 +138,7 @@ module "sap_systems" {
   depends_on                 = [module.powervs_infratructure]
   source                     = "../../"
   pvs_zone                   = var.pvs_zone
-  pvs_resource_group_name    = var.existing_resource_group_name
+  pvs_resource_group_name    = var.resource_group
   pvs_service_name           = local.pvs_service_name
   pvs_sshkey_name            = local.pvs_sshkey_name
   pvs_sap_network_name       = var.pvs_sap_network_name

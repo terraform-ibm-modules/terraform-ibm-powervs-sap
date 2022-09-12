@@ -9,7 +9,7 @@ variable "pvs_zone" {
   default     = "mon01"
 }
 
-variable "existing_resource_group_name" {
+variable "resource_group" {
   type        = string
   description = "Existing resource group name to use for this example. If null, a new resource group will be created."
   default     = null
@@ -159,6 +159,7 @@ variable "nfs_server_config" {
 variable "ibmcloud_api_key" {
   description = "IBM Cloud Api Key"
   type        = string
+  sensitive   = true
   default     = null
 }
 
