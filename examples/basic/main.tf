@@ -102,12 +102,19 @@ resource "ibm_is_ssh_key" "ssh_key" {
   public_key = trimspace(tls_private_key.tls_key.public_key_openssh)
 }
 
+module "resource_group" {
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git?ref=v1.0.1"
+  # if an existing resource group is not set (null) create a new one using prefix
+  resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
+  existing_resource_group_name = var.resource_group
+}
+
 module "powervs_infratructure" {
   source                   = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v1.6.0"
   access_host_or_ip        = local.def_access_host_or_ip
   pvs_zone                 = var.pvs_zone
   ssh_private_key          = trimspace(tls_private_key.tls_key.private_key_openssh)
-  pvs_resource_group_name  = var.resource_group
+  pvs_resource_group_name  = module.resource_group.resource_group_name
   ssh_public_key           = ibm_is_ssh_key.ssh_key.public_key
   reuse_cloud_connections  = var.reuse_cloud_connections
   pvs_service_name         = local.pvs_service_name
@@ -138,7 +145,7 @@ module "sap_systems" {
   depends_on                 = [module.powervs_infratructure]
   source                     = "../../"
   pvs_zone                   = var.pvs_zone
-  pvs_resource_group_name    = var.resource_group
+  pvs_resource_group_name    = module.resource_group.resource_group_name
   pvs_service_name           = local.pvs_service_name
   pvs_sshkey_name            = local.pvs_sshkey_name
   pvs_sap_network_name       = var.pvs_sap_network_name

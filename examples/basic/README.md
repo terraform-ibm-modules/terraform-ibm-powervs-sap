@@ -25,6 +25,7 @@ Use of this resource for production deployments is not recommended. Instead, gen
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_powervs_infratructure"></a> [powervs\_infratructure](#module\_powervs\_infratructure) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git | v1.6.0 |
+| <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git | v1.0.1 |
 | <a name="module_sap_systems"></a> [sap\_systems](#module\_sap\_systems) | ../../ | n/a |
 
 ## Resources

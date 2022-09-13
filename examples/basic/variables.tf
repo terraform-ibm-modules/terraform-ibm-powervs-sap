@@ -178,6 +178,7 @@ variable "nfs_server_config" {
 variable "ibmcloud_api_key" {
   description = "IBM Cloud Api Key"
   type        = string
+  sensitive   = true
   default     = null
 }
 
