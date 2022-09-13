@@ -40,7 +40,7 @@ No modules.
 | <a name="input_pvs_cpu_proc_type"></a> [pvs\_cpu\_proc\_type](#input\_pvs\_cpu\_proc\_type) | Dedicated or shared processors | `string` | `null` | no |
 | <a name="input_pvs_instance_name"></a> [pvs\_instance\_name](#input\_pvs\_instance\_name) | Name of instance which will be created | `string` | n/a | yes |
 | <a name="input_pvs_memory_size"></a> [pvs\_memory\_size](#input\_pvs\_memory\_size) | Amount of memory | `string` | `null` | no |
-| <a name="input_pvs_networks"></a> [pvs\_networks](#input\_pvs\_networks) | Existing map of subnet names and IPs to be attached to the node. First network has to be a management network. If IP is null, the address will be generated. | `list(any)` | <pre>[<br>  "mgmt_net",<br>  "backup_net"<br>]</pre> | no |
+| <a name="input_pvs_networks"></a> [pvs\_networks](#input\_pvs\_networks) | Existing map of subnet names and IPs to be attached to the node. First network has to be a management network. If IP is null, the address will be generated. | `list(string)` | <pre>[<br>  "mgmt_net",<br>  "backup_net"<br>]</pre> | no |
 | <a name="input_pvs_number_of_processors"></a> [pvs\_number\_of\_processors](#input\_pvs\_number\_of\_processors) | Number of processors | `string` | `null` | no |
 | <a name="input_pvs_os_image_name"></a> [pvs\_os\_image\_name](#input\_pvs\_os\_image\_name) | Image Name for node | `string` | n/a | yes |
 | <a name="input_pvs_os_image_storage_type"></a> [pvs\_os\_image\_storage\_type](#input\_pvs\_os\_image\_storage\_type) | Storage type for OS | `string` | `"tier3"` | no |
@@ -49,7 +49,7 @@ No modules.
 | <a name="input_pvs_server_type"></a> [pvs\_server\_type](#input\_pvs\_server\_type) | Processor type e980/s922/e1080/s1022 | `string` | `null` | no |
 | <a name="input_pvs_service_name"></a> [pvs\_service\_name](#input\_pvs\_service\_name) | Existing Name of the PowerVS service | `string` | n/a | yes |
 | <a name="input_pvs_sshkey_name"></a> [pvs\_sshkey\_name](#input\_pvs\_sshkey\_name) | Existing SSH key name | `string` | n/a | yes |
-| <a name="input_pvs_storage_config"></a> [pvs\_storage\_config](#input\_pvs\_storage\_config) | DISKS To be created and attached to node. Comma separated values | `map(any)` | <pre>{<br>  "counts": "",<br>  "disks_size": "",<br>  "names": "",<br>  "paths": "",<br>  "tiers": ""<br>}</pre> | no |
+| <a name="input_pvs_storage_config"></a> [pvs\_storage\_config](#input\_pvs\_storage\_config) | DISKS To be created and attached to node. Comma separated values | <pre>object({<br>    names      = string<br>    disks_size = string<br>    counts     = string<br>    tiers      = string<br>    paths      = string<br>  })</pre> | <pre>{<br>  "counts": "",<br>  "disks_size": "",<br>  "names": "",<br>  "paths": "",<br>  "tiers": ""<br>}</pre> | no |
 | <a name="input_pvs_zone"></a> [pvs\_zone](#input\_pvs\_zone) | IBM Cloud Zone | `string` | n/a | yes |
 
 ## Outputs

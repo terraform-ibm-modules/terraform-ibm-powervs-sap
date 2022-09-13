@@ -66,18 +66,24 @@ variable "pvs_os_image_storage_type" {
 
 variable "pvs_networks" {
   description = "Existing map of subnet names and IPs to be attached to the node. First network has to be a management network. If IP is null, the address will be generated."
-  type        = list(any)
+  type        = list(string)
   default     = ["mgmt_net", "backup_net"]
 }
 
 variable "pvs_storage_config" {
   description = "DISKS To be created and attached to node. Comma separated values"
-  type        = map(any)
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = ""
-    paths      = ""
     disks_size = ""
     counts     = ""
     tiers      = ""
+    paths      = ""
   }
 }

@@ -7,12 +7,15 @@ variable "pvs_zone" {
   description = "IBM Cloud PowerVS Zone. Valid values: sao01,osa21,tor01,us-south,dal12,us-east,tok04,lon04,lon06,eu-de-1,eu-de-2,syd04,syd05"
   type        = string
   default     = "mon01"
+  validation {
+    condition     = contains(["syd04", "syd05", "eu-de-1", "eu-de-2", "lon04", "lon06", "wdc04", "us-east", "us-south", "dal12", "dal13", "tor01", "tok04", "osa21", "sao01", "mon01"], var.pvs_zone)
+    error_message = "Supported values for pvs_zone are: syd04,syd05,eu-de-1,eu-de-2,lon04,lon06,wdc04,us-east,us-south,dal12,dal13,tor01,tok04,osa21,sao01,mon01"
+  }
 }
 
-variable "existing_resource_group_name" {
+variable "resource_group" {
   type        = string
   description = "Existing resource group name to use for this example. If null, a new resource group will be created."
-  default     = null
 }
 
 variable "pvs_service_name" {
@@ -29,7 +32,10 @@ variable "pvs_ssh_key_name" {
 
 variable "pvs_management_network" {
   description = "IBM Cloud PowerVS Management Subnet name and cidr which will be created."
-  type        = map(any)
+  type = object({
+    name = string
+    cidr = string
+  })
   default = {
     "name" = "mgmt_net"
     "cidr" = "10.51.0.0/24"
@@ -38,7 +44,10 @@ variable "pvs_management_network" {
 
 variable "pvs_backup_network" {
   description = "IBM Cloud PowerVS Backup Network name and cidr which will be created."
-  type        = map(any)
+  type = object({
+    name = string
+    cidr = string
+  })
   default = {
     "name" = "bkp_net"
     "cidr" = "10.52.0.0/24"
@@ -119,7 +128,9 @@ variable "prefix" {
 
 variable "squid_proxy_config" {
   description = "Configure SQUID proxy to use with IBM Cloud PowerVS instances."
-  type        = map(any)
+  type = object({
+    squid_proxy_host_or_ip = string
+  })
   default = {
     squid_proxy_host_or_ip = null
   }
@@ -127,7 +138,10 @@ variable "squid_proxy_config" {
 
 variable "dns_forwarder_config" {
   description = "Configure DNS forwarder to existing DNS service that is not reachable directly from PowerVS."
-  type        = map(any)
+  type = object({
+    dns_forwarder_host_or_ip = string
+    dns_servers              = string
+  })
   default = {
     dns_forwarder_host_or_ip = null
     dns_servers              = "161.26.0.7; 161.26.0.8; 9.9.9.9;"
@@ -136,7 +150,9 @@ variable "dns_forwarder_config" {
 
 variable "ntp_forwarder_config" {
   description = "Configure NTP forwarder to existing NTP service that is not reachable directly from PowerVS."
-  type        = map(any)
+  type = object({
+    ntp_forwarder_host_or_ip = string
+  })
   default = {
     ntp_forwarder_host_or_ip = null
   }
@@ -144,7 +160,10 @@ variable "ntp_forwarder_config" {
 
 variable "nfs_server_config" {
   description = "Configure shared NFS file system (e.g., for installation media)."
-  type        = map(any)
+  type = object({
+    nfs_server_host_or_ip = string
+    nfs_directory         = string
+  })
   default = {
     nfs_server_host_or_ip = null
     nfs_directory         = "/nfs"
@@ -175,8 +194,13 @@ variable "pvs_sap_network_name" {
 }
 
 variable "pvs_sap_hana_instance_config" {
-  description = "DISKS To be created and attached to hana node.Comma separated values"
-  type        = map(any)
+  description = "SAP HANA PowerVS instance configuration. If data is specified here - will replace other input."
+  type = object({
+    name-suffix         = string
+    ip                  = string
+    sap_hana_profile_id = string
+    sap_image_name      = string
+  })
   default = {
     name-suffix         = "hana"
     ip                  = ""
@@ -186,8 +210,14 @@ variable "pvs_sap_hana_instance_config" {
 }
 
 variable "pvs_sap_hana_storage_config" {
-  description = "DISKS To be created and attached to hana node.Comma separated values"
-  type        = map(any)
+  description = "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = "data,log,shared,usrsap"
     disks_size = "10,10,10,10"
@@ -198,8 +228,17 @@ variable "pvs_sap_hana_storage_config" {
 }
 
 variable "pvs_sap_share_instance_config" {
-  description = "DISKS To be created and attached to hana node.Comma separated values"
-  type        = map(any)
+  description = "SAP shared file systems PowerVS instance configuration. If data is specified here - will replace other input."
+  type = object({
+    name-suffix          = string
+    number_of_instances  = string
+    hostname             = string
+    ip                   = string
+    cpu_proc_type        = string
+    number_of_processors = string
+    memory_size          = string
+    sap_image_name       = string
+  })
   default = {
     name-suffix          = "share-fs"
     number_of_instances  = "1"
@@ -213,8 +252,14 @@ variable "pvs_sap_share_instance_config" {
 }
 
 variable "pvs_sap_share_storage_config" {
-  description = "DISKS To be created and attached to hana node.Comma separated values"
-  type        = map(any)
+  description = "File systems to be created and attached to PowerVS instance for shared file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = "share"
     disks_size = "10"
@@ -225,8 +270,17 @@ variable "pvs_sap_share_storage_config" {
 }
 
 variable "pvs_sap_netweaver_instance_config" {
-  description = "DISKS To be created and attached to hana node.Comma separated values"
-  type        = map(any)
+  description = "SAP NetWeaver PowerVS instance configuration. If data is specified here - will replace other input."
+  type = object({
+    name-suffix          = string
+    number_of_instances  = string
+    hostnames            = string
+    ips                  = string
+    cpu_proc_type        = string
+    number_of_processors = string
+    memory_size          = string
+    sap_image_name       = string
+  })
   default = {
     name-suffix          = "nw-app"
     number_of_instances  = "1"
@@ -240,8 +294,14 @@ variable "pvs_sap_netweaver_instance_config" {
 }
 
 variable "pvs_sap_netweaver_storage_config" {
-  description = "DISKS To be created and attached to hana node.Comma separated values"
-  type        = map(any)
+  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = "usrsap,usrtrans"
     disks_size = "10,10"

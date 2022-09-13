@@ -1,6 +1,5 @@
 #####################################################
 # PowerVS Service parameters
-# Copyright 2022 IBM
 #####################################################
 
 variable "pvs_zone" {
@@ -36,7 +35,6 @@ variable "pvs_additional_networks" {
 
 #####################################################
 # PowerVS HANA Instance parameters
-# Copyright 2022 IBM
 #####################################################
 
 variable "pvs_hana_instance_name" {
@@ -56,20 +54,25 @@ variable "pvs_hana_sap_profile_id" {
 }
 
 variable "pvs_hana_storage_config" {
-  description = "DISKS To be created and attached to node.Comma separated values"
-  type        = map(any)
+  description = "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = ""
-    paths      = ""
     disks_size = ""
     counts     = ""
     tiers      = ""
+    paths      = ""
   }
 }
 
 #####################################################
 # PowerVS NetWeaver Instance parameters
-# Copyright 2022 IBM
 #####################################################
 
 variable "pvs_netweaver_instance_name" {
@@ -111,20 +114,25 @@ variable "pvs_netweaver_memory_size" {
 }
 
 variable "pvs_netweaver_storage_config" {
-  description = "DISKS To be created and attached to node.Comma separated values"
-  type        = map(any)
+  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = ""
-    paths      = ""
     disks_size = ""
     counts     = ""
     tiers      = ""
+    paths      = ""
   }
 }
 
 #####################################################
 # PowerVS Shared FS Instance parameters
-# Copyright 2022 IBM
 #####################################################
 
 variable "pvs_share_instance_name" {
@@ -167,20 +175,25 @@ variable "pvs_share_memory_size" {
 }
 
 variable "pvs_share_storage_config" {
-  description = "DISKS To be created and attached to node.Comma separated values"
-  type        = map(any)
+  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = ""
-    paths      = ""
     disks_size = ""
     counts     = ""
     tiers      = ""
+    paths      = ""
   }
 }
 
 #####################################################
 # PVS SAP instance Initialization
-# Copyright 2022 IBM
 #####################################################
 
 variable "access_host_or_ip" {
@@ -246,26 +259,6 @@ variable "nfs_client_directory" {
   type        = string
   default     = "/nfs"
 }
-
-/***
-#### weiter hier
-variable "hana_hostname" {
-  description = "Hostname for HANA instance"
-  type        = string
-  default     = null
-}
-
-variable "netweaver_hostnames" {
-  description = "Domain name to be set. Required when using RHEL image"
-  type        = list(string)
-  default     = null
-}
-
-variable "sap_solution" {
-  description = "To Execute Playbooks for Hana or NetWeaver. Value can be either HANA OR NETWEAVER"
-  type        = string
-}
-***/
 
 variable "pvs_sap_network_name" {
   description = "Name for new network for SAP system"

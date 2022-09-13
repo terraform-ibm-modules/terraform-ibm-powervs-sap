@@ -12,6 +12,10 @@ variable "ibmcloud_api_key" {
 variable "pvs_zone" {
   description = "IBM Cloud PowerVS Zone. Valid values: sao01,osa21,tor01,us-south,dal12,us-east,tok04,lon04,lon06,eu-de-1,eu-de-2,syd04,syd05"
   type        = string
+  validation {
+    condition     = contains(["syd04", "syd05", "eu-de-1", "eu-de-2", "lon04", "lon06", "wdc04", "us-east", "us-south", "dal12", "dal13", "tor01", "tok04", "osa21", "sao01", "mon01"], var.pvs_zone)
+    error_message = "Supported values for pvs_zone are: syd04,syd05,eu-de-1,eu-de-2,lon04,lon06,wdc04,us-east,us-south,dal12,dal13,tor01,tok04,osa21,sao01,mon01"
+  }
 }
 
 variable "powervs_infrastructure_workspace_id" {
@@ -141,8 +145,14 @@ variable "default_shared_fs_rhel_image" {
 #####################################################
 
 variable "sap_hana_instance_config" {
-  description = "SAP HANA instance configuration. If data is specified here - will replace other input."
-  type        = map(any)
+  description = "SAP HANA PowerVS instance configuration. If data is specified here - will replace other input."
+  type = object({
+    hostname       = string
+    domain         = string
+    host_ip        = string
+    sap_profile_id = string
+    os_image_name  = string
+  })
   default = {
     hostname       = ""
     domain         = ""
@@ -153,8 +163,14 @@ variable "sap_hana_instance_config" {
 }
 
 variable "sap_hana_additional_storage_config" {
-  description = "Additional disks to be created and attached to SAP HANA node. If you specify to calculate SAP HANA file system sizes automatically, 'data', 'log' and 'shared' file systems will be ignered here."
-  type        = map(any)
+  description = "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = "data,log,shared,usrsap"
     disks_size = "250,150,1000,50"
@@ -165,8 +181,17 @@ variable "sap_hana_additional_storage_config" {
 }
 
 variable "sap_share_instance_config" {
-  description = "SAP shared FS instance configuration. If data is specified here - will replace other input."
-  type        = map(any)
+  description = "SAP shared file system PowerVS instance configuration. If data is specified here - will replace other input."
+  type = object({
+    hostname             = string
+    domain               = string
+    host_ip              = string
+    os_image_name        = string
+    cpu_proc_type        = string
+    number_of_processors = string
+    memory_size          = string
+    server_type          = string
+  })
   default = {
     hostname             = ""
     domain               = ""
@@ -180,8 +205,14 @@ variable "sap_share_instance_config" {
 }
 
 variable "sap_share_storage_config" {
-  description = "Additional disks to be created and attached to SAP shared FS node."
-  type        = map(any)
+  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = "share"
     disks_size = "1000"
@@ -192,8 +223,18 @@ variable "sap_share_storage_config" {
 }
 
 variable "sap_netweaver_instance_config" {
-  description = "SAP HANA instance configuration. If data is specified here - will replace other input."
-  type        = map(any)
+  description = "SAP NetWeaver PowerVS instance configuration. If data is specified here - will replace other input."
+  type = object({
+    number_of_instances  = string
+    hostname             = string
+    domain               = string
+    host_ips             = string
+    os_image_name        = string
+    cpu_proc_type        = string
+    number_of_processors = string
+    memory_size          = string
+    server_type          = string
+  })
   default = {
     number_of_instances  = ""
     hostname             = ""
@@ -208,8 +249,14 @@ variable "sap_netweaver_instance_config" {
 }
 
 variable "sap_netweaver_storage_config" {
-  description = "Additional disks to be created and attached to each SAP NetWeaver node."
-  type        = map(any)
+  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
   default = {
     names      = "usrsap,usrtrans"
     disks_size = "50,50"
