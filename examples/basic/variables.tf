@@ -1,6 +1,5 @@
 #####################################################
 # Parameters for the configuraion of the PowerVS infrastructure layer
-# Copyright 2022 IBM
 #####################################################
 
 variable "pvs_zone" {
@@ -171,8 +170,7 @@ variable "nfs_server_config" {
 }
 
 #####################################################
-# Parameters for the SAP on PowerVs deployment layer
-# Copyright 2022 IBM
+# Parameters for the SAP on PowerVS deployment layer
 #####################################################
 
 variable "ibmcloud_api_key" {

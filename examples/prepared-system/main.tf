@@ -87,7 +87,6 @@ module "sap_systems" {
 
   access_host_or_ip    = var.access_host_or_ip
   proxy_host_or_ip     = var.proxy_host_or_ip
-  nfs_host_or_ip       = var.nfs_host_or_ip
   ntp_host_or_ip       = var.ntp_host_or_ip
   dns_host_or_ip       = var.dns_host_or_ip
   ssh_private_key      = var.ssh_private_key

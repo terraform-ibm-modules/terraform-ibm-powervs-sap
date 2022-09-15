@@ -9,7 +9,7 @@ output "hana_instance_private_ips" {
 }
 
 output "netweaver_instance_private_ips" {
-  description = "Private IPs of the NetWeaver instance."
+  description = "Private IPs of all NetWeaver instances."
   value       = module.sap_netweaver_instance.*.instance_private_ips
 }
 

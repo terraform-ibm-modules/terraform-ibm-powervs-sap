@@ -213,12 +213,6 @@ variable "proxy_host_or_ip" {
   default     = ""
 }
 
-variable "nfs_host_or_ip" {
-  description = "NFS server hosname or IP address. E.g., 10.10.10.5"
-  type        = string
-  default     = ""
-}
-
 variable "dns_host_or_ip" {
   description = "DNS forwarder/server hosname or IP address. E.g., 10.10.10.6"
   type        = string
@@ -249,9 +243,9 @@ variable "os_image_distro" {
 }
 
 variable "nfs_path" {
-  description = "NFS directory on NFS server."
+  description = "Full path on NFS server (in form <hostname_or_ip>:<directory>, e.g., '10.20.10.4:/nfs')."
   type        = string
-  default     = "/nfs"
+  default     = ""
 }
 
 variable "nfs_client_directory" {

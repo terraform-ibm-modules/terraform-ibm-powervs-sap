@@ -18,7 +18,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 240
+        "line": 234
       }
     },
     "dns_host_or_ip": {
@@ -28,7 +28,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 222
+        "line": 216
       }
     },
     "nfs_client_directory": {
@@ -38,27 +38,17 @@
       "default": "/nfs",
       "pos": {
         "filename": "variables.tf",
-        "line": 257
-      }
-    },
-    "nfs_host_or_ip": {
-      "name": "nfs_host_or_ip",
-      "type": "string",
-      "description": "NFS server hosname or IP address. E.g., 10.10.10.5",
-      "default": "",
-      "pos": {
-        "filename": "variables.tf",
-        "line": 216
+        "line": 251
       }
     },
     "nfs_path": {
       "name": "nfs_path",
       "type": "string",
-      "description": "NFS directory on NFS server.",
-      "default": "/nfs",
+      "description": "Full path on NFS server (in form \u003chostname_or_ip\u003e:\u003cdirectory\u003e, e.g., '10.20.10.4:/nfs').",
+      "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 251
+        "line": 245
       }
     },
     "ntp_host_or_ip": {
@@ -68,7 +58,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 228
+        "line": 222
       }
     },
     "os_image_distro": {
@@ -78,7 +68,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 246
+        "line": 240
       }
     },
     "proxy_host_or_ip": {
@@ -259,7 +249,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 268
+        "line": 262
       }
     },
     "pvs_sap_network_name": {
@@ -269,7 +259,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 263
+        "line": 257
       }
     },
     "pvs_service_name": {
@@ -395,7 +385,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 234
+        "line": 228
       }
     },
     "ssh_private_key": {
@@ -428,7 +418,7 @@
     },
     "netweaver_instance_private_ips": {
       "name": "netweaver_instance_private_ips",
-      "description": "Private IPs of the NetWeaver instance.",
+      "description": "Private IPs of all NetWeaver instances.",
       "pos": {
         "filename": "outputs.tf",
         "line": 11

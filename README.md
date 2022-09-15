@@ -94,8 +94,7 @@ No resources.
 | <a name="input_configure_os"></a> [configure\_os](#input\_configure\_os) | Specify if OS on PowerVS instances should be configure for SAP or if only PowerVS instances should be created. | `bool` | `true` | no |
 | <a name="input_dns_host_or_ip"></a> [dns\_host\_or\_ip](#input\_dns\_host\_or\_ip) | DNS forwarder/server hosname or IP address. E.g., 10.10.10.6 | `string` | `""` | no |
 | <a name="input_nfs_client_directory"></a> [nfs\_client\_directory](#input\_nfs\_client\_directory) | NFS directory on PowerVS instances. | `string` | `"/nfs"` | no |
-| <a name="input_nfs_host_or_ip"></a> [nfs\_host\_or\_ip](#input\_nfs\_host\_or\_ip) | NFS server hosname or IP address. E.g., 10.10.10.5 | `string` | `""` | no |
-| <a name="input_nfs_path"></a> [nfs\_path](#input\_nfs\_path) | NFS directory on NFS server. | `string` | `"/nfs"` | no |
+| <a name="input_nfs_path"></a> [nfs\_path](#input\_nfs\_path) | Full path on NFS server (in form <hostname\_or\_ip>:<directory>, e.g., '10.20.10.4:/nfs'). | `string` | `""` | no |
 | <a name="input_ntp_host_or_ip"></a> [ntp\_host\_or\_ip](#input\_ntp\_host\_or\_ip) | NTP forwarder/server hosname or IP address. E.g., 10.10.10.7 | `string` | `""` | no |
 | <a name="input_os_image_distro"></a> [os\_image\_distro](#input\_os\_image\_distro) | Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters. | `string` | n/a | yes |
 | <a name="input_proxy_host_or_ip"></a> [proxy\_host\_or\_ip](#input\_proxy\_host\_or\_ip) | Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 | `string` | `""` | no |
@@ -136,6 +135,6 @@ No resources.
 |------|-------------|
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP to manage the environment |
 | <a name="output_hana_instance_private_ips"></a> [hana\_instance\_private\_ips](#output\_hana\_instance\_private\_ips) | Private IPs of the HANA instance. |
-| <a name="output_netweaver_instance_private_ips"></a> [netweaver\_instance\_private\_ips](#output\_netweaver\_instance\_private\_ips) | Private IPs of the NetWeaver instance. |
+| <a name="output_netweaver_instance_private_ips"></a> [netweaver\_instance\_private\_ips](#output\_netweaver\_instance\_private\_ips) | Private IPs of all NetWeaver instances. |
 | <a name="output_share_fs_instance_private_ips"></a> [share\_fs\_instance\_private\_ips](#output\_share\_fs\_instance\_private\_ips) | Private IPs of the Share FS instance. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

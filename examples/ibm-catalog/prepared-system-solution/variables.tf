@@ -43,20 +43,9 @@ variable "pvs_sap_network_cidr" {
   type        = string
 }
 
-variable "sap_domain_name" {
-  description = "Default network domain name for all IBM PowerVS instances. May be overwritten by individual instance configurations in optional paramteres."
-  type        = string
-}
-
 variable "sap_hana_hostname" {
   description = "SAP HANA hostname (non FQDN). If not specified - will get the form of <prefix>-hana."
   type        = string
-}
-
-variable "sap_hana_ip" {
-  description = "Optional SAP HANA IP address (in SAP system network, specified over 'pvs_sap_network_cidr' parameter)."
-  type        = string
-  default     = ""
 }
 
 variable "sap_hana_profile" {
@@ -64,11 +53,13 @@ variable "sap_hana_profile" {
   type        = string
 }
 
+/***
 variable "calculate_hana_fs_sizes_automatically" {
   description = "Specify if SAP HANA file system sizes should be calculated automatically instead of using specification defined in optional parameters."
   type        = bool
   default     = true
 }
+***/
 
 variable "sap_netweaver_instance_number" {
   description = "Number of SAP NetWeaver instances that should be created."
@@ -79,12 +70,6 @@ variable "sap_netweaver_instance_number" {
 variable "sap_netweaver_hostname" {
   description = "Comma separated list of SAP Netweaver hostnames (non FQDN). If not specified - will get the form of <prefix>-nw-<number>."
   type        = string
-}
-
-variable "sap_netweaver_ips" {
-  description = "List of optional SAP NetWeaver IP addresses (in SAP system network, specified over 'pvs_sap_network_cidr' parameter)."
-  type        = list(string)
-  default     = []
 }
 
 variable "sap_netweaver_memory_size" {
@@ -137,6 +122,12 @@ variable "default_shared_fs_rhel_image" {
   description = "Default Red Hat Linux image to use for SAP shared FS PowerVS instances."
   type        = string
   default     = "RHEL8-SP4-SAP-NETWEAVER"
+}
+
+variable "nfs_client_directory" {
+  description = "NFS directory on PowerVS instances."
+  type        = string
+  default     = "/nfs"
 }
 
 #####################################################

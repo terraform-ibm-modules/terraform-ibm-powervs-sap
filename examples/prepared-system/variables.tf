@@ -72,16 +72,10 @@ variable "ntp_host_or_ip" {
   default     = ""
 }
 
-variable "nfs_host_or_ip" {
-  description = "Private IP address of NFS server."
+variable "nfs_path" {
+  description = "Full path on NFS server (in form <hostname_or_ip>:<directory>, e.g., '10.20.10.4:/nfs')."
   type        = string
   default     = ""
-}
-
-variable "nfs_path" {
-  description = "NFS directory on NFS server."
-  type        = string
-  default     = "/nfs"
 }
 
 variable "nfs_client_directory" {
@@ -96,10 +90,12 @@ variable "prefix" {
   default     = "pvs"
 }
 
+/***
 variable "sap_domain_name" {
   description = "Default network domain name for all IBM powerVS instances. May be overwritten by individual instance configurations."
   type        = string
 }
+***/
 
 variable "pvs_sap_network_cidr" {
   description = "Network range for separate SAP network. E.g., '10.111.1.0/24'"
@@ -116,22 +112,18 @@ variable "sap_hana_hostname" {
   type        = string
 }
 
-variable "sap_hana_ip" {
-  description = "Optional SAP HANA IP address (in SAP system network)."
-  type        = string
-  default     = ""
-}
-
 variable "sap_hana_profile" {
   description = "SAP HANA profile to use. Must be one of the supported profiles."
   type        = string
 }
 
+/***
 variable "calculate_hana_fs_sizes_automatically" {
   description = "Specify if SAP HANA file system sizes should be calculated automatically instead of using specification defined in optional parameters."
   type        = bool
   default     = true
 }
+***/
 
 variable "sap_netweaver_instance_number" {
   description = "Number of SAP for SAP NetWeaver instances that should be created."
@@ -142,12 +134,6 @@ variable "sap_netweaver_instance_number" {
 variable "sap_netweaver_hostname" {
   description = "Comma separated list of SAP Netweaver hostnames (non FQDN). If not specified - will get the form of <prefix>-nw-<number>."
   type        = string
-}
-
-variable "sap_netweaver_ips" {
-  description = "List of optional SAP NetWeaver IP addresses (in SAP system network)."
-  type        = list(string)
-  default     = []
 }
 
 variable "sap_netweaver_memory_size" {
