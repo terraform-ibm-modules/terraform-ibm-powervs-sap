@@ -8,26 +8,35 @@ provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key != null ? var.ibmcloud_api_key : null
 }
 
+locals {
+  location = regex("us-south|us-east|eu-de|eu-gb", var.powervs_infrastructure_workspace_id)
+}
+
 data "ibm_schematics_workspace" "schematics_workspace" {
   workspace_id = var.powervs_infrastructure_workspace_id
+  location     = local.location
 }
 
 data "ibm_schematics_output" "schematics_output" {
   workspace_id = var.powervs_infrastructure_workspace_id
+  location     = local.location
   template_id  = data.ibm_schematics_workspace.schematics_workspace.runtime_data[0].id
 }
 
 locals {
   powerinfra_output = jsondecode(data.ibm_schematics_output.schematics_output.output_json)
 
-  resource_group_name     = local.powerinfra_output[0].resource_group_name.value
+  resource_group_name     = local.powerinfra_output[0].pvs_resource_group_name.value
   pvs_service_name        = local.powerinfra_output[0].pvs_service_name.value
   pvs_sshkey_name         = local.powerinfra_output[0].pvs_sshkey_name.value
   access_host_or_ip       = local.powerinfra_output[0].access_host_or_ip.value
-  management_network_name = local.powerinfra_output[0].pvs_management_network.value
-  backup_network_name     = local.powerinfra_output[0].pvs_backup_network.value
+  management_network_name = local.powerinfra_output[0].pvs_management_network_name.value
+  backup_network_name     = local.powerinfra_output[0].pvs_backup_network_name.value
   cloud_connection_count  = local.powerinfra_output[0].cloud_connection_count.value
-
+  proxy_host_or_ip        = local.powerinfra_output[0].squid_host_or_ip.value
+  ntp_host_or_ip          = local.powerinfra_output[0].ntp_host_or_ip.value
+  dns_host_or_ip          = local.powerinfra_output[0].dns_host_or_ip.value
+  nfs_path                = local.powerinfra_output[0].nfs_path.value
 }
 
 locals {
@@ -108,7 +117,12 @@ module "sap_systems" {
   pvs_netweaver_server_type          = local.pvs_netweaver_server_type
   pvs_netweaver_storage_config       = var.sap_netweaver_storage_config
 
-  access_host_or_ip = local.access_host_or_ip
-  ssh_private_key   = var.ssh_private_key
-  os_image_distro   = var.os_image_distro
+  access_host_or_ip    = local.access_host_or_ip
+  proxy_host_or_ip     = local.proxy_host_or_ip
+  ntp_host_or_ip       = local.ntp_host_or_ip
+  dns_host_or_ip       = local.dns_host_or_ip
+  nfs_path             = local.nfs_path
+  nfs_client_directory = var.nfs_client_directory
+  ssh_private_key      = var.ssh_private_key
+  os_image_distro      = var.os_image_distro
 }

@@ -85,8 +85,8 @@ locals {
     server_ip = var.dns_host_or_ip
   }
   perform_nfs_client_setup = {
-    enable          = var.nfs_host_or_ip != null && var.nfs_host_or_ip != "" ? true : false
-    nfs_server_path = "${var.nfs_host_or_ip}:${var.nfs_path}"
+    enable          = var.nfs_path != null && var.nfs_path != "" ? true : false
+    nfs_server_path = var.nfs_path
     nfs_client_path = var.nfs_client_directory
   }
   target_server_ips         = concat([module.sap_hana_instance.instance_mgmt_ip], module.share_fs_instance.*.instance_mgmt_ip, module.sap_netweaver_instance.*.instance_mgmt_ip)
