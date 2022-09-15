@@ -5,7 +5,7 @@
             "label": "SAP prepared PowerVS instances",
             "name": "prepared_system",
             "working_directory": "examples/ibm-catalog/prepared-system-solution",
-            "usage": "module \"power-infrastructure\" {\n   source = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz\u0026kind=terraform\u0026name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure\u0026version=1.1.0\"\n  }",
+            "usage": "module \"power-infrastructure\" {\n   source = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz\u0026kind=terraform\u0026name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure\u0026version=1.0.1\"\n  }",
             "compliance": {
                 "controls": [
                     {
@@ -109,11 +109,11 @@
                 "diagrams": [
                     {
                         "diagram": {
-                            "caption": "IBM Power Virtual Service",
+                            "caption": "Full SAP environment provisioned on a secure infrastructure on VPC and extended by Power Virtual Servers",
                             "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/sprint-2/examples/ibm-catalog/empty-system-solution/layer_deployment_target.svg",
                             "metadata": []
                         },
-                        "description": "Building upon the management VPC and workload VPC that were previously created by using Secure Landing Zone VPC with VSIs, Power VS Infrastructure creates a Power Virtual Server instance. In the instance, Direct Link Connections provide consistent connectivity and access between the IBM Cloud Management VPC and Power Virtual Service networking zones. \n\n\n\n\nAfter the creation of the Power Virtual Server instance, the management VPC provides a secure virtual machine to access the Power Virtual Servers. The workload VPC provides virtual machines that run critical services such as Domain Name System, Lightweight Directory Access Protocol, and Network File System that are accessible to the Power Virtual Server service and LPARs."
+                        "description": "SAP on secure Power Virtual Servers builds on the foundation of the Secure infrastructure on VPC and Power infrastructure for regulated industries by completing the deployment of a basic but expandable SAP system landscape. SAP is deployed on Power Virtual Server instances with initial instances of Hana and Netweaver.\n\nThe network configuration done by the Power infrastructure provides connectivity to NFS servers where storage volumes are created for Hana and Netweaver. Other services such as DNS and LDAP running the Workload VPC are also \nleveraged.\n\nDirect Link Connect provides the network bridge between the IBM Power zone and the IBM VPC. \nAdditional instances of Hana and Netweaver may be configured.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the Secure infrastructure n VPC and the network connectivity configuration provided by Power infrastructure for regulated industries. "
                     }
                 ]
             }
