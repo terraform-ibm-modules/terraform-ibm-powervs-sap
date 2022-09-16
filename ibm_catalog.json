@@ -96,7 +96,8 @@
                         "standard"
                     ],
                     "id": "07e92c55-6a5b-4f3d-aa0e-30212e108af9-global",
-                    "name": "terraform-ibm-powervs-catalog-powervs-sap-infrastructure"
+                    "name": "terraform-ibm-powervs-catalog-powervs-sap-infrastructure",
+                    "version": "^2.0.9"
                 }
             ],
             "architecture": {
