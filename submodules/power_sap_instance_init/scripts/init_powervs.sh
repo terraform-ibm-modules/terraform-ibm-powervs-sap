@@ -95,7 +95,8 @@ if [ "$OS_DETECTED" == "SLES" ]; then
      grep -qx "export https_proxy=http://$proxy_ip_and_port" "$FILE" || echo "export https_proxy=http://$proxy_ip_and_port" >> "$FILE"
      grep -qx "export HTTP_proxy=http://$proxy_ip_and_port" "$FILE"  || echo "export HTTP_proxy=http://$proxy_ip_and_port"  >> "$FILE"
      grep -qx "export HTTPS_proxy=http://$proxy_ip_and_port" "$FILE" || echo "export HTTPS_proxy=http://$proxy_ip_and_port" >> "$FILE"
-
+     ###### Source /etc/bash.bashrc file, to export proxy variable to current shell ######
+     source /etc/bash.bashrc
      ###### Restart Network #######
      /usr/bin/systemctl restart network
 
@@ -114,16 +115,16 @@ if [ "$OS_DETECTED" == "SLES" ]; then
             count=1
 	    while [[ $count -le 15 ]]
             do
+		sleep 60
                 count=$(( count + 1 ))
                 if grep -i failed  /var/log/powervs-fls.log; then
  		   echo "SLES registration has failed, exiting"
 		   exit 1
 		fi
-                if grep "Successfull completed SLES subscription registration process"  /var/log/powervs-fls.log; then
+                if grep "Successfully completed SLES subscription registration process"  /var/log/powervs-fls.log; then
                     echo "Successfully completed SLES subscription registration process. Done"
 		    break;
                 fi
-		        sleep 60
             done
 	    if [[ $count -gt 15 ]]; then
 	        echo "Timeout: SLES registration process failed, or still ongoing"
@@ -181,7 +182,6 @@ if [ "$OS_DETECTED" == "RHEL" ]; then
      grep -qx "export HTTP_proxy=http://$proxy_ip_and_port" "$FILE"  || echo "export HTTP_proxy=http://$proxy_ip_and_port"  >> "$FILE"
      grep -qx "export HTTPS_proxy=http://$proxy_ip_and_port" "$FILE" || echo "export HTTPS_proxy=http://$proxy_ip_and_port" >> "$FILE"
      grep -qx "export no_proxy=$no_proxy_ip" "$FILE"                 || echo "export no_proxy=$no_proxy_ip"                 >> "$FILE"
-     ## this line is incorrect
      #grep -qx "proxy=http://$proxy_ip_and_port" "$FILE"              || echo "proxy=http://$proxy_ip_and_port"              >> /etc/dnf/dnf.conf
      grep -qx "proxy=http://$proxy_ip_and_port"  /etc/dnf/dnf.conf   || echo "proxy=http://$proxy_ip_and_port"              >> /etc/dnf/dnf.conf
       ###### Restart Network #######
