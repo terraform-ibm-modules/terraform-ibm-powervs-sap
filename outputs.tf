@@ -1,22 +1,19 @@
-/********************************************************************
-
-This file is used to capture ROOT module outputs.
-
-E.g:
-
-output "at_id" {
-  description = "Activity tracker id"
-  value       = concat(ibm_resource_instance.at_instance.*.id, [""])[0]
+output "access_host_or_ip" {
+  description = "Public IP to manage the environment"
+  value       = var.access_host_or_ip
 }
 
-output "at_guid" {
-  description = "The GUID of the activity tracker"
-  value       = concat(ibm_resource_instance.at_instance.*.guid, [""])[0]
+output "hana_instance_private_ips" {
+  description = "Private IPs of the HANA instance."
+  value       = module.sap_hana_instance.instance_private_ips
 }
 
-output "at_key_id" {
-  description = "Activity tracker key id"
-  value       = concat(ibm_resource_key.activity_tracker_key.*.id, [""])[0]
+output "netweaver_instance_private_ips" {
+  description = "Private IPs of the NetWeaver instance."
+  value       = module.sap_netweaver_instance.*.instance_private_ips
 }
 
-*********************************************************************/
+output "share_fs_instance_private_ips" {
+  description = "Private IPs of the Share FS instance."
+  value       = module.share_fs_instance.*.instance_private_ips
+}
