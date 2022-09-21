@@ -8,7 +8,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 199
+        "line": 218
       }
     },
     "configure_os": {
@@ -18,7 +18,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 234
+        "line": 207
       }
     },
     "dns_host_or_ip": {
@@ -28,7 +28,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 216
+        "line": 241
       }
     },
     "nfs_client_directory": {
@@ -38,7 +38,7 @@
       "default": "/nfs",
       "pos": {
         "filename": "variables.tf",
-        "line": 251
+        "line": 253
       }
     },
     "nfs_path": {
@@ -48,7 +48,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 245
+        "line": 247
       }
     },
     "ntp_host_or_ip": {
@@ -58,7 +58,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 222
+        "line": 235
       }
     },
     "os_image_distro": {
@@ -68,70 +68,60 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 240
+        "line": 213
       }
     },
-    "proxy_host_or_ip": {
-      "name": "proxy_host_or_ip",
-      "type": "string",
-      "description": "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128",
-      "default": "",
-      "pos": {
-        "filename": "variables.tf",
-        "line": 210
-      }
-    },
-    "pvs_additional_networks": {
-      "name": "pvs_additional_networks",
+    "powervs_additional_networks": {
+      "name": "powervs_additional_networks",
       "type": "list(any)",
-      "description": "Existing list of subnets name to be attached to node. First network has to be a management network",
+      "description": "Existing list of subnets name to be attached to an instance. First network has to be a management network.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
         "line": 31
       }
     },
-    "pvs_cloud_connection_count": {
-      "name": "pvs_cloud_connection_count",
+    "powervs_cloud_connection_count": {
+      "name": "powervs_cloud_connection_count",
       "type": "string",
-      "description": "Required number of Cloud connections which will be created/Reused. Maximum is 2 per location",
+      "description": "Number of existing Cloud connections to attach new private network",
       "default": 2,
       "pos": {
         "filename": "variables.tf",
-        "line": 25
+        "line": 36
       }
     },
-    "pvs_hana_image_name": {
-      "name": "pvs_hana_image_name",
+    "powervs_hana_image_name": {
+      "name": "powervs_hana_image_name",
       "type": "string",
-      "description": "Image Names to import into the service",
+      "description": "Image Names to import into the service.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 45
+        "line": 112
       }
     },
-    "pvs_hana_instance_name": {
-      "name": "pvs_hana_instance_name",
+    "powervs_hana_instance_name": {
+      "name": "powervs_hana_instance_name",
       "type": "string",
-      "description": "Name of instance which will be created",
+      "description": "Name of instance which will be created.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 40
+        "line": 107
       }
     },
-    "pvs_hana_sap_profile_id": {
-      "name": "pvs_hana_sap_profile_id",
+    "powervs_hana_sap_profile_id": {
+      "name": "powervs_hana_sap_profile_id",
       "type": "string",
-      "description": "SAP PROFILE ID. If this is mentioned then Memory, processors, proc_type and sys_type will not be taken into account",
+      "description": "SAP PROFILE ID. If this is mentioned then Memory, processors, proc_type and sys_type will not be taken into account.",
       "pos": {
         "filename": "variables.tf",
-        "line": 50
+        "line": 117
       }
     },
-    "pvs_hana_storage_config": {
-      "name": "pvs_hana_storage_config",
+    "powervs_hana_storage_config": {
+      "name": "powervs_hana_storage_config",
       "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
       "description": "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
       "default": {
@@ -143,81 +133,81 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 56
+        "line": 123
       }
     },
-    "pvs_netweaver_cpu_proc_type": {
-      "name": "pvs_netweaver_cpu_proc_type",
+    "powervs_netweaver_cpu_proc_type": {
+      "name": "powervs_netweaver_cpu_proc_type",
       "type": "string",
       "description": "Dedicated or shared processors",
       "default": "shared",
       "pos": {
         "filename": "variables.tf",
-        "line": 100
+        "line": 171
       }
     },
-    "pvs_netweaver_image_name": {
-      "name": "pvs_netweaver_image_name",
+    "powervs_netweaver_image_name": {
+      "name": "powervs_netweaver_image_name",
       "type": "string",
       "description": "Image Names to import into the service",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 83
+        "line": 150
       }
     },
-    "pvs_netweaver_instance_name": {
-      "name": "pvs_netweaver_instance_name",
+    "powervs_netweaver_instance_name": {
+      "name": "powervs_netweaver_instance_name",
       "type": "string",
       "description": "Name of instance which will be created",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 78
+        "line": 145
       }
     },
-    "pvs_netweaver_memory_size": {
-      "name": "pvs_netweaver_memory_size",
+    "powervs_netweaver_memory_size": {
+      "name": "powervs_netweaver_memory_size",
       "type": "string",
       "description": "Amount of memory",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 111
+        "line": 166
       }
     },
-    "pvs_netweaver_number_of_instances": {
-      "name": "pvs_netweaver_number_of_instances",
+    "powervs_netweaver_number_of_instances": {
+      "name": "powervs_netweaver_number_of_instances",
       "type": "string",
       "description": "Number of instances",
       "default": 1,
       "pos": {
         "filename": "variables.tf",
-        "line": 88
+        "line": 155
       }
     },
-    "pvs_netweaver_number_of_processors": {
-      "name": "pvs_netweaver_number_of_processors",
+    "powervs_netweaver_number_of_processors": {
+      "name": "powervs_netweaver_number_of_processors",
       "type": "string",
       "description": "Number of processors",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 106
+        "line": 161
       }
     },
-    "pvs_netweaver_server_type": {
-      "name": "pvs_netweaver_server_type",
+    "powervs_netweaver_server_type": {
+      "name": "powervs_netweaver_server_type",
       "type": "string",
       "description": "Processor type e980, s922, s1022 or e1080",
       "default": "s922",
       "pos": {
         "filename": "variables.tf",
-        "line": 94
+        "line": 177
       }
     },
-    "pvs_netweaver_storage_config": {
-      "name": "pvs_netweaver_storage_config",
+    "powervs_netweaver_storage_config": {
+      "name": "powervs_netweaver_storage_config",
       "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
       "description": "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
       "default": {
@@ -229,121 +219,121 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 116
+        "line": 183
       }
     },
-    "pvs_resource_group_name": {
-      "name": "pvs_resource_group_name",
+    "powervs_resource_group_name": {
+      "name": "powervs_resource_group_name",
       "type": "string",
-      "description": "Existing PowerVS service resource group Name",
+      "description": "Existing IBM Cloud resource group name.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 10
+        "line": 6
       }
     },
-    "pvs_sap_network_cidr": {
-      "name": "pvs_sap_network_cidr",
+    "powervs_sap_network_cidr": {
+      "name": "powervs_sap_network_cidr",
       "type": "string",
       "description": "CIDR for new network for SAP system",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 262
+        "line": 26
       }
     },
-    "pvs_sap_network_name": {
-      "name": "pvs_sap_network_name",
+    "powervs_sap_network_name": {
+      "name": "powervs_sap_network_name",
       "type": "string",
       "description": "Name for new network for SAP system",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 257
+        "line": 21
       }
     },
-    "pvs_service_name": {
-      "name": "pvs_service_name",
+    "powervs_service_name": {
+      "name": "powervs_service_name",
       "type": "string",
-      "description": "Existing Name of the PowerVS service",
+      "description": "Existing Name of the PowerVS service.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 15
+        "line": 11
       }
     },
-    "pvs_share_cpu_proc_type": {
-      "name": "pvs_share_cpu_proc_type",
+    "powervs_share_cpu_proc_type": {
+      "name": "powervs_share_cpu_proc_type",
       "type": "string",
       "description": "Dedicated or shared processors",
       "default": "shared",
       "pos": {
         "filename": "variables.tf",
-        "line": 159
+        "line": 73
       }
     },
-    "pvs_share_image_name": {
-      "name": "pvs_share_image_name",
+    "powervs_share_image_name": {
+      "name": "powervs_share_image_name",
       "type": "string",
       "description": "Image Names to import into the service",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 143
+        "line": 51
       }
     },
-    "pvs_share_instance_name": {
-      "name": "pvs_share_instance_name",
+    "powervs_share_instance_name": {
+      "name": "powervs_share_instance_name",
       "type": "string",
       "description": "Name of instance which will be created",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 138
+        "line": 46
       }
     },
-    "pvs_share_memory_size": {
-      "name": "pvs_share_memory_size",
+    "powervs_share_memory_size": {
+      "name": "powervs_share_memory_size",
       "type": "string",
       "description": "Amount of memory",
       "default": 2,
       "pos": {
         "filename": "variables.tf",
-        "line": 171
+        "line": 67
       }
     },
-    "pvs_share_number_of_instances": {
-      "name": "pvs_share_number_of_instances",
+    "powervs_share_number_of_instances": {
+      "name": "powervs_share_number_of_instances",
       "type": "string",
       "description": "Number of instances",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 148
+        "line": 56
       }
     },
-    "pvs_share_number_of_processors": {
-      "name": "pvs_share_number_of_processors",
+    "powervs_share_number_of_processors": {
+      "name": "powervs_share_number_of_processors",
       "type": "string",
       "description": "Number of processors",
       "default": 0.5,
       "pos": {
         "filename": "variables.tf",
-        "line": 165
+        "line": 61
       }
     },
-    "pvs_share_server_type": {
-      "name": "pvs_share_server_type",
+    "powervs_share_server_type": {
+      "name": "powervs_share_server_type",
       "type": "string",
       "description": "Processor type e980, s922, s1022 or e1080",
       "default": "s922",
       "pos": {
         "filename": "variables.tf",
-        "line": 153
+        "line": 79
       }
     },
-    "pvs_share_storage_config": {
-      "name": "pvs_share_storage_config",
+    "powervs_share_storage_config": {
+      "name": "powervs_share_storage_config",
       "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
       "description": "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
       "default": {
@@ -355,27 +345,37 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 177
+        "line": 85
       }
     },
-    "pvs_sshkey_name": {
-      "name": "pvs_sshkey_name",
+    "powervs_sshkey_name": {
+      "name": "powervs_sshkey_name",
       "type": "string",
-      "description": "Existing SSH key name",
+      "description": "Existing PowerVs SSH key name.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 20
+        "line": 16
       }
     },
-    "pvs_zone": {
-      "name": "pvs_zone",
+    "powervs_zone": {
+      "name": "powervs_zone",
       "type": "string",
-      "description": "IBM Cloud Zone",
+      "description": "IBM Cloud PowerVS zone.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 5
+        "line": 1
+      }
+    },
+    "proxy_host_or_ip": {
+      "name": "proxy_host_or_ip",
+      "type": "string",
+      "description": "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128",
+      "default": "",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 229
       }
     },
     "sap_domain": {
@@ -385,17 +385,18 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 228
+        "line": 259
       }
     },
     "ssh_private_key": {
       "name": "ssh_private_key",
       "type": "string",
-      "description": "Private Key to configure Instance, Will not be uploaded to server",
+      "description": "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key'. Entered data must be in heredoc strings format (https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored.",
       "required": true,
+      "sensitive": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 205
+        "line": 223
       }
     }
   },
@@ -452,26 +453,26 @@
       "name": "attach_sap_network",
       "source": "./submodules/power_attach_private_network",
       "attributes": {
-        "pvs_cloud_connection_count": "pvs_cloud_connection_count",
-        "pvs_resource_group_name": "pvs_resource_group_name",
-        "pvs_sap_network_name": "pvs_sap_network_name",
-        "pvs_service_name": "pvs_service_name",
-        "pvs_zone": "pvs_zone"
+        "powervs_cloud_connection_count": "powervs_cloud_connection_count",
+        "powervs_resource_group_name": "powervs_resource_group_name",
+        "powervs_sap_network_name": "powervs_sap_network_name",
+        "powervs_service_name": "powervs_service_name",
+        "powervs_zone": "powervs_zone"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 14
+        "line": 15
       }
     },
     "create_sap_network": {
       "name": "create_sap_network",
       "source": "./submodules/power_create_private_network",
       "attributes": {
-        "pvs_resource_group_name": "pvs_resource_group_name",
-        "pvs_sap_network_cidr": "pvs_sap_network_cidr",
-        "pvs_sap_network_name": "pvs_sap_network_name",
-        "pvs_service_name": "pvs_service_name",
-        "pvs_zone": "pvs_zone"
+        "powervs_resource_group_name": "powervs_resource_group_name",
+        "powervs_sap_network_cidr": "powervs_sap_network_cidr",
+        "powervs_sap_network_name": "powervs_sap_network_name",
+        "powervs_service_name": "powervs_service_name",
+        "powervs_zone": "powervs_zone"
       },
       "pos": {
         "filename": "main.tf",
@@ -490,72 +491,72 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 101
+        "line": 106
       }
     },
     "sap_hana_instance": {
       "name": "sap_hana_instance",
       "source": "./submodules/power_instance",
       "attributes": {
-        "pvs_instance_name": "pvs_hana_instance_name",
-        "pvs_networks": "pvs_additional_networks",
-        "pvs_os_image_name": "pvs_hana_image_name",
-        "pvs_resource_group_name": "pvs_resource_group_name",
-        "pvs_sap_profile_id": "pvs_hana_sap_profile_id",
-        "pvs_service_name": "pvs_service_name",
-        "pvs_sshkey_name": "pvs_sshkey_name",
-        "pvs_storage_config": "pvs_hana_storage_config",
-        "pvs_zone": "pvs_zone"
+        "powervs_instance_name": "powervs_hana_instance_name",
+        "powervs_networks": "powervs_additional_networks",
+        "powervs_os_image_name": "powervs_hana_image_name",
+        "powervs_resource_group_name": "powervs_resource_group_name",
+        "powervs_sap_profile_id": "powervs_hana_sap_profile_id",
+        "powervs_service_name": "powervs_service_name",
+        "powervs_sshkey_name": "powervs_sshkey_name",
+        "powervs_storage_config": "powervs_hana_storage_config",
+        "powervs_zone": "powervs_zone"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 41
+        "line": 44
       }
     },
     "sap_netweaver_instance": {
       "name": "sap_netweaver_instance",
       "source": "./submodules/power_instance",
       "attributes": {
-        "count": "pvs_netweaver_number_of_instances",
-        "pvs_cpu_proc_type": "pvs_netweaver_cpu_proc_type",
-        "pvs_instance_name": "pvs_netweaver_instance_name",
-        "pvs_memory_size": "pvs_netweaver_memory_size",
-        "pvs_networks": "pvs_additional_networks",
-        "pvs_number_of_processors": "pvs_netweaver_number_of_processors",
-        "pvs_os_image_name": "pvs_netweaver_image_name",
-        "pvs_resource_group_name": "pvs_resource_group_name",
-        "pvs_server_type": "pvs_netweaver_server_type",
-        "pvs_service_name": "pvs_service_name",
-        "pvs_sshkey_name": "pvs_sshkey_name",
-        "pvs_storage_config": "pvs_netweaver_storage_config",
-        "pvs_zone": "pvs_zone"
+        "count": "powervs_netweaver_number_of_instances",
+        "powervs_cpu_proc_type": "powervs_netweaver_cpu_proc_type",
+        "powervs_instance_name": "powervs_netweaver_instance_name",
+        "powervs_memory_size": "powervs_netweaver_memory_size",
+        "powervs_networks": "powervs_additional_networks",
+        "powervs_number_of_processors": "powervs_netweaver_number_of_processors",
+        "powervs_os_image_name": "powervs_netweaver_image_name",
+        "powervs_resource_group_name": "powervs_resource_group_name",
+        "powervs_server_type": "powervs_netweaver_server_type",
+        "powervs_service_name": "powervs_service_name",
+        "powervs_sshkey_name": "powervs_sshkey_name",
+        "powervs_storage_config": "powervs_netweaver_storage_config",
+        "powervs_zone": "powervs_zone"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 55
+        "line": 59
       }
     },
     "share_fs_instance": {
       "name": "share_fs_instance",
       "source": "./submodules/power_instance",
       "attributes": {
-        "count": "pvs_share_number_of_instances",
-        "pvs_cpu_proc_type": "pvs_share_cpu_proc_type",
-        "pvs_instance_name": "pvs_share_instance_name",
-        "pvs_memory_size": "pvs_share_memory_size",
-        "pvs_networks": "pvs_additional_networks",
-        "pvs_number_of_processors": "pvs_share_number_of_processors",
-        "pvs_os_image_name": "pvs_share_image_name",
-        "pvs_resource_group_name": "pvs_resource_group_name",
-        "pvs_server_type": "pvs_share_server_type",
-        "pvs_service_name": "pvs_service_name",
-        "pvs_sshkey_name": "pvs_sshkey_name",
-        "pvs_storage_config": "pvs_share_storage_config",
-        "pvs_zone": "pvs_zone"
+        "count": "powervs_share_number_of_instances",
+        "powervs_cpu_proc_type": "powervs_share_cpu_proc_type",
+        "powervs_instance_name": "powervs_share_instance_name",
+        "powervs_memory_size": "powervs_share_memory_size",
+        "powervs_networks": "powervs_additional_networks",
+        "powervs_number_of_processors": "powervs_share_number_of_processors",
+        "powervs_os_image_name": "powervs_share_image_name",
+        "powervs_resource_group_name": "powervs_resource_group_name",
+        "powervs_server_type": "powervs_share_server_type",
+        "powervs_service_name": "powervs_service_name",
+        "powervs_sshkey_name": "powervs_sshkey_name",
+        "powervs_storage_config": "powervs_share_storage_config",
+        "powervs_zone": "powervs_zone"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 24
+        "line": 26
       }
     }
   }

@@ -76,7 +76,7 @@ resource "null_resource" "install_packages" {
 #####################################################
 
 locals {
-  #disks_config = { for key, value in var.pvs_instance_storage_config : key => split(",", var.pvs_instance_storage_config[key]) }
+  #disks_config = { for key, value in var.powervs_instance_storage_config : key => split(",", var.powervs_instance_storage_config[key]) }
   #server_config_option_tmp = merge(var.service_config, { "enable" = true })
   #server_config_options    = { for key, value in local.server_config_option_tmp : key => local.server_config_option_tmp[key] }
   #server_config_name       = split("_", one([for item in keys(var.service_config) : item if can(regex("enable", item))]))[0]
@@ -100,13 +100,13 @@ resource "null_resource" "connect_to_mgmt_svs" {
 
   provisioner "file" {
 
-    #### Write the disks wwns and other variables required for ansible roles to file under /root/terraform_vars.yml  ####
+    #### Write the variables required for ansible roles to file under /root/tf_connect_to_mgmt_svs.yml  ####
 
     content = <<EOF
   client_config : {
     squid : {
       enable : ${var.perform_proxy_client_setup["enable"]},
-      squid_server_ip : '${var.perform_proxy_client_setup["server_ip"]}',
+      squid_server_ip_port : '${var.perform_proxy_client_setup["server_ip"]}:3128',
       no_proxy_env : '${var.perform_proxy_client_setup["no_proxy_env"]}'
     },
     ntp : {
@@ -127,6 +127,16 @@ EOF
 
     destination = "tf_connect_to_mgmt_svs.yml"
   }
+
+  provisioner "remote-exec" {
+    inline = [
+
+      ####  Execute ansible role : powervs_client_enable_services  ####
+
+      "ansible-galaxy collection install ibm.power_linux_sap",
+      "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/powervs-services.yml --extra-vars '@/root/tf_connect_to_mgmt_svs.yml' 2>&1 | tee ansible_execution_mgmt_svs.log ",
+    ]
+  }
 }
 
 resource "null_resource" "configure_for_sap" {
@@ -145,10 +155,10 @@ resource "null_resource" "configure_for_sap" {
 
   provisioner "file" {
 
-    #### Write the disks wwns and other variables required for ansible roles to file under /root/terraform_vars.yml  ####
+    #### Write the disks wwns and other variables required for ansible roles to file under /root/tf_configure_for_sap.yml  ####
 
     content = <<EOF
-disks_configuration : ${jsonencode({ for key, value in var.pvs_instance_storage_configs[count.index] : key => split(",", var.pvs_instance_storage_configs[count.index][key]) })}
+disks_configuration : ${jsonencode({ for key, value in var.powervs_instance_storage_configs[count.index] : key => split(",", var.powervs_instance_storage_configs[count.index][key]) })}
 sap_solution : '${var.sap_solutions[count.index]}'
 sap_domain : '${var.sap_domain}'
 EOF
@@ -159,7 +169,7 @@ EOF
   provisioner "remote-exec" {
     inline = [
 
-      ####  Execute ansible roles: prepare_sles_sap, fs_creation and swap_creation  ####
+      ####  Execute ansible roles: prepare_sles/rhel_sap, powervs_fs_creation and powervs_swap_creation  ####
 
       "ansible-galaxy collection install ibm.power_linux_sap",
       "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/${local.ansible_playbook_name} --extra-vars '@/root/tf_configure_for_sap.yml' 2>&1 | tee ansible_execution.log ",

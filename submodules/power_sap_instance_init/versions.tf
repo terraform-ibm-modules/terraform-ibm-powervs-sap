@@ -1,6 +1,5 @@
 #####################################################
 # powervs instance initialization SLES Module
-# Copyright 2022 IBM
 #####################################################
 
 terraform {

@@ -30,7 +30,7 @@ variable "sap_solutions" {
 }
 
 
-variable "pvs_instance_storage_configs" {
+variable "powervs_instance_storage_configs" {
   description = "List of storage configurations for PowerVS instances defined in 'target_server_ips'. The order should match to 'target_server_ips'. Storage configurations have following form: '{names = \"\" disks_size = \"\" counts = \"\" tiers = \"\" paths = \"\" wwns = \"\"}'"
   type = list(object(
     {
