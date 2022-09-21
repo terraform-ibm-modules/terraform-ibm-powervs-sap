@@ -140,7 +140,7 @@ EOF
 }
 
 resource "null_resource" "configure_for_sap" {
-  depends_on = [null_resource.install_packages]
+  depends_on = [null_resource.connect_to_mgmt_svs]
   count      = length(var.target_server_ips)
 
   connection {
