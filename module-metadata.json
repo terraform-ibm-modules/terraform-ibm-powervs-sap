@@ -459,6 +459,8 @@
         "powervs_service_name": "powervs_service_name",
         "powervs_zone": "powervs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 15
@@ -474,6 +476,8 @@
         "powervs_service_name": "powervs_service_name",
         "powervs_zone": "powervs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 5
@@ -489,6 +493,8 @@
         "sap_domain": "sap_domain",
         "ssh_private_key": "ssh_private_key"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 106
@@ -508,6 +514,8 @@
         "powervs_storage_config": "powervs_hana_storage_config",
         "powervs_zone": "powervs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 44
@@ -531,6 +539,8 @@
         "powervs_storage_config": "powervs_netweaver_storage_config",
         "powervs_zone": "powervs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 59
@@ -554,6 +564,8 @@
         "powervs_storage_config": "powervs_share_storage_config",
         "powervs_zone": "powervs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 26
