@@ -458,6 +458,8 @@
         "pvs_service_name": "pvs_service_name",
         "pvs_zone": "pvs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 14
@@ -473,6 +475,8 @@
         "pvs_service_name": "pvs_service_name",
         "pvs_zone": "pvs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 5
@@ -488,6 +492,8 @@
         "sap_domain": "sap_domain",
         "ssh_private_key": "ssh_private_key"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 101
@@ -507,6 +513,8 @@
         "pvs_storage_config": "pvs_hana_storage_config",
         "pvs_zone": "pvs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 41
@@ -530,6 +538,8 @@
         "pvs_storage_config": "pvs_netweaver_storage_config",
         "pvs_zone": "pvs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 55
@@ -553,6 +563,8 @@
         "pvs_storage_config": "pvs_share_storage_config",
         "pvs_zone": "pvs_zone"
       },
+      "managed_resources": null,
+      "data_resources": null,
       "pos": {
         "filename": "main.tf",
         "line": 24
