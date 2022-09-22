@@ -103,6 +103,7 @@ locals {
   sap_solutions = concat(["HANA"], [for ip in module.share_fs_instance.*.instance_mgmt_ip : "NONE"], [for ip in module.sap_netweaver_instance.*.instance_mgmt_ip : "NETWEAVER"])
 }
 
+
 module "instance_init" {
 
   source     = "./submodules/power_sap_instance_init"

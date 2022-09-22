@@ -18,6 +18,15 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 		TerraformDir:  defaultExampleTerraformDir,
 		Prefix:        prefix,
 		ResourceGroup: resourceGroup,
+		IgnoreDestroys: testhelper.Exemptions{
+			List: ignoreDestroys,
+		},
+		IgnoreUpdates: testhelper.Exemptions{
+			List: ignoreUpdates,
+		},
+		IgnoreAdds: testhelper.Exemptions{
+			List: IgnoreAdds,
+		},
 	})
 
 	options.TerraformVars = map[string]interface{}{
