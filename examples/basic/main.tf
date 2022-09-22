@@ -85,7 +85,7 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
-module "power-infrastructure" {
+module "power_infrastructure" {
   # Replace "main" with a GIT release version to lock into a specific release
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v4.0.0"
 
@@ -123,7 +123,7 @@ locals {
 #####################################################
 
 module "sap_systems" {
-  depends_on = [module.power-infrastructure]
+  depends_on = [module.power_infrastructure]
   source     = "../../"
 
   powervs_zone                   = var.powervs_zone
