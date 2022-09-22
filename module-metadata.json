@@ -8,7 +8,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 218
+        "line": 216
       }
     },
     "configure_os": {
@@ -18,7 +18,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 207
+        "line": 205
       }
     },
     "dns_host_or_ip": {
@@ -28,7 +28,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 241
+        "line": 239
       }
     },
     "nfs_client_directory": {
@@ -38,7 +38,7 @@
       "default": "/nfs",
       "pos": {
         "filename": "variables.tf",
-        "line": 253
+        "line": 251
       }
     },
     "nfs_path": {
@@ -48,7 +48,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 247
+        "line": 245
       }
     },
     "ntp_host_or_ip": {
@@ -58,7 +58,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 235
+        "line": 233
       }
     },
     "os_image_distro": {
@@ -68,7 +68,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 213
+        "line": 211
       }
     },
     "powervs_additional_networks": {
@@ -368,14 +368,14 @@
         "line": 1
       }
     },
-    "proxy_host_or_ip": {
-      "name": "proxy_host_or_ip",
+    "proxy_host_or_ip_port": {
+      "name": "proxy_host_or_ip_port",
       "type": "string",
-      "description": "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128",
+      "description": "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 \u003cip:port\u003e",
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 229
+        "line": 227
       }
     },
     "sap_domain": {
@@ -385,7 +385,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 259
+        "line": 257
       }
     },
     "ssh_private_key": {
@@ -396,7 +396,7 @@
       "sensitive": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 223
+        "line": 221
       }
     }
   },

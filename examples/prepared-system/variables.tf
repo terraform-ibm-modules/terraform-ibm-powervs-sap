@@ -114,9 +114,10 @@ variable "access_host_or_ip" {
   type        = string
 }
 
-variable "proxy_host_or_ip" {
-  description = "Private IP address of proxy server."
+variable "proxy_host_or_ip_port" {
+  description = "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>"
   type        = string
+  default     = ""
 }
 
 variable "dns_host_or_ip" {

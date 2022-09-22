@@ -77,8 +77,8 @@ module "sap_netweaver_instance" {
 
 locals {
   perform_proxy_client_setup = {
-    enable         = var.proxy_host_or_ip != null && var.proxy_host_or_ip != "" ? true : false
-    server_ip      = var.proxy_host_or_ip
+    enable         = var.proxy_host_or_ip_port != null && var.proxy_host_or_ip_port != "" ? true : false
+    server_ip_port = var.proxy_host_or_ip_port
     no_proxy_hosts = "161.0.0.0/8,10.0.0.0/8"
   }
   perform_ntp_client_setup = {

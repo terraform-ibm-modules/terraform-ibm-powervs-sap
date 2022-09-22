@@ -103,14 +103,14 @@ module "sap_systems" {
   powervs_netweaver_server_type          = local.powervs_netweaver_server_type
   powervs_netweaver_storage_config       = var.sap_netweaver_storage_config
 
-  configure_os         = var.configure_os
-  os_image_distro      = var.os_image_distro
-  access_host_or_ip    = var.access_host_or_ip
-  ssh_private_key      = var.ssh_private_key
-  proxy_host_or_ip     = var.proxy_host_or_ip
-  ntp_host_or_ip       = var.ntp_host_or_ip
-  dns_host_or_ip       = var.dns_host_or_ip
-  nfs_path             = var.nfs_path
-  nfs_client_directory = var.nfs_client_directory
-  sap_domain           = ""
+  configure_os          = var.configure_os
+  os_image_distro       = var.os_image_distro
+  access_host_or_ip     = var.access_host_or_ip
+  ssh_private_key       = var.ssh_private_key
+  proxy_host_or_ip_port = var.proxy_host_or_ip_port
+  ntp_host_or_ip        = var.ntp_host_or_ip
+  dns_host_or_ip        = var.dns_host_or_ip
+  nfs_path              = var.nfs_path
+  nfs_client_directory  = var.nfs_client_directory
+  sap_domain            = ""
 }

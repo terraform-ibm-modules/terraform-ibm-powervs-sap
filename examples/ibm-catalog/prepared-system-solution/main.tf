@@ -55,7 +55,7 @@ locals {
   management_network_name = local.powerinfra_output[0].powervs_management_network_name.value
   backup_network_name     = local.powerinfra_output[0].powervs_backup_network_name.value
   cloud_connection_count  = local.powerinfra_output[0].cloud_connection_count.value
-  proxy_host_or_ip        = local.powerinfra_output[0].squid_host_or_ip.value
+  proxy_host_or_ip_port   = "${local.powerinfra_output[0].squid_host_or_ip.value}:3128"
   ntp_host_or_ip          = local.powerinfra_output[0].ntp_host_or_ip.value
   dns_host_or_ip          = local.powerinfra_output[0].dns_host_or_ip.value
   nfs_path                = local.powerinfra_output[0].nfs_path.value
@@ -139,14 +139,14 @@ module "sap_systems" {
   powervs_netweaver_server_type          = local.powervs_netweaver_server_type
   powervs_netweaver_storage_config       = var.sap_netweaver_storage_config
 
-  configure_os         = var.configure_os
-  os_image_distro      = var.os_image_distro
-  access_host_or_ip    = local.access_host_or_ip
-  ssh_private_key      = var.ssh_private_key
-  proxy_host_or_ip     = local.proxy_host_or_ip
-  ntp_host_or_ip       = local.ntp_host_or_ip
-  dns_host_or_ip       = local.dns_host_or_ip
-  nfs_path             = local.nfs_path
-  nfs_client_directory = var.nfs_client_directory
-  sap_domain           = ""
+  configure_os          = var.configure_os
+  os_image_distro       = var.os_image_distro
+  access_host_or_ip     = local.access_host_or_ip
+  ssh_private_key       = var.ssh_private_key
+  proxy_host_or_ip_port = local.proxy_host_or_ip_port
+  ntp_host_or_ip        = local.ntp_host_or_ip
+  dns_host_or_ip        = local.dns_host_or_ip
+  nfs_path              = local.nfs_path
+  nfs_client_directory  = var.nfs_client_directory
+  sap_domain            = ""
 }

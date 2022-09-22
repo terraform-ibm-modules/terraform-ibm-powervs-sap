@@ -34,7 +34,7 @@ resource "null_resource" "perform_proxy_client_setup" {
     inline = [
       #######  SQUID Forward PROXY CLIENT SETUP ############
       "chmod +x /root/init_powervs.sh",
-      "/root/init_powervs.sh -p ${var.perform_proxy_client_setup["server_ip"]}:3128 -n ${var.perform_proxy_client_setup["no_proxy_env"]}",
+      "/root/init_powervs.sh -p ${var.perform_proxy_client_setup["server_ip_port"]} -n ${var.perform_proxy_client_setup["no_proxy_hosts"]}",
     ]
   }
 }
@@ -106,7 +106,7 @@ resource "null_resource" "connect_to_mgmt_svs" {
   client_config : {
     squid : {
       enable : ${var.perform_proxy_client_setup["enable"]},
-      squid_server_ip_port : '${var.perform_proxy_client_setup["server_ip"]}:3128',
+      squid_server_ip_port : '${var.perform_proxy_client_setup["server_ip_port"]}',
       no_proxy_hosts : '${var.perform_proxy_client_setup["no_proxy_hosts"]}'
     },
     ntp : {

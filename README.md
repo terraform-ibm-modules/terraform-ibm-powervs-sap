@@ -55,7 +55,7 @@ module "sap_systems" {
   os_image_distro                        = var.os_image_distro
   access_host_or_ip                      = var.access_host_or_ip
   ssh_private_key                        = var.ssh_private_key
-  proxy_host_or_ip                       = var.proxy_host_or_ip
+  proxy_host_or_ip_port                  = var.proxy_host_or_ip_port
   ntp_host_or_ip                         = var.ntp_host_or_ip
   dns_host_or_ip                         = var.dns_host_or_ip
   nfs_path                               = var.nfs_path
@@ -127,7 +127,7 @@ No resources.
 | <a name="input_powervs_share_storage_config"></a> [powervs\_share\_storage\_config](#input\_powervs\_share\_storage\_config) | File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk\_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths. | <pre>object({<br>    names      = string<br>    disks_size = string<br>    counts     = string<br>    tiers      = string<br>    paths      = string<br>  })</pre> | <pre>{<br>  "counts": "",<br>  "disks_size": "",<br>  "names": "",<br>  "paths": "",<br>  "tiers": ""<br>}</pre> | no |
 | <a name="input_powervs_sshkey_name"></a> [powervs\_sshkey\_name](#input\_powervs\_sshkey\_name) | Existing PowerVs SSH key name. | `string` | n/a | yes |
 | <a name="input_powervs_zone"></a> [powervs\_zone](#input\_powervs\_zone) | IBM Cloud PowerVS zone. | `string` | n/a | yes |
-| <a name="input_proxy_host_or_ip"></a> [proxy\_host\_or\_ip](#input\_proxy\_host\_or\_ip) | Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 | `string` | `""` | no |
+| <a name="input_proxy_host_or_ip_port"></a> [proxy\_host\_or\_ip\_port](#input\_proxy\_host\_or\_ip\_port) | Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port> | `string` | `""` | no |
 | <a name="input_sap_domain"></a> [sap\_domain](#input\_sap\_domain) | Domain name to be set. | `string` | `""` | no |
 | <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh\_public\_key'. Entered data must be in heredoc strings format (https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. | `string` | n/a | yes |
 

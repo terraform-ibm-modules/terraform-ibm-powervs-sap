@@ -46,17 +46,17 @@ variable "powervs_instance_storage_configs" {
 }
 
 variable "perform_proxy_client_setup" {
-  description = "Configures a PowerVS instance to have internet access by setting proxy on it."
+  description = "Configures a PowerVS instance to have internet access by setting proxy on it. E.g., 10.10.10.4:3128 <ip:port>"
   type = object(
     {
       enable         = bool
-      server_ip      = string
+      server_ip_port = string
       no_proxy_hosts = string
     }
   )
   default = {
     enable         = false
-    server_ip      = ""
+    server_ip_port = ""
     no_proxy_hosts = ""
   }
 }

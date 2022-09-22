@@ -198,8 +198,6 @@ variable "powervs_netweaver_storage_config" {
   }
 }
 
-
-
 #####################################################
 # PVS SAP instance Initialization
 #####################################################
@@ -226,8 +224,8 @@ variable "ssh_private_key" {
   sensitive   = true
 }
 
-variable "proxy_host_or_ip" {
-  description = "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128"
+variable "proxy_host_or_ip_port" {
+  description = "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>"
   type        = string
   default     = ""
 }

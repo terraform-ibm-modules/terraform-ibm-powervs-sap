@@ -18,12 +18,12 @@ sap_netweaver_cpu_number      = "0.5"
 sap_netweaver_memory_size     = "4"
 create_separate_fs_share      = false
 
-configure_os      = true
-access_host_or_ip = "13.116.81.120"
-proxy_host_or_ip  = "10.30.10.4"
-dns_host_or_ip    = "10.20.10.4"
-ntp_host_or_ip    = "10.20.10.4"
-nfs_path          = "10.20.10.4:/nfs"
+configure_os          = true
+access_host_or_ip     = "13.116.81.120"
+proxy_host_or_ip_port = "10.30.10.4:3128"
+dns_host_or_ip        = "10.20.10.4"
+ntp_host_or_ip        = "10.20.10.4"
+nfs_path              = "10.20.10.4:/nfs"
 
 ssh_private_key = <<-EOF
 EOF
