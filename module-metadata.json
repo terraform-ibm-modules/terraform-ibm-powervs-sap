@@ -34,7 +34,7 @@
     "nfs_client_directory": {
       "name": "nfs_client_directory",
       "type": "string",
-      "description": "NFS directory on PowerVS instances.",
+      "description": "NFS directory on PowerVS instances. Will be used only if nfs_server is setup in 'Power infrastructure for regulated industries'",
       "default": "/nfs",
       "pos": {
         "filename": "variables.tf",
@@ -391,7 +391,7 @@
     "ssh_private_key": {
       "name": "ssh_private_key",
       "type": "string",
-      "description": "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key'. Entered data must be in heredoc strings format (https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored.",
+      "description": "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs_sshkey_name'.",
       "required": true,
       "sensitive": true,
       "pos": {

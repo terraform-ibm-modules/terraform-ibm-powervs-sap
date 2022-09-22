@@ -219,7 +219,7 @@ variable "access_host_or_ip" {
 }
 
 variable "ssh_private_key" {
-  description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key'. Entered data must be in heredoc strings format (https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored."
+  description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs_sshkey_name'."
   type        = string
   sensitive   = true
 }
@@ -249,7 +249,7 @@ variable "nfs_path" {
 }
 
 variable "nfs_client_directory" {
-  description = "NFS directory on PowerVS instances."
+  description = "NFS directory on PowerVS instances. Will be used only if nfs_server is setup in 'Power infrastructure for regulated industries'"
   type        = string
   default     = "/nfs"
 }

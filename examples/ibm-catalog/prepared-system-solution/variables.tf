@@ -13,7 +13,7 @@ variable "powervs_zone" {
 }
 
 variable "ssh_private_key" {
-  description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key'. Entered data must be in [heredoc strings format] (https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. Read [here] more about SSH keys in IBM Cloud (https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
+  description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs_sshkey_name'."
   type        = string
   sensitive   = true
 }
@@ -36,13 +36,13 @@ variable "powervs_sap_network_cidr" {
 }
 
 variable "sap_hana_hostname" {
-  description = "SAP HANA hostname (non FQDN). If specified - will get the form of <prefix>-<sap_hana_hostname>."
+  description = "SAP HANA hostname (non FQDN). Will get the form of <prefix>-<sap_hana_hostname>."
   type        = string
   default     = "hana"
 }
 
 variable "sap_hana_profile" {
-  description = "SAP HANA profile to use. Must be one of the supported profiles. See XXX."
+  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs).Also ensure that sap_hana_additional_storage_config parameter is modified in order to provide a required filesystem sizes."
   type        = string
   default     = "cnp-2x64"
 }
@@ -54,7 +54,7 @@ variable "sap_netweaver_instance_number" {
 }
 
 variable "sap_netweaver_hostname" {
-  description = "SAP Netweaver hostname (non FQDN). If specified - will get the form of <prefix>-<sap_netweaver_hostname>-<number>."
+  description = "SAP Netweaver hostname (non FQDN). Will get the form of <prefix>-<sap_netweaver_hostname>-<number>."
   type        = string
   default     = "nw"
 }
@@ -124,7 +124,7 @@ variable "default_shared_fs_rhel_image" {
 }
 
 variable "nfs_client_directory" {
-  description = "NFS directory on PowerVS instances."
+  description = "NFS directory on PowerVS instances. Will be used only if nfs_server is setup in 'Power infrastructure for regulated industries'"
   type        = string
   default     = "/nfs"
 }
