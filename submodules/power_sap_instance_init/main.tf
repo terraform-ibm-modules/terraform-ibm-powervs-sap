@@ -107,7 +107,7 @@ resource "null_resource" "connect_to_mgmt_svs" {
     squid : {
       enable : ${var.perform_proxy_client_setup["enable"]},
       squid_server_ip_port : '${var.perform_proxy_client_setup["server_ip"]}:3128',
-      no_proxy_env : '${var.perform_proxy_client_setup["no_proxy_env"]}'
+      no_proxy_hosts : '${var.perform_proxy_client_setup["no_proxy_hosts"]}'
     },
     ntp : {
       enable : ${var.perform_ntp_client_setup["enable"]},

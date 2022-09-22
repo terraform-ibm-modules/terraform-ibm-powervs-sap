@@ -49,15 +49,15 @@ variable "perform_proxy_client_setup" {
   description = "Configures a PowerVS instance to have internet access by setting proxy on it."
   type = object(
     {
-      enable       = bool
-      server_ip    = string
-      no_proxy_env = string
+      enable         = bool
+      server_ip      = string
+      no_proxy_hosts = string
     }
   )
   default = {
-    enable       = false
-    server_ip    = ""
-    no_proxy_env = ""
+    enable         = false
+    server_ip      = ""
+    no_proxy_hosts = ""
   }
 }
 
