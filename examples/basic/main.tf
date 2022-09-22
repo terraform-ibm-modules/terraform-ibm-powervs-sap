@@ -1,5 +1,5 @@
 locals {
-  ibm_pvs_zone_region_map = {
+  ibm_powervs_zone_region_map = {
     "syd04"    = "syd"
     "syd05"    = "syd"
     "eu-de-1"  = "eu-de"
@@ -16,7 +16,7 @@ locals {
     "mon01"    = "mon"
   }
 
-  ibm_pvs_zone_cloud_region_map = {
+  ibm_powervs_zone_cloud_region_map = {
     "syd04"    = "au-syd"
     "syd05"    = "au-syd"
     "eu-de-1"  = "eu-de"
@@ -40,15 +40,15 @@ locals {
 
 # There are discrepancies between the region inputs on the powervs terraform resource, and the vpc ("is") resources
 provider "ibm" {
-  region           = lookup(local.ibm_pvs_zone_region_map, var.pvs_zone, null)
-  zone             = var.pvs_zone
+  region           = lookup(local.ibm_powervs_zone_region_map, var.powervs_zone, null)
+  zone             = var.powervs_zone
   ibmcloud_api_key = var.ibmcloud_api_key != null ? var.ibmcloud_api_key : null
 }
 
 provider "ibm" {
   alias            = "ibm-is"
-  region           = lookup(local.ibm_pvs_zone_cloud_region_map, var.pvs_zone, null)
-  zone             = var.pvs_zone
+  region           = lookup(local.ibm_powervs_zone_cloud_region_map, var.powervs_zone, null)
+  zone             = var.powervs_zone
   ibmcloud_api_key = var.ibmcloud_api_key != null ? var.ibmcloud_api_key : null
 }
 
@@ -57,32 +57,8 @@ provider "ibm" {
 #####################################################
 
 locals {
-
-  def_access_host_or_ip            = "not_used"
-  def_internet_services_host_or_ip = "not_used"
-  def_private_services_host_or_ip  = "not_used"
-
-  def_os_image_distro = "SLES"
-
-  squid_config = merge(var.squid_proxy_config, {
-    "squid_enable"      = var.configure_proxy
-    "server_host_or_ip" = var.squid_proxy_config["squid_proxy_host_or_ip"] != null && var.squid_proxy_config["squid_proxy_host_or_ip"] != "" ? var.squid_proxy_config["squid_proxy_host_or_ip"] : local.def_internet_services_host_or_ip
-  })
-  dns_forwarder_config = merge(var.dns_forwarder_config, {
-    "dns_enable"        = var.configure_dns_forwarder
-    "server_host_or_ip" = var.dns_forwarder_config["dns_forwarder_host_or_ip"] != null && var.dns_forwarder_config["dns_forwarder_host_or_ip"] != "" ? var.dns_forwarder_config["dns_forwarder_host_or_ip"] : local.def_private_services_host_or_ip
-  })
-  ntp_forwarder_config = merge(var.ntp_forwarder_config, {
-    "ntp_enable"        = var.configure_ntp_forwarder
-    "server_host_or_ip" = var.ntp_forwarder_config["ntp_forwarder_host_or_ip"] != null && var.ntp_forwarder_config["ntp_forwarder_host_or_ip"] != "" ? var.ntp_forwarder_config["ntp_forwarder_host_or_ip"] : local.def_private_services_host_or_ip
-  })
-  nfs_config = merge(var.nfs_server_config, {
-    "nfs_enable"        = var.configure_nfs_server
-    "server_host_or_ip" = var.nfs_server_config["nfs_server_host_or_ip"] != null && var.nfs_server_config["nfs_server_host_or_ip"] != "" ? var.nfs_server_config["nfs_server_host_or_ip"] : local.def_private_services_host_or_ip
-  })
-
-  pvs_service_name = "${var.prefix}-${var.pvs_service_name}"
-  pvs_sshkey_name  = "${var.prefix}-${var.pvs_ssh_key_name}"
+  powervs_service_name = "${var.prefix}-${var.powervs_zone}-${var.powervs_service_name}"
+  powervs_sshkey_name  = "${var.prefix}-${var.powervs_zone}-${var.powervs_sshkey_name}"
 }
 
 # Security Notice
@@ -98,7 +74,7 @@ resource "tls_private_key" "tls_key" {
 
 resource "ibm_is_ssh_key" "ssh_key" {
   provider   = ibm.ibm-is
-  name       = "${var.prefix}-${var.pvs_ssh_key_name}"
+  name       = local.powervs_sshkey_name
   public_key = trimspace(tls_private_key.tls_key.public_key_openssh)
 }
 
@@ -109,32 +85,37 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
-module "powervs_infratructure" {
-  source                   = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v1.6.0"
-  access_host_or_ip        = local.def_access_host_or_ip
-  pvs_zone                 = var.pvs_zone
-  ssh_private_key          = trimspace(tls_private_key.tls_key.private_key_openssh)
-  pvs_resource_group_name  = module.resource_group.resource_group_name
-  ssh_public_key           = ibm_is_ssh_key.ssh_key.public_key
-  reuse_cloud_connections  = var.reuse_cloud_connections
-  pvs_service_name         = local.pvs_service_name
-  tags                     = var.resource_tags
-  pvs_sshkey_name          = local.pvs_sshkey_name
-  pvs_management_network   = var.pvs_management_network
-  pvs_backup_network       = var.pvs_backup_network
-  transit_gateway_name     = var.transit_gateway_name
-  cloud_connection_count   = var.cloud_connection_count
-  cloud_connection_speed   = var.cloud_connection_speed
-  cloud_connection_gr      = var.cloud_connection_gr
-  cloud_connection_metered = var.cloud_connection_metered
-  squid_config             = local.squid_config
-  dns_forwarder_config     = local.dns_forwarder_config
-  ntp_forwarder_config     = local.ntp_forwarder_config
-  nfs_config               = local.nfs_config
+module "power_infrastructure" {
+  # Replace "main" with a GIT release version to lock into a specific release
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v4.0.0"
+
+  powervs_zone                = var.powervs_zone
+  powervs_resource_group_name = module.resource_group.resource_group_name
+  powervs_service_name        = local.powervs_service_name
+  tags                        = var.resource_tags
+  powervs_sshkey_name         = local.powervs_sshkey_name
+  ssh_public_key              = ibm_is_ssh_key.ssh_key.public_key
+  ssh_private_key             = trimspace(tls_private_key.tls_key.private_key_openssh)
+  access_host_or_ip           = var.access_host_or_ip
+  powervs_management_network  = var.powervs_management_network
+  powervs_backup_network      = var.powervs_backup_network
+  transit_gateway_name        = var.transit_gateway_name
+  reuse_cloud_connections     = var.reuse_cloud_connections
+  cloud_connection_count      = var.cloud_connection_count
+  cloud_connection_speed      = var.cloud_connection_speed
+  cloud_connection_gr         = var.cloud_connection_gr
+  cloud_connection_metered    = var.cloud_connection_metered
+  squid_config                = var.squid_config
+  dns_forwarder_config        = var.dns_forwarder_config
+  ntp_forwarder_config        = var.ntp_forwarder_config
+  nfs_config                  = var.nfs_config
+  perform_proxy_client_setup  = var.perform_proxy_client_setup
 }
 
 locals {
-  networks = [var.pvs_management_network["name"], var.pvs_backup_network["name"]]
+  powervs_sap_network_name          = "${var.prefix}-net"
+  powervs_share_number_of_instances = var.create_separate_fs_share ? 1 : 0
+  additional_networks               = [var.powervs_management_network["name"], var.powervs_backup_network["name"]]
 }
 
 #####################################################
@@ -142,40 +123,49 @@ locals {
 #####################################################
 
 module "sap_systems" {
-  depends_on                 = [module.powervs_infratructure]
-  source                     = "../../"
-  pvs_zone                   = var.pvs_zone
-  pvs_resource_group_name    = module.resource_group.resource_group_name
-  pvs_service_name           = local.pvs_service_name
-  pvs_sshkey_name            = local.pvs_sshkey_name
-  pvs_sap_network_name       = var.pvs_sap_network_name
-  pvs_sap_network_cidr       = var.pvs_sap_network_cidr
-  pvs_additional_networks    = local.networks
-  pvs_cloud_connection_count = var.cloud_connection_count
+  depends_on = [module.power_infrastructure]
+  source     = "../../"
 
-  pvs_share_number_of_instances  = var.pvs_sap_share_instance_config["number_of_instances"]
-  pvs_share_image_name           = var.pvs_sap_share_instance_config["sap_image_name"]
-  pvs_share_instance_name        = "${var.prefix}-${var.pvs_sap_share_instance_config["name-suffix"]}"
-  pvs_share_memory_size          = var.pvs_sap_share_instance_config["memory_size"]
-  pvs_share_number_of_processors = var.pvs_sap_share_instance_config["number_of_processors"]
-  pvs_share_cpu_proc_type        = var.pvs_sap_share_instance_config["cpu_proc_type"]
-  pvs_share_storage_config       = var.pvs_sap_share_storage_config
+  powervs_zone                   = var.powervs_zone
+  powervs_resource_group_name    = module.resource_group.resource_group_name
+  powervs_service_name           = local.powervs_service_name
+  powervs_sshkey_name            = local.powervs_sshkey_name
+  powervs_sap_network_name       = local.powervs_sap_network_name
+  powervs_sap_network_cidr       = var.powervs_sap_network_cidr
+  powervs_additional_networks    = local.additional_networks
+  powervs_cloud_connection_count = var.cloud_connection_count
 
-  pvs_hana_instance_name  = "${var.prefix}-${var.pvs_sap_hana_instance_config["name-suffix"]}"
-  pvs_hana_image_name     = var.pvs_sap_hana_instance_config["sap_image_name"]
-  pvs_hana_sap_profile_id = var.pvs_sap_hana_instance_config["sap_hana_profile_id"]
-  pvs_hana_storage_config = var.pvs_sap_hana_storage_config
+  powervs_share_instance_name        = var.sap_share_instance_config["hostname"]
+  powervs_share_image_name           = var.sap_share_instance_config["os_image_name"]
+  powervs_share_number_of_instances  = local.powervs_share_number_of_instances
+  powervs_share_number_of_processors = var.sap_share_instance_config["number_of_processors"]
+  powervs_share_memory_size          = var.sap_share_instance_config["memory_size"]
+  powervs_share_cpu_proc_type        = var.sap_share_instance_config["cpu_proc_type"]
+  powervs_share_server_type          = var.sap_share_instance_config["server_type"]
+  powervs_share_storage_config       = var.sap_share_storage_config
 
-  pvs_netweaver_number_of_instances  = var.pvs_sap_netweaver_instance_config["number_of_instances"]
-  pvs_netweaver_image_name           = var.pvs_sap_netweaver_instance_config["sap_image_name"]
-  pvs_netweaver_instance_name        = "${var.prefix}-${var.pvs_sap_netweaver_instance_config["name-suffix"]}"
-  pvs_netweaver_memory_size          = var.pvs_sap_netweaver_instance_config["memory_size"]
-  pvs_netweaver_number_of_processors = var.pvs_sap_netweaver_instance_config["number_of_processors"]
-  pvs_netweaver_cpu_proc_type        = var.pvs_sap_netweaver_instance_config["cpu_proc_type"]
-  pvs_netweaver_storage_config       = var.pvs_sap_netweaver_storage_config
+  powervs_hana_instance_name  = var.sap_hana_instance_config["hostname"]
+  powervs_hana_image_name     = var.sap_hana_instance_config["os_image_name"]
+  powervs_hana_sap_profile_id = var.sap_hana_instance_config["sap_profile_id"]
+  powervs_hana_storage_config = var.sap_hana_storage_config
 
-  access_host_or_ip = local.def_access_host_or_ip
-  ssh_private_key   = trimspace(tls_private_key.tls_key.private_key_openssh)
-  os_image_distro   = local.def_os_image_distro
-  configure_os      = false
+  powervs_netweaver_instance_name        = var.sap_netweaver_instance_config["hostname"]
+  powervs_netweaver_image_name           = var.sap_netweaver_instance_config["os_image_name"]
+  powervs_netweaver_number_of_instances  = var.sap_netweaver_instance_config["number_of_instances"]
+  powervs_netweaver_number_of_processors = var.sap_netweaver_instance_config["number_of_processors"]
+  powervs_netweaver_memory_size          = var.sap_netweaver_instance_config["memory_size"]
+  powervs_netweaver_cpu_proc_type        = var.sap_netweaver_instance_config["cpu_proc_type"]
+  powervs_netweaver_server_type          = var.sap_netweaver_instance_config["server_type"]
+  powervs_netweaver_storage_config       = var.sap_netweaver_storage_config
+
+  configure_os          = var.configure_os
+  os_image_distro       = var.os_image_distro
+  access_host_or_ip     = var.access_host_or_ip
+  ssh_private_key       = trimspace(tls_private_key.tls_key.private_key_openssh)
+  proxy_host_or_ip_port = var.squid_config["server_host_or_ip"]
+  ntp_host_or_ip        = var.ntp_forwarder_config["server_host_or_ip"]
+  dns_host_or_ip        = var.dns_forwarder_config["server_host_or_ip"]
+  nfs_path              = var.nfs_config["nfs_directory"]
+  nfs_client_directory  = var.nfs_client_directory
+  sap_domain            = ""
 }

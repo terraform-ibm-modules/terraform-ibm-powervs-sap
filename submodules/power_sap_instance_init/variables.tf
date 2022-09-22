@@ -30,7 +30,7 @@ variable "sap_solutions" {
 }
 
 
-variable "pvs_instance_storage_configs" {
+variable "powervs_instance_storage_configs" {
   description = "List of storage configurations for PowerVS instances defined in 'target_server_ips'. The order should match to 'target_server_ips'. Storage configurations have following form: '{names = \"\" disks_size = \"\" counts = \"\" tiers = \"\" paths = \"\" wwns = \"\"}'"
   type = list(object(
     {
@@ -46,18 +46,18 @@ variable "pvs_instance_storage_configs" {
 }
 
 variable "perform_proxy_client_setup" {
-  description = "Configures a PowerVS instance to have internet access by setting proxy on it."
+  description = "Configures a PowerVS instance to have internet access by setting proxy on it. E.g., 10.10.10.4:3128 <ip:port>"
   type = object(
     {
-      enable       = bool
-      server_ip    = string
-      no_proxy_env = string
+      enable         = bool
+      server_ip_port = string
+      no_proxy_hosts = string
     }
   )
   default = {
-    enable       = false
-    server_ip    = ""
-    no_proxy_env = ""
+    enable         = false
+    server_ip_port = ""
+    no_proxy_hosts = ""
   }
 }
 

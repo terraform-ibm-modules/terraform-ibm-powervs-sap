@@ -1,5 +1,5 @@
 #####################################################
-# powervs image import Module
+# PowerVs SAP Instance Module
 # Copyright 2022 IBM
 #####################################################
 
@@ -8,7 +8,7 @@ terraform {
   required_providers {
     ibm = {
       source  = "IBM-Cloud/ibm"
-      version = ">=1.43.0"
+      version = "=1.45.1"
     }
   }
 }

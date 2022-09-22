@@ -1,163 +1,74 @@
-#####################################################
-# Parameters for the configuraion of the PowerVS infrastructure layer
-# Copyright 2022 IBM
-#####################################################
-
-variable "ibmcloud_api_key" {
-  description = "IBM Cloud Api Key"
+variable "prerequisite_workspace_id" {
+  description = "IBM Cloud Schematics workspace ID of an existing Secure infrastructure on VPC for regulated industries with VSIs deployment. If you do not yet have an existing deployment, click [here](https://cloud.ibm.com/catalog/content/slz-vpc-with-vsis-a87ed9a5-d130-47a3-980b-5ceb1d4f9280-global#create) to create one. Please note: a specific  configuration is needed for the deployment. You may find it [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/tree/main/examples/ibm-catalog/standard-solution/slz_json_configs_for_powervs/vpc_landscape_config.json). Copy and paste that configuration into the `override_json_string` deployment value."
   type        = string
-  sensitive   = true
 }
 
-variable "pvs_zone" {
-  description = "IBM Cloud PowerVS Zone. Valid values: sao01,osa21,tor01,us-south,dal12,us-east,tok04,lon04,lon06,eu-de-1,eu-de-2,syd04,syd05"
+variable "powervs_zone" {
+  description = "IBM Cloud data center location where IBM PowerVS infrastructure will be created."
   type        = string
   validation {
-    condition     = contains(["syd04", "syd05", "eu-de-1", "eu-de-2", "lon04", "lon06", "wdc04", "us-east", "us-south", "dal12", "dal13", "tor01", "tok04", "osa21", "sao01", "mon01"], var.pvs_zone)
-    error_message = "Supported values for pvs_zone are: syd04,syd05,eu-de-1,eu-de-2,lon04,lon06,wdc04,us-east,us-south,dal12,dal13,tor01,tok04,osa21,sao01,mon01"
+    condition     = contains(["syd04", "syd05", "eu-de-1", "eu-de-2", "lon04", "lon06", "wdc04", "us-east", "us-south", "dal12", "dal13", "tor01", "tok04", "osa21", "sao01", "mon01"], var.powervs_zone)
+    error_message = "Supported values for powervs_zone are: syd04, syd05, eu-de-1, eu-de-2, lon04, lon06, wdc04, us-east, us-south, dal12, dal13, tor01, tok04, osa21, sao01, mon01."
   }
 }
 
-variable "resource_group_name" {
-  type        = string
-  description = "An existing resource group name to use for this example"
-}
-
-variable "pvs_service_name" {
-  description = "Name of IBM Cloud PowerVS service which will be created"
-  type        = string
-}
-
-variable "pvs_sshkey_name" {
-  description = "Name of IBM Cloud PowerVS SSH Key which will be created"
-  type        = string
-}
-
 variable "ssh_private_key" {
-  description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'pvs_sshkey_name'."
+  description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs_sshkey_name'."
   type        = string
-}
-
-variable "additional_networks" {
-  description = "Additional existing private networks that will be attached to IBM PowerVS instances."
-  type        = list(string)
-  default     = ["mgmt_net", "bkp_net"]
-}
-
-variable "cloud_connection_count" {
-  description = "Required number of Cloud connections which will be created/Reused. Maximum is 2 per location"
-  type        = string
-  default     = 2
-}
-
-variable "access_host_or_ip" {
-  description = "Jump/Access server public host name or IP address. This host name/IP is used to reach the landscape."
-  type        = string
-}
-
-variable "proxy_host_or_ip" {
-  description = "Private IP address of proxy server."
-  type        = string
-}
-
-variable "dns_host_or_ip" {
-  description = "Private IP address of DNS server, resolver or forwarder."
-  type        = string
-  default     = ""
-}
-
-variable "ntp_host_or_ip" {
-  description = "Private IP address of NTP time server or forwarder."
-  type        = string
-  default     = ""
-}
-
-variable "nfs_host_or_ip" {
-  description = "Private IP address of NFS server."
-  type        = string
-  default     = ""
-}
-
-variable "nfs_path" {
-  description = "NFS directory on NFS server."
-  type        = string
-  default     = "/nfs"
-}
-
-variable "nfs_client_directory" {
-  description = "NFS directory on PowerVS instances."
-  type        = string
-  default     = "/nfs"
-}
-
-variable "prefix" {
-  description = "Prefix for resources which will be created."
-  type        = string
-  default     = "pvs"
-}
-
-variable "sap_domain_name" {
-  description = "Default network domain name for all IBM powerVS instances. May be overwritten by individual instance configurations."
-  type        = string
-}
-
-variable "pvs_sap_network_cidr" {
-  description = "Network range for separate SAP network. E.g., '10.111.1.0/24'"
-  type        = string
+  sensitive   = true
 }
 
 variable "os_image_distro" {
   description = "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
   type        = string
+  default     = "SLES"
+}
+
+variable "prefix" {
+  description = "Unique prefix for resources to be created (e.g., SAP system name)."
+  type        = string
+}
+
+variable "powervs_sap_network_cidr" {
+  description = "Network range for separate SAP network. E.g., '10.111.1.0/24'"
+  type        = string
+  default     = "10.111.1.0/24"
 }
 
 variable "sap_hana_hostname" {
-  description = "SAP HANA hostname (non FQDN). If not specified - will get the form of <prefix>-hana."
+  description = "SAP HANA hostname (non FQDN). Will get the form of <prefix>-<sap_hana_hostname>."
   type        = string
-}
-
-variable "sap_hana_ip" {
-  description = "Optional SAP HANA IP address (in SAP system network)."
-  type        = string
-  default     = ""
+  default     = "hana"
 }
 
 variable "sap_hana_profile" {
-  description = "SAP HANA profile to use. Must be one of the supported profiles."
+  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs).Also ensure that sap_hana_additional_storage_config parameter is modified in order to provide a required filesystem sizes."
   type        = string
-}
-
-variable "calculate_hana_fs_sizes_automatically" {
-  description = "Specify if SAP HANA file system sizes should be calculated automatically instead of using specification defined in optional parameters."
-  type        = bool
-  default     = true
+  default     = "cnp-2x64"
 }
 
 variable "sap_netweaver_instance_number" {
-  description = "Number of SAP for SAP NetWeaver instances that should be created."
+  description = "Number of SAP NetWeaver instances that should be created."
   type        = number
   default     = 1
 }
 
 variable "sap_netweaver_hostname" {
-  description = "Comma separated list of SAP Netweaver hostnames (non FQDN). If not specified - will get the form of <prefix>-nw-<number>."
+  description = "SAP Netweaver hostname (non FQDN). Will get the form of <prefix>-<sap_netweaver_hostname>-<number>."
   type        = string
-}
-
-variable "sap_netweaver_ips" {
-  description = "List of optional SAP NetWeaver IP addresses (in SAP system network)."
-  type        = list(string)
-  default     = []
-}
-
-variable "sap_netweaver_memory_size" {
-  description = "Memory size for each SAP NetWeaver instance."
-  type        = string
+  default     = "nw"
 }
 
 variable "sap_netweaver_cpu_number" {
   description = "Number of CPUs for each SAP NetWeaver instance."
   type        = string
+  default     = "0.5"
+}
+
+variable "sap_netweaver_memory_size" {
+  description = "Memory size for each SAP NetWeaver instance."
+  type        = string
+  default     = "4"
 }
 
 variable "create_separate_fs_share" {
@@ -165,6 +76,16 @@ variable "create_separate_fs_share" {
   type        = bool
   default     = false
 }
+
+variable "configure_os" {
+  description = "Specify if OS on PowerVS instances should be configure for SAP or if only PowerVS instances should be created."
+  type        = bool
+  default     = true
+}
+
+#####################################################
+# Optional Parameters
+#####################################################
 
 variable "default_hana_sles_image" {
   description = "Default SuSE Linux image to use for SAP HANA PowerVS instances."
@@ -202,10 +123,11 @@ variable "default_shared_fs_rhel_image" {
   default     = "RHEL8-SP4-SAP-NETWEAVER"
 }
 
-#####################################################
-# Parameters for the SAP on PowerVS deployment layer
-# Copyright 2022 IBM
-#####################################################
+variable "nfs_client_directory" {
+  description = "NFS directory on PowerVS instances. Will be used only if nfs_server is setup in 'Power infrastructure for regulated industries'"
+  type        = string
+  default     = "/nfs"
+}
 
 variable "sap_hana_instance_config" {
   description = "SAP HANA PowerVS instance configuration. If data is specified here - will replace other input."
@@ -329,23 +251,9 @@ variable "sap_netweaver_storage_config" {
   }
 }
 
-variable "ibm_pvs_zone_region_map" {
-  description = "Map of IBM Power VS zone to the region of PowerVS Infrastructure"
-  type        = map(any)
-  default = {
-    "syd04"    = "syd"
-    "syd05"    = "syd"
-    "eu-de-1"  = "eu-de"
-    "eu-de-2"  = "eu-de"
-    "lon04"    = "lon"
-    "lon06"    = "lon"
-    "tok04"    = "tok"
-    "us-east"  = "us-east"
-    "us-south" = "us-south"
-    "dal12"    = "us-south"
-    "tor01"    = "tor"
-    "osa21"    = "osa"
-    "sao01"    = "sao"
-    "mon01"    = "mon"
-  }
+variable "ibmcloud_api_key" {
+  description = "IBM Cloud Api Key"
+  type        = string
+  default     = null
+  sensitive   = true
 }
