@@ -17,7 +17,7 @@ provider "ibm" {
 }
 
 module "sap_systems" {
-  source                     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap.git?ref=main"
+  source                                 = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap.git?ref=main"
   powervs_zone                           = var.powervs_zone
   powervs_resource_group_name            = var.resource_group_name
   powervs_service_name                   = var.powervs_service_name
@@ -69,7 +69,6 @@ module "sap_systems" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.43.0 |
 
