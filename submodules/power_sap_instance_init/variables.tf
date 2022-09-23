@@ -22,6 +22,7 @@ variable "target_server_ips" {
 variable "ssh_private_key" {
   description = "Private Key to configure Instance, Will not be uploaded to server."
   type        = string
+  sensitive   = true
 }
 
 variable "sap_solutions" {
