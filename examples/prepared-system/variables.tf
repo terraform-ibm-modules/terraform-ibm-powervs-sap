@@ -37,6 +37,7 @@ variable "prefix" {
 variable "ssh_private_key" {
   description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key'. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. Read [here](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys) more about SSH keys in IBM Cloud ."
   type        = string
+  sensitive   = true
 }
 
 variable "additional_networks" {

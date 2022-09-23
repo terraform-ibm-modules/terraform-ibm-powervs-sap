@@ -8,6 +8,10 @@ The PowerVS SAP system module automates the following tasks:
 - Optionally connects all created PowerVS instances to NTP and/or DNS forwarder specified by IP address or host name
 - Optionally configures on all created PowerVS instances a shared NFS directory provided by NFS server specified by IP address or host name
 
+Following limitations currently apply:
+- The name of SAP system network should be unique and might not be reused. If you destroy existing system and recreate it again, you must use another network name.
+- Only SLES15 SP3 as operating system is supported
+
 ## Example Usage
 ```hcl
 provider "ibm" {
