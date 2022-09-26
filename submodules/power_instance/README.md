@@ -1,11 +1,64 @@
-# Module pvs-sap-instance
+# Module power_instance
+This module creates and configures a PowerVS instance for SAP in the Power Virtual Server service of choice. The instances can be created for different use cases like HANA, Netweaver etc based on the inputs provided like image, profile etc.
 
-This module creates an instance on PowerVS, Creates volumes, attaches volumes and attaches private network
+## Prerequisites
+- Installation of 'Secure infrastructure on VPC for regulated industries' catalog provision of version v1.7.1 or above.
+- Installation of 'Power infrastructure for regulated industries' catalog provision of version v4.0.0 or above.
 
-## Example Usage
+## Usage
+```hcl
+provider "ibm" {
+  region           = var.powervs_region
+  zone             = var.powervs_zone
+  ibmcloud_api_key = var.ibmcloud_api_key != null ? var.ibmcloud_api_key : null
+}
+
+module "share_fs_instance" {
+  count  = var.powervs_share_number_of_instances
+
+  powervs_zone                 = var.powervs_zone
+  powervs_resource_group_name  = var.powervs_resource_group_name
+  powervs_service_name         = var.powervs_service_name
+  powervs_instance_name        = var.powervs_share_instance_name
+  powervs_sshkey_name          = var.powervs_sshkey_name
+  powervs_os_image_name        = var.powervs_share_image_name
+  powervs_server_type          = var.powervs_share_server_type
+  powervs_cpu_proc_type        = var.powervs_share_cpu_proc_type
+  powervs_number_of_processors = var.powervs_share_number_of_processors
+  powervs_memory_size          = var.powervs_share_memory_size
+  powervs_networks             = var.powervs_additional_networks
+  powervs_storage_config       = var.powervs_share_storage_config
+}
+
+module "sap_hana_instance" {
+  powervs_zone                = var.powervs_zone
+  powervs_resource_group_name = var.powervs_resource_group_name
+  powervs_service_name        = var.powervs_service_name
+  powervs_instance_name       = var.powervs_hana_instance_name
+  powervs_sshkey_name         = var.powervs_sshkey_name
+  powervs_os_image_name       = var.powervs_hana_image_name
+  powervs_sap_profile_id      = var.powervs_hana_sap_profile_id
+  powervs_networks            = concat(var.powervs_additional_networks, [var.powervs_sap_network_name])
+  powervs_storage_config      = var.powervs_hana_storage_config
+}
+
+module "sap_netweaver_instance" {
+
+  count                        = var.powervs_netweaver_number_of_instances
+  powervs_zone                 = var.powervs_zone
+  powervs_resource_group_name  = var.powervs_resource_group_name
+  powervs_service_name         = var.powervs_service_name
+  powervs_instance_name        = "${var.powervs_netweaver_instance_name}-${count.index + 1}"
+  powervs_sshkey_name          = var.powervs_sshkey_name
+  powervs_os_image_name        = var.powervs_netweaver_image_name
+  powervs_server_type          = var.powervs_netweaver_server_type
+  powervs_cpu_proc_type        = var.powervs_netweaver_cpu_proc_type
+  powervs_number_of_processors = var.powervs_netweaver_number_of_processors
+  powervs_memory_size          = var.powervs_netweaver_memory_size
+  powervs_networks             = concat(var.powervs_additional_networks, [var.powervs_sap_network_name])
+  powervs_storage_config       = var.powervs_netweaver_storage_config
+}
 ```
-```
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
