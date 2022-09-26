@@ -23,32 +23,16 @@ module "create_sap_network" {
 }
 ```
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.1 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.43.0 |
-| <a name="requirement_tls"></a> [tls](#requirement\_tls) | 4.0.1 |
 
 ## Modules
 
 No modules.
-
-## Inputs
-
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_powervs_zone"></a> [powervs\_zone](#input\_powervs\_zone) | IBM Cloud PowerVS zone. | `string` | n/a | yes |
-| <a name="input_powervs_resource_group_name"></a> [powervs\_resource\_group\_name](#input\_powervs\_resource\_group\_name) | Existing IBM Cloud resource group name. | `string` | n/a | yes |
-| <a name="input_powervs_service_name"></a> [powervs\_service\_name](#input\_powervs\_service\_name) | Existing Name of the PowerVS service. | `string` | n/a | yes |
-| <a name="input_powervs_sap_network_name"></a> [powervs\_sap\_network\_name](#input\_powervs\_sap\_network\_name) | Name for new network for SAP system | `string` | n/a | yes |
-| <a name="input_powervs_sap_network_cidr"></a> [powervs\_sap\_network\_cidr](#input\_powervs\_sap\_network\_cidr) | CIDR for new network for SAP system | `string` | n/a | yes |
-
-## Outputs
-
-No outputs.
 
 ## Resources
 
@@ -58,13 +42,17 @@ No outputs.
 | [ibm_resource_group.resource_group_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/resource_group) | data source |
 | [ibm_resource_instance.powervs_service_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
 
+## Inputs
 
-## Usage
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_powervs_resource_group_name"></a> [powervs\_resource\_group\_name](#input\_powervs\_resource\_group\_name) | Existing IBM Cloud resource group name. | `string` | n/a | yes |
+| <a name="input_powervs_sap_network_cidr"></a> [powervs\_sap\_network\_cidr](#input\_powervs\_sap\_network\_cidr) | CIDR for new network for SAP system | `string` | n/a | yes |
+| <a name="input_powervs_sap_network_name"></a> [powervs\_sap\_network\_name](#input\_powervs\_sap\_network\_name) | Name for new network for SAP system | `string` | n/a | yes |
+| <a name="input_powervs_service_name"></a> [powervs\_service\_name](#input\_powervs\_service\_name) | Existing Name of the PowerVS service. | `string` | n/a | yes |
+| <a name="input_powervs_zone"></a> [powervs\_zone](#input\_powervs\_zone) | IBM Cloud PowerVS zone. | `string` | n/a | yes |
 
-terraform apply -var-file="input.tfvars"
+## Outputs
 
-## Note
-
-For all optional fields, default values (Eg: `null`) are given in variable.tf file. User can configure the same by overwriting with appropriate values.
-
+No outputs.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
