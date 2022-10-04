@@ -87,7 +87,7 @@ module "resource_group" {
 
 module "power_infrastructure" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v4.1.0"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v4.1.1"
 
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = module.resource_group.resource_group_name
