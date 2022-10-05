@@ -8,7 +8,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 216
+        "line": 220
       }
     },
     "configure_os": {
@@ -18,7 +18,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 205
+        "line": 209
       }
     },
     "dns_host_or_ip": {
@@ -28,7 +28,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 239
+        "line": 243
       }
     },
     "nfs_client_directory": {
@@ -38,7 +38,7 @@
       "default": "/nfs",
       "pos": {
         "filename": "variables.tf",
-        "line": 251
+        "line": 255
       }
     },
     "nfs_path": {
@@ -48,7 +48,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 245
+        "line": 249
       }
     },
     "ntp_host_or_ip": {
@@ -58,7 +58,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 233
+        "line": 237
       }
     },
     "os_image_distro": {
@@ -68,7 +68,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 211
+        "line": 215
       }
     },
     "powervs_additional_networks": {
@@ -78,7 +78,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 31
+        "line": 35
       }
     },
     "powervs_cloud_connection_count": {
@@ -88,7 +88,7 @@
       "default": 2,
       "pos": {
         "filename": "variables.tf",
-        "line": 36
+        "line": 40
       }
     },
     "powervs_hana_image_name": {
@@ -98,7 +98,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 112
+        "line": 116
       }
     },
     "powervs_hana_instance_name": {
@@ -108,7 +108,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 107
+        "line": 111
       }
     },
     "powervs_hana_sap_profile_id": {
@@ -117,7 +117,7 @@
       "description": "SAP PROFILE ID. If this is mentioned then Memory, processors, proc_type and sys_type will not be taken into account.",
       "pos": {
         "filename": "variables.tf",
-        "line": 117
+        "line": 121
       }
     },
     "powervs_hana_storage_config": {
@@ -133,7 +133,7 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 123
+        "line": 127
       }
     },
     "powervs_netweaver_cpu_proc_type": {
@@ -143,7 +143,7 @@
       "default": "shared",
       "pos": {
         "filename": "variables.tf",
-        "line": 171
+        "line": 175
       }
     },
     "powervs_netweaver_image_name": {
@@ -153,7 +153,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 150
+        "line": 154
       }
     },
     "powervs_netweaver_instance_name": {
@@ -163,7 +163,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 145
+        "line": 149
       }
     },
     "powervs_netweaver_memory_size": {
@@ -173,7 +173,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 166
+        "line": 170
       }
     },
     "powervs_netweaver_number_of_instances": {
@@ -183,7 +183,7 @@
       "default": 1,
       "pos": {
         "filename": "variables.tf",
-        "line": 155
+        "line": 159
       }
     },
     "powervs_netweaver_number_of_processors": {
@@ -193,7 +193,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 161
+        "line": 165
       }
     },
     "powervs_netweaver_server_type": {
@@ -203,7 +203,7 @@
       "default": "s922",
       "pos": {
         "filename": "variables.tf",
-        "line": 177
+        "line": 181
       }
     },
     "powervs_netweaver_storage_config": {
@@ -219,7 +219,7 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 183
+        "line": 187
       }
     },
     "powervs_resource_group_name": {
@@ -229,7 +229,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 6
+        "line": 10
       }
     },
     "powervs_sap_network_cidr": {
@@ -239,7 +239,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 26
+        "line": 30
       }
     },
     "powervs_sap_network_name": {
@@ -249,7 +249,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 21
+        "line": 25
       }
     },
     "powervs_service_name": {
@@ -259,7 +259,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 11
+        "line": 15
       }
     },
     "powervs_share_cpu_proc_type": {
@@ -269,7 +269,7 @@
       "default": "shared",
       "pos": {
         "filename": "variables.tf",
-        "line": 73
+        "line": 77
       }
     },
     "powervs_share_image_name": {
@@ -279,7 +279,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 51
+        "line": 55
       }
     },
     "powervs_share_instance_name": {
@@ -289,7 +289,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 46
+        "line": 50
       }
     },
     "powervs_share_memory_size": {
@@ -299,7 +299,7 @@
       "default": 2,
       "pos": {
         "filename": "variables.tf",
-        "line": 67
+        "line": 71
       }
     },
     "powervs_share_number_of_instances": {
@@ -309,7 +309,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 56
+        "line": 60
       }
     },
     "powervs_share_number_of_processors": {
@@ -319,7 +319,7 @@
       "default": 0.5,
       "pos": {
         "filename": "variables.tf",
-        "line": 61
+        "line": 65
       }
     },
     "powervs_share_server_type": {
@@ -329,7 +329,7 @@
       "default": "s922",
       "pos": {
         "filename": "variables.tf",
-        "line": 79
+        "line": 83
       }
     },
     "powervs_share_storage_config": {
@@ -345,7 +345,7 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 85
+        "line": 89
       }
     },
     "powervs_sshkey_name": {
@@ -355,7 +355,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 16
+        "line": 20
       }
     },
     "powervs_zone": {
@@ -375,7 +375,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 227
+        "line": 231
       }
     },
     "sap_domain": {
@@ -385,7 +385,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 257
+        "line": 261
       }
     },
     "ssh_private_key": {
@@ -396,7 +396,7 @@
       "sensitive": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 221
+        "line": 225
       }
     }
   },
