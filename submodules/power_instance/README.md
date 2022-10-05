@@ -93,7 +93,7 @@ No modules.
 | <a name="input_powervs_cpu_proc_type"></a> [powervs\_cpu\_proc\_type](#input\_powervs\_cpu\_proc\_type) | Dedicated or shared processors | `string` | `null` | no |
 | <a name="input_powervs_instance_name"></a> [powervs\_instance\_name](#input\_powervs\_instance\_name) | Name of instance which will be created | `string` | n/a | yes |
 | <a name="input_powervs_memory_size"></a> [powervs\_memory\_size](#input\_powervs\_memory\_size) | Amount of memory | `string` | `null` | no |
-| <a name="input_powervs_networks"></a> [powervs\_networks](#input\_powervs\_networks) | Existing map of subnet names and IPs to be attached to the node. First network has to be a management network. If IP is null, the address will be generated. | `list(string)` | <pre>[<br>  "mgmt_net",<br>  "backup_net"<br>]</pre> | no |
+| <a name="input_powervs_networks"></a> [powervs\_networks](#input\_powervs\_networks) | Existing map of subnet names and IPs to be attached to the node. First network has to be a management network. If IP is null, the address will be generated. | `list(string)` | n/a | yes |
 | <a name="input_powervs_number_of_processors"></a> [powervs\_number\_of\_processors](#input\_powervs\_number\_of\_processors) | Number of processors | `string` | `null` | no |
 | <a name="input_powervs_os_image_name"></a> [powervs\_os\_image\_name](#input\_powervs\_os\_image\_name) | Image Name for PowerVS Instance | `string` | n/a | yes |
 | <a name="input_powervs_os_image_storage_type"></a> [powervs\_os\_image\_storage\_type](#input\_powervs\_os\_image\_storage\_type) | Storage type for OS | `string` | `"tier3"` | no |

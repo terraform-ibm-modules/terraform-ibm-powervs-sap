@@ -27,7 +27,6 @@ variable "powervs_sshkey_name" {
 variable "prefix" {
   description = "Prefix for resources which will be created."
   type        = string
-  default     = "pvs"
 }
 
 variable "ssh_private_key" {
@@ -57,7 +56,6 @@ variable "powervs_sap_network_cidr" {
 variable "os_image_distro" {
   description = "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
   type        = string
-  default     = "SLES"
 }
 
 variable "sap_hana_hostname" {
