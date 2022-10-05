@@ -5,7 +5,7 @@
 
 Help() {
   # Display Help
-  echo "Configures proxy on client and Installs ansible"
+  echo "Configures squid proxy on client, Registers OS, Installs (ansible, awscli) "
   echo
   echo "Syntax: scriptTemplate [ -p | -n | -h | -i]"
   echo "options:"
@@ -81,13 +81,15 @@ fi
 # SLES Setup                              #
 ###########################################
 if [ "$OS_DETECTED" == "SLES" ]; then
+
   FILE="/etc/bash.bashrc"
+
   if [[ -n $no_proxy_ip ]]; then
     grep -qx "export no_proxy=$no_proxy_ip" "$FILE" || echo "export no_proxy=$no_proxy_ip" >>"$FILE"
     source /etc/bash.bashrc
   fi
-  if [[ $proxy_ip_and_port =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+$ ]]; then
 
+  if [[ $proxy_ip_and_port =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+$ ]]; then
     #######  SQUID Forward PROXY CLIENT SETUP ############
     echo "Proxy Server IP:  $proxy_ip_and_port"
     echo "Setting exports in /etc/bash.bashrc file On SLES"
@@ -97,7 +99,7 @@ if [ "$OS_DETECTED" == "SLES" ]; then
     grep -qx "export HTTPS_PROXY=http://$proxy_ip_and_port" "$FILE" || echo "export HTTPS_PROXY=http://$proxy_ip_and_port" >>"$FILE"
     source /etc/bash.bashrc
 
-    ###### Checking if system is registered, if not subscription is done if the instance is ppc64le. This section is only valid for ppc64le instances and not VSI
+    ###### Checking if system is registered. Subscription is done when not registered.
     OS_Activated="$(SUSEConnect --status | grep -ci "\"status\":\"Registered\"")"
     if [ "$OS_Activated" -ge 1 ]; then
       echo "OS is Registered"
@@ -117,6 +119,7 @@ if [ "$OS_DETECTED" == "SLES" ]; then
           count=$((count + 1))
         done
       fi
+
       ##### check if the system is a HANA or Netweaver VM, should be a ppc64le VM
       if [[ "$ARCH" == "ppc64le" ]]; then
         SUSEConnect --de-register
@@ -138,10 +141,12 @@ if [ "$OS_DETECTED" == "SLES" ]; then
           sleep 60
         done
       fi
+
       if [[ $count -gt 15 ]]; then
         echo "Timeout: SLES registration process failed, or still ongoing"
         exit 1
       fi
+
       Activation_status="$(SUSEConnect --status | grep -ci "error")"
       if [ "$Activation_status" != 0 ]; then
         echo "OS activation Failed"
@@ -149,7 +154,8 @@ if [ "$OS_DETECTED" == "SLES" ]; then
       fi
     fi
   fi
-  ##### if -i flag  is passed as argument, install ansible, awscli packages
+
+  ##### if -i flag  is passed as argument, install ansible, awscli packages.
   if [ "$install_packages" == true ]; then
     ##### Install Ansible and awscli ####
     ##### Activating SuSE packages
@@ -157,6 +163,7 @@ if [ "$OS_DETECTED" == "SLES" ]; then
     ARCH=$(uname -p)
     SUSEConnect -p PackageHub/"${VERSION_ID}"/"${ARCH}"
     SUSEConnect -p sle-module-public-cloud/"${VERSION_ID}"/"${ARCH}"
+    zypper --gpg-auto-import-keys ref
     zypper install -y ansible
     zypper install -y aws-cli
     ##### Verify if each of above packages got installed successfully
@@ -171,17 +178,21 @@ if [ "$OS_DETECTED" == "SLES" ]; then
     fi
   fi
 fi
+
 ###########################################
 # RHEL Setup                              #
 ###########################################
 if [ "$OS_DETECTED" == "RHEL" ]; then
+
   FILE="/etc/bashrc"
+
   if [[ -n $no_proxy_ip ]]; then
     grep -qx "export no_proxy=$no_proxy_ip" "$FILE" || echo "export no_proxy=$no_proxy_ip" >>"$FILE"
     source /etc/bashrc
   fi
-  if [[ $proxy_ip_and_port =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+$ ]]; then
 
+  if [[ $proxy_ip_and_port =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+$ ]]; then
+    #######  SQUID Forward PROXY CLIENT SETUP ############
     echo "Setting exports in /etc/bashrc and /etc/dnf file On RHEL"
     grep -qx "export http_proxy=http://$proxy_ip_and_port" "$FILE" || echo "export http_proxy=http://$proxy_ip_and_port" >>"$FILE"
     grep -qx "export https_proxy=http://$proxy_ip_and_port" "$FILE" || echo "export https_proxy=http://$proxy_ip_and_port" >>"$FILE"
@@ -189,6 +200,8 @@ if [ "$OS_DETECTED" == "RHEL" ]; then
     grep -qx "export HTTPS_PROXY=http://$proxy_ip_and_port" "$FILE" || echo "export HTTPS_PROXY=http://$proxy_ip_and_port" >>"$FILE"
     grep -qx "proxy=http://$proxy_ip_and_port" /etc/dnf/dnf.conf || echo "proxy=http://$proxy_ip_and_port" >>/etc/dnf/dnf.conf
     source /etc/bashrc
+
+    ###### Checking if system is registered. Subscription is done when not registered.
     OS_Activated="$(subscription-manager status | grep -ic "Overall Status: Current")"
     if [ "$OS_Activated" -ge 1 ]; then
       echo "OS is Registered"
@@ -208,6 +221,7 @@ if [ "$OS_DETECTED" == "RHEL" ]; then
           count=$((count + 1))
         done
       fi
+
       ##### check if the system is a HANA or Netweaver VM, should be a ppc64le VM
       if [[ "$ARCH" == "ppc64le" ]]; then
         #subscription-manager --de-register
@@ -233,10 +247,12 @@ if [ "$OS_DETECTED" == "RHEL" ]; then
 
         done
       fi
+
       if [[ $count -gt 15 ]]; then
         echo "Timeout: RHEL registration process failed, or still ongoing"
         exit 1
       fi
+
       Activation_status="$(subscription-manager status | grep -c "Overall Status: Current")"
       if [ "$Activation_status" == 0 ]; then
         echo "OS activation Failed"
@@ -244,11 +260,21 @@ if [ "$OS_DETECTED" == "RHEL" ]; then
       fi
     fi
   fi
+
   ##### if -i flag  is passed as argument, install ansible, awscli packages
   if [ "$install_packages" == true ]; then
     ##### Install Ansible and awscli ####
     yum install -y ansible
-    yum install -y awscli
+
+    if [[ "$ARCH" == "x86_64" ]]; then
+      yum install -y python3-pip
+      pip3 install awscli
+    fi
+
+    if [[ "$ARCH" == "ppc64le" ]]; then
+      yum install -y awscli
+    fi
+
     ##### Verify if each of above packages got installed successfully
     # check if ansible is installed or not
     if ! which ansible >/dev/null; then

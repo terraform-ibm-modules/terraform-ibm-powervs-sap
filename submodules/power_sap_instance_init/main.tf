@@ -8,7 +8,7 @@
 
 locals {
   scripts_location     = "${path.module}/scripts"
-  squidscript_location = "${local.scripts_location}/init_powervs.sh"
+  squidscript_location = "${local.scripts_location}/services_init.sh"
 }
 
 resource "null_resource" "perform_proxy_client_setup" {
@@ -27,14 +27,14 @@ resource "null_resource" "perform_proxy_client_setup" {
 
   provisioner "file" {
     source      = local.squidscript_location
-    destination = "/root/init_powervs.sh"
+    destination = "/root/services_init.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
       #######  SQUID Forward PROXY CLIENT SETUP ############
-      "chmod +x /root/init_powervs.sh",
-      "/root/init_powervs.sh -p ${var.perform_proxy_client_setup["server_ip_port"]} -n ${var.perform_proxy_client_setup["no_proxy_hosts"]}",
+      "chmod +x /root/services_init.sh",
+      "/root/services_init.sh -p ${var.perform_proxy_client_setup["server_ip_port"]} -n ${var.perform_proxy_client_setup["no_proxy_hosts"]}",
     ]
   }
 }
@@ -59,14 +59,14 @@ resource "null_resource" "install_packages" {
 
   provisioner "file" {
     source      = local.squidscript_location
-    destination = "/root/init_powervs.sh"
+    destination = "/root/services_init.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
       #######  Install packages ############
-      "chmod +x /root/init_powervs.sh",
-      "/root/init_powervs.sh -i",
+      "chmod +x /root/services_init.sh",
+      "/root/services_init.sh -i",
     ]
   }
 }
