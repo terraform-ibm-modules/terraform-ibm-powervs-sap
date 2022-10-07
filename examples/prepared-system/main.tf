@@ -73,7 +73,7 @@ module "sap_systems" {
   source                         = "../../"
   powervs_zone                   = var.powervs_zone
   powervs_resource_group_name    = var.powervs_resource_group_name
-  powervs_service_name           = var.powervs_service_name
+  powervs_workspace_name         = var.powervs_workspace_name
   powervs_sshkey_name            = var.powervs_sshkey_name
   powervs_sap_network_name       = local.powervs_sap_network_name
   powervs_sap_network_cidr       = var.powervs_sap_network_cidr

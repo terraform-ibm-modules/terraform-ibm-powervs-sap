@@ -8,8 +8,8 @@ variable "powervs_resource_group_name" {
   type        = string
 }
 
-variable "powervs_service_name" {
-  description = "Existing Name of the PowerVS service."
+variable "powervs_workspace_name" {
+  description = "Existing Name of the PowerVS workspace."
   type        = string
 }
 

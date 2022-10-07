@@ -7,7 +7,7 @@ module "create_sap_network" {
   powervs_zone = var.powervs_zone
 
   powervs_resource_group_name = var.powervs_resource_group_name
-  powervs_service_name        = var.powervs_service_name
+  powervs_workspace_name      = var.powervs_workspace_name
   powervs_sap_network_name    = var.powervs_sap_network_name
   powervs_sap_network_cidr    = var.powervs_sap_network_cidr
 }
@@ -18,7 +18,7 @@ module "attach_sap_network" {
 
   powervs_zone                   = var.powervs_zone
   powervs_resource_group_name    = var.powervs_resource_group_name
-  powervs_service_name           = var.powervs_service_name
+  powervs_workspace_name         = var.powervs_workspace_name
   powervs_sap_network_name       = var.powervs_sap_network_name
   powervs_cloud_connection_count = var.powervs_cloud_connection_count
 }
@@ -29,7 +29,7 @@ module "share_fs_instance" {
 
   powervs_zone                 = var.powervs_zone
   powervs_resource_group_name  = var.powervs_resource_group_name
-  powervs_service_name         = var.powervs_service_name
+  powervs_workspace_name       = var.powervs_workspace_name
   powervs_instance_name        = var.powervs_share_instance_name
   powervs_sshkey_name          = var.powervs_sshkey_name
   powervs_os_image_name        = var.powervs_share_image_name
@@ -47,7 +47,7 @@ module "sap_hana_instance" {
 
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = var.powervs_resource_group_name
-  powervs_service_name        = var.powervs_service_name
+  powervs_workspace_name      = var.powervs_workspace_name
   powervs_instance_name       = var.powervs_hana_instance_name
   powervs_sshkey_name         = var.powervs_sshkey_name
   powervs_os_image_name       = var.powervs_hana_image_name
@@ -63,7 +63,7 @@ module "sap_netweaver_instance" {
   count                        = var.powervs_netweaver_number_of_instances
   powervs_zone                 = var.powervs_zone
   powervs_resource_group_name  = var.powervs_resource_group_name
-  powervs_service_name         = var.powervs_service_name
+  powervs_workspace_name       = var.powervs_workspace_name
   powervs_instance_name        = "${var.powervs_netweaver_instance_name}-${count.index + 1}"
   powervs_sshkey_name          = var.powervs_sshkey_name
   powervs_os_image_name        = var.powervs_netweaver_image_name

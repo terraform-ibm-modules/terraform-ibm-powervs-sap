@@ -57,8 +57,8 @@ provider "ibm" {
 #####################################################
 
 locals {
-  powervs_service_name = "${var.prefix}-${var.powervs_zone}-${var.powervs_service_name}"
-  powervs_sshkey_name  = "${var.prefix}-${var.powervs_zone}-${var.powervs_sshkey_name}"
+  powervs_workspace_name = "${var.prefix}-${var.powervs_zone}-${var.powervs_workspace_name}"
+  powervs_sshkey_name    = "${var.prefix}-${var.powervs_zone}-${var.powervs_sshkey_name}"
 }
 
 # Security Notice
@@ -91,7 +91,7 @@ module "power_infrastructure" {
 
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = module.resource_group.resource_group_name
-  powervs_service_name        = local.powervs_service_name
+  powervs_service_name        = local.powervs_workspace_name
   tags                        = var.resource_tags
   powervs_sshkey_name         = local.powervs_sshkey_name
   ssh_public_key              = ibm_is_ssh_key.ssh_key.public_key
@@ -128,7 +128,7 @@ module "sap_systems" {
 
   powervs_zone                   = var.powervs_zone
   powervs_resource_group_name    = module.resource_group.resource_group_name
-  powervs_service_name           = local.powervs_service_name
+  powervs_workspace_name         = local.powervs_workspace_name
   powervs_sshkey_name            = local.powervs_sshkey_name
   powervs_sap_network_name       = local.powervs_sap_network_name
   powervs_sap_network_cidr       = var.powervs_sap_network_cidr

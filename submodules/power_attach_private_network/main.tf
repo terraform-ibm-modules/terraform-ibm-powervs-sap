@@ -11,7 +11,7 @@ data "ibm_resource_group" "resource_group_ds" {
 }
 
 data "ibm_resource_instance" "powervs_service_ds" {
-  name              = var.powervs_service_name
+  name              = var.powervs_workspace_name
   service           = local.service_type
   location          = var.powervs_zone
   resource_group_id = data.ibm_resource_group.resource_group_ds.id

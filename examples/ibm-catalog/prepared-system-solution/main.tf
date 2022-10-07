@@ -49,7 +49,7 @@ locals {
   powerinfra_output = jsondecode(data.ibm_schematics_output.schematics_output.output_json)
 
   resource_group_name     = local.powerinfra_output[0].powervs_resource_group_name.value
-  powervs_service_name    = local.powerinfra_output[0].powervs_service_name.value
+  powervs_workspace_name  = local.powerinfra_output[0].powervs_workspace_name.value
   powervs_sshkey_name     = local.powerinfra_output[0].powervs_sshkey_name.value
   access_host_or_ip       = local.powerinfra_output[0].access_host_or_ip.value
   management_network_name = local.powerinfra_output[0].powervs_management_network_name.value
@@ -109,7 +109,7 @@ module "sap_systems" {
   source                         = "../../../"
   powervs_zone                   = var.powervs_zone
   powervs_resource_group_name    = local.resource_group_name
-  powervs_service_name           = local.powervs_service_name
+  powervs_workspace_name         = local.powervs_workspace_name
   powervs_sshkey_name            = local.powervs_sshkey_name
   powervs_sap_network_name       = local.powervs_sap_network_name
   powervs_sap_network_cidr       = var.powervs_sap_network_cidr

@@ -18,7 +18,7 @@ module "share_fs_instance" {
 
   powervs_zone                 = var.powervs_zone
   powervs_resource_group_name  = var.powervs_resource_group_name
-  powervs_service_name         = var.powervs_service_name
+  powervs_workspace_name         = var.powervs_workspace_name
   powervs_instance_name        = var.powervs_share_instance_name
   powervs_sshkey_name          = var.powervs_sshkey_name
   powervs_os_image_name        = var.powervs_share_image_name
@@ -33,7 +33,7 @@ module "share_fs_instance" {
 module "sap_hana_instance" {
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = var.powervs_resource_group_name
-  powervs_service_name        = var.powervs_service_name
+  powervs_workspace_name        = var.powervs_workspace_name
   powervs_instance_name       = var.powervs_hana_instance_name
   powervs_sshkey_name         = var.powervs_sshkey_name
   powervs_os_image_name       = var.powervs_hana_image_name
@@ -47,7 +47,7 @@ module "sap_netweaver_instance" {
   count                        = var.powervs_netweaver_number_of_instances
   powervs_zone                 = var.powervs_zone
   powervs_resource_group_name  = var.powervs_resource_group_name
-  powervs_service_name         = var.powervs_service_name
+  powervs_workspace_name         = var.powervs_workspace_name
   powervs_instance_name        = "${var.powervs_netweaver_instance_name}-${count.index + 1}"
   powervs_sshkey_name          = var.powervs_sshkey_name
   powervs_os_image_name        = var.powervs_netweaver_image_name
@@ -100,9 +100,9 @@ No modules.
 | <a name="input_powervs_resource_group_name"></a> [powervs\_resource\_group\_name](#input\_powervs\_resource\_group\_name) | Existing IBM Cloud resource group name. | `string` | n/a | yes |
 | <a name="input_powervs_sap_profile_id"></a> [powervs\_sap\_profile\_id](#input\_powervs\_sap\_profile\_id) | SAP PROFILE ID. If this is mentioned then Memory, processors, proc\_type and sys\_type will not be taken into account | `string` | `null` | no |
 | <a name="input_powervs_server_type"></a> [powervs\_server\_type](#input\_powervs\_server\_type) | Processor type e980/s922/e1080/s1022 | `string` | `null` | no |
-| <a name="input_powervs_service_name"></a> [powervs\_service\_name](#input\_powervs\_service\_name) | Existing Name of the PowerVS service. | `string` | n/a | yes |
 | <a name="input_powervs_sshkey_name"></a> [powervs\_sshkey\_name](#input\_powervs\_sshkey\_name) | Existing PowerVs SSH key name. | `string` | n/a | yes |
 | <a name="input_powervs_storage_config"></a> [powervs\_storage\_config](#input\_powervs\_storage\_config) | DISKS To be created and attached to PowerVS Instance. Comma separated values | <pre>object({<br>    names      = string<br>    disks_size = string<br>    counts     = string<br>    tiers      = string<br>    paths      = string<br>  })</pre> | <pre>{<br>  "counts": "",<br>  "disks_size": "",<br>  "names": "",<br>  "paths": "",<br>  "tiers": ""<br>}</pre> | no |
+| <a name="input_powervs_workspace_name"></a> [powervs\_workspace\_name](#input\_powervs\_workspace\_name) | Existing Name of the PowerVS workspace. | `string` | n/a | yes |
 | <a name="input_powervs_zone"></a> [powervs\_zone](#input\_powervs\_zone) | IBM Cloud PowerVS zone. | `string` | n/a | yes |
 
 ## Outputs

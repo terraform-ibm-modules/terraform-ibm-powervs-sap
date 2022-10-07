@@ -123,7 +123,7 @@
     "powervs_hana_storage_config": {
       "name": "powervs_hana_storage_config",
       "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
-      "description": "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
+      "description": "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
       "default": {
         "counts": "",
         "disks_size": "",
@@ -209,7 +209,7 @@
     "powervs_netweaver_storage_config": {
       "name": "powervs_netweaver_storage_config",
       "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
-      "description": "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
+      "description": "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
       "default": {
         "counts": "",
         "disks_size": "",
@@ -250,16 +250,6 @@
       "pos": {
         "filename": "variables.tf",
         "line": 25
-      }
-    },
-    "powervs_service_name": {
-      "name": "powervs_service_name",
-      "type": "string",
-      "description": "Existing Name of the PowerVS service.",
-      "required": true,
-      "pos": {
-        "filename": "variables.tf",
-        "line": 15
       }
     },
     "powervs_share_cpu_proc_type": {
@@ -335,7 +325,7 @@
     "powervs_share_storage_config": {
       "name": "powervs_share_storage_config",
       "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
-      "description": "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS service. For creating multiple file systems, specify multiple entries in each parameter in the strucutre. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
+      "description": "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
       "default": {
         "counts": "",
         "disks_size": "",
@@ -356,6 +346,16 @@
       "pos": {
         "filename": "variables.tf",
         "line": 20
+      }
+    },
+    "powervs_workspace_name": {
+      "name": "powervs_workspace_name",
+      "type": "string",
+      "description": "Existing Name of the PowerVS workspace.",
+      "required": true,
+      "pos": {
+        "filename": "variables.tf",
+        "line": 15
       }
     },
     "powervs_zone": {
@@ -455,7 +455,7 @@
         "powervs_cloud_connection_count": "powervs_cloud_connection_count",
         "powervs_resource_group_name": "powervs_resource_group_name",
         "powervs_sap_network_name": "powervs_sap_network_name",
-        "powervs_service_name": "powervs_service_name",
+        "powervs_workspace_name": "powervs_workspace_name",
         "powervs_zone": "powervs_zone"
       },
       "managed_resources": null,
@@ -472,7 +472,7 @@
         "powervs_resource_group_name": "powervs_resource_group_name",
         "powervs_sap_network_cidr": "powervs_sap_network_cidr",
         "powervs_sap_network_name": "powervs_sap_network_name",
-        "powervs_service_name": "powervs_service_name",
+        "powervs_workspace_name": "powervs_workspace_name",
         "powervs_zone": "powervs_zone"
       },
       "managed_resources": null,
@@ -508,9 +508,9 @@
         "powervs_os_image_name": "powervs_hana_image_name",
         "powervs_resource_group_name": "powervs_resource_group_name",
         "powervs_sap_profile_id": "powervs_hana_sap_profile_id",
-        "powervs_service_name": "powervs_service_name",
         "powervs_sshkey_name": "powervs_sshkey_name",
         "powervs_storage_config": "powervs_hana_storage_config",
+        "powervs_workspace_name": "powervs_workspace_name",
         "powervs_zone": "powervs_zone"
       },
       "managed_resources": null,
@@ -533,9 +533,9 @@
         "powervs_os_image_name": "powervs_netweaver_image_name",
         "powervs_resource_group_name": "powervs_resource_group_name",
         "powervs_server_type": "powervs_netweaver_server_type",
-        "powervs_service_name": "powervs_service_name",
         "powervs_sshkey_name": "powervs_sshkey_name",
         "powervs_storage_config": "powervs_netweaver_storage_config",
+        "powervs_workspace_name": "powervs_workspace_name",
         "powervs_zone": "powervs_zone"
       },
       "managed_resources": null,
@@ -558,9 +558,9 @@
         "powervs_os_image_name": "powervs_share_image_name",
         "powervs_resource_group_name": "powervs_resource_group_name",
         "powervs_server_type": "powervs_share_server_type",
-        "powervs_service_name": "powervs_service_name",
         "powervs_sshkey_name": "powervs_sshkey_name",
         "powervs_storage_config": "powervs_share_storage_config",
+        "powervs_workspace_name": "powervs_workspace_name",
         "powervs_zone": "powervs_zone"
       },
       "managed_resources": null,

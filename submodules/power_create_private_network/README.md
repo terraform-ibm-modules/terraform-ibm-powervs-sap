@@ -17,7 +17,7 @@ module "create_sap_network" {
   powervs_zone = var.powervs_zone
 
   powervs_resource_group_name = var.powervs_resource_group_name
-  powervs_service_name        = var.powervs_service_name
+  powervs_workspace_name        = var.powervs_workspace_name
   powervs_sap_network_name    = var.powervs_sap_network_name
   powervs_sap_network_cidr    = var.powervs_sap_network_cidr
 }
@@ -49,7 +49,7 @@ No modules.
 | <a name="input_powervs_resource_group_name"></a> [powervs\_resource\_group\_name](#input\_powervs\_resource\_group\_name) | Existing IBM Cloud resource group name. | `string` | n/a | yes |
 | <a name="input_powervs_sap_network_cidr"></a> [powervs\_sap\_network\_cidr](#input\_powervs\_sap\_network\_cidr) | CIDR for new network for SAP system | `string` | n/a | yes |
 | <a name="input_powervs_sap_network_name"></a> [powervs\_sap\_network\_name](#input\_powervs\_sap\_network\_name) | Name for new network for SAP system | `string` | n/a | yes |
-| <a name="input_powervs_service_name"></a> [powervs\_service\_name](#input\_powervs\_service\_name) | Existing Name of the PowerVS service. | `string` | n/a | yes |
+| <a name="input_powervs_workspace_name"></a> [powervs\_workspace\_name](#input\_powervs\_workspace\_name) | Existing Name of the PowerVS workspace. | `string` | n/a | yes |
 | <a name="input_powervs_zone"></a> [powervs\_zone](#input\_powervs\_zone) | IBM Cloud PowerVS zone. | `string` | n/a | yes |
 
 ## Outputs

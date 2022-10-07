@@ -262,8 +262,9 @@ if [ "$OS_DETECTED" == "RHEL" ]; then
 
   ##### if -i flag  is passed as argument, install ansible, awscli packages
   if [ "$install_packages" == true ]; then
-    ##### Install Ansible and awscli ####
+    ##### Install Ansible, unbuffer(expect) and awscli ####
     yum install -y ansible
+    yum install -y expect
 
     if [[ "$ARCH" == "x86_64" ]]; then
       yum install -y python3-pip
