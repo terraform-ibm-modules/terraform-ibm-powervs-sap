@@ -13,12 +13,10 @@ variable "powervs_workspace_name" {
   type        = string
 }
 
-variable "powervs_sap_network_name" {
-  description = "Name for new network for SAP system"
-  type        = string
-}
-
-variable "powervs_sap_network_cidr" {
-  description = "CIDR for new network for SAP system"
-  type        = string
+variable "powervs_sap_network" {
+  description = "Name and CIDR for new network for SAP system to create."
+  type = object({
+    name = string
+    cidr = string
+  })
 }

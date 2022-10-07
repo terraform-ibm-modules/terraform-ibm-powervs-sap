@@ -5,20 +5,19 @@
       "name": "access_host_or_ip",
       "type": "string",
       "description": "Public IP of Bastion/jumpserver Host",
-      "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 220
+        "line": 218
       }
     },
     "configure_os": {
       "name": "configure_os",
       "type": "bool",
-      "description": "Specify if OS on PowerVS instances should be configure for SAP or if only PowerVS instances should be created.",
+      "description": "Specify if OS on PowerVS instances should be configured for SAP or if only PowerVS instances should be created.",
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 209
+        "line": 207
       }
     },
     "dns_host_or_ip": {
@@ -64,11 +63,11 @@
     "os_image_distro": {
       "name": "os_image_distro",
       "type": "string",
-      "description": "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters.",
+      "description": "Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 215
+        "line": 213
       }
     },
     "powervs_additional_networks": {
@@ -78,7 +77,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 35
+        "line": 33
       }
     },
     "powervs_cloud_connection_count": {
@@ -88,17 +87,17 @@
       "default": 2,
       "pos": {
         "filename": "variables.tf",
-        "line": 40
+        "line": 38
       }
     },
     "powervs_hana_image_name": {
       "name": "powervs_hana_image_name",
       "type": "string",
-      "description": "Image Names to import into the service.",
+      "description": "Image Name for HANA Instance.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 116
+        "line": 114
       }
     },
     "powervs_hana_instance_name": {
@@ -108,22 +107,23 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 111
+        "line": 109
       }
     },
     "powervs_hana_sap_profile_id": {
       "name": "powervs_hana_sap_profile_id",
       "type": "string",
-      "description": "SAP PROFILE ID. If this is mentioned then Memory, processors, proc_type and sys_type will not be taken into account.",
+      "description": "SAP Profile Id for HANA instance",
+      "default": "cnp-2x64",
       "pos": {
         "filename": "variables.tf",
-        "line": 121
+        "line": 119
       }
     },
     "powervs_hana_storage_config": {
       "name": "powervs_hana_storage_config",
       "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
-      "description": "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
+      "description": "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
       "default": {
         "counts": "",
         "disks_size": "",
@@ -133,7 +133,7 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 127
+        "line": 125
       }
     },
     "powervs_netweaver_cpu_proc_type": {
@@ -143,17 +143,17 @@
       "default": "shared",
       "pos": {
         "filename": "variables.tf",
-        "line": 175
+        "line": 173
       }
     },
     "powervs_netweaver_image_name": {
       "name": "powervs_netweaver_image_name",
       "type": "string",
-      "description": "Image Names to import into the service",
+      "description": "Image Name for netweaver instance",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 154
+        "line": 152
       }
     },
     "powervs_netweaver_instance_name": {
@@ -163,7 +163,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 149
+        "line": 147
       }
     },
     "powervs_netweaver_memory_size": {
@@ -173,7 +173,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 170
+        "line": 168
       }
     },
     "powervs_netweaver_number_of_instances": {
@@ -183,7 +183,7 @@
       "default": 1,
       "pos": {
         "filename": "variables.tf",
-        "line": 159
+        "line": 157
       }
     },
     "powervs_netweaver_number_of_processors": {
@@ -193,7 +193,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 165
+        "line": 163
       }
     },
     "powervs_netweaver_server_type": {
@@ -203,13 +203,13 @@
       "default": "s922",
       "pos": {
         "filename": "variables.tf",
-        "line": 181
+        "line": 179
       }
     },
     "powervs_netweaver_storage_config": {
       "name": "powervs_netweaver_storage_config",
       "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
-      "description": "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
+      "description": "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
       "default": {
         "counts": "",
         "disks_size": "",
@@ -219,7 +219,7 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 187
+        "line": 185
       }
     },
     "powervs_resource_group_name": {
@@ -232,20 +232,10 @@
         "line": 10
       }
     },
-    "powervs_sap_network_cidr": {
-      "name": "powervs_sap_network_cidr",
-      "type": "string",
-      "description": "CIDR for new network for SAP system",
-      "required": true,
-      "pos": {
-        "filename": "variables.tf",
-        "line": 30
-      }
-    },
-    "powervs_sap_network_name": {
-      "name": "powervs_sap_network_name",
-      "type": "string",
-      "description": "Name for new network for SAP system",
+    "powervs_sap_network": {
+      "name": "powervs_sap_network",
+      "type": "object({\n    name = string\n    cidr = string\n  })",
+      "description": "Name and CIDR for new network for SAP system to create.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
@@ -259,17 +249,17 @@
       "default": "shared",
       "pos": {
         "filename": "variables.tf",
-        "line": 77
+        "line": 75
       }
     },
     "powervs_share_image_name": {
       "name": "powervs_share_image_name",
       "type": "string",
-      "description": "Image Names to import into the service",
+      "description": "Image Name for Shared Instance.",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 55
+        "line": 53
       }
     },
     "powervs_share_instance_name": {
@@ -279,7 +269,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 50
+        "line": 48
       }
     },
     "powervs_share_memory_size": {
@@ -289,7 +279,7 @@
       "default": 2,
       "pos": {
         "filename": "variables.tf",
-        "line": 71
+        "line": 69
       }
     },
     "powervs_share_number_of_instances": {
@@ -299,7 +289,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 60
+        "line": 58
       }
     },
     "powervs_share_number_of_processors": {
@@ -309,7 +299,7 @@
       "default": 0.5,
       "pos": {
         "filename": "variables.tf",
-        "line": 65
+        "line": 63
       }
     },
     "powervs_share_server_type": {
@@ -319,13 +309,13 @@
       "default": "s922",
       "pos": {
         "filename": "variables.tf",
-        "line": 83
+        "line": 81
       }
     },
     "powervs_share_storage_config": {
       "name": "powervs_share_storage_config",
       "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
-      "description": "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
+      "description": "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
       "default": {
         "counts": "",
         "disks_size": "",
@@ -335,7 +325,7 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 89
+        "line": 87
       }
     },
     "powervs_sshkey_name": {
@@ -392,11 +382,10 @@
       "name": "ssh_private_key",
       "type": "string",
       "description": "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs_sshkey_name'.",
-      "required": true,
       "sensitive": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 225
+        "line": 224
       }
     }
   },
@@ -454,7 +443,23 @@
       "attributes": {
         "powervs_cloud_connection_count": "powervs_cloud_connection_count",
         "powervs_resource_group_name": "powervs_resource_group_name",
-        "powervs_sap_network_name": "powervs_sap_network_name",
+        "powervs_sap_network_name": "powervs_sap_network",
+        "powervs_workspace_name": "powervs_workspace_name",
+        "powervs_zone": "powervs_zone"
+      },
+      "managed_resources": null,
+      "data_resources": null,
+      "pos": {
+        "filename": "main.tf",
+        "line": 24
+      }
+    },
+    "create_sap_network": {
+      "name": "create_sap_network",
+      "source": "./submodules/power_create_private_network",
+      "attributes": {
+        "powervs_resource_group_name": "powervs_resource_group_name",
+        "powervs_sap_network": "powervs_sap_network",
         "powervs_workspace_name": "powervs_workspace_name",
         "powervs_zone": "powervs_zone"
       },
@@ -465,15 +470,11 @@
         "line": 15
       }
     },
-    "create_sap_network": {
-      "name": "create_sap_network",
-      "source": "./submodules/power_create_private_network",
+    "initial_validation": {
+      "name": "initial_validation",
+      "source": "./submodules/initial_validation",
       "attributes": {
-        "powervs_resource_group_name": "powervs_resource_group_name",
-        "powervs_sap_network_cidr": "powervs_sap_network_cidr",
-        "powervs_sap_network_name": "powervs_sap_network_name",
-        "powervs_workspace_name": "powervs_workspace_name",
-        "powervs_zone": "powervs_zone"
+        "configure_os_validate": "configure_os"
       },
       "managed_resources": null,
       "data_resources": null,
@@ -496,7 +497,7 @@
       "data_resources": null,
       "pos": {
         "filename": "main.tf",
-        "line": 107
+        "line": 118
       }
     },
     "sap_hana_instance": {
@@ -517,7 +518,7 @@
       "data_resources": null,
       "pos": {
         "filename": "main.tf",
-        "line": 44
+        "line": 53
       }
     },
     "sap_netweaver_instance": {
@@ -542,7 +543,7 @@
       "data_resources": null,
       "pos": {
         "filename": "main.tf",
-        "line": 59
+        "line": 68
       }
     },
     "share_fs_instance": {
@@ -567,7 +568,7 @@
       "data_resources": null,
       "pos": {
         "filename": "main.tf",
-        "line": 26
+        "line": 35
       }
     }
   }

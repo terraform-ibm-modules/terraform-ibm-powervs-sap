@@ -111,8 +111,7 @@ module "sap_systems" {
   powervs_resource_group_name    = local.resource_group_name
   powervs_workspace_name         = local.powervs_workspace_name
   powervs_sshkey_name            = local.powervs_sshkey_name
-  powervs_sap_network_name       = local.powervs_sap_network_name
-  powervs_sap_network_cidr       = var.powervs_sap_network_cidr
+  powervs_sap_network            = { "name" = local.powervs_sap_network_name, "cidr" = var.powervs_sap_network_cidr }
   powervs_additional_networks    = [local.management_network_name, local.backup_network_name]
   powervs_cloud_connection_count = local.cloud_connection_count
 

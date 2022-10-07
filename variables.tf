@@ -22,14 +22,12 @@ variable "powervs_sshkey_name" {
   type        = string
 }
 
-variable "powervs_sap_network_name" {
-  description = "Name for new network for SAP system"
-  type        = string
-}
-
-variable "powervs_sap_network_cidr" {
-  description = "CIDR for new network for SAP system"
-  type        = string
+variable "powervs_sap_network" {
+  description = "Name and CIDR for new network for SAP system to create."
+  type = object({
+    name = string
+    cidr = string
+  })
 }
 
 variable "powervs_additional_networks" {
@@ -53,7 +51,7 @@ variable "powervs_share_instance_name" {
 }
 
 variable "powervs_share_image_name" {
-  description = "Image Names to import into the service"
+  description = "Image Name for Shared Instance."
   type        = string
 }
 
@@ -87,7 +85,7 @@ variable "powervs_share_server_type" {
 }
 
 variable "powervs_share_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string
@@ -114,18 +112,18 @@ variable "powervs_hana_instance_name" {
 }
 
 variable "powervs_hana_image_name" {
-  description = "Image Names to import into the service."
+  description = "Image Name for HANA Instance."
   type        = string
 }
 
 variable "powervs_hana_sap_profile_id" {
-  description = "SAP PROFILE ID. If this is mentioned then Memory, processors, proc_type and sys_type will not be taken into account."
+  description = "SAP Profile Id for HANA instance"
   type        = string
-  default     = null
+  default     = "cnp-2x64"
 }
 
 variable "powervs_hana_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string
@@ -152,7 +150,7 @@ variable "powervs_netweaver_instance_name" {
 }
 
 variable "powervs_netweaver_image_name" {
-  description = "Image Names to import into the service"
+  description = "Image Name for netweaver instance"
   type        = string
 }
 
@@ -185,7 +183,7 @@ variable "powervs_netweaver_server_type" {
 }
 
 variable "powervs_netweaver_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string
@@ -207,25 +205,27 @@ variable "powervs_netweaver_storage_config" {
 #####################################################
 
 variable "configure_os" {
-  description = "Specify if OS on PowerVS instances should be configure for SAP or if only PowerVS instances should be created."
+  description = "Specify if OS on PowerVS instances should be configured for SAP or if only PowerVS instances should be created."
   type        = bool
   default     = true
 }
 
 variable "os_image_distro" {
-  description = "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
+  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
   type        = string
 }
 
 variable "access_host_or_ip" {
   description = "Public IP of Bastion/jumpserver Host"
   type        = string
+  default     = null
 }
 
 variable "ssh_private_key" {
   description = "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs_sshkey_name'."
   type        = string
   sensitive   = true
+  default     = null
 }
 
 variable "proxy_host_or_ip_port" {

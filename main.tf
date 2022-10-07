@@ -2,14 +2,23 @@
 # PVS SAP instance Configuration
 #####################################################
 
+module "initial_validation" {
+  source = "./submodules/initial_validation"
+  configure_os_validate = {
+    configure_os          = var.configure_os
+    access_host_or_ip     = var.access_host_or_ip
+    ssh_private_key       = var.ssh_private_key
+    proxy_host_or_ip_port = var.proxy_host_or_ip_port
+  }
+}
+
 module "create_sap_network" {
   source       = "./submodules/power_create_private_network"
   powervs_zone = var.powervs_zone
 
   powervs_resource_group_name = var.powervs_resource_group_name
   powervs_workspace_name      = var.powervs_workspace_name
-  powervs_sap_network_name    = var.powervs_sap_network_name
-  powervs_sap_network_cidr    = var.powervs_sap_network_cidr
+  powervs_sap_network         = var.powervs_sap_network
 }
 
 module "attach_sap_network" {
@@ -19,7 +28,7 @@ module "attach_sap_network" {
   powervs_zone                   = var.powervs_zone
   powervs_resource_group_name    = var.powervs_resource_group_name
   powervs_workspace_name         = var.powervs_workspace_name
-  powervs_sap_network_name       = var.powervs_sap_network_name
+  powervs_sap_network_name       = var.powervs_sap_network["name"]
   powervs_cloud_connection_count = var.powervs_cloud_connection_count
 }
 
@@ -52,7 +61,7 @@ module "sap_hana_instance" {
   powervs_sshkey_name         = var.powervs_sshkey_name
   powervs_os_image_name       = var.powervs_hana_image_name
   powervs_sap_profile_id      = var.powervs_hana_sap_profile_id
-  powervs_networks            = concat(var.powervs_additional_networks, [var.powervs_sap_network_name])
+  powervs_networks            = concat(var.powervs_additional_networks, [var.powervs_sap_network["name"]])
   powervs_storage_config      = var.powervs_hana_storage_config
 }
 
@@ -71,7 +80,7 @@ module "sap_netweaver_instance" {
   powervs_cpu_proc_type        = var.powervs_netweaver_cpu_proc_type
   powervs_number_of_processors = var.powervs_netweaver_number_of_processors
   powervs_memory_size          = var.powervs_netweaver_memory_size
-  powervs_networks             = concat(var.powervs_additional_networks, [var.powervs_sap_network_name])
+  powervs_networks             = concat(var.powervs_additional_networks, [var.powervs_sap_network["name"]])
   powervs_storage_config       = var.powervs_netweaver_storage_config
 }
 
@@ -81,28 +90,30 @@ locals {
     server_ip_port = var.proxy_host_or_ip_port
     no_proxy_hosts = "161.0.0.0/8,10.0.0.0/8"
   }
+
   perform_ntp_client_setup = {
     enable    = var.ntp_host_or_ip != null && var.ntp_host_or_ip != "" ? true : false
     server_ip = var.ntp_host_or_ip
   }
+
   perform_dns_client_setup = {
     enable    = var.dns_host_or_ip != null && var.dns_host_or_ip != "" ? true : false
     server_ip = var.dns_host_or_ip
   }
+
   perform_nfs_client_setup = {
     enable          = var.nfs_path != null && var.nfs_path != "" ? true : false
     nfs_server_path = var.nfs_path
     nfs_client_path = var.nfs_client_directory
   }
+
   target_server_ips         = concat([module.sap_hana_instance.instance_mgmt_ip], module.share_fs_instance.*.instance_mgmt_ip, module.sap_netweaver_instance.*.instance_mgmt_ip)
   hana_storage_configs      = [merge(var.powervs_hana_storage_config, { "wwns" = join(",", module.sap_hana_instance.instance_wwns) })]
   sharefs_storage_configs   = [for instance_wwns in module.share_fs_instance.*.instance_wwns : merge(var.powervs_share_storage_config, { "wwns" = join(",", instance_wwns) })]
   netweaver_storage_configs = [for instance_wwns in module.sap_netweaver_instance.*.instance_wwns : merge(var.powervs_netweaver_storage_config, { "wwns" = join(",", instance_wwns) })]
   all_storage_configs       = concat(local.hana_storage_configs, local.sharefs_storage_configs, local.netweaver_storage_configs)
-
-  sap_solutions = concat(["HANA"], [for ip in module.share_fs_instance.*.instance_mgmt_ip : "NONE"], [for ip in module.sap_netweaver_instance.*.instance_mgmt_ip : "NETWEAVER"])
+  sap_solutions             = concat(["HANA"], [for ip in module.share_fs_instance.*.instance_mgmt_ip : "NONE"], [for ip in module.sap_netweaver_instance.*.instance_mgmt_ip : "NETWEAVER"])
 }
-
 
 module "instance_init" {
 

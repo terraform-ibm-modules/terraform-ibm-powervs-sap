@@ -70,7 +70,7 @@ variable "powervs_networks" {
 }
 
 variable "powervs_storage_config" {
-  description = "DISKS To be created and attached to PowerVS Instance. Comma separated values"
+  description = "DISKS To be created and attached to PowerVS Instance. Comma separated values.'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string

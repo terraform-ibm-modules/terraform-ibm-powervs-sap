@@ -3,33 +3,33 @@
 #####################################################
 
 locals {
-  powervs_service_type = "power-iaas"
+  powervs_workspace_type = "power-iaas"
 }
 
 data "ibm_resource_group" "resource_group_ds" {
   name = var.powervs_resource_group_name
 }
 
-data "ibm_resource_instance" "powervs_service_ds" {
+data "ibm_resource_instance" "powervs_workspace_ds" {
   name              = var.powervs_workspace_name
-  service           = local.powervs_service_type
+  service           = local.powervs_workspace_type
   location          = var.powervs_zone
   resource_group_id = data.ibm_resource_group.resource_group_ds.id
 }
 
 data "ibm_pi_key" "key_ds" {
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_service_ds.guid
+  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
   pi_key_name          = var.powervs_sshkey_name
 }
 
 data "ibm_pi_image" "image_ds" {
   pi_image_name        = var.powervs_os_image_name
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_service_ds.guid
+  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
 }
 
 data "ibm_pi_network" "powervs_subnets_ds" {
   count                = length(var.powervs_networks)
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_service_ds.guid
+  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
   pi_network_name      = var.powervs_networks[count.index]
 }
 
@@ -38,7 +38,7 @@ data "ibm_pi_network" "powervs_subnets_ds" {
 #####################################################
 
 resource "ibm_pi_instance" "sap_instance" {
-  pi_cloud_instance_id     = data.ibm_resource_instance.powervs_service_ds.guid
+  pi_cloud_instance_id     = data.ibm_resource_instance.powervs_workspace_ds.guid
   pi_instance_name         = var.powervs_instance_name
   pi_image_id              = data.ibm_pi_image.image_ds.id
   pi_sap_profile_id        = var.powervs_sap_profile_id == null ? null : var.powervs_sap_profile_id
@@ -89,7 +89,7 @@ resource "ibm_pi_volume" "create_volume" {
   pi_volume_name       = "${var.powervs_instance_name}-${local.disks_name[count.index - (local.disks_number * floor(count.index / local.disks_number))]}-volume${count.index + 1}-${count.index}"
   pi_volume_type       = local.tiers_type[count.index - (local.disks_number * floor(count.index / local.disks_number))]
   pi_volume_shareable  = false
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_service_ds.guid
+  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
 }
 
 #####################################################
@@ -99,7 +99,7 @@ resource "ibm_pi_volume" "create_volume" {
 resource "ibm_pi_volume_attach" "instance_volumes_attach" {
   depends_on           = [ibm_pi_volume.create_volume, ibm_pi_instance.sap_instance]
   count                = local.disks_number
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_service_ds.guid
+  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
   pi_volume_id         = ibm_pi_volume.create_volume[count.index].volume_id
   pi_instance_id       = ibm_pi_instance.sap_instance.instance_id
 }
@@ -108,11 +108,11 @@ data "ibm_pi_instance_ip" "instance_mgmt_ip_ds" {
   depends_on           = [ibm_pi_instance.sap_instance]
   pi_network_name      = var.powervs_networks[0]
   pi_instance_name     = ibm_pi_instance.sap_instance.pi_instance_name
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_service_ds.guid
+  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
 }
 
 data "ibm_pi_instance" "instance_ips_ds" {
   depends_on           = [ibm_pi_instance.sap_instance]
   pi_instance_name     = ibm_pi_instance.sap_instance.pi_instance_name
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_service_ds.guid
+  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
 }

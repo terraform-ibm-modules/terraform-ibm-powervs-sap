@@ -21,5 +21,4 @@ variable "powervs_sap_network_name" {
 variable "powervs_cloud_connection_count" {
   description = "Number of existing Cloud connections to attach new private network"
   type        = string
-  default     = 2
 }
