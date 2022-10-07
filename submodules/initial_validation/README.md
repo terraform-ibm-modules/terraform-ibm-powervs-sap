@@ -2,20 +2,6 @@
 
 This submodule checks the right combination of variables and validates them
 
-## Usage
-```hcl
-provider "ibm" {
-region           = "sao"
-zone             = "sao01"
-ibmcloud_api_key = "your api key" != null ? "your api key" : null
-}
-
-module "initial_validation" {
-source = "./submodules/initial_validation"
-cloud_connection_validate = var.cloud_connection_validate
-}
-
-```
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
