@@ -1,5 +1,5 @@
 variable "configure_os_validate" {
-  description = "Verify congifure_os variable with access_host_or_ip, ssh_private_key and proxy_host_or_ip_port"
+  description = "Verify configure_os variable with access_host_or_ip, ssh_private_key and proxy_host_or_ip_port"
   type = object({
     configure_os          = bool
     access_host_or_ip     = string
