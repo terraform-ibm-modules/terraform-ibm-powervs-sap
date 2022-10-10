@@ -45,7 +45,6 @@ module "sap_systems" {
   powervs_hana_additional_storage_config = var.powervs_hana_additional_storage_config
   powervs_hana_custom_storage_config     = var.powervs_hana_custom_storage_config
 
-
   powervs_netweaver_instance_name        = var.powervs_netweaver_hostname
   powervs_netweaver_image_name           = var.powervs_netweaver_os_image
   powervs_netweaver_number_of_instances  = var.powervs_sap_netweaver_instance_number
