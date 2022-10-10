@@ -15,7 +15,7 @@ variable "powervs_resource_group_name" {
 }
 
 variable "powervs_workspace_name" {
-  description = "Name of IBM Cloud PowerVS workspace which will be created."
+  description = "Existing Name of PowerVS workspace."
   type        = string
 }
 
@@ -25,8 +25,12 @@ variable "powervs_sshkey_name" {
 }
 
 variable "prefix" {
-  description = "Prefix for resources which will be created."
+  description = "Prefix for resources which will be created. Max length is 6"
   type        = string
+  validation {
+    condition     = length(var.prefix) <= 6
+    error_message = "Prefix length exceeds 6 characters"
+  }
 }
 
 variable "ssh_private_key" {
@@ -35,8 +39,14 @@ variable "ssh_private_key" {
   sensitive   = true
 }
 
+variable "powervs_sap_network_cidr" {
+  description = "Network range for separate SAP network. E.g., '10.111.1.0/24'"
+  type        = string
+  default     = "10.111.1.0/24"
+}
+
 variable "additional_networks" {
-  description = "Additional existing private networks that will be attached to IBM PowerVS instances."
+  description = "Existing list of subnets name to be attached to PowerVS instances. First network has to be a management network."
   type        = list(string)
   default     = ["mgmt_net", "bkp_net"]
 }
@@ -47,31 +57,38 @@ variable "cloud_connection_count" {
   default     = 2
 }
 
-variable "powervs_sap_network_cidr" {
-  description = "Network range for separate SAP network. E.g., '10.111.1.0/24'"
+variable "os_image_distro" {
+  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
   type        = string
-  default     = "10.111.1.0/24"
 }
 
-variable "os_image_distro" {
-  description = "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
-  type        = string
+#####################################################
+# PowerVS Shared FS Instance parameters
+#####################################################
+
+variable "create_separate_fs_share" {
+  description = "Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used."
+  type        = bool
 }
+
+#####################################################
+# PowerVS HANA Instance parameters
+#####################################################
 
 variable "sap_hana_hostname" {
-  description = "SAP HANA hostname (non FQDN). Will get the form of <prefix>-<sap_hana_hostname>."
+  description = "SAP HANA hostname (non FQDN). Will get the form of <prefix>-<sap_hana_hostname>. Max length of final hostname must be <= 13 characters."
   type        = string
   default     = "hana"
 }
 
 variable "sap_hana_profile" {
-  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). Also ensure that sap_hana_additional_storage_config parameter is modified in order to provide a required filesystem sizes."
+  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
   type        = string
   default     = "cnp-2x64"
 }
 
 variable "sap_hana_additional_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string
@@ -80,13 +97,17 @@ variable "sap_hana_additional_storage_config" {
     paths      = string
   })
   default = {
-    names      = "data,log,shared,usrsap"
-    disks_size = "250,150,1000,50"
-    counts     = "4,4,1,1"
-    tiers      = "tier1,tier1,tier3,tier3"
-    paths      = "/hana/data,/hana/log,/hana/shared,/usr/sap"
+    names      = "usrsap"
+    disks_size = "50"
+    counts     = "1"
+    tiers      = "tier3"
+    paths      = "/usr/sap"
   }
 }
+
+#####################################################
+# PowerVS NetWeaver Instance parameters
+#####################################################
 
 variable "sap_netweaver_instance_number" {
   description = "Number of SAP NetWeaver instances that should be created."
@@ -95,7 +116,7 @@ variable "sap_netweaver_instance_number" {
 }
 
 variable "sap_netweaver_hostname" {
-  description = "SAP Netweaver hostname (non FQDN). Will get the form of <prefix>-<sap_netweaver_hostname>-<number>."
+  description = "SAP Netweaver hostname (non FQDN). Will get the form of <prefix>-<sap_netweaver_hostname>-<number>. Max length of final hostname must be <= 13 characters."
   type        = string
   default     = "nw"
 }
@@ -110,51 +131,48 @@ variable "sap_netweaver_memory_size" {
   type        = string
 }
 
-variable "create_separate_fs_share" {
-  description = "Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used."
-  type        = bool
-  default     = false
-}
+#####################################################
+# PVS SAP instance Initialization
+#####################################################
 
 variable "configure_os" {
-  description = "Specify if OS on PowerVS instances should be configure for SAP or if only PowerVS instances should be created."
+  description = "Specify if OS on PowerVS instances should be configured for SAP or if only PowerVS instances should be created. If configure_os is true then value has to be set for access_host_ip, ssh_private_key and proxy_host_or_ip_port to continue"
   type        = bool
-  default     = true
+}
+
+variable "sap_domain" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
 }
 
 variable "access_host_or_ip" {
-  description = "The public IP address or hostname for the access host. The address is used to reach the target or server_host IP address and to configure the DNS, NTP, NFS, and Squid proxy services."
+  description = "The public IP address or hostname for the access host. The address is used to reach the target or server_host IP address and to configure the DNS, NTP, NFS, and Squid proxy services. Set to null or empty if not configuring OS."
   type        = string
 }
 
 variable "proxy_host_or_ip_port" {
-  description = "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>"
+  description = "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>. Set to null or empty if not configuring OS."
   type        = string
-  default     = ""
 }
 
 variable "dns_host_or_ip" {
-  description = "Private IP address of DNS server, resolver or forwarder."
+  description = "Private IP address of DNS server, resolver or forwarder. Set to null or empty if not configuring OS."
   type        = string
-  default     = ""
 }
 
 variable "ntp_host_or_ip" {
-  description = "Private IP address of NTP time server or forwarder."
+  description = "Private IP address of NTP time server or forwarder. Set to null or empty if not configuring OS."
   type        = string
-  default     = ""
 }
 
 variable "nfs_path" {
-  description = "Full path on NFS server (in form <hostname_or_ip>:<directory>, e.g., '10.20.10.4:/nfs')."
+  description = "Full path on NFS server (in form <hostname_or_ip>:<directory>, e.g., '10.20.10.4:/nfs'). Set to null or empty if not configuring OS."
   type        = string
-  default     = ""
 }
 
 variable "nfs_client_directory" {
-  description = "NFS directory on PowerVS instances. Will be used only if nfs_server is setup in 'Power infrastructure for regulated industries'"
+  description = "NFS directory on PowerVS instances. Will be used only if nfs_server is setup in 'Power infrastructure for regulated industries'. Set to null or empty if not configuring OS."
   type        = string
-  default     = "/nfs"
 }
 
 #####################################################
@@ -197,44 +215,20 @@ variable "default_shared_fs_rhel_image" {
   default     = "RHEL8-SP4-SAP-NETWEAVER"
 }
 
-variable "sap_hana_instance_config" {
-  description = "SAP HANA PowerVS instance configuration. If data is specified here - will replace other input."
-  type = object({
-    hostname       = string
-    domain         = string
-    host_ip        = string
-    sap_profile_id = string
-    os_image_name  = string
-  })
-  default = {
-    hostname       = ""
-    domain         = ""
-    host_ip        = ""
-    sap_profile_id = ""
-    os_image_name  = ""
-  }
-}
-
 variable "sap_share_instance_config" {
   description = "SAP shared file system PowerVS instance configuration. If data is specified here - will replace other input."
   type = object({
-    hostname             = string
-    domain               = string
-    host_ip              = string
     os_image_name        = string
-    cpu_proc_type        = string
     number_of_processors = string
     memory_size          = string
+    cpu_proc_type        = string
     server_type          = string
   })
   default = {
-    hostname             = ""
-    domain               = ""
-    host_ip              = ""
     os_image_name        = ""
-    cpu_proc_type        = "shared"
     number_of_processors = "0.5"
     memory_size          = "4"
+    cpu_proc_type        = "shared"
     server_type          = "s922"
   }
 }
@@ -257,28 +251,52 @@ variable "sap_share_storage_config" {
   }
 }
 
+variable "sap_hana_instance_config" {
+  description = "SAP HANA PowerVS instance configuration. If data is specified here - will replace other input."
+  type = object({
+    os_image_name  = string
+    sap_profile_id = string
+  })
+  default = {
+    os_image_name  = ""
+    sap_profile_id = ""
+  }
+}
+
+variable "sap_hana_custom_storage_config" {
+  description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
+  default = {
+    names      = ""
+    disks_size = ""
+    counts     = ""
+    tiers      = ""
+    paths      = ""
+  }
+}
+
 variable "sap_netweaver_instance_config" {
   description = "SAP NetWeaver PowerVS instance configuration. If data is specified here - will replace other input."
   type = object({
     number_of_instances  = string
-    hostname             = string
-    domain               = string
-    host_ips             = string
     os_image_name        = string
-    cpu_proc_type        = string
     number_of_processors = string
     memory_size          = string
+    cpu_proc_type        = string
     server_type          = string
   })
   default = {
     number_of_instances  = ""
-    hostname             = ""
-    domain               = ""
-    host_ips             = ""
     os_image_name        = ""
-    cpu_proc_type        = "shared"
     number_of_processors = ""
     memory_size          = ""
+    cpu_proc_type        = "shared"
     server_type          = "s922"
   }
 }

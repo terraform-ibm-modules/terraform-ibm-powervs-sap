@@ -7,7 +7,7 @@
       "description": "Public IP of Bastion/jumpserver Host",
       "pos": {
         "filename": "variables.tf",
-        "line": 218
+        "line": 236
       }
     },
     "configure_os": {
@@ -17,7 +17,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 207
+        "line": 225
       }
     },
     "dns_host_or_ip": {
@@ -27,7 +27,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 243
+        "line": 261
       }
     },
     "nfs_client_directory": {
@@ -37,7 +37,7 @@
       "default": "/nfs",
       "pos": {
         "filename": "variables.tf",
-        "line": 255
+        "line": 273
       }
     },
     "nfs_path": {
@@ -47,7 +47,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 249
+        "line": 267
       }
     },
     "ntp_host_or_ip": {
@@ -57,7 +57,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 237
+        "line": 255
       }
     },
     "os_image_distro": {
@@ -67,7 +67,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 213
+        "line": 231
       }
     },
     "powervs_additional_networks": {
@@ -83,11 +83,43 @@
     "powervs_cloud_connection_count": {
       "name": "powervs_cloud_connection_count",
       "type": "string",
-      "description": "Number of existing Cloud connections to attach new private network",
+      "description": "Existing number of Cloud connections to which new subnet must be attached.",
       "default": 2,
       "pos": {
         "filename": "variables.tf",
         "line": 38
+      }
+    },
+    "powervs_hana_additional_storage_config": {
+      "name": "powervs_hana_additional_storage_config",
+      "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
+      "description": "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
+      "default": {
+        "counts": "1",
+        "disks_size": "50",
+        "names": "usrsap",
+        "paths": "/usr/sap",
+        "tiers": "tier3"
+      },
+      "pos": {
+        "filename": "variables.tf",
+        "line": 125
+      }
+    },
+    "powervs_hana_custom_storage_config": {
+      "name": "powervs_hana_custom_storage_config",
+      "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
+      "description": "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
+      "default": {
+        "counts": "",
+        "disks_size": "",
+        "names": "",
+        "paths": "",
+        "tiers": ""
+      },
+      "pos": {
+        "filename": "variables.tf",
+        "line": 143
       }
     },
     "powervs_hana_image_name": {
@@ -113,27 +145,11 @@
     "powervs_hana_sap_profile_id": {
       "name": "powervs_hana_sap_profile_id",
       "type": "string",
-      "description": "SAP Profile Id for HANA instance",
+      "description": "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional powervs_hana_custom_storage_config parameter.",
       "default": "cnp-2x64",
       "pos": {
         "filename": "variables.tf",
         "line": 119
-      }
-    },
-    "powervs_hana_storage_config": {
-      "name": "powervs_hana_storage_config",
-      "type": "object({\n    names      = string\n    disks_size = string\n    counts     = string\n    tiers      = string\n    paths      = string\n  })",
-      "description": "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths.",
-      "default": {
-        "counts": "",
-        "disks_size": "",
-        "names": "",
-        "paths": "",
-        "tiers": ""
-      },
-      "pos": {
-        "filename": "variables.tf",
-        "line": 125
       }
     },
     "powervs_netweaver_cpu_proc_type": {
@@ -143,7 +159,7 @@
       "default": "shared",
       "pos": {
         "filename": "variables.tf",
-        "line": 173
+        "line": 191
       }
     },
     "powervs_netweaver_image_name": {
@@ -153,17 +169,17 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 152
+        "line": 176
       }
     },
     "powervs_netweaver_instance_name": {
       "name": "powervs_netweaver_instance_name",
       "type": "string",
-      "description": "Name of instance which will be created",
+      "description": "Name of netweaver instance which will be created",
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 147
+        "line": 171
       }
     },
     "powervs_netweaver_memory_size": {
@@ -173,17 +189,17 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 168
+        "line": 186
       }
     },
     "powervs_netweaver_number_of_instances": {
       "name": "powervs_netweaver_number_of_instances",
-      "type": "string",
+      "type": "number",
       "description": "Number of instances",
       "default": 1,
       "pos": {
         "filename": "variables.tf",
-        "line": 157
+        "line": 165
       }
     },
     "powervs_netweaver_number_of_processors": {
@@ -193,7 +209,7 @@
       "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 163
+        "line": 181
       }
     },
     "powervs_netweaver_server_type": {
@@ -203,7 +219,7 @@
       "default": "s922",
       "pos": {
         "filename": "variables.tf",
-        "line": 179
+        "line": 197
       }
     },
     "powervs_netweaver_storage_config": {
@@ -219,7 +235,7 @@
       },
       "pos": {
         "filename": "variables.tf",
-        "line": 185
+        "line": 203
       }
     },
     "powervs_resource_group_name": {
@@ -365,7 +381,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 231
+        "line": 249
       }
     },
     "sap_domain": {
@@ -375,7 +391,7 @@
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 261
+        "line": 279
       }
     },
     "ssh_private_key": {
@@ -385,7 +401,7 @@
       "sensitive": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 224
+        "line": 242
       }
     }
   },
@@ -430,7 +446,7 @@
     "ibm": {
       "source": "IBM-Cloud/ibm",
       "version_constraints": [
-        "\u003e= 1.43.0"
+        "= 1.45.1"
       ]
     }
   },
@@ -497,7 +513,7 @@
       "data_resources": null,
       "pos": {
         "filename": "main.tf",
-        "line": 118
+        "line": 149
       }
     },
     "sap_hana_instance": {
@@ -510,7 +526,6 @@
         "powervs_resource_group_name": "powervs_resource_group_name",
         "powervs_sap_profile_id": "powervs_hana_sap_profile_id",
         "powervs_sshkey_name": "powervs_sshkey_name",
-        "powervs_storage_config": "powervs_hana_storage_config",
         "powervs_workspace_name": "powervs_workspace_name",
         "powervs_zone": "powervs_zone"
       },
@@ -518,7 +533,7 @@
       "data_resources": null,
       "pos": {
         "filename": "main.tf",
-        "line": 53
+        "line": 84
       }
     },
     "sap_netweaver_instance": {
@@ -543,7 +558,7 @@
       "data_resources": null,
       "pos": {
         "filename": "main.tf",
-        "line": 68
+        "line": 99
       }
     },
     "share_fs_instance": {

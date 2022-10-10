@@ -50,6 +50,37 @@ module "share_fs_instance" {
   powervs_storage_config       = var.powervs_share_storage_config
 }
 
+#######################################################
+### Storage Calculation for HANA Instance
+#######################################################
+locals {
+  additional_hana_storage_set  = var.powervs_hana_additional_storage_config != null && var.powervs_hana_additional_storage_config["disks_size"] != "" ? true : false
+  custom_hana_storage_set      = var.powervs_hana_custom_storage_config != null && var.powervs_hana_custom_storage_config["disks_size"] != "" ? true : false
+  auto_cal_hana_disks_counts   = "4,4,1"
+  auto_cal_hana_paths          = "/hana/data,/hana/log,/hana/shared"
+  auto_cal_hana_tiers          = "tier1,tier1,tier3"
+  auto_cal_memory_size         = tonumber(element(split("x", var.powervs_hana_sap_profile_id), 1))
+  auto_cal_data_volume_size    = floor((local.auto_cal_memory_size * 1.1) / 4) + 1
+  auto_cal_log_volume_size_tmp = floor((local.auto_cal_memory_size * 0.5) / 4) + 1
+  auto_cal_log_volume_size     = local.auto_cal_log_volume_size_tmp > 512 ? 512 : local.auto_cal_log_volume_size_tmp
+  auto_cal_shared_volume_size  = floor(local.auto_cal_memory_size > 1024 ? 1024 : local.auto_cal_memory_size)
+  auto_cal_hana_storage_config = {
+    names      = local.additional_hana_storage_set ? "data,log,shared,${var.powervs_hana_additional_storage_config["names"]}" : "data,log,shared"
+    disks_size = local.additional_hana_storage_set ? "${local.auto_cal_data_volume_size},${local.auto_cal_log_volume_size},${local.auto_cal_shared_volume_size},${var.powervs_hana_additional_storage_config["disks_size"]}" : "${local.auto_cal_data_volume_size},${local.auto_cal_log_volume_size},${local.auto_cal_shared_volume_size}"
+    counts     = local.additional_hana_storage_set ? "${local.auto_cal_hana_disks_counts},${var.powervs_hana_additional_storage_config["counts"]}" : local.auto_cal_hana_disks_counts
+    tiers      = local.additional_hana_storage_set ? "tier1,tier1,tier1,${var.powervs_hana_additional_storage_config["tiers"]}" : local.auto_cal_hana_tiers
+    paths      = local.additional_hana_storage_set ? "/hana/data,/hana/log,/hana/shared,${var.powervs_hana_additional_storage_config["paths"]}" : local.auto_cal_hana_paths
+  }
+  custom_storage_config = local.custom_hana_storage_set ? {
+    names      = local.additional_hana_storage_set ? "${var.powervs_hana_custom_storage_config["names"]},${var.powervs_hana_additional_storage_config["names"]}" : var.powervs_hana_custom_storage_config["names"]
+    disks_size = local.additional_hana_storage_set ? "${var.powervs_hana_custom_storage_config["disks_size"]},${var.powervs_hana_additional_storage_config["disks_size"]}" : var.powervs_hana_custom_storage_config["disks_size"]
+    counts     = local.additional_hana_storage_set ? "${var.powervs_hana_custom_storage_config["counts"]},${var.powervs_hana_additional_storage_config["counts"]}" : var.powervs_hana_custom_storage_config["counts"]
+    tiers      = local.additional_hana_storage_set ? "${var.powervs_hana_custom_storage_config["tiers"]},${var.powervs_hana_additional_storage_config["tiers"]}" : var.powervs_hana_custom_storage_config["tiers"]
+    paths      = local.additional_hana_storage_set ? "${var.powervs_hana_custom_storage_config["paths"]},${var.powervs_hana_additional_storage_config["paths"]}" : var.powervs_hana_custom_storage_config["paths"]
+  } : null
+  powervs_hana_storage_config = local.custom_hana_storage_set ? local.custom_storage_config : local.auto_cal_hana_storage_config
+}
+
 module "sap_hana_instance" {
   source     = "./submodules/power_instance"
   depends_on = [module.attach_sap_network]
@@ -62,7 +93,7 @@ module "sap_hana_instance" {
   powervs_os_image_name       = var.powervs_hana_image_name
   powervs_sap_profile_id      = var.powervs_hana_sap_profile_id
   powervs_networks            = concat(var.powervs_additional_networks, [var.powervs_sap_network["name"]])
-  powervs_storage_config      = var.powervs_hana_storage_config
+  powervs_storage_config      = local.powervs_hana_storage_config
 }
 
 module "sap_netweaver_instance" {
@@ -108,7 +139,7 @@ locals {
   }
 
   target_server_ips         = concat([module.sap_hana_instance.instance_mgmt_ip], module.share_fs_instance.*.instance_mgmt_ip, module.sap_netweaver_instance.*.instance_mgmt_ip)
-  hana_storage_configs      = [merge(var.powervs_hana_storage_config, { "wwns" = join(",", module.sap_hana_instance.instance_wwns) })]
+  hana_storage_configs      = [merge(local.powervs_hana_storage_config, { "wwns" = join(",", module.sap_hana_instance.instance_wwns) })]
   sharefs_storage_configs   = [for instance_wwns in module.share_fs_instance.*.instance_wwns : merge(var.powervs_share_storage_config, { "wwns" = join(",", instance_wwns) })]
   netweaver_storage_configs = [for instance_wwns in module.sap_netweaver_instance.*.instance_wwns : merge(var.powervs_netweaver_storage_config, { "wwns" = join(",", instance_wwns) })]
   all_storage_configs       = concat(local.hana_storage_configs, local.sharefs_storage_configs, local.netweaver_storage_configs)

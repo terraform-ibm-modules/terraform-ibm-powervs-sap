@@ -16,6 +16,10 @@ variable "powervs_workspace_name" {
 variable "powervs_instance_name" {
   description = "Name of instance which will be created"
   type        = string
+  validation {
+    condition     = length(var.powervs_instance_name) <= 13
+    error_message = "Maximum length of Instance name must be less or equal to 13 characters only."
+  }
 }
 
 variable "powervs_sshkey_name" {

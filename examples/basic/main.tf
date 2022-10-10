@@ -143,10 +143,11 @@ module "sap_systems" {
   powervs_share_server_type          = var.sap_share_instance_config["server_type"]
   powervs_share_storage_config       = var.sap_share_storage_config
 
-  powervs_hana_instance_name  = var.sap_hana_instance_config["hostname"]
-  powervs_hana_image_name     = var.sap_hana_instance_config["os_image_name"]
-  powervs_hana_sap_profile_id = var.sap_hana_instance_config["sap_profile_id"]
-  powervs_hana_storage_config = var.sap_hana_storage_config
+  powervs_hana_instance_name             = var.sap_hana_instance_config["hostname"]
+  powervs_hana_image_name                = var.sap_hana_instance_config["os_image_name"]
+  powervs_hana_sap_profile_id            = var.sap_hana_instance_config["sap_profile_id"]
+  powervs_hana_custom_storage_config     = var.sap_hana_custom_storage_config
+  powervs_hana_additional_storage_config = var.sap_hana_additional_storage_config
 
   powervs_netweaver_instance_name        = var.sap_netweaver_instance_config["hostname"]
   powervs_netweaver_image_name           = var.sap_netweaver_instance_config["os_image_name"]
@@ -166,5 +167,5 @@ module "sap_systems" {
   dns_host_or_ip        = var.dns_forwarder_config["server_host_or_ip"]
   nfs_path              = var.nfs_config["nfs_directory"]
   nfs_client_directory  = var.nfs_client_directory
-  sap_domain            = ""
+  sap_domain            = var.sap_domain
 }

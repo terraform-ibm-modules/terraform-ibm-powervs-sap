@@ -37,12 +37,13 @@ module "sap_systems" {
   powervs_share_memory_size              = var.powervs_share_memory_size
   powervs_share_cpu_proc_type            = var.powervs_share_cpu_proc_type
   powervs_share_server_type              = var.powervs_share_server_type
-  powervs_share_storage_config           = var.sap_share_storage_config
+  powervs_share_storage_config           = var.powervs_share_storage_config
 
   powervs_hana_instance_name             = var.powervs_hana_hostname
   powervs_hana_image_name                = var.powervs_hana_os_image
   powervs_hana_sap_profile_id            = var.powervs_hana_sap_profile_id
-  powervs_hana_storage_config            = var.sap_hana_additional_storage_config
+  powervs_hana_additional_storage_config = var.powervs_hana_additional_storage_config
+  powervs_hana_custom_storage_config     = var.powervs_hana_custom_storage_config
 
 
   powervs_netweaver_instance_name        = var.powervs_netweaver_hostname
@@ -52,7 +53,7 @@ module "sap_systems" {
   powervs_netweaver_memory_size          = var.powervs_netweaver_memory_size
   powervs_netweaver_cpu_proc_type        = var.powervs_netweaver_cpu_proc_type
   powervs_netweaver_server_type          = var.powervs_netweaver_server_type
-  powervs_netweaver_storage_config       = var.sap_netweaver_storage_config
+  powervs_netweaver_storage_config       = var.powervs_netweaver_storage_config
 
   configure_os                           = var.configure_os
   os_image_distro                        = var.os_image_distro
@@ -73,7 +74,7 @@ module "sap_systems" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.43.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | = 1.45.1 |
 
 ## Modules
 
@@ -103,16 +104,17 @@ No resources.
 | <a name="input_ntp_host_or_ip"></a> [ntp\_host\_or\_ip](#input\_ntp\_host\_or\_ip) | NTP forwarder/server hosname or IP address. E.g., 10.10.10.7 | `string` | `""` | no |
 | <a name="input_os_image_distro"></a> [os\_image\_distro](#input\_os\_image\_distro) | Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters. | `string` | n/a | yes |
 | <a name="input_powervs_additional_networks"></a> [powervs\_additional\_networks](#input\_powervs\_additional\_networks) | Existing list of subnets name to be attached to an instance. First network has to be a management network. | `list(any)` | n/a | yes |
-| <a name="input_powervs_cloud_connection_count"></a> [powervs\_cloud\_connection\_count](#input\_powervs\_cloud\_connection\_count) | Number of existing Cloud connections to attach new private network | `string` | `2` | no |
+| <a name="input_powervs_cloud_connection_count"></a> [powervs\_cloud\_connection\_count](#input\_powervs\_cloud\_connection\_count) | Existing number of Cloud connections to which new subnet must be attached. | `string` | `2` | no |
+| <a name="input_powervs_hana_additional_storage_config"></a> [powervs\_hana\_additional\_storage\_config](#input\_powervs\_hana\_additional\_storage\_config) | Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'disk\_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths. | <pre>object({<br>    names      = string<br>    disks_size = string<br>    counts     = string<br>    tiers      = string<br>    paths      = string<br>  })</pre> | <pre>{<br>  "counts": "1",<br>  "disks_size": "50",<br>  "names": "usrsap",<br>  "paths": "/usr/sap",<br>  "tiers": "tier3"<br>}</pre> | no |
+| <a name="input_powervs_hana_custom_storage_config"></a> [powervs\_hana\_custom\_storage\_config](#input\_powervs\_hana\_custom\_storage\_config) | Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'disk\_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths. | <pre>object({<br>    names      = string<br>    disks_size = string<br>    counts     = string<br>    tiers      = string<br>    paths      = string<br>  })</pre> | <pre>{<br>  "counts": "",<br>  "disks_size": "",<br>  "names": "",<br>  "paths": "",<br>  "tiers": ""<br>}</pre> | no |
 | <a name="input_powervs_hana_image_name"></a> [powervs\_hana\_image\_name](#input\_powervs\_hana\_image\_name) | Image Name for HANA Instance. | `string` | n/a | yes |
 | <a name="input_powervs_hana_instance_name"></a> [powervs\_hana\_instance\_name](#input\_powervs\_hana\_instance\_name) | Name of instance which will be created. | `string` | n/a | yes |
-| <a name="input_powervs_hana_sap_profile_id"></a> [powervs\_hana\_sap\_profile\_id](#input\_powervs\_hana\_sap\_profile\_id) | SAP Profile Id for HANA instance | `string` | `"cnp-2x64"` | no |
-| <a name="input_powervs_hana_storage_config"></a> [powervs\_hana\_storage\_config](#input\_powervs\_hana\_storage\_config) | File systems to be created and attached to PowerVS instance for SAP HANA. 'disk\_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths. | <pre>object({<br>    names      = string<br>    disks_size = string<br>    counts     = string<br>    tiers      = string<br>    paths      = string<br>  })</pre> | <pre>{<br>  "counts": "",<br>  "disks_size": "",<br>  "names": "",<br>  "paths": "",<br>  "tiers": ""<br>}</pre> | no |
+| <a name="input_powervs_hana_sap_profile_id"></a> [powervs\_hana\_sap\_profile\_id](#input\_powervs\_hana\_sap\_profile\_id) | SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional powervs\_hana\_custom\_storage\_config parameter. | `string` | `"cnp-2x64"` | no |
 | <a name="input_powervs_netweaver_cpu_proc_type"></a> [powervs\_netweaver\_cpu\_proc\_type](#input\_powervs\_netweaver\_cpu\_proc\_type) | Dedicated or shared processors | `string` | `"shared"` | no |
 | <a name="input_powervs_netweaver_image_name"></a> [powervs\_netweaver\_image\_name](#input\_powervs\_netweaver\_image\_name) | Image Name for netweaver instance | `string` | n/a | yes |
-| <a name="input_powervs_netweaver_instance_name"></a> [powervs\_netweaver\_instance\_name](#input\_powervs\_netweaver\_instance\_name) | Name of instance which will be created | `string` | n/a | yes |
+| <a name="input_powervs_netweaver_instance_name"></a> [powervs\_netweaver\_instance\_name](#input\_powervs\_netweaver\_instance\_name) | Name of netweaver instance which will be created | `string` | n/a | yes |
 | <a name="input_powervs_netweaver_memory_size"></a> [powervs\_netweaver\_memory\_size](#input\_powervs\_netweaver\_memory\_size) | Amount of memory | `string` | n/a | yes |
-| <a name="input_powervs_netweaver_number_of_instances"></a> [powervs\_netweaver\_number\_of\_instances](#input\_powervs\_netweaver\_number\_of\_instances) | Number of instances | `string` | `1` | no |
+| <a name="input_powervs_netweaver_number_of_instances"></a> [powervs\_netweaver\_number\_of\_instances](#input\_powervs\_netweaver\_number\_of\_instances) | Number of instances | `number` | `1` | no |
 | <a name="input_powervs_netweaver_number_of_processors"></a> [powervs\_netweaver\_number\_of\_processors](#input\_powervs\_netweaver\_number\_of\_processors) | Number of processors | `string` | n/a | yes |
 | <a name="input_powervs_netweaver_server_type"></a> [powervs\_netweaver\_server\_type](#input\_powervs\_netweaver\_server\_type) | Processor type e980, s922, s1022 or e1080 | `string` | `"s922"` | no |
 | <a name="input_powervs_netweaver_storage_config"></a> [powervs\_netweaver\_storage\_config](#input\_powervs\_netweaver\_storage\_config) | File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk\_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths. | <pre>object({<br>    names      = string<br>    disks_size = string<br>    counts     = string<br>    tiers      = string<br>    paths      = string<br>  })</pre> | <pre>{<br>  "counts": "",<br>  "disks_size": "",<br>  "names": "",<br>  "paths": "",<br>  "tiers": ""<br>}</pre> | no |

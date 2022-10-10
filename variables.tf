@@ -36,7 +36,7 @@ variable "powervs_additional_networks" {
 }
 
 variable "powervs_cloud_connection_count" {
-  description = "Number of existing Cloud connections to attach new private network"
+  description = "Existing number of Cloud connections to which new subnet must be attached."
   type        = string
   default     = 2
 }
@@ -117,13 +117,31 @@ variable "powervs_hana_image_name" {
 }
 
 variable "powervs_hana_sap_profile_id" {
-  description = "SAP Profile Id for HANA instance"
+  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional powervs_hana_custom_storage_config parameter."
   type        = string
   default     = "cnp-2x64"
 }
 
-variable "powervs_hana_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+variable "powervs_hana_additional_storage_config" {
+  description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
+  default = {
+    names      = "usrsap"
+    disks_size = "50"
+    counts     = "1"
+    tiers      = "tier3"
+    paths      = "/usr/sap"
+  }
+}
+
+variable "powervs_hana_custom_storage_config" {
+  description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string
@@ -144,20 +162,20 @@ variable "powervs_hana_storage_config" {
 # PowerVS NetWeaver Instance parameters
 #####################################################
 
+variable "powervs_netweaver_number_of_instances" {
+  description = "Number of instances"
+  type        = number
+  default     = 1
+}
+
 variable "powervs_netweaver_instance_name" {
-  description = "Name of instance which will be created"
+  description = "Name of netweaver instance which will be created"
   type        = string
 }
 
 variable "powervs_netweaver_image_name" {
   description = "Image Name for netweaver instance"
   type        = string
-}
-
-variable "powervs_netweaver_number_of_instances" {
-  description = "Number of instances"
-  type        = string
-  default     = 1
 }
 
 variable "powervs_netweaver_number_of_processors" {
