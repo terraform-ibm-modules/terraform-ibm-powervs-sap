@@ -15,7 +15,7 @@ variable "powervs_zone" {
 }
 
 variable "prefix" {
-  description = "Unique prefix for resources to be created (e.g., SAP system name)."
+  description = "Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6."
   type        = string
   validation {
     condition     = length(var.prefix) <= 6

@@ -25,7 +25,7 @@ variable "powervs_sshkey_name" {
 }
 
 variable "prefix" {
-  description = "Prefix for resources which will be created. Max length is 6"
+  description = "Prefix for resources which will be created. Max length must be less than or equal to 6."
   type        = string
   validation {
     condition     = length(var.prefix) <= 6
