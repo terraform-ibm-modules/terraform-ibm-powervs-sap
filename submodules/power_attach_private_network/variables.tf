@@ -8,8 +8,8 @@ variable "powervs_resource_group_name" {
   type        = string
 }
 
-variable "powervs_service_name" {
-  description = "Existing Name of the PowerVS service."
+variable "powervs_workspace_name" {
+  description = "Existing Name of the PowerVS workspace."
   type        = string
 }
 
@@ -21,5 +21,4 @@ variable "powervs_sap_network_name" {
 variable "powervs_cloud_connection_count" {
   description = "Number of existing Cloud connections to attach new private network"
   type        = string
-  default     = 2
 }

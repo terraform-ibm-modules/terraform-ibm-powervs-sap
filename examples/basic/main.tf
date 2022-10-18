@@ -57,8 +57,8 @@ provider "ibm" {
 #####################################################
 
 locals {
-  powervs_service_name = "${var.prefix}-${var.powervs_zone}-${var.powervs_service_name}"
-  powervs_sshkey_name  = "${var.prefix}-${var.powervs_zone}-${var.powervs_sshkey_name}"
+  powervs_workspace_name = "${var.prefix}-${var.powervs_zone}-${var.powervs_workspace_name}"
+  powervs_sshkey_name    = "${var.prefix}-${var.powervs_zone}-${var.powervs_sshkey_name}"
 }
 
 # Security Notice
@@ -91,7 +91,7 @@ module "power_infrastructure" {
 
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = module.resource_group.resource_group_name
-  powervs_service_name        = local.powervs_service_name
+  powervs_service_name        = local.powervs_workspace_name
   tags                        = var.resource_tags
   powervs_sshkey_name         = local.powervs_sshkey_name
   ssh_public_key              = ibm_is_ssh_key.ssh_key.public_key
@@ -128,10 +128,9 @@ module "sap_systems" {
 
   powervs_zone                   = var.powervs_zone
   powervs_resource_group_name    = module.resource_group.resource_group_name
-  powervs_service_name           = local.powervs_service_name
+  powervs_workspace_name         = local.powervs_workspace_name
   powervs_sshkey_name            = local.powervs_sshkey_name
-  powervs_sap_network_name       = local.powervs_sap_network_name
-  powervs_sap_network_cidr       = var.powervs_sap_network_cidr
+  powervs_sap_network            = { "name" = local.powervs_sap_network_name, "cidr" = var.powervs_sap_network_cidr }
   powervs_additional_networks    = local.additional_networks
   powervs_cloud_connection_count = var.cloud_connection_count
 
@@ -144,10 +143,11 @@ module "sap_systems" {
   powervs_share_server_type          = var.sap_share_instance_config["server_type"]
   powervs_share_storage_config       = var.sap_share_storage_config
 
-  powervs_hana_instance_name  = var.sap_hana_instance_config["hostname"]
-  powervs_hana_image_name     = var.sap_hana_instance_config["os_image_name"]
-  powervs_hana_sap_profile_id = var.sap_hana_instance_config["sap_profile_id"]
-  powervs_hana_storage_config = var.sap_hana_storage_config
+  powervs_hana_instance_name             = var.sap_hana_instance_config["hostname"]
+  powervs_hana_image_name                = var.sap_hana_instance_config["os_image_name"]
+  powervs_hana_sap_profile_id            = var.sap_hana_instance_config["sap_profile_id"]
+  powervs_hana_custom_storage_config     = var.sap_hana_custom_storage_config
+  powervs_hana_additional_storage_config = var.sap_hana_additional_storage_config
 
   powervs_netweaver_instance_name        = var.sap_netweaver_instance_config["hostname"]
   powervs_netweaver_image_name           = var.sap_netweaver_instance_config["os_image_name"]
@@ -167,5 +167,5 @@ module "sap_systems" {
   dns_host_or_ip        = var.dns_forwarder_config["server_host_or_ip"]
   nfs_path              = var.nfs_config["nfs_directory"]
   nfs_client_directory  = var.nfs_client_directory
-  sap_domain            = ""
+  sap_domain            = var.sap_domain
 }
