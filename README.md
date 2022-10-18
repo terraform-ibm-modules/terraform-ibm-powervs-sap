@@ -10,7 +10,7 @@ The PowerVS SAP system module automates the following tasks:
 
 Following limitations currently apply:
 - The name of SAP system network should be unique and might not be reused. If you destroy existing system and recreate it again, you must use another network name.
-- Only SLES15 SP3 as operating system is supported
+- Only SLES15 SP3 and RHEL 8.4 as operating system are supported
 
 ## Example Usage
 ```hcl
