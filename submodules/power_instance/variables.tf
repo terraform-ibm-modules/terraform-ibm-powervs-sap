@@ -8,14 +8,18 @@ variable "powervs_resource_group_name" {
   type        = string
 }
 
-variable "powervs_service_name" {
-  description = "Existing Name of the PowerVS service."
+variable "powervs_workspace_name" {
+  description = "Existing Name of the PowerVS workspace."
   type        = string
 }
 
 variable "powervs_instance_name" {
   description = "Name of instance which will be created"
   type        = string
+  validation {
+    condition     = length(var.powervs_instance_name) <= 13
+    error_message = "Maximum length of Instance name must be less or equal to 13 characters only."
+  }
 }
 
 variable "powervs_sshkey_name" {
@@ -67,11 +71,10 @@ variable "powervs_os_image_storage_type" {
 variable "powervs_networks" {
   description = "Existing map of subnet names and IPs to be attached to the node. First network has to be a management network. If IP is null, the address will be generated."
   type        = list(string)
-  default     = ["mgmt_net", "backup_net"]
 }
 
 variable "powervs_storage_config" {
-  description = "DISKS To be created and attached to PowerVS Instance. Comma separated values"
+  description = "DISKS To be created and attached to PowerVS Instance. Comma separated values.'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string
