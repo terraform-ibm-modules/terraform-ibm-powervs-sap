@@ -1,18 +1,32 @@
-# PowerVS SAP system module
+<!-- BEGIN MODULE HOOK -->
 
-The PowerVS SAP system module automates the following tasks:
-- Creates and configures one PowerVS instance for SAP HANA based on best practices
-- Creates and configures 1..n PowerVS instances for SAP NetWeaver based on best practices
+# SAP on secure Power Virtual Servers module
+
+<!-- UPDATE BADGE: Update the link for the badge below-->
+[![Graduated (Supported)](https://img.shields.io/badge/status-Graduated%20(Supported)-brightgreen?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
+[![build status](https://github.com/terraform-ibm-modules/terraform-ibm-landing-zone/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-landing-zone/actions/workflows/ci.yml)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-powervs-sap?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/releases/latest)
+
+The SAP on secure Power Virtual Servers (PowerVS) module automates the following tasks:
+
+- Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
+- Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.
 - Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
-- Connects all created PowerVS instances to proxy server specified by IP address or host name
-- Optionally connects all created PowerVS instances to NTP and/or DNS forwarder specified by IP address or host name
-- Optionally configures on all created PowerVS instances a shared NFS directory provided by NFS server specified by IP address or host name
+- Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
+- Optionally connects all created PowerVS instances to an NTP server nd DNS forwarder that are specified by IP address or hostname.
+- Optionally configures a shared NFS directory on all created PowerVS instances. The directory is provided by an NFS server that is specified by IP address or hostname.
 
-Following limitations currently apply:
-- The name of SAP system network should be unique and might not be reused. If you destroy existing system and recreate it again, you must use another network name.
-- Only SLES15 SP3 and RHEL 8.4 as operating system are supported
+The following limitations apply to the module:
 
-## Example Usage
+- The name of the SAP system network must be unique and cannot be reused. If you destroy a system and re-create it, you must use a different network name.
+- Only the following operating systems are supported:
+    - SUSE Linux Enterprise Server (SLES) version 15 SP3
+    - Red Hat Enterprise Linux (RHEL) version 8.4
+
+## Usage
+
 ```hcl
 provider "ibm" {
   region           = var.powervs_region
@@ -66,6 +80,43 @@ module "sap_systems" {
   sap_domain                             = var.sap_domain
 }
 ```
+<!-- PERMISSIONS REQUIRED TO RUN MODULE
+## Required IAM access policies
+
+If this module requires permissions, uncomment the following block and update
+the sample permissions, following the format.
+Replace the sample Account and IBM Cloud service names and roles with the
+information in the console at
+Manage > Access (IAM) > Access groups > Access policies.
+-->
+
+<!--
+You need the following permissions to run this module.
+
+- Account Management
+    - **Sample Account Service** service
+        - `Editor` platform access
+        - `Manager` service access
+    - IAM Services
+        - **Sample Cloud Service** service
+            - `Administrator` platform access
+-->
+
+<!-- NO PERMISSIONS FOR MODULE
+If no permissions are required for the module, uncomment the following
+statement instead the previous block.
+-->
+
+<!-- No permissions are needed to run this module.-->
+<!-- END MODULE HOOK -->
+
+<!-- BEGIN EXAMPLES HOOK -->
+## Examples
+
+- [ Basic PowerVS SAP system Module Example](examples/basic)
+- [  PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/prepared-system-solution)
+- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/prepared-system)
+<!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -143,3 +194,11 @@ No resources.
 | <a name="output_netweaver_instance_private_ips"></a> [netweaver\_instance\_private\_ips](#output\_netweaver\_instance\_private\_ips) | Private IPs of all NetWeaver instances. |
 | <a name="output_share_fs_instance_private_ips"></a> [share\_fs\_instance\_private\_ips](#output\_share\_fs\_instance\_private\_ips) | Private IPs of the Share FS instance. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+<!-- BEGIN CONTRIBUTING HOOK -->
+## Contributing
+
+You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
+
+To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
+<!-- END CONTRIBUTING HOOK -->
