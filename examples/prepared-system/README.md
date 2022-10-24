@@ -1,12 +1,13 @@
 # PowerVS SAP system example to create SAP prepared PowerVS instances
 
 The PowerVS SAP system example automates the following tasks:
-- Creates and configures one PowerVS instance for SAP HANA based on best practises
-- Creates and configures 1..n PowerVS instances for SAP NetWeaver based on best practises
+
+- Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
+- Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.
 - Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
-- Connects all created PowerVS instances to proxy server specified by IP address or host name
-- Optionally connects all created PowerVS instances to NTP and/or DNS forwarder specified by IP address or host name
-- Optionally configures on all created PowerVS instances a shared NFS directory provided by NFS server specified by IP address or host name
+- Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
+- Optionally connects all created PowerVS instances to an NTP server nd DNS forwarder that are specified by IP address or hostname.
+- Optionally configures a shared NFS directory on all created PowerVS instances. The directory is provided by an NFS server that is specified by IP address or hostname.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
