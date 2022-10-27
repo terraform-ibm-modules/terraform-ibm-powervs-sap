@@ -1,6 +1,6 @@
 output "instance_private_ips" {
   description = "All private IP addresses (as a list) of IBM PowerVS instance."
-  value       = join(", ", [for ip in data.ibm_pi_instance.instance_ips_ds.networks.*.ip : format("%s", ip)])
+  value       = join(", ", [for ip in data.ibm_pi_instance.instance_ips_ds.networks[*].ip : format("%s", ip)])
 }
 
 output "instance_private_ips_info" {
