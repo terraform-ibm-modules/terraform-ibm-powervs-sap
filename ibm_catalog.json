@@ -1,123 +1,127 @@
 {
-    "name": "sap-on-powervs",
-    "flavors": [
+    "products": [
         {
-            "label": "SAP-prepared-PowerVS-instances",
-            "name": "prepared_system",
-            "working_directory": "examples/ibm-catalog/prepared-system-solution",
-            "usage": "module \"power-infrastructure\" {\n   source = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz\u0026kind=terraform\u0026name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure\u0026version=1.0.5\"\n  }",
-            "compliance": {
-                "controls": [
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "AC-2(1)"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "AC-2(a)"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "AC-2(c)"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "AC-2(i)"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "AC-2(j)"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "AC-3"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "AC-4"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "AC-6-0"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "AU-2(a)"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "CA-7(a)"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "CM-2"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "CM-8(4)"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "IA-4"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "SC-8-0"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "RA-5(a)"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "SC-12"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "SC-13"
-                    },
-                    {
-                        "profile_name": "SAP on IBM Power compliance v0.1.2",
-                        "control_id": "SC-36"
-                    }
-                ]
-            },
-            "iam_permissions": [
+            "name": "sap-on-powervs",
+            "flavors": [
                 {
-                    "role_crns": [
-                        "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+                    "label": "SAP-prepared-PowerVS-instances",
+                    "name": "prepared_system",
+                    "working_directory": "examples/ibm-catalog/prepared-system-solution",
+                    "usage": "module \"power-infrastructure\" {\n   source = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure&version=1.0.5\"\n  }",
+                    "compliance": {
+                        "controls": [
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "AC-2(1)"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "AC-2(a)"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "AC-2(c)"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "AC-2(i)"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "AC-2(j)"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "AC-3"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "AC-4"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "AC-6-0"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "AU-2(a)"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "CA-7(a)"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "CM-2"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "CM-8(4)"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "IA-4"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "SC-8-0"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "RA-5(a)"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "SC-12"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "SC-13"
+                            },
+                            {
+                                "profile_name": "SAP on IBM Power compliance v0.1.2",
+                                "control_id": "SC-36"
+                            }
+                        ]
+                    },
+                    "iam_permissions": [
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+                            ],
+                            "service_name": "power-iaas"
+                        }
                     ],
-                    "service_name": "power-iaas"
-                }
-            ],
-            "dependencies": [
-                {
-                    "flavors": [
-                        "standard"
+                    "dependencies": [
+                        {
+                            "flavors": [
+                                "standard"
+                            ],
+                            "id": "07e92c55-6a5b-4f3d-aa0e-30212e108af9-global",
+                            "name": "terraform-ibm-powervs-catalog-powervs-sap-infrastructure",
+                            "version": "^4.0.0,^5.0.0"
+                        }
                     ],
-                    "id": "07e92c55-6a5b-4f3d-aa0e-30212e108af9-global",
-                    "name": "terraform-ibm-powervs-catalog-powervs-sap-infrastructure",
-                    "version": "^4.0.0"
+                    "architecture": {
+                        "features": [
+                            {
+                                "description": "3",
+                                "title": "Power LPARs"
+                            }
+                        ],
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "Full SAP environment provisioned on a secure infrastructure on VPC and extended by Power Virtual Servers",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/examples/ibm-catalog/prepared-system-solution/layer_deployment_target-STANDARD_FLAVOUR.drawio.svg",
+                                    "metadata": []
+                                },
+                                "description": "SAP on secure Power Virtual Servers builds on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power infrastructure for regulated industries' by completing the deployment of a basic but expandable SAP system landscape. SAP is deployed on Power Virtual Server instances with initial instances of SAP Hana and SAP NetWeaver.\n\nThe network configuration done by the Power infrastructure provides connectivity to NFS servers where storage volumes are created for Hana and Netweaver. Other services such as DNS, NTP and NFS running the Workload VPC are also \nleveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC. \nAdditional instances of SAP NetWeaver may be configured.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power infrastructure for regulated industries'. "
+                            }
+                        ]
+                    }
                 }
-            ],
-            "architecture": {
-                "features": [
-                    {
-                        "description": "3",
-                        "title": "Power LPARs"
-                    }
-                ],
-                "diagrams": [
-                    {
-                        "diagram": {
-                            "caption": "Full SAP environment provisioned on a secure infrastructure on VPC and extended by Power Virtual Servers",
-                            "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/examples/ibm-catalog/prepared-system-solution/layer_deployment_target-STANDARD_FLAVOUR.drawio.svg",
-                            "metadata": []
-                        },
-                        "description": "SAP on secure Power Virtual Servers builds on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power infrastructure for regulated industries' by completing the deployment of a basic but expandable SAP system landscape. SAP is deployed on Power Virtual Server instances with initial instances of SAP Hana and SAP NetWeaver.\n\nThe network configuration done by the Power infrastructure provides connectivity to NFS servers where storage volumes are created for Hana and Netweaver. Other services such as DNS, NTP and NFS running the Workload VPC are also \nleveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC. \nAdditional instances of SAP NetWeaver may be configured.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power infrastructure for regulated industries'. "
-                    }
-                ]
-            }
+            ]
         }
     ]
 }
