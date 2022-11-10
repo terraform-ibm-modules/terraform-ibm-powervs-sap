@@ -52,7 +52,7 @@ resource "ibm_pi_instance" "sap_instance" {
   pi_storage_type          = var.powervs_os_image_storage_type
 
   dynamic "pi_network" {
-    for_each = tolist(data.ibm_pi_network.powervs_subnets_ds.*.id)
+    for_each = tolist(data.ibm_pi_network.powervs_subnets_ds[*].id)
     content {
       network_id = pi_network.value
     }

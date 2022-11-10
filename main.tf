@@ -138,12 +138,12 @@ locals {
     nfs_client_path = var.nfs_client_directory
   }
 
-  target_server_ips         = concat([module.sap_hana_instance.instance_mgmt_ip], module.share_fs_instance.*.instance_mgmt_ip, module.sap_netweaver_instance.*.instance_mgmt_ip)
+  target_server_ips         = concat([module.sap_hana_instance.instance_mgmt_ip], module.share_fs_instance[*].instance_mgmt_ip, module.sap_netweaver_instance[*].instance_mgmt_ip)
   hana_storage_configs      = [merge(local.powervs_hana_storage_config, { "wwns" = join(",", module.sap_hana_instance.instance_wwns) })]
-  sharefs_storage_configs   = [for instance_wwns in module.share_fs_instance.*.instance_wwns : merge(var.powervs_share_storage_config, { "wwns" = join(",", instance_wwns) })]
-  netweaver_storage_configs = [for instance_wwns in module.sap_netweaver_instance.*.instance_wwns : merge(var.powervs_netweaver_storage_config, { "wwns" = join(",", instance_wwns) })]
+  sharefs_storage_configs   = [for instance_wwns in module.share_fs_instance[*].instance_wwns : merge(var.powervs_share_storage_config, { "wwns" = join(",", instance_wwns) })]
+  netweaver_storage_configs = [for instance_wwns in module.sap_netweaver_instance[*].instance_wwns : merge(var.powervs_netweaver_storage_config, { "wwns" = join(",", instance_wwns) })]
   all_storage_configs       = concat(local.hana_storage_configs, local.sharefs_storage_configs, local.netweaver_storage_configs)
-  sap_solutions             = concat(["HANA"], [for ip in module.share_fs_instance.*.instance_mgmt_ip : "NONE"], [for ip in module.sap_netweaver_instance.*.instance_mgmt_ip : "NETWEAVER"])
+  sap_solutions             = concat(["HANA"], [for ip in module.share_fs_instance[*].instance_mgmt_ip : "NONE"], [for ip in module.sap_netweaver_instance[*].instance_mgmt_ip : "NETWEAVER"])
 }
 
 module "instance_init" {
