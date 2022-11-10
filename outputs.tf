@@ -10,10 +10,10 @@ output "hana_instance_private_ips" {
 
 output "netweaver_instance_private_ips" {
   description = "Private IPs of all NetWeaver instances."
-  value       = module.sap_netweaver_instance.*.instance_private_ips
+  value       = module.sap_netweaver_instance[*].instance_private_ips
 }
 
 output "share_fs_instance_private_ips" {
   description = "Private IPs of the Share FS instance."
-  value       = module.share_fs_instance.*.instance_private_ips
+  value       = module.share_fs_instance[*].instance_private_ips
 }
