@@ -1,13 +1,13 @@
 {
     "products": [
         {
-            "name": "sap-on-powervs",
+            "name": "terraform-ibm-powervs-catalog-powervs-sap-systems",
             "flavors": [
                 {
-                    "label": "SAP-prepared-PowerVS-instances",
+                    "label": "SAP prepared PowerVS instances",
                     "name": "prepared_system",
                     "working_directory": "examples/ibm-catalog/prepared-system-solution",
-                    "usage": "module \"power-infrastructure\" {\n   source = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure&version=1.0.5\"\n  }",
+                    "usage": "module \"power-infrastructure\" {\n   source = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&flavor=prepared_system&kind=terraform&name=terraform-ibm-powervs-catalog-powervs-sap-systems&version=v3.0.0\"\n  }",
                     "compliance": {
                         "controls": [
                             {
