@@ -14,15 +14,27 @@ const defaultExampleTerraformDir = "examples/basic"
 
 func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
-		Testing:       t,
-		TerraformDir:  defaultExampleTerraformDir,
-		Prefix:        prefix,
-		ResourceGroup: resourceGroup,
+		Testing:            t,
+		TerraformDir:       defaultExampleTerraformDir,
+		Prefix:             prefix,
+		ResourceGroup:      resourceGroup,
+		Region:             "syd05", // specify default region to skip best choice query
+		DefaultRegion:      "syd05",
+		BestRegionYAMLPath: "../common-dev-assets/common-go-assets/cloudinfo-region-power-prefs.yaml", // specific to powervs zones
 	})
+
+	// query for best zone to deploy powervs example, based on current connection count
+	// NOTE: this is why we do not want to run multiple tests in parallel
+	options.Region, _ = testhelper.GetBestPowerSystemsRegion(options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], options.BestRegionYAMLPath, options.DefaultRegion)
+	// if for any reason the region is empty at this point, such as error, use default
+	if len(options.Region) == 0 {
+		options.Region = options.DefaultRegion
+	}
 
 	options.TerraformVars = map[string]interface{}{
 		"prefix":         options.Prefix,
 		"resource_group": options.ResourceGroup,
+		"powervs_zone":   options.Region,
 	}
 
 	return options
