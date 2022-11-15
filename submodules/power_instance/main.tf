@@ -58,6 +58,10 @@ resource "ibm_pi_instance" "sap_instance" {
     }
   }
 
+  timeouts {
+    create = "30m"
+  }
+
 }
 
 #####################################################

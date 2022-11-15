@@ -532,17 +532,16 @@
   "outputs": {
     "access_host_or_ip": {
       "name": "access_host_or_ip",
-      "description": "Public IP of Bastion/jumpserver Host",
+      "description": "Public IP to manage the environment",
       "value": "var.access_host_or_ip",
       "pos": {
         "filename": "outputs.tf",
         "line": 1
-      },
-      "type": "string"
+      }
     },
     "hana_instance_private_ips": {
-      "name": "instance_private_ips",
-      "description": "All private IP addresses (as a list) of IBM PowerVS instance.",
+      "name": "hana_instance_private_ips",
+      "description": "Private IPs of the HANA instance.",
       "value": "module.sap_hana_instance.instance_private_ips",
       "pos": {
         "filename": "outputs.tf",
@@ -890,7 +889,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 85
+            "line": 89
           }
         },
         "ibm_pi_volume_attach.instance_volumes_attach": {
@@ -902,7 +901,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 99
+            "line": 103
           }
         }
       },
@@ -931,7 +930,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 114
+            "line": 118
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -946,7 +945,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 107
+            "line": 111
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1020,8 +1019,7 @@
           "pos": {
             "filename": "submodules/power_instance/outputs.tf",
             "line": 11
-          },
-          "type": "TypeString"
+          }
         },
         "instance_private_ips": {
           "name": "instance_private_ips",
@@ -1106,7 +1104,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 85
+            "line": 89
           }
         },
         "ibm_pi_volume_attach.instance_volumes_attach": {
@@ -1118,7 +1116,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 99
+            "line": 103
           }
         }
       },
@@ -1147,7 +1145,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 114
+            "line": 118
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1162,7 +1160,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 107
+            "line": 111
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1236,8 +1234,7 @@
           "pos": {
             "filename": "submodules/power_instance/outputs.tf",
             "line": 11
-          },
-          "type": "TypeString"
+          }
         },
         "instance_private_ips": {
           "name": "instance_private_ips",
@@ -1322,7 +1319,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 85
+            "line": 89
           }
         },
         "ibm_pi_volume_attach.instance_volumes_attach": {
@@ -1334,7 +1331,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 99
+            "line": 103
           }
         }
       },
@@ -1363,7 +1360,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 114
+            "line": 118
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1378,7 +1375,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 107
+            "line": 111
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1452,8 +1449,7 @@
           "pos": {
             "filename": "submodules/power_instance/outputs.tf",
             "line": 11
-          },
-          "type": "TypeString"
+          }
         },
         "instance_private_ips": {
           "name": "instance_private_ips",
