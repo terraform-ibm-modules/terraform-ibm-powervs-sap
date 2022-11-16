@@ -34,7 +34,8 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 	options.TerraformVars = map[string]interface{}{
 		"prefix":         options.Prefix,
 		"resource_group": options.ResourceGroup,
-		"powervs_zone":   "syd05",
+		// locking into syd05 as this DC is stable for attaching disks
+		"powervs_zone": "syd05",
 	}
 
 	return options
