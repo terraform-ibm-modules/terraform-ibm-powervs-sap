@@ -931,7 +931,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 118
+            "line": 122
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -946,7 +946,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 111
+            "line": 115
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1147,7 +1147,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 118
+            "line": 122
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1162,7 +1162,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 111
+            "line": 115
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1363,7 +1363,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 118
+            "line": 122
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1378,7 +1378,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 111
+            "line": 115
           }
         },
         "data.ibm_pi_key.key_ds": {
