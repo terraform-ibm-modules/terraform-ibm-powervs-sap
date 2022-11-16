@@ -18,8 +18,8 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 		TerraformDir:       defaultExampleTerraformDir,
 		Prefix:             prefix,
 		ResourceGroup:      resourceGroup,
-		Region:             "syd05", // specify default region to skip best choice query
-		DefaultRegion:      "syd05",
+		Region:             "lon06", // specify default region to skip best choice query
+		DefaultRegion:      "lon06",
 		BestRegionYAMLPath: "../common-dev-assets/common-go-assets/cloudinfo-region-power-prefs.yaml", // specific to powervs zones
 	})
 
