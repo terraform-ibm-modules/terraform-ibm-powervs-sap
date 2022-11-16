@@ -58,6 +58,10 @@ resource "ibm_pi_instance" "sap_instance" {
     }
   }
 
+  timeouts {
+    create = "30m"
+  }
+
 }
 
 #####################################################
@@ -102,6 +106,10 @@ resource "ibm_pi_volume_attach" "instance_volumes_attach" {
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
   pi_volume_id         = ibm_pi_volume.create_volume[count.index].volume_id
   pi_instance_id       = ibm_pi_instance.sap_instance.instance_id
+
+  timeouts {
+    create = "10m"
+  }
 }
 
 data "ibm_pi_instance_ip" "instance_mgmt_ip_ds" {
