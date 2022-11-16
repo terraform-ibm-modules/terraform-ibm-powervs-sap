@@ -108,7 +108,7 @@ resource "ibm_pi_volume_attach" "instance_volumes_attach" {
   pi_instance_id       = ibm_pi_instance.sap_instance.instance_id
 
   timeouts {
-    create = "6m"
+    create = "10m"
   }
 }
 
