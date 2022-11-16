@@ -34,7 +34,7 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 	options.TerraformVars = map[string]interface{}{
 		"prefix":         options.Prefix,
 		"resource_group": options.ResourceGroup,
-		"powervs_zone":   options.Region,
+		"powervs_zone":   "syd05",
 	}
 
 	return options
