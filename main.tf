@@ -59,7 +59,7 @@ locals {
   auto_cal_hana_disks_counts   = "4,4,1"
   auto_cal_hana_paths          = "/hana/data,/hana/log,/hana/shared"
   auto_cal_hana_tiers          = "tier1,tier1,tier3"
-  auto_cal_memory_size         = tonumber(element(split("x", var.powervs_hana_sap_profile_id), 1))
+  auto_cal_memory_size         = tonumber(element(split("x", var.powervs_hana_sap_profile_id), 1)) < 128 ? 128 : tonumber(element(split("x", var.powervs_hana_sap_profile_id), 1))
   auto_cal_data_volume_size    = floor((local.auto_cal_memory_size * 1.1) / 4) + 1
   auto_cal_log_volume_size_tmp = floor((local.auto_cal_memory_size * 0.5) / 4) + 1
   auto_cal_log_volume_size     = local.auto_cal_log_volume_size_tmp > 512 ? 512 : local.auto_cal_log_volume_size_tmp

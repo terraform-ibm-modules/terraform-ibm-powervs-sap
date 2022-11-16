@@ -890,7 +890,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 85
+            "line": 89
           }
         },
         "ibm_pi_volume_attach.instance_volumes_attach": {
@@ -902,7 +902,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 99
+            "line": 103
           }
         }
       },
@@ -931,7 +931,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 114
+            "line": 122
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -946,7 +946,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 107
+            "line": 115
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1106,7 +1106,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 85
+            "line": 89
           }
         },
         "ibm_pi_volume_attach.instance_volumes_attach": {
@@ -1118,7 +1118,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 99
+            "line": 103
           }
         }
       },
@@ -1147,7 +1147,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 114
+            "line": 122
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1162,7 +1162,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 107
+            "line": 115
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1322,7 +1322,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 85
+            "line": 89
           }
         },
         "ibm_pi_volume_attach.instance_volumes_attach": {
@@ -1334,7 +1334,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 99
+            "line": 103
           }
         }
       },
@@ -1363,7 +1363,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 114
+            "line": 122
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1378,7 +1378,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 107
+            "line": 115
           }
         },
         "data.ibm_pi_key.key_ds": {

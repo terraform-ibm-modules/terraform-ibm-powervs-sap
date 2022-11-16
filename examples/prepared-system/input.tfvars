@@ -14,7 +14,7 @@ proxy_host_or_ip_port       = "<value>" # "10.30.10.4:3128"
 ################
 additional_networks      = ["mgmt_net", "bkp_net"]
 prefix                   = "<value>"
-os_image_distro          = "SLES"
+os_image_distro          = "RHEL"
 powervs_sap_network_cidr = "<value>" # "10.116.1.0/24"
 
 ##### Share instance parameters ###
