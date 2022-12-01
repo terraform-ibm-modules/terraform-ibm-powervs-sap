@@ -314,7 +314,11 @@
         "filename": "variables.tf",
         "line": 10
       },
-      "computed": true
+      "cloud_data_type": "resource_group",
+      "computed": true,
+      "cloud_data_range": [
+        "resolved_to:name"
+      ]
     },
     "powervs_sap_network": {
       "name": "powervs_sap_network",
@@ -489,7 +493,7 @@
         "filename": "variables.tf",
         "line": 1
       },
-      "cloud_data_type": "Region",
+      "cloud_data_type": "region",
       "computed": true
     },
     "proxy_host_or_ip_port": {
@@ -573,7 +577,7 @@
     "ibm": {
       "source": "IBM-Cloud/ibm",
       "version_constraints": [
-        "= 1.45.1"
+        "=1.48.0"
       ]
     }
   },
