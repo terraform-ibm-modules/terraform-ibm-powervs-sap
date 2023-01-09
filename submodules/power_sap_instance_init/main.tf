@@ -166,7 +166,7 @@ EOF
 
       ####  Execute ansible roles: prepare_sles/rhel_sap, powervs_fs_creation and powervs_swap_creation  ####
 
-      "ansible-galaxy collection install ibm.power_linux_sap",
+      "ansible-galaxy collection install ibm.power_linux_sap:1.0.8",
       "ansible-galaxy collection install community.sap_install",
       "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/${local.ansible_playbook_name} --extra-vars '@/root/tf_configure_for_sap.yml' 2>&1 | tee ansible_execution.log ",
     ]
