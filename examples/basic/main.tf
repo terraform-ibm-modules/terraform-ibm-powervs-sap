@@ -89,7 +89,7 @@ module "power_infrastructure" {
 
   # Add explicit depends_on here due to https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/issues/143
   depends_on                  = [module.resource_group]
-  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v5.2.3"
+  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v5.3.0"
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = module.resource_group.resource_group_name
   powervs_workspace_name      = local.powervs_workspace_name
@@ -166,7 +166,7 @@ module "sap_systems" {
   proxy_host_or_ip_port = var.squid_config["server_host_or_ip"]
   ntp_host_or_ip        = var.ntp_forwarder_config["server_host_or_ip"]
   dns_host_or_ip        = var.dns_forwarder_config["server_host_or_ip"]
-  nfs_path              = var.nfs_config["nfs_directory"]
+  nfs_path              = "${var.nfs_config["server_host_or_ip"]}:${var.nfs_config["nfs_file_system"][0]["mount_path"]}"
   nfs_client_directory  = var.nfs_client_directory
   sap_domain            = var.sap_domain
 }
