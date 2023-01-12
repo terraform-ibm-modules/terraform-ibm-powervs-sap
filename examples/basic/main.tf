@@ -166,7 +166,7 @@ module "sap_systems" {
   proxy_host_or_ip_port = var.squid_config["server_host_or_ip"]
   ntp_host_or_ip        = var.ntp_forwarder_config["server_host_or_ip"]
   dns_host_or_ip        = var.dns_forwarder_config["server_host_or_ip"]
-  nfs_path              = var.nfs_config["nfs_directory"]
+  nfs_path              = "${var.nfs_config["server_host_or_ip"]}:${var.nfs_config["nfs_file_system"][0]["mount_path"]}"
   nfs_client_directory  = var.nfs_client_directory
   sap_domain            = var.sap_domain
 }
