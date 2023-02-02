@@ -79,7 +79,7 @@ resource "ibm_is_ssh_key" "ssh_key" {
 }
 
 module "resource_group" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git?ref=v1.0.4"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git?ref=v1.0.5"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -89,7 +89,7 @@ module "power_infrastructure" {
 
   # Add explicit depends_on here due to https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/issues/143
   depends_on                  = [module.resource_group]
-  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v5.2.2"
+  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v5.4.0"
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = module.resource_group.resource_group_name
   powervs_workspace_name      = local.powervs_workspace_name
@@ -166,7 +166,7 @@ module "sap_systems" {
   proxy_host_or_ip_port = var.squid_config["server_host_or_ip"]
   ntp_host_or_ip        = var.ntp_forwarder_config["server_host_or_ip"]
   dns_host_or_ip        = var.dns_forwarder_config["server_host_or_ip"]
-  nfs_path              = var.nfs_config["nfs_directory"]
+  nfs_path              = "${var.nfs_config["server_host_or_ip"]}:${var.nfs_config["nfs_file_system"][0]["mount_path"]}"
   nfs_client_directory  = var.nfs_client_directory
   sap_domain            = var.sap_domain
 }
