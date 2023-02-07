@@ -8,7 +8,7 @@
                     "label": "SAP prepared PowerVS instances",
                     "name": "prepared_system",
                     "working_directory": "examples/ibm-catalog/prepared-system-solution",
-                    "usage": "module \"sap_systems\" {\n  source                    = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/ibm-catalog/prepared-system-solution?archive=tgz&kind=terraform&name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure&version=1.0.5\"\n  ibmcloud_api_key          = var.ibmcloud_api_key\n  prerequisite_workspace_id = var.prerequisite_workspace_id\n  powervs_zone              = var.powervs_zone\n  prefix                    = var.prefix\n  ssh_private_key           = var.ssh_private_key\n}",
+                    "usage": "TBD",
                     "compliance": {
                         "controls": [
                             {
@@ -86,6 +86,24 @@
                         ]
                     },
                     "iam_permissions": [
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::role:Editor"
+                            ],
+                            "service_name": "is.vpc"
+                        },
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::role:Editor"
+                            ],
+                            "service_name": "transit.gateway"
+                        },
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::role:Editor"
+                            ],
+                            "service_name": "directlink.connect"
+                        },
                         {
                             "role_crns": [
                                 "crn:v1:bluemix:public:iam::::serviceRole:Manager"
