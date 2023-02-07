@@ -571,13 +571,13 @@
     }
   },
   "required_core": [
-    "\u003e= 1.1.0"
+    "\u003e= 1.3.0"
   ],
   "required_providers": {
     "ibm": {
       "source": "IBM-Cloud/ibm",
       "version_constraints": [
-        "=1.49.0"
+        "=1.50.0"
       ]
     }
   },
