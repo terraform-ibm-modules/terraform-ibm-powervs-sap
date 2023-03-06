@@ -104,8 +104,8 @@ You need the following permissions to run this module.
 ## Examples
 
 - [ Basic PowerVS SAP system Module Example](examples/basic)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/prepared-system-solution)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/prepared-system)
+- [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/prepared-system-standard)
+- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/terraform-registry/prepared-system-standard)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -114,7 +114,7 @@ You need the following permissions to run this module.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.50.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >=1.49.0 |
 
 ## Modules
 

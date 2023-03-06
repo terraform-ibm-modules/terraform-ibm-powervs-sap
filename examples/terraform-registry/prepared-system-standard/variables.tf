@@ -20,7 +20,7 @@ variable "powervs_workspace_name" {
 }
 
 variable "powervs_sshkey_name" {
-  description = "Exisiting PowerVS SSH Key Name."
+  description = "Existing PowerVS SSH Key Name."
   type        = string
 }
 
@@ -57,11 +57,6 @@ variable "cloud_connection_count" {
   default     = 2
 }
 
-variable "os_image_distro" {
-  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
-  type        = string
-}
-
 #####################################################
 # PowerVS Shared FS Instance parameters
 #####################################################
@@ -84,25 +79,7 @@ variable "sap_hana_hostname" {
 variable "sap_hana_profile" {
   description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
   type        = string
-  default     = "cnp-2x64"
-}
-
-variable "sap_hana_additional_storage_config" {
-  description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
-  type = object({
-    names      = string
-    disks_size = string
-    counts     = string
-    tiers      = string
-    paths      = string
-  })
-  default = {
-    names      = "usrsap"
-    disks_size = "50"
-    counts     = "1"
-    tiers      = "tier3"
-    paths      = "/usr/sap"
-  }
+  default     = "cnp-4x128"
 }
 
 #####################################################
@@ -124,25 +101,34 @@ variable "sap_netweaver_hostname" {
 variable "sap_netweaver_cpu_number" {
   description = "Number of CPUs for each SAP NetWeaver instance."
   type        = string
+  default     = "3"
 }
 
 variable "sap_netweaver_memory_size" {
   description = "Memory size for each SAP NetWeaver instance."
   type        = string
+  default     = "32"
 }
 
 #####################################################
 # PVS SAP instance Initialization
 #####################################################
 
+variable "os_image_distro" {
+  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
+  type        = string
+}
+
 variable "configure_os" {
   description = "Specify if OS on PowerVS instances should be configured for SAP or if only PowerVS instances should be created. If configure_os is true then value has to be set for access_host_ip, ssh_private_key and proxy_host_or_ip_port to continue"
   type        = bool
+  default     = true
 }
 
 variable "sap_domain" {
   description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
   type        = string
+  default     = "sap.com"
 }
 
 variable "access_host_or_ip" {
@@ -151,7 +137,7 @@ variable "access_host_or_ip" {
 }
 
 variable "proxy_host_or_ip_port" {
-  description = "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>. Set to null or empty if not configuring OS."
+  description = "Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>. Set to null or empty if not configuring OS."
   type        = string
 }
 
@@ -179,22 +165,22 @@ variable "nfs_client_directory" {
 # Optional Parameters
 #####################################################
 
-variable "default_hana_sles_image" {
-  description = "Default SuSE Linux image to use for SAP HANA PowerVS instances."
-  type        = string
-  default     = "SLES15-SP3-SAP"
-}
-
-variable "default_netweaver_sles_image" {
-  description = "Default SuSE Linux image to use for SAP NetWeaver PowerVS instances."
-  type        = string
-  default     = "SLES15-SP3-SAP-NETWEAVER"
-}
-
 variable "default_shared_fs_sles_image" {
   description = "Default SuSE Linux image to use for SAP shared FS PowerVS instances"
   type        = string
   default     = "SLES15-SP3-SAP-NETWEAVER"
+}
+
+variable "default_shared_fs_rhel_image" {
+  description = "Default Red Hat Linux image to use for SAP shared FS PowerVS instances."
+  type        = string
+  default     = "RHEL8-SP4-SAP-NETWEAVER"
+}
+
+variable "default_hana_sles_image" {
+  description = "Default SuSE Linux image to use for SAP HANA PowerVS instances."
+  type        = string
+  default     = "SLES15-SP3-SAP"
 }
 
 variable "default_hana_rhel_image" {
@@ -203,14 +189,14 @@ variable "default_hana_rhel_image" {
   default     = "RHEL8-SP4-SAP"
 }
 
-variable "default_netweaver_rhel_image" {
-  description = "Default Red Hat Linux image to use for SAP NetWeaver PowerVS instances."
+variable "default_netweaver_sles_image" {
+  description = "Default SuSE Linux image to use for SAP NetWeaver PowerVS instances."
   type        = string
-  default     = "RHEL8-SP4-SAP-NETWEAVER"
+  default     = "SLES15-SP3-SAP-NETWEAVER"
 }
 
-variable "default_shared_fs_rhel_image" {
-  description = "Default Red Hat Linux image to use for SAP shared FS PowerVS instances."
+variable "default_netweaver_rhel_image" {
+  description = "Default Red Hat Linux image to use for SAP NetWeaver PowerVS instances."
   type        = string
   default     = "RHEL8-SP4-SAP-NETWEAVER"
 }
@@ -260,6 +246,24 @@ variable "sap_hana_instance_config" {
   default = {
     os_image_name  = ""
     sap_profile_id = ""
+  }
+}
+
+variable "sap_hana_additional_storage_config" {
+  description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = object({
+    names      = string
+    disks_size = string
+    counts     = string
+    tiers      = string
+    paths      = string
+  })
+  default = {
+    names      = "usrsap"
+    disks_size = "50"
+    counts     = "1"
+    tiers      = "tier3"
+    paths      = "/usr/sap"
   }
 }
 

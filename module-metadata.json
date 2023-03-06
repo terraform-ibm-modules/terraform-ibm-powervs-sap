@@ -577,7 +577,7 @@
     "ibm": {
       "source": "IBM-Cloud/ibm",
       "version_constraints": [
-        "=1.50.0"
+        "\u003e=1.49.0"
       ]
     }
   },
@@ -906,7 +906,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 103
+            "line": 107
           }
         }
       },
@@ -935,7 +935,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 122
+            "line": 126
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -950,7 +950,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 115
+            "line": 119
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1122,7 +1122,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 103
+            "line": 107
           }
         }
       },
@@ -1151,7 +1151,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 122
+            "line": 126
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1166,7 +1166,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 115
+            "line": 119
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1338,7 +1338,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 103
+            "line": 107
           }
         }
       },
@@ -1367,7 +1367,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 122
+            "line": 126
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1382,7 +1382,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 115
+            "line": 119
           }
         },
         "data.ibm_pi_key.key_ds": {

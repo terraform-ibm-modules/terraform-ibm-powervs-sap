@@ -94,6 +94,10 @@ resource "ibm_pi_volume" "create_volume" {
   pi_volume_type       = local.tiers_type[count.index - (local.disks_number * floor(count.index / local.disks_number))]
   pi_volume_shareable  = false
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
+
+  timeouts {
+    create = "15m"
+  }
 }
 
 #####################################################
@@ -108,7 +112,7 @@ resource "ibm_pi_volume_attach" "instance_volumes_attach" {
   pi_instance_id       = ibm_pi_instance.sap_instance.instance_id
 
   timeouts {
-    create = "10m"
+    create = "15m"
   }
 }
 
