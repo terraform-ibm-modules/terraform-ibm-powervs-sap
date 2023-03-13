@@ -15,7 +15,7 @@ The SAP on secure Power Virtual Servers (PowerVS) module automates the following
 - Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.
 - Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
 - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
-- Optionally connects all created PowerVS instances to an NTP server nd DNS forwarder that are specified by IP address or hostname.
+- Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances. The directory is provided by an NFS server that is specified by IP address or hostname.
 
 The following limitations apply to the module:
@@ -24,6 +24,10 @@ The following limitations apply to the module:
 - Only the following operating systems are supported:
     - SUSE Linux Enterprise Server (SLES) version 15 SP3
     - Red Hat Enterprise Linux (RHEL) version 8.4
+
+## Reference architectures
+
+- [SAP Ready to go PowerVS](reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.md)
 
 ## Usage
 
@@ -75,7 +79,7 @@ module "sap_systems" {
   proxy_host_or_ip_port                  = var.proxy_host_or_ip_port
   ntp_host_or_ip                         = var.ntp_host_or_ip
   dns_host_or_ip                         = var.dns_host_or_ip
-  nfs_path                               = var.nfs_path
+  nfs_host_or_ip_path                               = var.nfs_host_or_ip_path
   nfs_client_directory                   = var.nfs_client_directory
   sap_domain                             = var.sap_domain
 }
@@ -104,8 +108,8 @@ You need the following permissions to run this module.
 ## Examples
 
 - [ Basic PowerVS SAP system Module Example](examples/basic)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/prepared-system-standard)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/terraform-registry/prepared-system-standard)
+- [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/sap-ready-to-go)
+- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/terraform-registry/sap-ready-to-go)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -138,10 +142,10 @@ No resources.
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_host_or_ip"></a> [access\_host\_or\_ip](#input\_access\_host\_or\_ip) | Public IP of Bastion/jumpserver Host | `string` | `null` | no |
 | <a name="input_configure_os"></a> [configure\_os](#input\_configure\_os) | Specify if OS on PowerVS instances should be configured for SAP or if only PowerVS instances should be created. | `bool` | `true` | no |
-| <a name="input_dns_host_or_ip"></a> [dns\_host\_or\_ip](#input\_dns\_host\_or\_ip) | DNS forwarder/server hosname or IP address. E.g., 10.10.10.6 | `string` | `""` | no |
+| <a name="input_dns_host_or_ip"></a> [dns\_host\_or\_ip](#input\_dns\_host\_or\_ip) | DNS forwarder/server hostname or IP address. E.g., 10.10.10.6 | `string` | `""` | no |
 | <a name="input_nfs_client_directory"></a> [nfs\_client\_directory](#input\_nfs\_client\_directory) | NFS directory on PowerVS instances. Will be used only if nfs\_server is setup in 'Power infrastructure for regulated industries' | `string` | `"/nfs"` | no |
-| <a name="input_nfs_path"></a> [nfs\_path](#input\_nfs\_path) | Full path on NFS server (in form <hostname\_or\_ip>:<directory>, e.g., '10.20.10.4:/nfs'). | `string` | `""` | no |
-| <a name="input_ntp_host_or_ip"></a> [ntp\_host\_or\_ip](#input\_ntp\_host\_or\_ip) | NTP forwarder/server hosname or IP address. E.g., 10.10.10.7 | `string` | `""` | no |
+| <a name="input_nfs_host_or_ip_path"></a> [nfs\_host\_or\_ip\_path](#input\_nfs\_host\_or\_ip\_path) | Full path on NFS server (in form <hostname\_or\_ip>:<directory>, e.g., '10.20.10.4:/nfs'). | `string` | `""` | no |
+| <a name="input_ntp_host_or_ip"></a> [ntp\_host\_or\_ip](#input\_ntp\_host\_or\_ip) | NTP forwarder/server hostname or IP address. E.g., 10.10.10.7 | `string` | `""` | no |
 | <a name="input_os_image_distro"></a> [os\_image\_distro](#input\_os\_image\_distro) | Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters. | `string` | n/a | yes |
 | <a name="input_powervs_additional_networks"></a> [powervs\_additional\_networks](#input\_powervs\_additional\_networks) | Existing list of subnets name to be attached to an instance. First network has to be a management network. | `list(any)` | n/a | yes |
 | <a name="input_powervs_cloud_connection_count"></a> [powervs\_cloud\_connection\_count](#input\_powervs\_cloud\_connection\_count) | Existing number of Cloud connections to which new subnet must be attached. | `string` | `2` | no |
@@ -171,7 +175,7 @@ No resources.
 | <a name="input_powervs_sshkey_name"></a> [powervs\_sshkey\_name](#input\_powervs\_sshkey\_name) | Existing PowerVs SSH key name. | `string` | n/a | yes |
 | <a name="input_powervs_workspace_name"></a> [powervs\_workspace\_name](#input\_powervs\_workspace\_name) | Existing Name of the PowerVS workspace. | `string` | n/a | yes |
 | <a name="input_powervs_zone"></a> [powervs\_zone](#input\_powervs\_zone) | IBM Cloud PowerVS zone. | `string` | n/a | yes |
-| <a name="input_proxy_host_or_ip_port"></a> [proxy\_host\_or\_ip\_port](#input\_proxy\_host\_or\_ip\_port) | Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port> | `string` | `""` | no |
+| <a name="input_proxy_host_or_ip_port"></a> [proxy\_host\_or\_ip\_port](#input\_proxy\_host\_or\_ip\_port) | Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 <ip:port> | `string` | `""` | no |
 | <a name="input_sap_domain"></a> [sap\_domain](#input\_sap\_domain) | Domain name to be set. | `string` | `""` | no |
 | <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs\_sshkey\_name'. | `string` | `null` | no |
 

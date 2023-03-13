@@ -133,8 +133,8 @@ locals {
   }
 
   perform_nfs_client_setup = {
-    enable          = var.nfs_path != null && var.nfs_path != "" ? true : false
-    nfs_server_path = var.nfs_path
+    enable          = var.nfs_host_or_ip_path != null && var.nfs_host_or_ip_path != "" ? true : false
+    nfs_server_path = var.nfs_host_or_ip_path
     nfs_client_path = var.nfs_client_directory
   }
 

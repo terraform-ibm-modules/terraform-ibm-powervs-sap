@@ -105,7 +105,7 @@ module "sap_systems" {
   proxy_host_or_ip_port = var.proxy_host_or_ip_port
   ntp_host_or_ip        = var.ntp_host_or_ip
   dns_host_or_ip        = var.dns_host_or_ip
-  nfs_path              = var.nfs_path
+  nfs_host_or_ip_path   = var.nfs_host_or_ip_path
   nfs_client_directory  = var.nfs_client_directory
   sap_domain            = var.sap_domain
 }

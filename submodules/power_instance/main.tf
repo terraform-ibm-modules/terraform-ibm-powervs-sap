@@ -90,7 +90,7 @@ resource "ibm_pi_volume" "create_volume" {
   depends_on           = [ibm_pi_instance.sap_instance]
   count                = local.disks_number
   pi_volume_size       = local.disks_size[count.index - (local.disks_number * floor(count.index / local.disks_number))]
-  pi_volume_name       = "${var.powervs_instance_name}-${local.disks_name[count.index - (local.disks_number * floor(count.index / local.disks_number))]}-volume${count.index + 1}-${count.index}"
+  pi_volume_name       = "${var.powervs_instance_name}-${local.disks_name[count.index - (local.disks_number * floor(count.index / local.disks_number))]}-volume${count.index + 1}"
   pi_volume_type       = local.tiers_type[count.index - (local.disks_number * floor(count.index / local.disks_number))]
   pi_volume_shareable  = false
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
@@ -112,7 +112,7 @@ resource "ibm_pi_volume_attach" "instance_volumes_attach" {
   pi_instance_id       = ibm_pi_instance.sap_instance.instance_id
 
   timeouts {
-    create = "15m"
+    create = "40m"
   }
 }
 

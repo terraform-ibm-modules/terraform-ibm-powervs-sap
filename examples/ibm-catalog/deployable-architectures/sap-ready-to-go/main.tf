@@ -57,7 +57,7 @@ locals {
   proxy_host_or_ip_port       = local.powerinfra_output[0].proxy_host_or_ip_port.value
   ntp_host_or_ip              = local.powerinfra_output[0].ntp_host_or_ip.value
   dns_host_or_ip              = local.powerinfra_output[0].dns_host_or_ip.value
-  nfs_path                    = local.powerinfra_output[0].nfs_path.value
+  nfs_host_or_ip_path         = local.powerinfra_output[0].nfs_path.value
 }
 
 locals {
@@ -140,7 +140,7 @@ module "sap_systems" {
   proxy_host_or_ip_port = local.proxy_host_or_ip_port
   ntp_host_or_ip        = local.ntp_host_or_ip
   dns_host_or_ip        = local.dns_host_or_ip
-  nfs_path              = local.nfs_path
-  nfs_client_directory  = var.nfs_client_directory
+  nfs_host_or_ip_path   = local.nfs_host_or_ip_path
+  nfs_client_directory  = "/nfs"
   sap_domain            = var.sap_domain
 }

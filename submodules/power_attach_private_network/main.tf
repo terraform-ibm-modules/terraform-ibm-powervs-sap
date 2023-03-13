@@ -18,7 +18,7 @@ data "ibm_resource_instance" "powervs_workspace_ds" {
 }
 
 #####################################################
-# Create Additional Private Subnet
+# Get Additional Private Subnet
 #####################################################
 
 data "ibm_pi_network" "additional_network_ds" {

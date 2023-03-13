@@ -1,12 +1,12 @@
-# Module pvs-instance-sap-init-sles
+# Module power_sap_instance_init
 
 This module configures the PVS instance and prepares the system for SAP installation.
 - Configure Forward Proxy
-- SUSE Registration
+- SUSE/RHEL Registration
 - Install Packages
 - Run ansible galaxy roles
 
-Note: prerequisite The bastion host must be running SQUID proxy server with 3128 port open. If squid server is not on bastion host, then pass the squid server public and private ips to variables `input_bastion_public_ip` and `input_bastion_private_ip`
+Note: prerequisite The bastion host must be running SQUID proxy server with 3128 port open. If squid server is not on bastion host, then pass the squid server public and private ips to variables `access_host_or_ip` and `target_server_ips`
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -24,7 +24,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [null_resource.configure_for_sap](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.configure_os_for_sap](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.connect_to_mgmt_svs](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.install_packages](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.perform_proxy_client_setup](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |

@@ -15,10 +15,10 @@ output "hana_ips" {
 
 output "netweaver_ips" {
   description = "All private IPS of NetWeaver instances"
-  value       = module.sap_systems.netweaver_instance_private_ips
+  value       = length(module.sap_systems.netweaver_instance_private_ips) >= 1 ? module.sap_systems.netweaver_instance_private_ips : null
 }
 
 output "share_fs_ips" {
   description = "Private IPs of the Share FS instance."
-  value       = module.sap_systems.share_fs_instance_private_ips
+  value       = length(module.sap_systems.share_fs_instance_private_ips) >= 1 ? module.sap_systems.share_fs_instance_private_ips : null
 }
