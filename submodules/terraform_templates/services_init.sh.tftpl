@@ -173,6 +173,9 @@ if [ "$OS_DETECTED" == "RHEL" ]; then
             break
           fi
         done
+
+        ### Update linux system roles
+        yum update rhel-system-roles-sap -y
       fi
 
       if [[ $count -gt 15 ]]; then

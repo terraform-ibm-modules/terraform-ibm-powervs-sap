@@ -62,7 +62,7 @@ variable "sap_hana_profile" {
 variable "sap_netweaver_instance_number" {
   description = "Number of SAP NetWeaver instances that should be created."
   type        = number
-  default     = 0
+  default     = 1
 }
 
 variable "sap_netweaver_hostname" {
