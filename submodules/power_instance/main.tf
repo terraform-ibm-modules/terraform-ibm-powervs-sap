@@ -113,6 +113,7 @@ resource "ibm_pi_volume_attach" "instance_volumes_attach" {
 
   timeouts {
     create = "50m"
+    delete = "50m"
   }
 }
 
