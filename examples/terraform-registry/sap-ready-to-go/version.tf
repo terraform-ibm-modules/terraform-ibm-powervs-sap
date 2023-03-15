@@ -1,5 +1,6 @@
 #####################################################
 # PowerVs SAP Instance Module
+# Copyright 2022 IBM
 #####################################################
 
 terraform {
@@ -7,7 +8,7 @@ terraform {
   required_providers {
     ibm = {
       source  = "IBM-Cloud/ibm"
-      version = "=1.50.0"
+      version = ">=1.49.0"
     }
   }
 }

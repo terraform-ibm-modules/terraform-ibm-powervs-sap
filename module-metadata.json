@@ -30,7 +30,7 @@
     "dns_host_or_ip": {
       "name": "dns_host_or_ip",
       "type": "string",
-      "description": "DNS forwarder/server hosname or IP address. E.g., 10.10.10.6",
+      "description": "DNS forwarder/server hostname or IP address. E.g., 10.10.10.6",
       "default": "",
       "pos": {
         "filename": "variables.tf",
@@ -47,8 +47,8 @@
         "line": 273
       }
     },
-    "nfs_path": {
-      "name": "nfs_path",
+    "nfs_host_or_ip_path": {
+      "name": "nfs_host_or_ip_path",
       "type": "string",
       "description": "Full path on NFS server (in form \u003chostname_or_ip\u003e:\u003cdirectory\u003e, e.g., '10.20.10.4:/nfs').",
       "default": "",
@@ -60,7 +60,7 @@
     "ntp_host_or_ip": {
       "name": "ntp_host_or_ip",
       "type": "string",
-      "description": "NTP forwarder/server hosname or IP address. E.g., 10.10.10.7",
+      "description": "NTP forwarder/server hostname or IP address. E.g., 10.10.10.7",
       "default": "",
       "pos": {
         "filename": "variables.tf",
@@ -499,7 +499,7 @@
     "proxy_host_or_ip_port": {
       "name": "proxy_host_or_ip_port",
       "type": "string",
-      "description": "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 \u003cip:port\u003e",
+      "description": "Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 \u003cip:port\u003e",
       "default": "",
       "pos": {
         "filename": "variables.tf",
@@ -577,7 +577,7 @@
     "ibm": {
       "source": "IBM-Cloud/ibm",
       "version_constraints": [
-        "=1.50.0"
+        "\u003e=1.49.0"
       ]
     }
   },
@@ -780,10 +780,10 @@
         "ssh_private_key": "ssh_private_key"
       },
       "managed_resources": {
-        "null_resource.configure_for_sap": {
+        "null_resource.configure_os_for_sap": {
           "mode": "managed",
           "type": "null_resource",
-          "name": "configure_for_sap",
+          "name": "configure_os_for_sap",
           "attributes": {
             "count": "target_server_ips"
           },
@@ -792,7 +792,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 137
+            "line": 185
           }
         },
         "null_resource.connect_to_mgmt_svs": {
@@ -807,7 +807,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 78
+            "line": 117
           }
         },
         "null_resource.install_packages": {
@@ -822,7 +822,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 46
+            "line": 70
           }
         },
         "null_resource.perform_proxy_client_setup": {
@@ -837,7 +837,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 14
+            "line": 21
           }
         }
       },
@@ -906,7 +906,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 103
+            "line": 107
           }
         }
       },
@@ -935,7 +935,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 122
+            "line": 127
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -950,7 +950,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 115
+            "line": 120
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1122,7 +1122,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 103
+            "line": 107
           }
         }
       },
@@ -1151,7 +1151,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 122
+            "line": 127
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1166,7 +1166,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 115
+            "line": 120
           }
         },
         "data.ibm_pi_key.key_ds": {
@@ -1338,7 +1338,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 103
+            "line": 107
           }
         }
       },
@@ -1367,7 +1367,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 122
+            "line": 127
           }
         },
         "data.ibm_pi_instance_ip.instance_mgmt_ip_ds": {
@@ -1382,7 +1382,7 @@
           },
           "pos": {
             "filename": "submodules/power_instance/main.tf",
-            "line": 115
+            "line": 120
           }
         },
         "data.ibm_pi_key.key_ds": {

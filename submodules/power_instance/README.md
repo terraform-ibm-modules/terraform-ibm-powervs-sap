@@ -65,7 +65,7 @@ module "sap_netweaver_instance" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.50.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >=1.49.0 |
 
 ## Modules
 
@@ -75,16 +75,16 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [ibm_pi_instance.sap_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/resources/pi_instance) | resource |
-| [ibm_pi_volume.create_volume](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/resources/pi_volume) | resource |
-| [ibm_pi_volume_attach.instance_volumes_attach](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/resources/pi_volume_attach) | resource |
-| [ibm_pi_image.image_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/data-sources/pi_image) | data source |
-| [ibm_pi_instance.instance_ips_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/data-sources/pi_instance) | data source |
-| [ibm_pi_instance_ip.instance_mgmt_ip_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/data-sources/pi_instance_ip) | data source |
-| [ibm_pi_key.key_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/data-sources/pi_key) | data source |
-| [ibm_pi_network.powervs_subnets_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/data-sources/pi_network) | data source |
-| [ibm_resource_group.resource_group_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/data-sources/resource_group) | data source |
-| [ibm_resource_instance.powervs_workspace_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.50.0/docs/data-sources/resource_instance) | data source |
+| [ibm_pi_instance.sap_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/pi_instance) | resource |
+| [ibm_pi_volume.create_volume](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/pi_volume) | resource |
+| [ibm_pi_volume_attach.instance_volumes_attach](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/pi_volume_attach) | resource |
+| [ibm_pi_image.image_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/pi_image) | data source |
+| [ibm_pi_instance.instance_ips_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/pi_instance) | data source |
+| [ibm_pi_instance_ip.instance_mgmt_ip_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/pi_instance_ip) | data source |
+| [ibm_pi_key.key_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/pi_key) | data source |
+| [ibm_pi_network.powervs_subnets_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/pi_network) | data source |
+| [ibm_resource_group.resource_group_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/resource_group) | data source |
+| [ibm_resource_instance.powervs_workspace_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
 
 ## Inputs
 

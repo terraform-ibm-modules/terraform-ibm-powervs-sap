@@ -6,8 +6,8 @@
             "flavors": [
                 {
                     "label": "SAP ready PowerVS",
-                    "name": "prepared_system",
-                    "working_directory": "examples/ibm-catalog/prepared-system-solution",
+                    "name": "sap-ready-to-go",
+                    "working_directory": "examples/ibm-catalog/deployable-architectures/sap-ready-to-go",
                     "usage_template": "module \"sap_systems\" {\n  source                    = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//${{workingDirectory}}?archive=tgz&flavor=${{flavor}}&kind=${{kind}}&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key          = var.ibmcloud_api_key\n  prerequisite_workspace_id = var.prerequisite_workspace_id\n  powervs_zone              = var.powervs_zone\n  prefix                    = var.prefix\n  ssh_private_key           = var.ssh_private_key\n}",
                     "compliance": {
                         "controls": [
@@ -114,11 +114,12 @@
                     "dependencies": [
                         {
                             "flavors": [
-                                "standard"
+                                "full-stack",
+                                "extension"
                             ],
                             "id": "07e92c55-6a5b-4f3d-aa0e-30212e108af9-global",
                             "name": "deploy-arch-ibm-pvs-inf",
-                            "version": ">=0.0.1"
+                            "version": ">=6.0.0"
                         }
                     ],
                     "architecture": {
@@ -128,7 +129,7 @@
                                 "title": "SAP solution"
                             },
                             {
-                                "description": "SAP HANA Instance: 1\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1",
+                                "description": "SAP HANA Instance: One\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1",
                                 "title": "PowerVS instances"
                             },
                             {
@@ -144,10 +145,10 @@
                             {
                                 "diagram": {
                                     "caption": "Full SAP environment provisioned on a secure infrastructure on VPC and extended by Power Virtual Servers",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/doc/reference-architectures/ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "'SAP prepared PowerVS instances (non HA)' variation of 'SAP on secure Power Virtual Servers' creates a basic and expandable SAP system landscape builds on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power infrastructure for deployable architectures'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power infrastructure for deployable architectures' are leveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power infrastructure for deployable architectures'."
+                                "description": "'SAP ready PowerVS' variation of 'SAP on secure Power Virtual Servers' creates a basic and expandable SAP system landscape builds on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power infrastructure for deployable architectures'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power infrastructure for deployable architectures' are leveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power infrastructure for deployable architectures'."
                             }
                         ]
                     }
