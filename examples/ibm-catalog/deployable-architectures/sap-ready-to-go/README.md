@@ -11,7 +11,7 @@ The PowerVS SAP system example automates the following tasks:
 
 ## Before you begin
 
-If you do not have an existing PowerVS infrastructure for deployable architectures in variation PowerVS Workspace (Full Stack solution or extension) deployment, create it first.
+If you do not have a PowerVS infrastructure that is the full stack solution for a PowerVS Workspace that includes the full stack solution for Secure Landing Zone, create it first.
 
 ## Architecture Diagram
 ![sap-ready-to-go](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
