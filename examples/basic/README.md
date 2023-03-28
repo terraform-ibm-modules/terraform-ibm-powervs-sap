@@ -16,7 +16,7 @@ Use of this resource for production deployments is not recommended. Instead, gen
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.5 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >=1.49.0 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | 4.0.4 |
 
@@ -24,7 +24,7 @@ Use of this resource for production deployments is not recommended. Instead, gen
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_power_infrastructure"></a> [power\_infrastructure](#module\_power\_infrastructure) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git | v7.0.0 |
+| <a name="module_power_infrastructure"></a> [power\_infrastructure](#module\_power\_infrastructure) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git | v6.2.0 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git | v1.0.5 |
 | <a name="module_sap_systems"></a> [sap\_systems](#module\_sap\_systems) | ../../ | n/a |
 
