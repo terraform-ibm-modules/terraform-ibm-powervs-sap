@@ -56,7 +56,7 @@ The SAP ready PowerVS variation of the SAP on PowerVS deployable architecture cr
 
 Services such as DNS, NTP and NFS running in VPC and provided by 'Power infrastructure for deployable architectures' are leveraged.
 
-Redundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.
+Redundant IBM Cloud® connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.
 
 The resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power infrastructure for deployable architectures'.
 
