@@ -52,7 +52,7 @@ content-type: reference-architecture
 {: toc-use-case="ITServiceManagement"}
 {: toc-compliance="SAPCertified"}
 
-'SAP ready PowerVS' variation creates a basic and expandable SAP system landscape builds on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power infrastructure for deployable architectures'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.
+The SAP ready PowerVS variation of the SAP on PowerVS deployable architecture creates a basic and expandable SAP system landscape. The variation builds on the foundation of the VPC landing zone and Power infrastructure for deployable architectures deployable architectures. PowerVS instances for SAP HANA, SAP NetWeaver, and optionally for shared SAP files are deployed and preconfigured for SAP installation.
 
 Services such as DNS, NTP and NFS running in VPC and provided by 'Power infrastructure for deployable architectures' are leveraged.
 
