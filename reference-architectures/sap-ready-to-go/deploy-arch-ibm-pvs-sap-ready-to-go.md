@@ -111,4 +111,5 @@ This reference architecture is certified for SAP deployments.
 ## Next steps
 {: #next-steps}
 
-As next step, you may perform SAP system installation.
+Install the SAP system.
+
