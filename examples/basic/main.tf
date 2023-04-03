@@ -97,7 +97,7 @@ module "power_infrastructure" {
   powervs_management_network  = var.powervs_management_network
   powervs_backup_network      = var.powervs_backup_network
   transit_gateway_name        = var.transit_gateway_name
-  reuse_cloud_connections     = false
+  reuse_cloud_connections     = true
   cloud_connection_count      = var.cloud_connection["count"]
   cloud_connection_speed      = var.cloud_connection["speed"]
   cloud_connection_gr         = var.cloud_connection["global_routing"]
