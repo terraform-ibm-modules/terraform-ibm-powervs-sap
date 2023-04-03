@@ -571,12 +571,20 @@
         "line": 16
       }
     },
+    "netweaver_instances_management_ip": {
+      "name": "netweaver_instances_management_ip",
+      "description": "Management IPs of all NetWeaver instances.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 21
+      }
+    },
     "share_fs_instance_private_ips": {
       "name": "share_fs_instance_private_ips",
       "description": "Private IPs of the Share FS instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 21
+        "line": 26
       }
     }
   },
@@ -802,7 +810,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 244
+            "line": 245
           }
         },
         "null_resource.connect_to_mgmt_svs": {
@@ -817,7 +825,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 176
+            "line": 177
           }
         },
         "null_resource.install_packages": {
@@ -832,7 +840,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 128
+            "line": 129
           }
         },
         "null_resource.perform_proxy_client_setup": {
@@ -869,6 +877,9 @@
           "mode": "managed",
           "type": "time_sleep",
           "name": "wait_for_reboot",
+          "attributes": {
+            "count": "target_server_ips"
+          },
           "provider": {
             "name": "time"
           },

@@ -187,6 +187,7 @@ No resources.
 | <a name="output_hana_instance_management_ip"></a> [hana\_instance\_management\_ip](#output\_hana\_instance\_management\_ip) | Management IP of HANA Instance |
 | <a name="output_hana_instance_private_ips"></a> [hana\_instance\_private\_ips](#output\_hana\_instance\_private\_ips) | Private IPs of the HANA instance. |
 | <a name="output_netweaver_instance_private_ips"></a> [netweaver\_instance\_private\_ips](#output\_netweaver\_instance\_private\_ips) | Private IPs of all NetWeaver instances. |
+| <a name="output_netweaver_instances_management_ip"></a> [netweaver\_instances\_management\_ip](#output\_netweaver\_instances\_management\_ip) | Management IPs of all NetWeaver instances. |
 | <a name="output_share_fs_instance_private_ips"></a> [share\_fs\_instance\_private\_ips](#output\_share\_fs\_instance\_private\_ips) | Private IPs of the Share FS instance. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
