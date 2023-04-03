@@ -77,6 +77,7 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 | Name | Description |
 |------|-------------|
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP of Provided Bastion/JumpServer Host |
+| <a name="output_hana_instance_management_ip"></a> [hana\_instance\_management\_ip](#output\_hana\_instance\_management\_ip) | Management IP of HANA Instance |
 | <a name="output_hana_ips"></a> [hana\_ips](#output\_hana\_ips) | All private IPS of HANA instance |
 | <a name="output_infrastructure_data"></a> [infrastructure\_data](#output\_infrastructure\_data) | Data from PowerVS infrastructure layer |
 | <a name="output_netweaver_ips"></a> [netweaver\_ips](#output\_netweaver\_ips) | All private IPS of NetWeaver instances |

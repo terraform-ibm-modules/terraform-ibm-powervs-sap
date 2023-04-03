@@ -96,7 +96,7 @@ No modules.
 | <a name="input_powervs_networks"></a> [powervs\_networks](#input\_powervs\_networks) | Existing map of subnet names and IPs to be attached to the node. First network has to be a management network. If IP is null, the address will be generated. | `list(string)` | n/a | yes |
 | <a name="input_powervs_number_of_processors"></a> [powervs\_number\_of\_processors](#input\_powervs\_number\_of\_processors) | Number of processors | `string` | `null` | no |
 | <a name="input_powervs_os_image_name"></a> [powervs\_os\_image\_name](#input\_powervs\_os\_image\_name) | Image Name for PowerVS Instance | `string` | n/a | yes |
-| <a name="input_powervs_os_image_storage_type"></a> [powervs\_os\_image\_storage\_type](#input\_powervs\_os\_image\_storage\_type) | Storage type for OS | `string` | `"tier3"` | no |
+| <a name="input_powervs_os_image_storage_type"></a> [powervs\_os\_image\_storage\_type](#input\_powervs\_os\_image\_storage\_type) | Storage type for OS | `string` | `"tier1"` | no |
 | <a name="input_powervs_resource_group_name"></a> [powervs\_resource\_group\_name](#input\_powervs\_resource\_group\_name) | Existing IBM Cloud resource group name. | `string` | n/a | yes |
 | <a name="input_powervs_sap_profile_id"></a> [powervs\_sap\_profile\_id](#input\_powervs\_sap\_profile\_id) | SAP PROFILE ID. If this is mentioned then Memory, processors, proc\_type and sys\_type will not be taken into account | `string` | `null` | no |
 | <a name="input_powervs_server_type"></a> [powervs\_server\_type](#input\_powervs\_server\_type) | Processor type e980/s922/e1080/s1022 | `string` | `null` | no |

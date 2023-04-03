@@ -1,6 +1,10 @@
-###########################################################
-# Configure Squid client for internet services, Register OS
-###########################################################
+#####################################################
+# 1. Configure Squid client
+# 2. Update OS and Reboot
+# 3. Install Necessary Packages
+# 4. Execute Ansible galaxy role to install Management
+# services for SAP installation
+#####################################################
 
 locals {
   scr_scripts_dir = "${path.module}/../terraform_templates"
@@ -8,8 +12,11 @@ locals {
 
   src_squid_setup_tpl_path      = "${local.scr_scripts_dir}/services_init.sh.tftpl"
   dst_squid_setup_path          = "${local.dst_scripts_dir}/services_init.sh"
+  src_update_os_path            = "${local.scr_scripts_dir}/update_os.sh"
+  dst_update_os_path            = "${local.dst_scripts_dir}/update_os.sh"
   src_install_packages_tpl_path = "${local.scr_scripts_dir}/install_packages.sh.tftpl"
   dst_install_packages_path     = "${local.dst_scripts_dir}/install_packages.sh"
+
 
   ansible_connect_mgmt_svs_playbook_name     = "powervs-services.yml"
   ansible_configure_os_for_sap_playbook_name = var.os_image_distro == "SLES" ? "powervs-sles.yml" : var.os_image_distro == "RHEL" ? "powervs-rhel.yml" : "unknown"
@@ -17,6 +24,10 @@ locals {
   dst_ansible_vars_connect_mgmt_svs_path     = "${local.dst_scripts_dir}/ansible_connect_to_mgmt_svs.yml"
   dst_ansible_vars_configure_os_for_sap_path = "${local.dst_scripts_dir}/ansible_configure_os_for_sap.yml"
 }
+
+#####################################################
+# 1. Configure Squid client
+#####################################################
 
 resource "null_resource" "perform_proxy_client_setup" {
 
@@ -40,7 +51,7 @@ resource "null_resource" "perform_proxy_client_setup" {
     ]
   }
 
-  ####### Copy Template file to target host ############
+  ####### Copy template file to target host ############
   provisioner "file" {
     destination = local.dst_squid_setup_path
     content = templatefile(
@@ -52,7 +63,7 @@ resource "null_resource" "perform_proxy_client_setup" {
     )
   }
 
-  #######  Execute script: SQUID Forward PROXY CLIENT SETUP and OS Registration ############
+  #######  Execute script: SQUID Forward Proxy client setup and OS Registration ############
   provisioner "remote-exec" {
     inline = [
       "chmod +x ${local.dst_squid_setup_path}",
@@ -64,10 +75,10 @@ resource "null_resource" "perform_proxy_client_setup" {
 
 
 #####################################################
-# Install Necessary Packages
+# 2. Update OS and Reboot
 #####################################################
 
-resource "null_resource" "install_packages" {
+resource "null_resource" "update_os" {
   depends_on = [null_resource.perform_proxy_client_setup]
   count      = length(var.target_server_ips)
 
@@ -79,6 +90,53 @@ resource "null_resource" "install_packages" {
     private_key  = var.ssh_private_key
     agent        = false
     timeout      = "5m"
+  }
+
+  ####### Create Terraform scripts directory , Update OS and Reboot ############
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p ${local.dst_scripts_dir}",
+      "chmod 777 ${local.dst_scripts_dir}",
+    ]
+  }
+
+  ####### Copy update_os.sh script ############
+  provisioner "file" {
+    source      = local.src_update_os_path
+    destination = local.dst_update_os_path
+  }
+
+  ####### Update OS and Reboot ############
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x ${local.dst_update_os_path}",
+      local.dst_update_os_path
+    ]
+  }
+}
+
+resource "time_sleep" "wait_for_reboot" {
+  depends_on      = [null_resource.update_os]
+  create_duration = "180s"
+}
+
+
+#####################################################
+# 3. Install Necessary Packages
+#####################################################
+
+resource "null_resource" "install_packages" {
+  depends_on = [time_sleep.wait_for_reboot]
+  count      = length(var.target_server_ips)
+
+  connection {
+    type         = "ssh"
+    user         = "root"
+    bastion_host = var.access_host_or_ip
+    host         = var.target_server_ips[count.index]
+    private_key  = var.ssh_private_key
+    agent        = false
+    timeout      = "10m"
   }
 
   ####### Create Terraform scripts directory ############
@@ -111,7 +169,8 @@ resource "null_resource" "install_packages" {
 }
 
 #####################################################
-# Execute Ansible galaxy role: connect to management services
+# 4. Execute Ansible galaxy role to connect to
+# management services
 #####################################################
 
 resource "null_resource" "connect_to_mgmt_svs" {
@@ -179,7 +238,7 @@ EOF
 }
 
 #####################################################
-# Execute Ansible galaxy role: prepare OS for SAP
+# 5. Execute Ansible galaxy role to prepare OS for SAP
 #####################################################
 
 resource "null_resource" "configure_os_for_sap" {
