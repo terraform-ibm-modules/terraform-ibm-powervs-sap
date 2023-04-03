@@ -52,7 +52,7 @@ variable "sap_hana_hostname" {
 variable "sap_hana_profile" {
   description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
   type        = string
-  default     = "cnp-4x128"
+  default     = "ush1-4x128"
 }
 
 #####################################################
