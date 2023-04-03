@@ -1,6 +1,6 @@
-# PowerVS SAP system example to create SAP prepared PowerVS instances
+# Power Systems Virtual Server for SAP HANA example to create SAP prepared PowerVS instances
 
-The PowerVS SAP system example automates the following tasks:
+The Power Systems Virtual Server for SAP HANA example automates the following tasks:
 
 - Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
 - Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.

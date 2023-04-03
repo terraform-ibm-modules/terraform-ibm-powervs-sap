@@ -107,9 +107,9 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Basic PowerVS SAP system Module Example](examples/basic)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/sap-ready-to-go)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/terraform-registry/sap-ready-to-go)
+- [ Basic Power Systems Virtual Server for SAP HANA Module Example](examples/basic)
+- [ Power Systems Virtual Server for SAP HANA example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/sap-ready-to-go)
+- [ Power Systems Virtual Server for SAP HANA example to create SAP prepared PowerVS instances](examples/terraform-registry/sap-ready-to-go)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

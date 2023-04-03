@@ -1,4 +1,4 @@
-# Basic PowerVS SAP system Module Example
+# Basic Power Systems Virtual Server for SAP HANA Module Example
 
 This example illustrates how to use the `power-sap` module.
 It provisions the following infrastructure:
@@ -24,7 +24,7 @@ Use of this resource for production deployments is not recommended. Instead, gen
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_power_infrastructure"></a> [power\_infrastructure](#module\_power\_infrastructure) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git | v6.2.0 |
+| <a name="module_power_infrastructure"></a> [power\_infrastructure](#module\_power\_infrastructure) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git | v6.3.0 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git | v1.0.5 |
 | <a name="module_sap_systems"></a> [sap\_systems](#module\_sap\_systems) | ../../ | n/a |
 
