@@ -5,7 +5,7 @@
     {
       "description": "Use fix as Semantic Commit prefix for all dependency updates in these folders to generate release",
       "matchPaths": [
-        "examples/ibm-catalog/prepared-system-solution"
+        "examples/ibm-catalog/deployable-architectures/sap-ready-to-go"
       ],
       "semanticCommitType": "fix"
     }
