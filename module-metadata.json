@@ -544,6 +544,16 @@
       },
       "type": "string"
     },
+    "hana_instance_management_ip": {
+      "name": "instance_mgmt_ip",
+      "description": "IP address of the management network interface of IBM PowerVS instance.",
+      "value": "module.sap_hana_instance.instance_mgmt_ip",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 11
+      },
+      "type": "TypeString"
+    },
     "hana_instance_private_ips": {
       "name": "instance_private_ips",
       "description": "All private IP addresses (as a list) of IBM PowerVS instance.",
@@ -558,7 +568,15 @@
       "description": "Private IPs of all NetWeaver instances.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 11
+        "line": 16
+      }
+    },
+    "netweaver_instances_management_ip": {
+      "name": "netweaver_instances_management_ip",
+      "description": "Management IPs of all NetWeaver instances.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 21
       }
     },
     "share_fs_instance_private_ips": {
@@ -566,12 +584,12 @@
       "description": "Private IPs of the Share FS instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 16
+        "line": 26
       }
     }
   },
   "required_core": [
-    "\u003e= 1.3.0"
+    "\u003e= 1.3, \u003c 1.5"
   ],
   "required_providers": {
     "ibm": {
@@ -792,7 +810,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 185
+            "line": 245
           }
         },
         "null_resource.connect_to_mgmt_svs": {
@@ -807,7 +825,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 117
+            "line": 177
           }
         },
         "null_resource.install_packages": {
@@ -822,7 +840,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 70
+            "line": 129
           }
         },
         "null_resource.perform_proxy_client_setup": {
@@ -837,7 +855,37 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 21
+            "line": 32
+          }
+        },
+        "null_resource.update_os": {
+          "mode": "managed",
+          "type": "null_resource",
+          "name": "update_os",
+          "attributes": {
+            "count": "target_server_ips"
+          },
+          "provider": {
+            "name": "null"
+          },
+          "pos": {
+            "filename": "submodules/power_sap_instance_init/main.tf",
+            "line": 81
+          }
+        },
+        "time_sleep.wait_for_reboot": {
+          "mode": "managed",
+          "type": "time_sleep",
+          "name": "wait_for_reboot",
+          "attributes": {
+            "count": "target_server_ips"
+          },
+          "provider": {
+            "name": "time"
+          },
+          "pos": {
+            "filename": "submodules/power_sap_instance_init/main.tf",
+            "line": 118
           }
         }
       },

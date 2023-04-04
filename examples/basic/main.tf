@@ -34,10 +34,6 @@ locals {
   }
 }
 
-#####################################################
-# PVS SAP Instance Deployment example for SAP SYSTEM with new private network
-#####################################################
-
 # There are discrepancies between the region inputs on the powervs terraform resource, and the vpc ("is") resources
 provider "ibm" {
   region           = lookup(local.ibm_powervs_zone_region_map, var.powervs_zone, null)
@@ -89,7 +85,7 @@ module "power_infrastructure" {
 
   # Add explicit depends_on here due to https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/issues/143
   depends_on                  = [module.resource_group]
-  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v7.0.0"
+  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git?ref=v6.3.0"
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = module.resource_group.resource_group_name
   powervs_workspace_name      = local.powervs_workspace_name
@@ -101,11 +97,11 @@ module "power_infrastructure" {
   powervs_management_network  = var.powervs_management_network
   powervs_backup_network      = var.powervs_backup_network
   transit_gateway_name        = var.transit_gateway_name
-  reuse_cloud_connections     = var.reuse_cloud_connections
-  cloud_connection_count      = var.cloud_connection_count
-  cloud_connection_speed      = var.cloud_connection_speed
-  cloud_connection_gr         = var.cloud_connection_gr
-  cloud_connection_metered    = var.cloud_connection_metered
+  reuse_cloud_connections     = true
+  cloud_connection_count      = var.cloud_connection["count"]
+  cloud_connection_speed      = var.cloud_connection["speed"]
+  cloud_connection_gr         = var.cloud_connection["global_routing"]
+  cloud_connection_metered    = var.cloud_connection["metered"]
   squid_config                = var.squid_config
   dns_forwarder_config        = var.dns_forwarder_config
   ntp_forwarder_config        = var.ntp_forwarder_config
@@ -133,7 +129,7 @@ module "sap_systems" {
   powervs_sshkey_name            = local.powervs_sshkey_name
   powervs_sap_network            = { "name" = local.powervs_sap_network_name, "cidr" = var.powervs_sap_network_cidr }
   powervs_additional_networks    = local.additional_networks
-  powervs_cloud_connection_count = var.cloud_connection_count
+  powervs_cloud_connection_count = var.cloud_connection["count"]
 
   powervs_share_instance_name        = var.sap_share_instance_config["hostname"]
   powervs_share_image_name           = var.sap_share_instance_config["os_image_name"]

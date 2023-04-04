@@ -1,5 +1,5 @@
 variable "powervs_zone" {
-  description = "IBM Cloud data center location where IBM PowerVS infrastructure will be created. Following locations are currently supported: syd04, syd05, eu-de-1, eu-de-2, tok04, osa21, sao01, lon04, lon06."
+  description = "IBM Cloud data center location where IBM PowerVS infrastructure will be created."
   type        = string
   default     = "lon06"
 }
@@ -58,22 +58,21 @@ variable "transit_gateway_name" {
   default     = null
 }
 
-variable "reuse_cloud_connections" {
-  description = "When true, IBM Cloud connections are reused (if attached to the transit gateway)."
-  type        = bool
-  default     = true
-}
+variable "cloud_connection" {
+  description = "Cloud connection configuration: speed (50, 100, 200, 500, 1000, 2000, 5000, 10000 Mb/s), count (1 or 2 connections), global_routing (true or false), metered (true or false)"
+  type = object({
+    count          = number
+    speed          = number
+    global_routing = bool
+    metered        = bool
+  })
 
-variable "cloud_connection_count" {
-  description = "Required number of Cloud connections to create or reuse. The maximum number of connections is two per location."
-  type        = number
-  default     = 0
-}
-
-variable "cloud_connection_speed" {
-  description = "Speed in megabits per second. Supported values are 50, 100, 200, 500, 1000, 2000, 5000, 10000. Required when you create a connection."
-  type        = number
-  default     = 5000
+  default = {
+    count          = 0
+    speed          = 5000
+    global_routing = true
+    metered        = true
+  }
 }
 
 variable "ibmcloud_api_key" {
@@ -90,18 +89,6 @@ variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created resources"
   default     = []
-}
-
-variable "cloud_connection_gr" {
-  description = "Enable global routing for this cloud connection. Can be specified when creating new connection"
-  type        = bool
-  default     = true
-}
-
-variable "cloud_connection_metered" {
-  description = "Enable metered for this cloud connection. Can be specified when creating new connection"
-  type        = bool
-  default     = false
 }
 
 variable "access_host_or_ip" {

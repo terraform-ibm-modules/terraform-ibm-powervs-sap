@@ -8,9 +8,19 @@ output "hana_instance_private_ips" {
   value       = module.sap_hana_instance.instance_private_ips
 }
 
+output "hana_instance_management_ip" {
+  description = "Management IP of HANA Instance"
+  value       = module.sap_hana_instance.instance_mgmt_ip
+}
+
 output "netweaver_instance_private_ips" {
   description = "Private IPs of all NetWeaver instances."
   value       = module.sap_netweaver_instance[*].instance_private_ips
+}
+
+output "netweaver_instances_management_ip" {
+  description = "Management IPs of all NetWeaver instances."
+  value       = module.sap_netweaver_instance[*].instance_mgmt_ip
 }
 
 output "share_fs_instance_private_ips" {

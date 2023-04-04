@@ -107,9 +107,9 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Basic PowerVS SAP system Module Example](examples/basic)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/sap-ready-to-go)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/terraform-registry/sap-ready-to-go)
+- [ Basic Power Systems Virtual Server for SAP HANA Module Example](examples/basic)
+- [ Power Systems Virtual Server for SAP HANA example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/sap-ready-to-go)
+- [ Power Systems Virtual Server for SAP HANA example to create SAP prepared PowerVS instances](examples/terraform-registry/sap-ready-to-go)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -117,7 +117,7 @@ You need the following permissions to run this module.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.5 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >=1.49.0 |
 
 ## Modules
@@ -184,8 +184,10 @@ No resources.
 | Name | Description |
 |------|-------------|
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP to manage the environment |
+| <a name="output_hana_instance_management_ip"></a> [hana\_instance\_management\_ip](#output\_hana\_instance\_management\_ip) | Management IP of HANA Instance |
 | <a name="output_hana_instance_private_ips"></a> [hana\_instance\_private\_ips](#output\_hana\_instance\_private\_ips) | Private IPs of the HANA instance. |
 | <a name="output_netweaver_instance_private_ips"></a> [netweaver\_instance\_private\_ips](#output\_netweaver\_instance\_private\_ips) | Private IPs of all NetWeaver instances. |
+| <a name="output_netweaver_instances_management_ip"></a> [netweaver\_instances\_management\_ip](#output\_netweaver\_instances\_management\_ip) | Management IPs of all NetWeaver instances. |
 | <a name="output_share_fs_instance_private_ips"></a> [share\_fs\_instance\_private\_ips](#output\_share\_fs\_instance\_private\_ips) | Private IPs of the Share FS instance. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
