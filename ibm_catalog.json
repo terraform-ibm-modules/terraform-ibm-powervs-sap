@@ -192,7 +192,7 @@
                         },
                         {
                             "custom_config": {},
-                            "default_value": "cnp-4x128",
+                            "default_value": "ush1-4x128",
                             "description": "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter.",
                             "hidden": false,
                             "key": "sap_hana_profile",
