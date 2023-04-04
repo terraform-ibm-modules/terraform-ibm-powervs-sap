@@ -108,6 +108,7 @@ You need the following permissions to run this module.
 ## Examples
 
 - [ Basic Power Systems Virtual Server for SAP HANA Module Example](examples/basic)
+- [ PowerVS SAP system example to create SAP S4HANA SYSTEM](examples/ibm-catalog/deployable-architectures/s4hana-bw4hana-non-ha)
 - [ Power Systems Virtual Server for SAP HANA example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/sap-ready-to-go)
 - [ Power Systems Virtual Server for SAP HANA example to create SAP prepared PowerVS instances](examples/terraform-registry/sap-ready-to-go)
 <!-- END EXAMPLES HOOK -->
@@ -124,7 +125,9 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_ansible_s4hana_bw4hana"></a> [ansible\_s4hana\_bw4hana](#module\_ansible\_s4hana\_bw4hana) | ./submodules/ansible_sap_s4hana_bw4hana | n/a |
 | <a name="module_attach_sap_network"></a> [attach\_sap\_network](#module\_attach\_sap\_network) | ./submodules/power_attach_private_network | n/a |
+| <a name="module_cos_sap_download"></a> [cos\_sap\_download](#module\_cos\_sap\_download) | ./submodules/cos_sap_download | n/a |
 | <a name="module_create_sap_network"></a> [create\_sap\_network](#module\_create\_sap\_network) | ./submodules/power_create_private_network | n/a |
 | <a name="module_initial_validation"></a> [initial\_validation](#module\_initial\_validation) | ./submodules/initial_validation | n/a |
 | <a name="module_instance_init"></a> [instance\_init](#module\_instance\_init) | ./submodules/power_sap_instance_init | n/a |
@@ -141,7 +144,9 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_host_or_ip"></a> [access\_host\_or\_ip](#input\_access\_host\_or\_ip) | Public IP of Bastion/jumpserver Host | `string` | `null` | no |
+| <a name="input_ansible_sap_solution"></a> [ansible\_sap\_solution](#input\_ansible\_sap\_solution) | Product catalog solution. | `any` | <pre>{<br>  "enable": false,<br>  "solution": ""<br>}</pre> | no |
 | <a name="input_configure_os"></a> [configure\_os](#input\_configure\_os) | Specify if OS on PowerVS instances should be configured for SAP or if only PowerVS instances should be created. | `bool` | `true` | no |
+| <a name="input_cos_config"></a> [cos\_config](#input\_cos\_config) | COS bucket access information to copy the software to LOCAL DISK | <pre>object(<br>    {<br>      cos_bucket_name          = string<br>      cos_access_key           = string<br>      cos_secret_access_key    = string<br>      cos_endpoint_url         = string<br>      cos_source_folders_paths = list(string)<br>      target_folder_path_local = string<br>    }<br>  )</pre> | <pre>{<br>  "cos_access_key": "",<br>  "cos_bucket_name": "",<br>  "cos_endpoint_url": "",<br>  "cos_secret_access_key": "",<br>  "cos_source_folders_paths": [<br>    ""<br>  ],<br>  "target_folder_path_local": ""<br>}</pre> | no |
 | <a name="input_dns_host_or_ip"></a> [dns\_host\_or\_ip](#input\_dns\_host\_or\_ip) | DNS forwarder/server hostname or IP address. E.g., 10.10.10.6 | `string` | `""` | no |
 | <a name="input_nfs_client_directory"></a> [nfs\_client\_directory](#input\_nfs\_client\_directory) | NFS directory on PowerVS instances. Will be used only if nfs\_server is setup in 'Power infrastructure for regulated industries' | `string` | `"/nfs"` | no |
 | <a name="input_nfs_host_or_ip_path"></a> [nfs\_host\_or\_ip\_path](#input\_nfs\_host\_or\_ip\_path) | Full path on NFS server (in form <hostname\_or\_ip>:<directory>, e.g., '10.20.10.4:/nfs'). | `string` | `""` | no |

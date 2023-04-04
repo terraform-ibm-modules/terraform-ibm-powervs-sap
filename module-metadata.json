@@ -6,11 +6,30 @@
       "type": "string",
       "description": "Public IP of Bastion/jumpserver Host",
       "source": [
+        "module.ansible_s4hana_bw4hana",
+        "module.cos_sap_download",
         "module.instance_init"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 236
+      }
+    },
+    "ansible_sap_solution": {
+      "name": "ansible_sap_solution",
+      "type": "any",
+      "description": "Product catalog solution.",
+      "default": {
+        "enable": false,
+        "solution": ""
+      },
+      "source": [
+        "module.ansible_s4hana_bw4hana",
+        "module.ansible_s4hana_bw4hana"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 312
       }
     },
     "configure_os": {
@@ -25,6 +44,28 @@
       "pos": {
         "filename": "variables.tf",
         "line": 225
+      }
+    },
+    "cos_config": {
+      "name": "cos_config",
+      "type": "object(\n    {\n      cos_bucket_name          = string\n      cos_access_key           = string\n      cos_secret_access_key    = string\n      cos_endpoint_url         = string\n      cos_source_folders_paths = list(string)\n      target_folder_path_local = string\n    }\n  )",
+      "description": "COS bucket access information to copy the software to LOCAL DISK",
+      "default": {
+        "cos_access_key": "",
+        "cos_bucket_name": "",
+        "cos_endpoint_url": "",
+        "cos_secret_access_key": "",
+        "cos_source_folders_paths": [
+          ""
+        ],
+        "target_folder_path_local": ""
+      },
+      "source": [
+        "module.cos_sap_download"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 289
       }
     },
     "dns_host_or_ip": {
@@ -52,6 +93,10 @@
       "type": "string",
       "description": "Full path on NFS server (in form \u003chostname_or_ip\u003e:\u003cdirectory\u003e, e.g., '10.20.10.4:/nfs').",
       "default": "",
+      "source": [
+        "module.cos_sap_download",
+        "module.cos_sap_download"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 267
@@ -525,6 +570,8 @@
       "description": "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs_sshkey_name'.",
       "sensitive": true,
       "source": [
+        "module.ansible_s4hana_bw4hana",
+        "module.cos_sap_download",
         "module.instance_init"
       ],
       "pos": {
@@ -602,6 +649,47 @@
   "managed_resources": {},
   "data_resources": {},
   "module_calls": {
+    "ansible_s4hana_bw4hana": {
+      "name": "ansible_s4hana_bw4hana",
+      "source": "./submodules/ansible_sap_s4hana_bw4hana",
+      "attributes": {
+        "access_host_or_ip": "access_host_or_ip",
+        "ansible_parameters": "ansible_sap_solution",
+        "count": "ansible_sap_solution",
+        "ssh_private_key": "ssh_private_key"
+      },
+      "managed_resources": {
+        "null_resource.sap_hana_install": {
+          "mode": "managed",
+          "type": "null_resource",
+          "name": "sap_hana_install",
+          "provider": {
+            "name": "null"
+          },
+          "pos": {
+            "filename": "submodules/ansible_sap_s4hana_bw4hana/main.tf",
+            "line": 23
+          }
+        },
+        "null_resource.sap_nw_install": {
+          "mode": "managed",
+          "type": "null_resource",
+          "name": "sap_nw_install",
+          "provider": {
+            "name": "null"
+          },
+          "pos": {
+            "filename": "submodules/ansible_sap_s4hana_bw4hana/main.tf",
+            "line": 72
+          }
+        }
+      },
+      "data_resources": {},
+      "pos": {
+        "filename": "main.tf",
+        "line": 181
+      }
+    },
     "attach_sap_network": {
       "name": "attach_sap_network",
       "source": "./submodules/power_attach_private_network",
@@ -707,6 +795,39 @@
       "pos": {
         "filename": "main.tf",
         "line": 24
+      }
+    },
+    "cos_sap_download": {
+      "name": "cos_sap_download",
+      "source": "./submodules/cos_sap_download",
+      "attributes": {
+        "access_host_or_ip": "access_host_or_ip",
+        "cos_config": "cos_config",
+        "count": "nfs_host_or_ip_path",
+        "host_ip": "nfs_host_or_ip_path",
+        "ssh_private_key": "ssh_private_key"
+      },
+      "managed_resources": {
+        "null_resource.cos_config_download_sap": {
+          "mode": "managed",
+          "type": "null_resource",
+          "name": "cos_config_download_sap",
+          "attributes": {
+            "count": "cos_config"
+          },
+          "provider": {
+            "name": "null"
+          },
+          "pos": {
+            "filename": "submodules/cos_sap_download/main.tf",
+            "line": 5
+          }
+        }
+      },
+      "data_resources": {},
+      "pos": {
+        "filename": "main.tf",
+        "line": 169
       }
     },
     "create_sap_network": {
@@ -1001,6 +1122,21 @@
             "line": 120
           }
         },
+        "data.ibm_pi_instance_ip.instance_sap_ip_ds": {
+          "mode": "data",
+          "type": "ibm_pi_instance_ip",
+          "name": "instance_sap_ip_ds",
+          "attributes": {
+            "pi_network_name": "powervs_networks"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "submodules/power_instance/main.tf",
+            "line": 133
+          }
+        },
         "data.ibm_pi_key.key_ds": {
           "mode": "data",
           "type": "ibm_pi_key",
@@ -1092,12 +1228,22 @@
             "line": 6
           }
         },
+        "instance_sap_ip": {
+          "name": "instance_sap_ip",
+          "description": "IP address of the sap network interface of IBM PowerVS instance.",
+          "value": "data.ibm_pi_instance_ip.instance_sap_ip_ds.ip",
+          "pos": {
+            "filename": "submodules/power_instance/outputs.tf",
+            "line": 16
+          },
+          "type": "TypeString"
+        },
         "instance_wwns": {
           "name": "instance_wwns",
           "description": "Unique volume IDs (wwns) of all volumes attached to IBM PowerVS instance.",
           "pos": {
             "filename": "submodules/power_instance/outputs.tf",
-            "line": 16
+            "line": 21
           }
         }
       },
@@ -1217,6 +1363,21 @@
             "line": 120
           }
         },
+        "data.ibm_pi_instance_ip.instance_sap_ip_ds": {
+          "mode": "data",
+          "type": "ibm_pi_instance_ip",
+          "name": "instance_sap_ip_ds",
+          "attributes": {
+            "pi_network_name": "powervs_networks"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "submodules/power_instance/main.tf",
+            "line": 133
+          }
+        },
         "data.ibm_pi_key.key_ds": {
           "mode": "data",
           "type": "ibm_pi_key",
@@ -1308,12 +1469,22 @@
             "line": 6
           }
         },
+        "instance_sap_ip": {
+          "name": "instance_sap_ip",
+          "description": "IP address of the sap network interface of IBM PowerVS instance.",
+          "value": "data.ibm_pi_instance_ip.instance_sap_ip_ds.ip",
+          "pos": {
+            "filename": "submodules/power_instance/outputs.tf",
+            "line": 16
+          },
+          "type": "TypeString"
+        },
         "instance_wwns": {
           "name": "instance_wwns",
           "description": "Unique volume IDs (wwns) of all volumes attached to IBM PowerVS instance.",
           "pos": {
             "filename": "submodules/power_instance/outputs.tf",
-            "line": 16
+            "line": 21
           }
         }
       },
@@ -1433,6 +1604,21 @@
             "line": 120
           }
         },
+        "data.ibm_pi_instance_ip.instance_sap_ip_ds": {
+          "mode": "data",
+          "type": "ibm_pi_instance_ip",
+          "name": "instance_sap_ip_ds",
+          "attributes": {
+            "pi_network_name": "powervs_networks"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "submodules/power_instance/main.tf",
+            "line": 133
+          }
+        },
         "data.ibm_pi_key.key_ds": {
           "mode": "data",
           "type": "ibm_pi_key",
@@ -1524,12 +1710,22 @@
             "line": 6
           }
         },
+        "instance_sap_ip": {
+          "name": "instance_sap_ip",
+          "description": "IP address of the sap network interface of IBM PowerVS instance.",
+          "value": "data.ibm_pi_instance_ip.instance_sap_ip_ds.ip",
+          "pos": {
+            "filename": "submodules/power_instance/outputs.tf",
+            "line": 16
+          },
+          "type": "TypeString"
+        },
         "instance_wwns": {
           "name": "instance_wwns",
           "description": "Unique volume IDs (wwns) of all volumes attached to IBM PowerVS instance.",
           "pos": {
             "filename": "submodules/power_instance/outputs.tf",
-            "line": 16
+            "line": 21
           }
         }
       },

@@ -13,6 +13,11 @@ output "instance_mgmt_ip" {
   value       = data.ibm_pi_instance_ip.instance_mgmt_ip_ds.ip
 }
 
+output "instance_sap_ip" {
+  description = "IP address of the sap network interface of IBM PowerVS instance."
+  value       = data.ibm_pi_instance_ip.instance_sap_ip_ds.ip
+}
+
 output "instance_wwns" {
   description = "Unique volume IDs (wwns) of all volumes attached to IBM PowerVS instance."
   depends_on  = [ibm_pi_volume.create_volume]

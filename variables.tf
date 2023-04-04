@@ -281,3 +281,39 @@ variable "sap_domain" {
   type        = string
   default     = ""
 }
+
+#####################################################
+# PVS SAP SYSTEM Software Ansible Parameters
+#####################################################
+
+variable "cos_config" {
+  description = "COS bucket access information to copy the software to LOCAL DISK"
+  type = object(
+    {
+      cos_bucket_name          = string
+      cos_access_key           = string
+      cos_secret_access_key    = string
+      cos_endpoint_url         = string
+      cos_source_folders_paths = list(string)
+      target_folder_path_local = string
+    }
+  )
+
+  default = {
+    cos_bucket_name          = ""
+    cos_access_key           = ""
+    cos_secret_access_key    = ""
+    cos_endpoint_url         = ""
+    cos_source_folders_paths = [""]
+    target_folder_path_local = ""
+  }
+}
+
+variable "ansible_sap_solution" {
+  description = "Product catalog solution."
+  type        = any
+  default = {
+    "enable"   = false
+    "solution" = ""
+  }
+}

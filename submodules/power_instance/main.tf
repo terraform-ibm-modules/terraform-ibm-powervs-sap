@@ -129,3 +129,10 @@ data "ibm_pi_instance" "instance_ips_ds" {
   pi_instance_name     = ibm_pi_instance.sap_instance.pi_instance_name
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
 }
+
+data "ibm_pi_instance_ip" "instance_sap_ip_ds" {
+  depends_on           = [ibm_pi_instance.sap_instance]
+  pi_network_name      = element(var.powervs_networks, length(var.powervs_networks) - 1)
+  pi_instance_name     = ibm_pi_instance.sap_instance.pi_instance_name
+  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace_ds.guid
+}

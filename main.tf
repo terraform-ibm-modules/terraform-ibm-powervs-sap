@@ -164,3 +164,33 @@ module "instance_init" {
   perform_dns_client_setup         = local.perform_dns_client_setup
   sap_domain                       = var.sap_domain
 }
+
+# Download sap binaries from COS to private VSI on intel.
+module "cos_sap_download" {
+
+  source     = "./submodules/cos_sap_download"
+  depends_on = [module.instance_init]
+  count      = var.nfs_host_or_ip_path != null && var.nfs_host_or_ip_path != "" && var.cos_config["cos_access_key"] != "" && var.cos_config["cos_access_key"] != null ? 1 : 0
+
+  access_host_or_ip = var.access_host_or_ip
+  host_ip           = split(":", var.nfs_host_or_ip_path)[0]
+  ssh_private_key   = var.ssh_private_key
+  cos_config        = var.cos_config
+}
+
+module "ansible_s4hana_bw4hana" {
+
+  source     = "./submodules/ansible_sap_s4hana_bw4hana"
+  depends_on = [module.cos_sap_download, module.sap_hana_instance, module.sap_netweaver_instance, module.instance_init]
+  count      = var.ansible_sap_solution["enable"] && contains(["s4hana", "bw4hana"], var.ansible_sap_solution["solution"]) ? 1 : 0
+
+  access_host_or_ip     = var.access_host_or_ip
+  target_server_hana_ip = module.sap_hana_instance.instance_mgmt_ip
+  target_server_nw_ip   = module.sap_netweaver_instance[0].instance_mgmt_ip
+  ssh_private_key       = var.ssh_private_key
+  ansible_parameters = merge(var.ansible_sap_solution,
+    { "hana_instance_sap_ip"   = module.sap_hana_instance.instance_sap_ip
+      "hana_instance_hostname" = var.powervs_hana_instance_name
+    "netweaver_instance_hostname" = "${var.powervs_netweaver_instance_name}-1" }
+  )
+}
