@@ -2,7 +2,7 @@
 
 copyright:
   years: 2023
-lastupdated: "2023-03-29"
+lastupdated: "2023-04-06"
 
 keywords:
 
@@ -13,7 +13,7 @@ authors:
 
 version: v1.0.0
 
-deployment-url:
+deployment-url: https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-sap-9aa6135e-75d5-467e-9f4a-ac2a21c069b8-global
 
 docs: https://cloud.ibm.com/docs/sap-powervs
 
@@ -63,7 +63,7 @@ The resulting SAP landscape leverages the services such as Activity Tracker, Clo
 ## Architecture diagram
 {: #architecture-diagram}
 
-![Architecture diagram for 'SAP on Power Systems Virtual Server for SAP HANA' - variation 'SAP ready PowerVS'.](deploy-arch-ibm-pvs-sap-ready-to-go.svg "Architecture diagram"){: caption="Figure 1. PowerVS instances prepared to run SAP in PowerVS workspace" caption-side="bottom"}
+![Architecture diagram for 'SAP on Power Systems Virtual Server for SAP HANA' - variation 'SAP ready PowerVS'.](deploy-arch-ibm-pvs-sap-ready-to-go.svg "Architecture diagram"){: caption="Figure 1. PowerVS instances prepared to run SAP in PowerVS workspace" caption-side="bottom"}{: external download="deploy-arch-ibm-pvs-sap-ready-to-go.svg"}
 
 ## Design requirements
 {: #design-requirements}
