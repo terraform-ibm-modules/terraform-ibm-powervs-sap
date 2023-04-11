@@ -96,6 +96,14 @@ EOF
     destination = local.dst_ansible_vars_swpm_path
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      ####  Execute ansible community role to install S4HANA/BW4HANA based on solution passed  ####
+      "echo ${var.ansible_vault_password} >> password_file",
+      "ansible-vault encrypt ${local.dst_ansible_vars_swpm_path} --vault-password-file password_file"
+    ]
+  }
+
   provisioner "file" {
     destination = "${local.dst_scripts_dir}/swpm_install.sh"
     content = templatefile(
