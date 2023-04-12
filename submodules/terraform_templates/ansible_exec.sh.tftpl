@@ -17,7 +17,7 @@ sed -i '252s/http:/https:/' /usr/share/ansible/roles/sap_hana_preconfigure/vars/
 echo -e "[defaults]\nlog_path=$${playbook_name}.$(date "+%Y.%m.%d-%H.%M.%S").log" >ansible.cfg
 
 if [[ " $${power_linux_sap_arr[@]} " =~ " $${playbook_name} " ]]; then
-    unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/$${playbook_name} --extra-vars "@${ansible_extra_vars_path}" --vault-password-file password_file
+    unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/$${playbook_name} --extra-vars "@${ansible_extra_vars_path}"
     status=$?
     [ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1
 fi
