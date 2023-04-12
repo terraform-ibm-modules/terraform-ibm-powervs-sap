@@ -46,7 +46,7 @@ content-type: reference-architecture
 {{site.data.keyword.attribute-definition-list}}
 
 # SAP on Power - variation 'SAP ready PowerVS'
-{: #deploy-arch-ibm-pvs-inf-standard}
+{: #deploy-arch-ibm-pvs-sap-ready-to-go}
 {: toc-content-type="reference-architecture"}
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
