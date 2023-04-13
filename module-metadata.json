@@ -32,6 +32,19 @@
         "line": 312
       }
     },
+    "ansible_vault_password": {
+      "name": "ansible_vault_password",
+      "type": "string",
+      "description": "Ansible Vault password to encrypt ansible variable files.",
+      "required": true,
+      "source": [
+        "module.ansible_s4hana_bw4hana"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 321
+      }
+    },
     "configure_os": {
       "name": "configure_os",
       "type": "bool",
@@ -655,6 +668,7 @@
       "attributes": {
         "access_host_or_ip": "access_host_or_ip",
         "ansible_parameters": "ansible_sap_solution",
+        "ansible_vault_password": "ansible_vault_password",
         "count": "ansible_sap_solution",
         "ssh_private_key": "ssh_private_key"
       },
@@ -680,7 +694,7 @@
           },
           "pos": {
             "filename": "submodules/ansible_sap_s4hana_bw4hana/main.tf",
-            "line": 72
+            "line": 80
           }
         }
       },

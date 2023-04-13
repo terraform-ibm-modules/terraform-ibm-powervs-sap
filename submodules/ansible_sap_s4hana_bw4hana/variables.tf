@@ -34,3 +34,8 @@ variable "ansible_parameters" {
     }
   )
 }
+
+variable "ansible_vault_password" {
+  description = "Ansible Vault password to encrypt ansible variable files."
+  type        = string
+}

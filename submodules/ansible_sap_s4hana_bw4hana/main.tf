@@ -6,7 +6,6 @@ locals {
 
   scr_scripts_dir = "${path.module}/../terraform_templates"
   dst_scripts_dir = "/root/terraform_scripts"
-  ansible_vault_password = "password"
 
   src_ansible_exec_tpl_path              = "${local.scr_scripts_dir}/ansible_exec.sh.tftpl"
   ansible_sap_hana_install_playbook_name = "sample-sap-hana-install.yml"
@@ -52,7 +51,7 @@ EOF
   provisioner "remote-exec" {
     inline = [
       ####  Execute ansible community role to install S4HANA/BW4HANA based on solution passed  ####
-      "echo ${local.ansible_vault_password} >> password_file",
+      "echo ${var.ansible_vault_password} >> password_file",
       "ansible-vault encrypt ${local.dst_ansible_vars_hana_path} --vault-password-file password_file"
     ]
   }
@@ -108,7 +107,7 @@ EOF
   provisioner "remote-exec" {
     inline = [
       ####  Execute ansible community role to install S4HANA/BW4HANA based on solution passed  ####
-      "echo ${local.ansible_vault_password} >> password_file",
+      "echo ${var.ansible_vault_password} >> password_file",
       "ansible-vault encrypt ${local.dst_ansible_vars_swpm_path} --vault-password-file password_file"
     ]
   }

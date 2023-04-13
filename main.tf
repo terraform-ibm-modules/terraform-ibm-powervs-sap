@@ -193,4 +193,5 @@ module "ansible_s4hana_bw4hana" {
       "hana_instance_hostname" = var.powervs_hana_instance_name
     "netweaver_instance_hostname" = "${var.powervs_netweaver_instance_name}-1" }
   )
+  ansible_vault_password = var.ansible_vault_password
 }
