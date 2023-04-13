@@ -1,4 +1,4 @@
-# Basic Power Systems Virtual Server for SAP HANA Module Example
+# Basic Power Virtual Server for SAP HANA Module Example
 
 This example illustrates how to use the `power-sap` module.
 It provisions the following infrastructure:
