@@ -25,5 +25,7 @@ fi
 if [[ " $${community_sap_install_arr[@]} " =~ " $${playbook_name} " ]]; then
     unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/community/sap_install/playbooks/$${playbook_name} --extra-vars "@${ansible_extra_vars_path}" --vault-password-file password_file
     status=$?
+    # Deleting Ansible Vault password used to encrypt the var files with sensitive information
+    rm -rf password_file
     [ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1
 fi

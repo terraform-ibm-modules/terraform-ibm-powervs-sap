@@ -201,7 +201,8 @@ module "sap_systems" {
   nfs_host_or_ip_path   = local.nfs_host_or_ip_path
   nfs_client_directory  = var.nfs_client_directory
 
-  sap_domain           = var.sap_domain
-  cos_config           = local.cos_config
-  ansible_sap_solution = local.ansible_sap_solution
+  sap_domain             = var.sap_domain
+  cos_config             = local.cos_config
+  ansible_sap_solution   = local.ansible_sap_solution
+  ansible_vault_password = var.ansible_vault_password
 }

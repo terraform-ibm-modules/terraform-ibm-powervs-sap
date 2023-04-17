@@ -34,6 +34,7 @@ The PowerVS SAP system example automates the following tasks:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_ansible_vault_password"></a> [ansible\_vault\_password](#input\_ansible\_vault\_password) | Ansible Vault password to encrypt ansible variable files. | `string` | n/a | yes |
 | <a name="input_cos_config"></a> [cos\_config](#input\_cos\_config) | COS bucket access information to copy the SAP Software to LOCAL DISK. HANA software directory must contain all files related for HANA DB installation. IMDB server and SAPCAr.EXE file. Solution software directory must contain 2020 S4hana files, SAPCAR.EXE file and SWPM20SP13\_4-80003426.SAR | <pre>object(<br>    {<br>      cos_bucket_name                 = string<br>      cos_access_key                  = string<br>      cos_secret_access_key           = string<br>      cos_endpoint_url                = string<br>      cos_hana_software_directory     = string<br>      cos_solution_software_directory = string<br>    }<br>  )</pre> | n/a | yes |
 | <a name="input_create_separate_fs_share"></a> [create\_separate\_fs\_share](#input\_create\_separate\_fs\_share) | Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used. | `bool` | `false` | no |
 | <a name="input_db_instance_number"></a> [db\_instance\_number](#input\_db\_instance\_number) | Instance Number for HANA Installation. | `string` | `"00"` | no |

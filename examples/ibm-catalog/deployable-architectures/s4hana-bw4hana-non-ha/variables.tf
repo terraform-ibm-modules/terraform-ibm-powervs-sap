@@ -344,3 +344,8 @@ variable "sap_netweaver_storage_config" {
     paths      = "/usr/sap,/usr/sap/trans,/sapmnt"
   }
 }
+
+variable "ansible_vault_password" {
+  description = "Ansible Vault password to encrypt ansible variable files."
+  type        = string
+}

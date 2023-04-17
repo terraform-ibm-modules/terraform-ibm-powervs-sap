@@ -50,7 +50,7 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
-      ####  Execute ansible community role to install S4HANA/BW4HANA based on solution passed  ####
+      ####  Encrypting the ansible var file with sensitive information  ####
       "echo ${var.ansible_vault_password} >> password_file",
       "ansible-vault encrypt ${local.dst_ansible_vars_hana_path} --vault-password-file password_file"
     ]
@@ -106,7 +106,7 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
-      ####  Execute ansible community role to install S4HANA/BW4HANA based on solution passed  ####
+      ####  Encrypting the ansible var file with sensitive information  ####
       "echo ${var.ansible_vault_password} >> password_file",
       "ansible-vault encrypt ${local.dst_ansible_vars_swpm_path} --vault-password-file password_file"
     ]

@@ -320,5 +320,6 @@ variable "ansible_sap_solution" {
 
 variable "ansible_vault_password" {
   description = "Ansible Vault password to encrypt ansible variable files."
+  default     = null
   type        = string
 }

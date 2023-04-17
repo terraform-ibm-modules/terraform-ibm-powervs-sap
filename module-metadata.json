@@ -36,7 +36,6 @@
       "name": "ansible_vault_password",
       "type": "string",
       "description": "Ansible Vault password to encrypt ansible variable files.",
-      "required": true,
       "source": [
         "module.ansible_s4hana_bw4hana"
       ],
