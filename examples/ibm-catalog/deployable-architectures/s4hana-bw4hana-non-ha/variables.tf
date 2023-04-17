@@ -348,4 +348,5 @@ variable "sap_netweaver_storage_config" {
 variable "ansible_vault_password" {
   description = "Ansible Vault password to encrypt ansible variable files."
   type        = string
+  default     = null
 }
