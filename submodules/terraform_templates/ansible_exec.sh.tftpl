@@ -1,5 +1,10 @@
 #!/bin/bash
+
+### Using input variables from terraform
 playbook_name=${ansible_playbook_name}
+ansible_vars_location=${ansible_extra_vars_path}
+
+ansible_log_path="/root/terraform_scripts"
 power_linux_sap_arr=("powervs-sles.yml" "powervs-rhel.yml" "powervs-services.yml")
 community_sap_install_arr=("sample-sap-hana-install.yml" "sample-sap-swpm.yml")
 
@@ -14,16 +19,16 @@ ansible-galaxy collection install community.general:6.2.0
 sed -i '252s/http:/https:/' /usr/share/ansible/roles/sap_hana_preconfigure/vars/RedHat_8.yml
 
 ## Execute ansible playbook
-echo -e "[defaults]\nlog_path=$${playbook_name}.$(date "+%Y.%m.%d-%H.%M.%S").log" >ansible.cfg
+echo -e "[defaults]\nlog_path=$${ansible_log_path}/$${playbook_name}.$(date "+%Y.%m.%d-%H.%M.%S").log" >ansible.cfg
 
 if [[ " $${power_linux_sap_arr[@]} " =~ " $${playbook_name} " ]]; then
-    unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/$${playbook_name} --extra-vars "@${ansible_extra_vars_path}"
+    unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/$${playbook_name} --extra-vars "@$${ansible_vars_location}"
     status=$?
     [ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1
 fi
 
 if [[ " $${community_sap_install_arr[@]} " =~ " $${playbook_name} " ]]; then
-    unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/community/sap_install/playbooks/$${playbook_name} --extra-vars "@${ansible_extra_vars_path}"
+    unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/community/sap_install/playbooks/$${playbook_name} --extra-vars "@$${ansible_vars_location}"
     status=$?
     [ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1
 fi
