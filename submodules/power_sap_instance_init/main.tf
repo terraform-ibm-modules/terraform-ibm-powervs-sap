@@ -11,13 +11,10 @@ locals {
   scr_scripts_dir = "${path.module}/../terraform_templates"
   dst_scripts_dir = "/root/terraform_scripts"
 
-  src_squid_setup_tpl_path      = "${local.scr_scripts_dir}/services_init.sh.tftpl"
-  dst_squid_setup_path          = "${local.dst_scripts_dir}/services_init.sh"
-  src_update_os_path            = "${local.scr_scripts_dir}/update_os.sh"
-  dst_update_os_path            = "${local.dst_scripts_dir}/update_os.sh"
+  src_services_init_tpl_path    = "${local.scr_scripts_dir}/services_init.sh.tftpl"
+  dst_services_init_path        = "${local.dst_scripts_dir}/services_init.sh"
   src_install_packages_tpl_path = "${local.scr_scripts_dir}/install_packages.sh.tftpl"
   dst_install_packages_path     = "${local.dst_scripts_dir}/install_packages.sh"
-
 
   ansible_connect_mgmt_svs_playbook_name     = "powervs-services.yml"
   ansible_configure_os_for_sap_playbook_name = var.os_image_distro == "SLES" ? "powervs-sles.yml" : var.os_image_distro == "RHEL" ? "powervs-rhel.yml" : "unknown"
@@ -54,9 +51,9 @@ resource "null_resource" "perform_proxy_client_setup" {
 
   ####### Copy template file to target host ############
   provisioner "file" {
-    destination = local.dst_squid_setup_path
+    destination = local.dst_services_init_path
     content = templatefile(
-      local.src_squid_setup_tpl_path,
+      local.src_services_init_tpl_path,
       {
         "proxy_ip_and_port" : var.perform_proxy_client_setup["server_ip_port"]
         "no_proxy_ip" : var.perform_proxy_client_setup["no_proxy_hosts"]
@@ -67,9 +64,9 @@ resource "null_resource" "perform_proxy_client_setup" {
   #######  Execute script: SQUID Forward Proxy client setup and OS Registration ############
   provisioner "remote-exec" {
     inline = [
-      "chmod +x ${local.dst_squid_setup_path}",
-      local.dst_squid_setup_path
-
+      "chmod +x ${local.dst_services_init_path}",
+      "${local.dst_services_init_path} setup_proxy",
+      "${local.dst_services_init_path} register_os"
     ]
   }
 }
@@ -101,25 +98,30 @@ resource "null_resource" "update_os" {
     ]
   }
 
-  ####### Copy update_os.sh script ############
+  ####### Copy Template file to target host ############
   provisioner "file" {
-    source      = local.src_update_os_path
-    destination = local.dst_update_os_path
+    destination = local.dst_services_init_path
+    content = templatefile(
+      local.src_services_init_tpl_path,
+      {
+        "proxy_ip_and_port" : "${var.perform_proxy_client_setup["squid_server_ip"]}:${var.perform_proxy_client_setup["squid_port"]}"
+        "no_proxy_ip" : var.perform_proxy_client_setup["no_proxy_hosts"]
+      }
+    )
   }
 
   ####### Update OS and Reboot ############
   provisioner "remote-exec" {
     inline = [
-      "chmod +x ${local.dst_update_os_path}",
-      local.dst_update_os_path
+      "chmod +x ${local.dst_services_init_path}",
+      "${local.dst_services_init_path} update_os",
     ]
   }
 }
 
 resource "time_sleep" "wait_for_reboot" {
-  count           = length(var.target_server_ips)
   depends_on      = [null_resource.update_os]
-  create_duration = "180s"
+  create_duration = "120s"
 }
 
 
@@ -165,7 +167,6 @@ resource "null_resource" "install_packages" {
     inline = [
       "chmod +x ${local.dst_install_packages_path}",
       local.dst_install_packages_path
-
     ]
   }
 }
