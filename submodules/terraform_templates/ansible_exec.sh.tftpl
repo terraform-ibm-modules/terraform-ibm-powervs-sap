@@ -3,8 +3,8 @@
 ### Using input variables from terraform
 playbook_name=${ansible_playbook_name}
 ansible_vars_location=${ansible_extra_vars_path}
+ansible_log_path=${ansible_log_path}
 
-ansible_log_path="/root/terraform_scripts"
 power_linux_sap_arr=("powervs-sles.yml" "powervs-rhel.yml" "powervs-services.yml")
 community_sap_install_arr=("sample-sap-hana-install.yml" "sample-sap-swpm.yml")
 

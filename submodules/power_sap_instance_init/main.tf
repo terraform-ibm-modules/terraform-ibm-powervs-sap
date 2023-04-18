@@ -4,6 +4,7 @@
 # 3. Install Necessary Packages
 # 4. Execute Ansible galaxy role to install Management
 # services for SAP installation
+# 5. Execute Ansible galaxy role to prepare OS for SAP
 #####################################################
 
 locals {
@@ -225,6 +226,7 @@ EOF
       {
         "ansible_playbook_name" : local.ansible_connect_mgmt_svs_playbook_name
         "ansible_extra_vars_path" : local.dst_ansible_vars_connect_mgmt_svs_path
+        "ansible_log_path" : local.dst_scripts_dir
       }
     )
   }
@@ -275,6 +277,7 @@ EOF
       {
         "ansible_playbook_name" : local.ansible_configure_os_for_sap_playbook_name
         "ansible_extra_vars_path" : local.dst_ansible_vars_configure_os_for_sap_path
+        "ansible_log_path" : local.dst_scripts_dir
       }
     )
   }
