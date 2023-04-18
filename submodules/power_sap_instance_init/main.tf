@@ -104,7 +104,7 @@ resource "null_resource" "update_os" {
     content = templatefile(
       local.src_services_init_tpl_path,
       {
-        "proxy_ip_and_port" : "${var.perform_proxy_client_setup["squid_server_ip"]}:${var.perform_proxy_client_setup["squid_port"]}"
+        "proxy_ip_and_port" : var.perform_proxy_client_setup["server_ip_port"]
         "no_proxy_ip" : var.perform_proxy_client_setup["no_proxy_hosts"]
       }
     )

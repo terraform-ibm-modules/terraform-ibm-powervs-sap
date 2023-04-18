@@ -79,7 +79,13 @@ No resources.
 | Name | Description |
 |------|-------------|
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP of Provided Bastion/JumpServer Host |
+| <a name="output_dns_host_or_ip"></a> [dns\_host\_or\_ip](#output\_dns\_host\_or\_ip) | DNS forwarder host of PowerVS infrastructure. |
+| <a name="output_hana_instance_management_ip"></a> [hana\_instance\_management\_ip](#output\_hana\_instance\_management\_ip) | Management IP of HANA Instance |
 | <a name="output_hana_ips"></a> [hana\_ips](#output\_hana\_ips) | All private IPS of HANA instance |
 | <a name="output_netweaver_ips"></a> [netweaver\_ips](#output\_netweaver\_ips) | All private IPS of NetWeaver instances |
+| <a name="output_nfs_host_or_ip_path"></a> [nfs\_host\_or\_ip\_path](#output\_nfs\_host\_or\_ip\_path) | NFS host of PowerVS infrastructure. |
+| <a name="output_ntp_host_or_ip"></a> [ntp\_host\_or\_ip](#output\_ntp\_host\_or\_ip) | NTP host of PowerVS infrastructure. |
+| <a name="output_powervs_lpars_data"></a> [powervs\_lpars\_data](#output\_powervs\_lpars\_data) | All private IPS of PowerVS instances and Jump IP to access the host. |
+| <a name="output_proxy_host_or_ip_port"></a> [proxy\_host\_or\_ip\_port](#output\_proxy\_host\_or\_ip\_port) | Proxy host:port of PowerVS infrastructure. |
 | <a name="output_share_fs_ips"></a> [share\_fs\_ips](#output\_share\_fs\_ips) | Private IPs of the Share FS instance. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
