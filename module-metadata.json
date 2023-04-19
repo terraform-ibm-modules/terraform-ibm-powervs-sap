@@ -810,7 +810,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 245
+            "line": 248
           }
         },
         "null_resource.connect_to_mgmt_svs": {
@@ -825,7 +825,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 177
+            "line": 179
           }
         },
         "null_resource.install_packages": {
@@ -840,7 +840,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 129
+            "line": 132
           }
         },
         "null_resource.perform_proxy_client_setup": {
@@ -855,7 +855,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 32
+            "line": 30
           }
         },
         "null_resource.update_os": {
@@ -870,22 +870,19 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 81
+            "line": 79
           }
         },
         "time_sleep.wait_for_reboot": {
           "mode": "managed",
           "type": "time_sleep",
           "name": "wait_for_reboot",
-          "attributes": {
-            "count": "target_server_ips"
-          },
           "provider": {
             "name": "time"
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 118
+            "line": 122
           }
         }
       },
