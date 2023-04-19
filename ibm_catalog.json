@@ -305,7 +305,7 @@
                                 "full-stack",
                                 "extension"
                             ],
-                            "id": "07e92c55-6a5b-4f3d-aa0e-30212e108af9-global",
+                            "id": "2dd486c7-b317-4aaa-907b-42671485ad96",
                             "name": "deploy-arch-ibm-pvs-inf",
                             "version": ">=7.0.0"
                         }
