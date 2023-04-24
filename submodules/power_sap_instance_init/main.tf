@@ -120,7 +120,9 @@ resource "null_resource" "update_os" {
 }
 
 resource "time_sleep" "wait_for_reboot" {
-  depends_on      = [null_resource.update_os]
+  depends_on = [null_resource.update_os]
+  count      = length(var.target_server_ips)
+
   create_duration = "120s"
 }
 
