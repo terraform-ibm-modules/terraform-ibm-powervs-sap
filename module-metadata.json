@@ -892,7 +892,7 @@
       "data_resources": {},
       "pos": {
         "filename": "main.tf",
-        "line": 149
+        "line": 152
       }
     },
     "sap_hana_instance": {
@@ -1319,7 +1319,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 99
+        "line": 101
       }
     },
     "share_fs_instance": {
