@@ -35,7 +35,7 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 		"prefix":         options.Prefix,
 		"resource_group": options.ResourceGroup,
 		// locking into syd05 as this DC is stable for attaching disks
-		//"powervs_zone": "syd05",
+		"powervs_zone": "syd05",
 	}
 
 	return options
