@@ -65,7 +65,7 @@ variable "powervs_memory_size" {
 variable "powervs_os_image_storage_type" {
   description = "Storage type for OS"
   type        = string
-  default     = "tier1"
+  default     = "tier3"
 }
 
 variable "powervs_networks" {
