@@ -85,34 +85,37 @@ module "sap_hana_instance" {
   source     = "./submodules/power_instance"
   depends_on = [module.attach_sap_network]
 
-  powervs_zone                = var.powervs_zone
-  powervs_resource_group_name = var.powervs_resource_group_name
-  powervs_workspace_name      = var.powervs_workspace_name
-  powervs_instance_name       = var.powervs_hana_instance_name
-  powervs_sshkey_name         = var.powervs_sshkey_name
-  powervs_os_image_name       = var.powervs_hana_image_name
-  powervs_sap_profile_id      = var.powervs_hana_sap_profile_id
-  powervs_networks            = concat(var.powervs_additional_networks, [var.powervs_sap_network["name"]])
-  powervs_storage_config      = local.powervs_hana_storage_config
+  powervs_zone                  = var.powervs_zone
+  powervs_resource_group_name   = var.powervs_resource_group_name
+  powervs_workspace_name        = var.powervs_workspace_name
+  powervs_instance_name         = var.powervs_hana_instance_name
+  powervs_sshkey_name           = var.powervs_sshkey_name
+  powervs_os_image_name         = var.powervs_hana_image_name
+  powervs_sap_profile_id        = var.powervs_hana_sap_profile_id
+  powervs_networks              = concat(var.powervs_additional_networks, [var.powervs_sap_network["name"]])
+  powervs_storage_config        = local.powervs_hana_storage_config
+  powervs_os_image_storage_type = "tier1"
+
 }
 
 module "sap_netweaver_instance" {
   source     = "./submodules/power_instance"
   depends_on = [module.attach_sap_network]
 
-  count                        = var.powervs_netweaver_number_of_instances
-  powervs_zone                 = var.powervs_zone
-  powervs_resource_group_name  = var.powervs_resource_group_name
-  powervs_workspace_name       = var.powervs_workspace_name
-  powervs_instance_name        = "${var.powervs_netweaver_instance_name}-${count.index + 1}"
-  powervs_sshkey_name          = var.powervs_sshkey_name
-  powervs_os_image_name        = var.powervs_netweaver_image_name
-  powervs_server_type          = var.powervs_netweaver_server_type
-  powervs_cpu_proc_type        = var.powervs_netweaver_cpu_proc_type
-  powervs_number_of_processors = var.powervs_netweaver_number_of_processors
-  powervs_memory_size          = var.powervs_netweaver_memory_size
-  powervs_networks             = concat(var.powervs_additional_networks, [var.powervs_sap_network["name"]])
-  powervs_storage_config       = var.powervs_netweaver_storage_config
+  count                         = var.powervs_netweaver_number_of_instances
+  powervs_zone                  = var.powervs_zone
+  powervs_resource_group_name   = var.powervs_resource_group_name
+  powervs_workspace_name        = var.powervs_workspace_name
+  powervs_instance_name         = "${var.powervs_netweaver_instance_name}-${count.index + 1}"
+  powervs_sshkey_name           = var.powervs_sshkey_name
+  powervs_os_image_name         = var.powervs_netweaver_image_name
+  powervs_server_type           = var.powervs_netweaver_server_type
+  powervs_cpu_proc_type         = var.powervs_netweaver_cpu_proc_type
+  powervs_number_of_processors  = var.powervs_netweaver_number_of_processors
+  powervs_memory_size           = var.powervs_netweaver_memory_size
+  powervs_networks              = concat(var.powervs_additional_networks, [var.powervs_sap_network["name"]])
+  powervs_storage_config        = var.powervs_netweaver_storage_config
+  powervs_os_image_storage_type = "tier3"
 }
 
 locals {

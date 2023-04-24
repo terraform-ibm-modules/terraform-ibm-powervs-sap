@@ -250,7 +250,7 @@ variable "sap_hana_instance_config" {
   })
   default = {
     hostname       = "hana"
-    sap_profile_id = "cnp-2x32"
+    sap_profile_id = "ush1-4x128"
     os_image_name  = "SLES15-SP3-SAP"
 
   }
