@@ -30,8 +30,8 @@ output "powervs_lpars_data" {
     "hana_instance_management_ip"       = module.sap_systems.hana_instance_management_ip
     "hana_instance_ips"                 = module.sap_systems.hana_instance_private_ips
     "netweaver_instances_management_ip" = module.sap_systems.netweaver_instances_management_ip
-    "netweaver_ips"                     = length(module.sap_systems.netweaver_instance_private_ips) >= 1 ? list(module.sap_systems.netweaver_instance_private_ips) : ""
-    "share_fs_ips"                      = length(module.sap_systems.share_fs_instance_private_ips) >= 1 ? list(module.sap_systems.share_fs_instance_private_ips) : ""
+    "netweaver_ips"                     = length(module.sap_systems.netweaver_instance_private_ips) >= 1 ? module.sap_systems.netweaver_instance_private_ips : null
+    "share_fs_ips"                      = length(module.sap_systems.share_fs_instance_private_ips) >= 1 ? module.sap_systems.share_fs_instance_private_ips : null
   }
 }
 
