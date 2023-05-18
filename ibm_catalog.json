@@ -91,31 +91,97 @@
                     },
                     "configuration": [
                         {
-                            "custom_config": {},
-                            "default_value": "",
-                            "key": "prerequisite_workspace_id",
-                            "required": true,
-                            "type": "string"
-                        },
-                        {
                             "custom_config": {
                                 "config_constraints": {
-                                    "showKinds": [
-                                        "region",
-                                        "dc",
-                                        "zone"
-                                    ],
-                                    "showWithTags": [
-                                        "power"
-                                    ],
-                                    "subtype": "power"
+                                    "catalogID": "da12d6f3-3cb7-402e-9350-878837212a6e",
+                                    "flavorConstraint": "powervs-workspace",
+                                    "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96",
+                                    "versionConstraint": "\u003e=8.0.0"
                                 },
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
-                                "type": "region"
+                                "type": "schematics_workspace"
                             },
-                            "key": "powervs_zone",
+                            "key": "prerequisite_workspace_id",
                             "required": true
+                        },
+                        {
+                            "key": "powervs_zone",
+                            "type": "string",
+                            "default_value": "",
+                            "required": true,
+                            "options": [
+                                {
+                                    "displayname": "London (lon04)",
+                                    "value": "lon04"
+                                },
+                                {
+                                    "displayname": "London (lon06)",
+                                    "value": "lon06"
+                                },
+                                {
+                                    "displayname": "Frankfurt (eu-de-1)",
+                                    "value": "eu-de-1"
+                                },
+                                {
+                                    "displayname": "Frankfurt (eu-de-2)",
+                                    "value": "eu-de-2"
+                                },
+                                {
+                                    "displayname": "Toronto (tor01)",
+                                    "value": "tor01"
+                                },
+                                {
+                                    "displayname": "Montreal (mon01)",
+                                    "value": "mon01"
+                                },
+                                {
+                                    "displayname": "Dallas (dal12)",
+                                    "value": "dal12"
+                                },
+                                {
+                                    "displayname": "Dallas (dal13)",
+                                    "value": "dal13"
+                                },
+                                {
+                                    "displayname": "Osaka (osa21)",
+                                    "value": "osa21"
+                                },
+                                {
+                                    "displayname": "Tokyo (tok04)",
+                                    "value": "tok04"
+                                },
+                                {
+                                    "displayname": "Sydney (syd04)",
+                                    "value": "syd04"
+                                },
+                                {
+                                    "displayname": "Sydney (syd05)",
+                                    "value": "syd05"
+                                },
+                                {
+                                    "displayname": "US-east (us-east)",
+                                    "value": "us-east"
+                                },
+                                {
+                                    "displayname": "US-south (us-south)",
+                                    "value": "us-south"
+                                },
+                                {
+                                    "displayname": "Sao Paulo (sao01)",
+                                    "value": "sao01"
+                                },
+                                {
+                                    "displayname": "Washington DC (wdc04)",
+                                    "value": "wdc04"
+                                },
+                                {
+                                    "displayname": "Washington DC (wdc06)",
+                                    "value": "wdc06"
+                                }
+                            ],
+                            "hidden": false,
+                            "custom_config": {}
                         },
                         {
                             "key": "prefix",
