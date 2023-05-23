@@ -88,9 +88,14 @@ variable "sap_netweaver_memory_size" {
 #####################################################
 
 variable "os_image_distro" {
-  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
+  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in optional parameters."
   type        = string
   default     = "RHEL"
+
+  validation {
+    condition     = (upper(var.landing_zone_configuration) == "RHEL" || upper(var.landing_zone_configuration) == "SLES")
+    error_message = "Supported values are 'RHEL' or 'SLES' only."
+  }
 }
 
 variable "configure_os" {
