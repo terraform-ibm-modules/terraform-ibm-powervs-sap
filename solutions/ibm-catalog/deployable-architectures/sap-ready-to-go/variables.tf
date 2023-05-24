@@ -93,7 +93,7 @@ variable "os_image_distro" {
   default     = "RHEL"
 
   validation {
-    condition     = (upper(var.landing_zone_configuration) == "RHEL" || upper(var.landing_zone_configuration) == "SLES")
+    condition     = (upper(var.os_image_distro) == "RHEL" || upper(var.os_image_distro) == "SLES")
     error_message = "Supported values are 'RHEL' or 'SLES' only."
   }
 }
