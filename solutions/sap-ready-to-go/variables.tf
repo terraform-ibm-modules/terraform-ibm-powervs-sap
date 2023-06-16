@@ -29,7 +29,16 @@ variable "powervs_sap_network_cidr" {
   default     = "10.53.1.0/24"
 }
 
+variable "os_image_distro" {
+  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in optional parameters."
+  type        = string
+  default     = "RHEL"
 
+  validation {
+    condition     = (upper(var.os_image_distro) == "RHEL" || upper(var.os_image_distro) == "SLES")
+    error_message = "Supported values are 'RHEL' or 'SLES' only."
+  }
+}
 
 #####################################################
 # PowerVS HANA Instance parameters
@@ -67,6 +76,18 @@ variable "default_hana_rhel_image" {
   description = "Default Red Hat Linux image to use for SAP HANA PowerVS instances."
   type        = string
   default     = "RHEL8-SP4-SAP"
+}
+
+variable "sap_hana_instance_config" {
+  description = "SAP HANA PowerVS instance configuration. If data is specified here - will replace other input."
+  type = object({
+    os_image_name  = string
+    sap_profile_id = string
+  })
+  default = {
+    os_image_name  = ""
+    sap_profile_id = ""
+  }
 }
 
 variable "sap_hana_additional_storage_config" {
