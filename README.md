@@ -39,7 +39,8 @@ provider "ibm" {
 }
 
 module "sap_systems" {
-  source                                 = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap.git?ref=main"
+  source  = "terraform-ibm-modules/powervs-sap/ibm"
+  version = "latest" # Replace "latest" with a release version to lock into a specific release
   powervs_zone                           = var.powervs_zone
   powervs_resource_group_name            = var.resource_group_name
   powervs_workspace_name                 = var.powervs_workspace_name
