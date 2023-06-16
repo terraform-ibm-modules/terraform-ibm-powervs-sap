@@ -5,11 +5,11 @@ playbook_name=${ansible_playbook_name}
 ansible_vars_location=${ansible_extra_vars_path}
 ansible_log_path=${ansible_log_path}
 
-power_linux_sap_arr=("powervs-sles.yml" "powervs-rhel.yml" "powervs-services.yml")
+power_linux_sap_arr=("power-linux-configure.yml" "powervs-services.yml")
 community_sap_install_arr=("sample-sap-hana-install.yml" "sample-sap-swpm.yml")
 
 ### Download and install collections from ansible-galaxy
-ansible-galaxy collection install ibm.power_linux_sap:1.0.10
+ansible-galaxy collection install ibm.power_linux_sap:1.0.11
 ansible-galaxy collection install community.sap_install:1.2.2
 ansible-galaxy collection install community.general:6.2.0
 
