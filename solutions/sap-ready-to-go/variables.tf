@@ -50,7 +50,7 @@ variable "sap_domain" {
 # PowerVS HANA Instance parameters
 #####################################################
 
-variable "sap_hana_hostname" {
+variable "powervs_hana_instance_name" {
   description = "SAP HANA hostname (non FQDN). Will get the form of <prefix>-<sap_hana_hostname>. Max length of final hostname must be <= 13 characters."
   type        = string
   default     = "hana"
@@ -60,6 +60,34 @@ variable "powervs_hana_sap_profile_id" {
   description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
   type        = string
   default     = "ush1-4x128"
+}
+
+#####################################################
+# PowerVS NetWeaver Instance parameters
+#####################################################
+
+variable "powervs_netweaver_instance_number" {
+  description = "Number of SAP NetWeaver instances that should be created."
+  type        = number
+  default     = 1
+}
+
+variable "powervs_netweaver_instance_name" {
+  description = "SAP Netweaver hostname (non FQDN). Will get the form of <prefix>-<sap_netweaver_hostname>-<number>. Max length of final hostname must be <= 13 characters."
+  type        = string
+  default     = "nw"
+}
+
+variable "powervs_netweaver_cpu_number" {
+  description = "Number of CPUs for each SAP NetWeaver instance."
+  type        = string
+  default     = "3"
+}
+
+variable "powervs_netweaver_memory_size" {
+  description = "Memory size for each SAP NetWeaver instance."
+  type        = string
+  default     = "32"
 }
 
 #####################################################
@@ -76,6 +104,18 @@ variable "default_hana_rhel_image" {
   description = "Default Red Hat Linux image to use for SAP HANA PowerVS instances."
   type        = string
   default     = "RHEL8-SP4-SAP"
+}
+
+variable "default_netweaver_sles_image" {
+  description = "Default SuSE Linux image to use for SAP NetWeaver PowerVS instances."
+  type        = string
+  default     = "SLES15-SP3-SAP-NETWEAVER"
+}
+
+variable "default_netweaver_rhel_image" {
+  description = "Default Red Hat Linux image to use for SAP NetWeaver PowerVS instances."
+  type        = string
+  default     = "RHEL8-SP4-SAP-NETWEAVER"
 }
 
 variable "sap_hana_custom_storage_config" {
@@ -113,6 +153,33 @@ variable "sap_hana_additional_storage_config" {
     "mount" : "/usr/sap"
 
   }]
+}
+
+variable "sap_netweaver_storage_config" {
+  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  type = list(object({
+    name  = string
+    size  = string
+    count = string
+    tier  = string
+    mount = string
+  }))
+  default = [
+    {
+      "name" : "usrsap",
+      "size" : "50",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/usr/sap"
+    },
+    {
+      "name" : "usrtrans",
+      "size" : "50",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/usr/sap/trans"
+    }
+  ]
 }
 
 variable "ibmcloud_api_key" {

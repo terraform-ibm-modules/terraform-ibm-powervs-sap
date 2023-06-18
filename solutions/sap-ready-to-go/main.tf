@@ -89,15 +89,6 @@ locals {
 }
 
 #####################################################
-# Prepare locals for HANA system
-#####################################################
-locals {
-
-  powervs_hana_hostname = "${var.prefix}-${var.sap_hana_hostname}"
-  powervs_hana_os_image = var.os_image_distro == "SLES" ? var.default_hana_sles_image : var.default_hana_rhel_image
-}
-
-#####################################################
 # Create SAP network for the SAP System
 #####################################################
 
@@ -125,6 +116,12 @@ module "attach_sap_network" {
 # Deploy SAP HANA Instance
 #####################################################
 
+locals {
+
+  powervs_hana_hostname = "${var.prefix}-${var.powervs_hana_instance_name}"
+  powervs_hana_os_image = var.os_image_distro == "SLES" ? var.default_hana_sles_image : var.default_hana_rhel_image
+}
+
 module "sap_hana_storage_cal" {
 
   source                             = "../../submodules/sap_hana_storage_config"
@@ -132,7 +129,6 @@ module "sap_hana_storage_cal" {
   sap_hana_additional_storage_config = var.sap_hana_additional_storage_config
   sap_hana_custom_storage_config     = var.sap_hana_custom_storage_config
 }
-
 
 module "sap_hana_instance" {
   source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.0"
@@ -153,20 +149,53 @@ module "sap_hana_instance" {
 
 }
 
+#####################################################
+# Deploy SAP Netweaver Instance
+#####################################################
+
+locals {
+
+  powervs_netweaver_hostname = "${var.prefix}-${var.powervs_netweaver_instance_name}"
+  powervs_netweaver_os_image = var.os_image_distro == "SLES" ? var.default_netweaver_sles_image : var.default_netweaver_rhel_image
+}
+
+module "sap_netweaver_instance" {
+  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.0"
+  depends_on = [module.attach_sap_network]
+  count      = var.powervs_netweaver_instance_number
+
+  pi_zone                    = var.powervs_zone
+  pi_resource_group_name     = local.powervs_resource_group_name
+  pi_workspace_name          = local.powervs_workspace_name
+  pi_sshkey_name             = local.powervs_sshkey_name
+  pi_instance_name           = "${local.powervs_netweaver_hostname}-${count.index + 1}"
+  pi_os_image_name           = local.powervs_netweaver_os_image
+  pi_networks                = local.powervs_networks
+  pi_sap_profile_id          = null
+  pi_number_of_processors    = var.powervs_netweaver_cpu_number
+  pi_memory_size             = var.powervs_netweaver_memory_size
+  pi_server_type             = "s922"
+  pi_cpu_proc_type           = "shared"
+  pi_storage_config          = var.sap_netweaver_storage_config
+  pi_instance_init           = local.powervs_instance_init
+  pi_proxy_settings          = local.powervs_proxy_settings
+  pi_network_services_config = local.powervs_network_services_config
+
+}
 
 #####################################################
 # Prepare OS for SAP
 #####################################################
 
 locals {
-  target_server_ips = concat([module.sap_hana_instance.pi_instance_mgmt_ip])
-  sap_solutions     = concat(["HANA"])
+  target_server_ips = concat([module.sap_hana_instance.pi_instance_mgmt_ip], module.sap_netweaver_instance[*].pi_instance_mgmt_ip)
+  sap_solutions     = concat(["HANA"], [for ip in module.sap_netweaver_instance[*].pi_instance_mgmt_ip : "NETWEAVER"])
 }
 
 module "sap_instance_init" {
 
   source     = "../../submodules/power_sap_instance_init"
-  depends_on = [module.sap_hana_instance]
+  depends_on = [module.sap_hana_instance, module.sap_netweaver_instance]
 
   access_host_or_ip = local.access_host_or_ip
   target_server_ips = local.target_server_ips
