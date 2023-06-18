@@ -40,6 +40,12 @@ variable "os_image_distro" {
   }
 }
 
+variable "sap_domain" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+  default     = "sap.com"
+}
+
 #####################################################
 # PowerVS HANA Instance parameters
 #####################################################
@@ -50,16 +56,10 @@ variable "sap_hana_hostname" {
   default     = "hana"
 }
 
-variable "sap_hana_profile" {
+variable "powervs_hana_sap_profile_id" {
   description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
   type        = string
   default     = "ush1-4x128"
-}
-
-variable "sap_domain" {
-  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
-  type        = string
-  default     = "sap.com"
 }
 
 #####################################################
@@ -78,20 +78,26 @@ variable "default_hana_rhel_image" {
   default     = "RHEL8-SP4-SAP"
 }
 
-variable "sap_hana_instance_config" {
-  description = "SAP HANA PowerVS instance configuration. If data is specified here - will replace other input."
-  type = object({
-    os_image_name  = string
-    sap_profile_id = string
-  })
-  default = {
-    os_image_name  = ""
-    sap_profile_id = ""
-  }
+variable "sap_hana_custom_storage_config" {
+  description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  type = list(object({
+    name  = string
+    size  = string
+    count = string
+    tier  = string
+    mount = string
+  }))
+  default = [{
+    "name" : "",
+    "size" : "",
+    "count" : "",
+    "tier" : "",
+    "mount" : ""
+  }]
 }
 
 variable "sap_hana_additional_storage_config" {
-  description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
     size  = string

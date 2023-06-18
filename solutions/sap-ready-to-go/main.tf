@@ -93,11 +93,8 @@ locals {
 #####################################################
 locals {
 
-  powervs_hana_hostname         = "${var.prefix}-${var.sap_hana_hostname}"
-  powervs_hana_default_os_image = var.os_image_distro == "SLES" ? var.default_hana_sles_image : var.default_hana_rhel_image
-  powervs_hana_os_image         = var.sap_hana_instance_config.os_image_name != null && var.sap_hana_instance_config.os_image_name != "" ? var.sap_hana_instance_config.os_image_name : local.powervs_hana_default_os_image
-  powervs_hana_sap_profile_id   = var.sap_hana_instance_config.sap_profile_id != null && var.sap_hana_instance_config.sap_profile_id != "" ? var.sap_hana_instance_config.sap_profile_id : var.sap_hana_profile
-
+  powervs_hana_hostname = "${var.prefix}-${var.sap_hana_hostname}"
+  powervs_hana_os_image = var.os_image_distro == "SLES" ? var.default_hana_sles_image : var.default_hana_rhel_image
 }
 
 #####################################################
@@ -128,6 +125,15 @@ module "attach_sap_network" {
 # Deploy SAP HANA Instance
 #####################################################
 
+module "sap_hana_storage_cal" {
+
+  source                             = "../../submodules/sap_hana_storage_config"
+  powervs_hana_sap_profile_id        = var.powervs_hana_sap_profile_id
+  sap_hana_additional_storage_config = var.sap_hana_additional_storage_config
+  sap_hana_custom_storage_config     = var.sap_hana_custom_storage_config
+}
+
+
 module "sap_hana_instance" {
   source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.0"
   depends_on = [module.attach_sap_network]
@@ -139,8 +145,8 @@ module "sap_hana_instance" {
   pi_instance_name           = local.powervs_hana_hostname
   pi_os_image_name           = local.powervs_hana_os_image
   pi_networks                = local.powervs_networks
-  pi_sap_profile_id          = local.powervs_hana_sap_profile_id
-  pi_storage_config          = var.sap_hana_additional_storage_config
+  pi_sap_profile_id          = var.powervs_hana_sap_profile_id
+  pi_storage_config          = module.sap_hana_storage_cal.hana_storage_config
   pi_instance_init           = local.powervs_instance_init
   pi_proxy_settings          = local.powervs_proxy_settings
   pi_network_services_config = local.powervs_network_services_config
