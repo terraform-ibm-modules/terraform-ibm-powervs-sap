@@ -104,30 +104,6 @@ variable "powervs_netweaver_memory_size" {
 # Optional Parameters
 #####################################################
 
-variable "default_hana_sles_image" {
-  description = "Default SuSE Linux image to use for SAP HANA PowerVS instances."
-  type        = string
-  default     = "SLES15-SP3-SAP"
-}
-
-variable "default_hana_rhel_image" {
-  description = "Default Red Hat Linux image to use for SAP HANA PowerVS instances."
-  type        = string
-  default     = "RHEL8-SP4-SAP"
-}
-
-variable "default_netweaver_sles_image" {
-  description = "Default SuSE Linux image to use for SAP NetWeaver PowerVS instances."
-  type        = string
-  default     = "SLES15-SP3-SAP-NETWEAVER"
-}
-
-variable "default_netweaver_rhel_image" {
-  description = "Default Red Hat Linux image to use for SAP NetWeaver PowerVS instances."
-  type        = string
-  default     = "RHEL8-SP4-SAP-NETWEAVER"
-}
-
 variable "powervs_share_storage_config" {
   description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
@@ -209,6 +185,30 @@ variable "sap_netweaver_storage_config" {
       "mount" : "/usr/sap/trans"
     }
   ]
+}
+
+variable "default_hana_sles_image" {
+  description = "Default SuSE Linux image to use for SAP HANA PowerVS instances."
+  type        = string
+  default     = "SLES15-SP3-SAP"
+}
+
+variable "default_hana_rhel_image" {
+  description = "Default Red Hat Linux image to use for SAP HANA PowerVS instances."
+  type        = string
+  default     = "RHEL8-SP4-SAP"
+}
+
+variable "default_netweaver_sles_image" {
+  description = "Default SuSE Linux image to use for SAP NetWeaver PowerVS instances."
+  type        = string
+  default     = "SLES15-SP3-SAP-NETWEAVER"
+}
+
+variable "default_netweaver_rhel_image" {
+  description = "Default Red Hat Linux image to use for SAP NetWeaver PowerVS instances."
+  type        = string
+  default     = "RHEL8-SP4-SAP-NETWEAVER"
 }
 
 variable "ibmcloud_api_key" {
