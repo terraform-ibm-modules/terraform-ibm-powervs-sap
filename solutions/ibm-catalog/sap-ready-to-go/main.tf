@@ -93,7 +93,7 @@ locals {
 #####################################################
 
 module "create_sap_network" {
-  source       = "../../submodules/power_create_private_network"
+  source       = "../../../submodules/power_create_private_network"
   powervs_zone = var.powervs_zone
 
   powervs_resource_group_name = local.powervs_resource_group_name
@@ -102,7 +102,7 @@ module "create_sap_network" {
 }
 
 module "attach_sap_network" {
-  source     = "../../submodules/power_attach_private_network"
+  source     = "../../../submodules/power_attach_private_network"
   depends_on = [module.create_sap_network]
 
   powervs_zone                   = var.powervs_zone
@@ -158,7 +158,7 @@ locals {
 
 module "sap_hana_storage_cal" {
 
-  source                             = "../../submodules/sap_hana_storage_config"
+  source                             = "../../../submodules/sap_hana_storage_config"
   powervs_hana_sap_profile_id        = var.powervs_hana_sap_profile_id
   sap_hana_additional_storage_config = var.sap_hana_additional_storage_config
   sap_hana_custom_storage_config     = var.sap_hana_custom_storage_config
@@ -228,7 +228,7 @@ locals {
 
 module "sap_instance_init" {
 
-  source     = "../../submodules/sap_instance_init"
+  source     = "../../../submodules/sap_instance_init"
   depends_on = [module.sap_hana_instance, module.sap_netweaver_instance]
 
   access_host_or_ip = local.access_host_or_ip
