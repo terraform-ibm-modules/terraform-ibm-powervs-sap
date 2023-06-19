@@ -37,7 +37,7 @@ You need the following permissions to run this module.
 ## Examples
 | Variation  | Requires Schematics Workspace ID | PVS HANA Instance | PVS NW Instances |  PVS OS Config | PVS prepare for SAP | Install SAP software |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](solutions/ibm-catalog/sap-ready-to-go)  | :white_check_mark:  | 1  | 0 to N  | :white_check_mark:  |  :white_check_mark: |   :white_check_mark: |   :x: |
+| [sap-ready-to-go](solutions/ibm-catalog/sap-ready-to-go)  | :white_check_mark:  | 1  | 0 to N  | :white_check_mark:  |  :white_check_mark: |   :x: |
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGIN CONTRIBUTING HOOK -->
