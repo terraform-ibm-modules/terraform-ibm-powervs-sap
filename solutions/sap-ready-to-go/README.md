@@ -13,13 +13,13 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 Note: **This solution requires a schematics workspace id as an input.**
 If you do not have a PowerVS infrastructure that is the full stack solution for a PowerVS Workspace that includes the full stack solution for Secure Landing Zone, create it first.
 
-| Variation  | Requires Schematics Workspace ID | PVS Instance | PVS OS Config | PVS prepare for SAP | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go]()  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  |  :x: |
-
-
 ## Architecture Diagram
 ![sap-ready-to-go](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
+
+
+| Variation  | Requires Schematics Workspace ID | PVS HANA Instance | PVS NW Instances |  PVS OS Config | PVS prepare for SAP | Install SAP software |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| [sap-ready-to-go](solutions/ibm-catalog/sap-ready-to-go)  | :white_check_mark:  | 1  | 0 to N  | :white_check_mark:  |  :white_check_mark: |   :white_check_mark: |   :x: |
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
