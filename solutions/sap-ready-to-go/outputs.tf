@@ -20,7 +20,7 @@ output "powervs_hana_instance_management_ip" {
 
 output "powervs_netweaver_instance_ips" {
   description = "All private IPS of NetWeaver instances"
-  value       = var.powervs_netweaver_instance_count >= 1 ? join(",", module.sap_netweaver_instance[*].pi_instance_private_ips) : ""
+  value       = var.powervs_netweaver_instance_count >= 1 ? module.sap_netweaver_instance[*].pi_instance_private_ips : [""]
 }
 
 output "powervs_netweaver_instance_management_ips" {
@@ -40,7 +40,7 @@ output "powervs_lpars_data" {
     "hana_instance_management_ip"       = module.sap_hana_instance.pi_instance_mgmt_ip
     "hana_instance_ips"                 = module.sap_hana_instance.pi_instance_private_ips
     "netweaver_instances_management_ip" = var.powervs_netweaver_instance_count >= 1 ? join(",", module.sap_netweaver_instance[*].pi_instance_mgmt_ip) : ""
-    "netweaver_ips"                     = var.powervs_netweaver_instance_count >= 1 ? join(",", module.sap_netweaver_instance[*].pi_instance_private_ips) : ""
+    "netweaver_ips"                     = var.powervs_netweaver_instance_count >= 1 ? module.sap_netweaver_instance[*].pi_instance_private_ips : [""]
     "share_fs_ip"                       = var.create_separate_fs_share ? module.sharefs_instance[0].pi_instance_mgmt_ip : ""
   }
 }
