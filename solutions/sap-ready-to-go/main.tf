@@ -113,6 +113,40 @@ module "attach_sap_network" {
 }
 
 #####################################################
+# Deploy share fs instance
+#####################################################
+
+locals {
+
+  powervs_share_hostname = "${var.prefix}-share"
+  powervs_share_os_image = var.os_image_distro == "SLES" ? var.default_netweaver_sles_image : var.default_netweaver_rhel_image
+}
+
+module "sharefs_instance" {
+  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.0"
+  depends_on = [module.attach_sap_network]
+  count      = var.create_separate_fs_share ? 1 : 0
+
+  pi_zone                    = var.powervs_zone
+  pi_resource_group_name     = local.powervs_resource_group_name
+  pi_workspace_name          = local.powervs_workspace_name
+  pi_sshkey_name             = local.powervs_sshkey_name
+  pi_instance_name           = local.powervs_share_hostname
+  pi_os_image_name           = local.powervs_share_os_image
+  pi_networks                = local.powervs_networks
+  pi_sap_profile_id          = null
+  pi_number_of_processors    = "0.5"
+  pi_memory_size             = "2"
+  pi_server_type             = "s922"
+  pi_cpu_proc_type           = "shared"
+  pi_storage_config          = var.powervs_share_storage_config
+  pi_instance_init           = local.powervs_instance_init
+  pi_proxy_settings          = local.powervs_proxy_settings
+  pi_network_services_config = local.powervs_network_services_config
+
+}
+
+#####################################################
 # Deploy SAP HANA Instance
 #####################################################
 
@@ -162,7 +196,7 @@ locals {
 module "sap_netweaver_instance" {
   source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.0"
   depends_on = [module.attach_sap_network]
-  count      = var.powervs_netweaver_instance_number
+  count      = var.powervs_netweaver_instance_count
 
   pi_zone                    = var.powervs_zone
   pi_resource_group_name     = local.powervs_resource_group_name
@@ -194,7 +228,7 @@ locals {
 
 module "sap_instance_init" {
 
-  source     = "../../submodules/power_sap_instance_init"
+  source     = "../../submodules/sap_instance_init"
   depends_on = [module.sap_hana_instance, module.sap_netweaver_instance]
 
   access_host_or_ip = local.access_host_or_ip

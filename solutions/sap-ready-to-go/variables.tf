@@ -47,6 +47,16 @@ variable "sap_domain" {
 }
 
 #####################################################
+# PowerVS Shared FS Instance parameters
+#####################################################
+
+variable "create_separate_fs_share" {
+  description = "Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used."
+  type        = bool
+  default     = false
+}
+
+#####################################################
 # PowerVS HANA Instance parameters
 #####################################################
 
@@ -66,7 +76,7 @@ variable "powervs_hana_sap_profile_id" {
 # PowerVS NetWeaver Instance parameters
 #####################################################
 
-variable "powervs_netweaver_instance_number" {
+variable "powervs_netweaver_instance_count" {
   description = "Number of SAP NetWeaver instances that should be created."
   type        = number
   default     = 1
@@ -118,6 +128,25 @@ variable "default_netweaver_rhel_image" {
   default     = "RHEL8-SP4-SAP-NETWEAVER"
 }
 
+variable "powervs_share_storage_config" {
+  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  type = list(object({
+    name  = string
+    size  = string
+    count = string
+    tier  = string
+    mount = string
+  }))
+  default = [{
+    "name" : "share",
+    "size" : "1000",
+    "count" : "1",
+    "tier" : "tier3",
+    "mount" : "/share"
+
+  }]
+}
+
 variable "sap_hana_custom_storage_config" {
   description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
@@ -156,7 +185,7 @@ variable "sap_hana_additional_storage_config" {
 }
 
 variable "sap_netweaver_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
     size  = string
