@@ -10,8 +10,8 @@ community_sap_install_arr=("sample-sap-hana-install.yml" "sample-sap-swpm-defaul
 
 ### Download and install collections from ansible-galaxy
 ansible-galaxy collection install ibm.power_linux_sap:1.0.11
-ansible-galaxy collection install community.sap_install:1.2.2
-ansible-galaxy collection install community.general:6.2.0
+ansible-galaxy collection install community.sap_install:1.2.3
+ansible-galaxy collection install community.general:7.1.0
 
 ### Bug in ansible community role. CHanging http to https for installing ibm power tools
 sed -i '252s/http:/https:/' /usr/share/ansible/roles/sap_hana_preconfigure/vars/RedHat_8.yml
