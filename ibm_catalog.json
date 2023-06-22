@@ -45,7 +45,7 @@
                     "label": "SAP ready PowerVS",
                     "name": "sap-ready-to-go",
                     "install_type": "extension",
-                    "working_directory": "solutions/sap-ready-to-go",
+                    "working_directory": "solutions/ibm-catalog/sap-ready-to-go",
                     "usage_template": "module \"sap_systems\" {\n  source                    = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//${{workingDirectory}}?archive=tgz&flavor=${{flavor}}&kind=${{kind}}&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key          = var.ibmcloud_api_key\n  prerequisite_workspace_id = var.prerequisite_workspace_id\n  powervs_zone              = var.powervs_zone\n  prefix                    = var.prefix\n  ssh_private_key           = var.ssh_private_key\n}",
                     "compliance": {
                         "authority": "scc-v3",
