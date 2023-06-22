@@ -36,11 +36,12 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 |------|--------|---------|
 | <a name="module_attach_sap_network"></a> [attach\_sap\_network](#module\_attach\_sap\_network) | ../../../modules/power_attach_private_network | n/a |
 | <a name="module_create_sap_network"></a> [create\_sap\_network](#module\_create\_sap\_network) | ../../../modules/power_create_private_network | n/a |
-| <a name="module_sap_hana_instance"></a> [sap\_hana\_instance](#module\_sap\_hana\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.1 |
+| <a name="module_sap_cos_download"></a> [sap\_cos\_download](#module\_sap\_cos\_download) | ../../../modules/sap_cos_download | n/a |
+| <a name="module_sap_hana_instance"></a> [sap\_hana\_instance](#module\_sap\_hana\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.0 |
 | <a name="module_sap_hana_storage_cal"></a> [sap\_hana\_storage\_cal](#module\_sap\_hana\_storage\_cal) | ../../../modules/sap_hana_storage_config | n/a |
 | <a name="module_sap_instance_init"></a> [sap\_instance\_init](#module\_sap\_instance\_init) | ../../../modules/sap_instance_init | n/a |
-| <a name="module_sap_netweaver_instance"></a> [sap\_netweaver\_instance](#module\_sap\_netweaver\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.1 |
-| <a name="module_sharefs_instance"></a> [sharefs\_instance](#module\_sharefs\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.1 |
+| <a name="module_sap_netweaver_instance"></a> [sap\_netweaver\_instance](#module\_sap\_netweaver\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.0 |
+| <a name="module_sharefs_instance"></a> [sharefs\_instance](#module\_sharefs\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.0 |
 
 ## Resources
 

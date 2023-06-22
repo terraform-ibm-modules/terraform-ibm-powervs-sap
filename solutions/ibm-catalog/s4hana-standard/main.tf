@@ -123,7 +123,7 @@ locals {
 }
 
 module "sharefs_instance" {
-  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.1"
+  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.0"
   depends_on = [module.attach_sap_network]
   count      = var.create_separate_fs_share ? 1 : 0
 
@@ -165,7 +165,7 @@ module "sap_hana_storage_cal" {
 }
 
 module "sap_hana_instance" {
-  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.1"
+  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.0"
   depends_on = [module.attach_sap_network]
 
   pi_zone                    = var.powervs_zone
@@ -194,7 +194,7 @@ locals {
 }
 
 module "sap_netweaver_instance" {
-  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.1"
+  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.0"
   depends_on = [module.attach_sap_network]
   count      = var.powervs_netweaver_instance_count
 
@@ -236,4 +236,10 @@ module "sap_instance_init" {
   sap_solutions     = local.sap_solutions
   ssh_private_key   = var.ssh_private_key
   sap_domain        = var.sap_domain
+}
+
+module "sap_cos_download" {
+
+  source = "../../../modules/sap_cos_download"
+
 }
