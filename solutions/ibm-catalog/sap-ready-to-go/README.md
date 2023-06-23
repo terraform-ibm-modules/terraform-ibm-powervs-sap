@@ -13,12 +13,12 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 Note: **This solution requires a schematics workspace id as an input.**
 If you do not have a PowerVS infrastructure that is the full stack solution for a PowerVS Workspace that includes the full stack solution for Secure Landing Zone, create it first.
 
-## Architecture Diagram
-![sap-ready-to-go](../../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
-
 | Variation  | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | [sap-ready-to-go](./)  | :white_check_mark:  | 1  | 0 to N  | :white_check_mark:  |  :white_check_mark: |   :x: |
+
+## Architecture Diagram
+![sap-ready-to-go](../../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
