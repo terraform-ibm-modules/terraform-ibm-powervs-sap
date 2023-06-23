@@ -14,7 +14,7 @@ Note: **This solution requires a schematics workspace id as an input.**
 If you do not have a PowerVS infrastructure that is the full stack solution for a PowerVS Workspace that includes the full stack solution for Secure Landing Zone, create it first.
 
 ## Architecture Diagram
-![sap-ready-to-go](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
+![sap-ready-to-go](../../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
 
 | Variation  | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
