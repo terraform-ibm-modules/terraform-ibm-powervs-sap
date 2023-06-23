@@ -17,12 +17,6 @@ variable "prefix" {
   }
 }
 
-variable "ssh_private_key" {
-  description = "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key' which was created previously. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
-  type        = string
-  sensitive   = true
-}
-
 variable "powervs_sap_network_cidr" {
   description = "Network range for separate SAP network. E.g., '10.53.1.0/24'"
   type        = string
@@ -40,17 +34,11 @@ variable "os_image_distro" {
   }
 }
 
-variable "sap_domain" {
-  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
-  type        = string
-  default     = "sap.com"
-}
-
 #####################################################
 # PowerVS Shared FS Instance parameters
 #####################################################
 
-variable "create_separate_fs_share" {
+variable "powervs_create_separate_fs_share" {
   description = "Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used."
   type        = bool
   default     = false
@@ -69,7 +57,7 @@ variable "powervs_hana_instance_name" {
 variable "powervs_hana_sap_profile_id" {
   description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
   type        = string
-  default     = "ush1-4x128"
+  default     = "ush1-4x256"
 }
 
 #####################################################
@@ -101,6 +89,22 @@ variable "powervs_netweaver_memory_size" {
 }
 
 #####################################################
+# OS parameters
+#####################################################
+
+variable "ssh_private_key" {
+  description = "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key' which was created previously. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
+  type        = string
+  sensitive   = true
+}
+
+variable "sap_domain" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+  default     = "sap.com"
+}
+
+#####################################################
 # Optional Parameters
 #####################################################
 
@@ -123,7 +127,7 @@ variable "powervs_share_storage_config" {
   }]
 }
 
-variable "sap_hana_custom_storage_config" {
+variable "powervs_hana_custom_storage_config" {
   description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
@@ -141,7 +145,7 @@ variable "sap_hana_custom_storage_config" {
   }]
 }
 
-variable "sap_hana_additional_storage_config" {
+variable "powervs_hana_additional_storage_config" {
   description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
@@ -160,7 +164,7 @@ variable "sap_hana_additional_storage_config" {
   }]
 }
 
-variable "sap_netweaver_storage_config" {
+variable "powervs_netweaver_storage_config" {
   description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
@@ -187,28 +191,20 @@ variable "sap_netweaver_storage_config" {
   ]
 }
 
-variable "default_hana_sles_image" {
-  description = "Default SuSE Linux image to use for SAP HANA PowerVS instances."
-  type        = string
-  default     = "SLES15-SP3-SAP"
-}
-
-variable "default_hana_rhel_image" {
-  description = "Default Red Hat Linux image to use for SAP HANA PowerVS instances."
-  type        = string
-  default     = "RHEL8-SP4-SAP"
-}
-
-variable "default_netweaver_sles_image" {
-  description = "Default SuSE Linux image to use for SAP NetWeaver PowerVS instances."
-  type        = string
-  default     = "SLES15-SP3-SAP-NETWEAVER"
-}
-
-variable "default_netweaver_rhel_image" {
-  description = "Default Red Hat Linux image to use for SAP NetWeaver PowerVS instances."
-  type        = string
-  default     = "RHEL8-SP4-SAP-NETWEAVER"
+variable "powervs_default_images" {
+  description = "Default SuSE and Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances."
+  type = object({
+    sles_hana_image = string
+    sles_nw_image   = string
+    rhel_hana_image = string
+    rhel_nw_image   = string
+  })
+  default = {
+    "sles_hana_image" : "SLES15-SP3-SAP"
+    "rhel_hana_image" : "RHEL8-SP4-SAP"
+    "sles_nw_image" : "SLES15-SP3-SAP-NETWEAVER"
+    "rhel_nw_image" : "RHEL8-SP4-SAP-NETWEAVER"
+  }
 }
 
 variable "ibmcloud_api_key" {

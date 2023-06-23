@@ -92,8 +92,8 @@ locals {
 # Create SAP network for the SAP System
 #####################################################
 
-module "create_sap_network" {
-  source       = "../../../modules/power_create_private_network"
+module "powervs_create_sap_network" {
+  source       = "../../../modules/powervs_create_private_network"
   powervs_zone = var.powervs_zone
 
   powervs_resource_group_name = local.powervs_resource_group_name
@@ -101,9 +101,9 @@ module "create_sap_network" {
   powervs_sap_network         = local.powervs_sap_network
 }
 
-module "attach_sap_network" {
-  source     = "../../../modules/power_attach_private_network"
-  depends_on = [module.create_sap_network]
+module "powervs_attach_sap_network" {
+  source     = "../../../modules/powervs_attach_private_network"
+  depends_on = [module.powervs_create_sap_network]
 
   powervs_zone                   = var.powervs_zone
   powervs_resource_group_name    = local.powervs_resource_group_name
@@ -119,13 +119,13 @@ module "attach_sap_network" {
 locals {
 
   powervs_share_hostname = "${var.prefix}-share"
-  powervs_share_os_image = var.os_image_distro == "SLES" ? var.default_netweaver_sles_image : var.default_netweaver_rhel_image
+  powervs_share_os_image = var.os_image_distro == "SLES" ? var.powervs_default_images.sles_nw_image : var.powervs_default_images.rhel_nw_image
 }
 
-module "sharefs_instance" {
+module "powervs_sharefs_instance" {
   source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.1"
-  depends_on = [module.attach_sap_network]
-  count      = var.create_separate_fs_share ? 1 : 0
+  depends_on = [module.powervs_attach_sap_network]
+  count      = var.powervs_create_separate_fs_share ? 1 : 0
 
   pi_zone                    = var.powervs_zone
   pi_resource_group_name     = local.powervs_resource_group_name
@@ -153,20 +153,20 @@ module "sharefs_instance" {
 locals {
 
   powervs_hana_hostname = "${var.prefix}-${var.powervs_hana_instance_name}"
-  powervs_hana_os_image = var.os_image_distro == "SLES" ? var.default_hana_sles_image : var.default_hana_rhel_image
+  powervs_hana_os_image = var.os_image_distro == "SLES" ? var.powervs_default_images.sles_hana_image : var.powervs_default_images.rhel_hana_image
 }
 
-module "sap_hana_storage_cal" {
+module "powervs_hana_storage_calculation" {
 
-  source                             = "../../../modules/sap_hana_storage_config"
-  powervs_hana_sap_profile_id        = var.powervs_hana_sap_profile_id
-  sap_hana_additional_storage_config = var.sap_hana_additional_storage_config
-  sap_hana_custom_storage_config     = var.sap_hana_custom_storage_config
+  source                                 = "../../../modules/powervs_hana_storage_config"
+  powervs_hana_sap_profile_id            = var.powervs_hana_sap_profile_id
+  powervs_hana_additional_storage_config = var.powervs_hana_additional_storage_config
+  powervs_hana_custom_storage_config     = var.powervs_hana_custom_storage_config
 }
 
-module "sap_hana_instance" {
+module "powervs_hana_instance" {
   source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.1"
-  depends_on = [module.attach_sap_network]
+  depends_on = [module.powervs_attach_sap_network]
 
   pi_zone                    = var.powervs_zone
   pi_resource_group_name     = local.powervs_resource_group_name
@@ -176,7 +176,7 @@ module "sap_hana_instance" {
   pi_os_image_name           = local.powervs_hana_os_image
   pi_networks                = local.powervs_networks
   pi_sap_profile_id          = var.powervs_hana_sap_profile_id
-  pi_storage_config          = module.sap_hana_storage_cal.hana_storage_config
+  pi_storage_config          = module.powervs_hana_storage_calculation.hana_storage_config
   pi_instance_init           = local.powervs_instance_init
   pi_proxy_settings          = local.powervs_proxy_settings
   pi_network_services_config = local.powervs_network_services_config
@@ -190,12 +190,12 @@ module "sap_hana_instance" {
 locals {
 
   powervs_netweaver_hostname = "${var.prefix}-${var.powervs_netweaver_instance_name}"
-  powervs_netweaver_os_image = var.os_image_distro == "SLES" ? var.default_netweaver_sles_image : var.default_netweaver_rhel_image
+  powervs_netweaver_os_image = var.os_image_distro == "SLES" ? var.powervs_default_images.sles_nw_image : var.powervs_default_images.rhel_nw_image
 }
 
-module "sap_netweaver_instance" {
+module "powervs_netweaver_instance" {
   source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.1"
-  depends_on = [module.attach_sap_network]
+  depends_on = [module.powervs_attach_sap_network]
   count      = var.powervs_netweaver_instance_count
 
   pi_zone                    = var.powervs_zone
@@ -210,7 +210,7 @@ module "sap_netweaver_instance" {
   pi_memory_size             = var.powervs_netweaver_memory_size
   pi_server_type             = "s922"
   pi_cpu_proc_type           = "shared"
-  pi_storage_config          = var.sap_netweaver_storage_config
+  pi_storage_config          = var.powervs_netweaver_storage_config
   pi_instance_init           = local.powervs_instance_init
   pi_proxy_settings          = local.powervs_proxy_settings
   pi_network_services_config = local.powervs_network_services_config
@@ -222,14 +222,14 @@ module "sap_netweaver_instance" {
 #####################################################
 
 locals {
-  target_server_ips = concat([module.sap_hana_instance.pi_instance_mgmt_ip], module.sap_netweaver_instance[*].pi_instance_mgmt_ip)
-  sap_solutions     = concat(["HANA"], [for ip in module.sap_netweaver_instance[*].pi_instance_mgmt_ip : "NETWEAVER"])
+  target_server_ips = concat([module.powervs_hana_instance.pi_instance_mgmt_ip], module.powervs_netweaver_instance[*].pi_instance_mgmt_ip)
+  sap_solutions     = concat(["HANA"], [for ip in module.powervs_netweaver_instance[*].pi_instance_mgmt_ip : "NETWEAVER"])
 }
 
 module "sap_instance_init" {
 
   source     = "../../../modules/sap_instance_init"
-  depends_on = [module.sap_hana_instance, module.sap_netweaver_instance]
+  depends_on = [module.powervs_hana_instance, module.powervs_netweaver_instance]
 
   access_host_or_ip = local.access_host_or_ip
   target_server_ips = local.target_server_ips

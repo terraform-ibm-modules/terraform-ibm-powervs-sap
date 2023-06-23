@@ -1,6 +1,6 @@
 <!-- BEGIN MODULE HOOK -->
 
-# SAP on secure Power Virtual Servers module
+# SAP on secure Power Virtual Servers Solutions
 
 <!-- UPDATE BADGE: Update the link for the badge below-->
 [![Graduated (Supported)](https://img.shields.io/badge/status-Graduated%20(Supported)-brightgreen?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
@@ -36,14 +36,14 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Solutions
 
-### Requires Schematics Workspace ID from Power Virtual Server with VPC landing zone solution from IBM catalog
-| Variation  | Requires Schematics Workspace ID | PVS HANA Instance | PVS NW Instances |  PVS OS Config | PVS prepare for SAP | Install SAP software |
+### Using Schematics Workspace ID from Power Virtual Server with VPC landing zone solution from IBM catalog
+| Variation  | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | [sap-ready-to-go](solutions/ibm-catalog/sap-ready-to-go)  | :white_check_mark:  | 1  | 0 to N  | :white_check_mark:  |  :white_check_mark: |   :x: |
 
 
 ### Without Schematics Workspace ID
-| Variation   | PVS HANA Instance | PVS NW Instances |  PVS OS Config | PVS prepare for SAP | Install SAP software |
+| Variation   | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | [sap-ready-to-go](solutions/sap-ready-to-go)   | 1  | 0 to N  | :white_check_mark:  |  :white_check_mark: |   :x: |
 

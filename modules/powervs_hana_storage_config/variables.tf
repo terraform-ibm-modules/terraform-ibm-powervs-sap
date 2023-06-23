@@ -4,7 +4,7 @@ variable "powervs_hana_sap_profile_id" {
   default     = "ush1-4x128"
 }
 
-variable "sap_hana_custom_storage_config" {
+variable "powervs_hana_custom_storage_config" {
   description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
@@ -22,7 +22,7 @@ variable "sap_hana_custom_storage_config" {
   }]
 }
 
-variable "sap_hana_additional_storage_config" {
+variable "powervs_hana_additional_storage_config" {
   description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string

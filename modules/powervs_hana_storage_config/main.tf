@@ -19,7 +19,7 @@ locals {
     }
   ]
 
-  additional_hana_storage_set = var.sap_hana_additional_storage_config != null ? var.sap_hana_additional_storage_config[0].count != "" ? true : false : false
-  custom_hana_storage_set     = var.sap_hana_custom_storage_config != null ? var.sap_hana_custom_storage_config[0].count != "" ? true : false : false
-  hana_storage_config         = local.custom_hana_storage_set ? local.additional_hana_storage_set ? concat(var.sap_hana_custom_storage_config, var.sap_hana_additional_storage_config) : var.sap_hana_custom_storage_config : local.additional_hana_storage_set ? concat(local.auto_cal_hana_storage_config, var.sap_hana_additional_storage_config) : local.auto_cal_hana_storage_config
+  additional_hana_storage_set = var.powervs_hana_additional_storage_config != null ? var.powervs_hana_additional_storage_config[0].count != "" ? true : false : false
+  custom_hana_storage_set     = var.powervs_hana_custom_storage_config != null ? var.powervs_hana_custom_storage_config[0].count != "" ? true : false : false
+  hana_storage_config         = local.custom_hana_storage_set ? local.additional_hana_storage_set ? concat(var.powervs_hana_custom_storage_config, var.powervs_hana_additional_storage_config) : var.powervs_hana_custom_storage_config : local.additional_hana_storage_set ? concat(local.auto_cal_hana_storage_config, var.powervs_hana_additional_storage_config) : local.auto_cal_hana_storage_config
 }
