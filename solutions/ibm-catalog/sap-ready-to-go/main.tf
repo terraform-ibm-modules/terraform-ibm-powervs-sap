@@ -165,7 +165,7 @@ module "powervs_hana_storage_calculation" {
 }
 
 module "powervs_hana_instance" {
-  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.1"
+  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.2"
   depends_on = [module.powervs_attach_sap_network]
 
   pi_zone                    = var.powervs_zone
