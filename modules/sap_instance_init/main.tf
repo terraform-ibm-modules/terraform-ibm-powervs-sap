@@ -3,13 +3,12 @@
 #####################################################
 
 locals {
-  scr_scripts_dir = "${path.module}/../terraform_templates"
+  scr_scripts_dir = "${path.module}/templates"
   dst_scripts_dir = "/root/terraform_scripts"
 
-
-  src_ansible_exec_tpl_path                  = "${local.scr_scripts_dir}/ansible_exec.sh.tftpl"
-  dst_ansible_exec_path                      = "${local.dst_scripts_dir}/configure_os_for_sap.sh"
   ansible_configure_os_for_sap_playbook_name = "power-linux-configure.yml"
+  src_script_configure_os_for_sap_tfpl_path  = "${local.scr_scripts_dir}/configure_os_for_sap.sh.tfpl"
+  dst_script_configure_os_for_sap_sh_path    = "${local.dst_scripts_dir}/configure_os_for_sap.sh"
   dst_ansible_vars_configure_os_for_sap_path = "${local.dst_scripts_dir}/ansible_configure_os_for_sap.yml"
 }
 
@@ -42,9 +41,9 @@ EOF
 
   ####### Copy Template file to target host ############
   provisioner "file" {
-    destination = local.dst_ansible_exec_path
+    destination = local.dst_script_configure_os_for_sap_sh_path
     content = templatefile(
-      local.src_ansible_exec_tpl_path,
+      local.src_script_configure_os_for_sap_tfpl_path,
       {
         "ansible_playbook_name" : local.ansible_configure_os_for_sap_playbook_name
         "ansible_extra_vars_path" : local.dst_ansible_vars_configure_os_for_sap_path
@@ -56,8 +55,8 @@ EOF
   ####  Execute ansible roles: to hana/netweaver preconfigure  ####
   provisioner "remote-exec" {
     inline = [
-      "chmod +x ${local.dst_ansible_exec_path}",
-      local.dst_ansible_exec_path
+      "chmod +x ${local.dst_script_configure_os_for_sap_sh_path}",
+      local.dst_script_configure_os_for_sap_sh_path
     ]
   }
 

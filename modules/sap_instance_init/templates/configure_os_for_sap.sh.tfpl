@@ -6,14 +6,11 @@ ansible_vars_location=${ansible_extra_vars_path}
 ansible_log_path=${ansible_log_path}
 
 power_linux_sap_arr=("power-linux-configure.yml")
-community_sap_install_arr=("sample-sap-hana-install.yml" "sample-sap-swpm-default-mode.yml")
 
 ### Download and install collections from ansible-galaxy
 ansible-galaxy collection install ibm.power_linux_sap:1.0.11
-ansible-galaxy collection install community.sap_install:1.2.3
-ansible-galaxy collection install community.general:7.1.0
 
-### Bug in ansible community role. CHanging http to https for installing ibm power tools
+### Bug in ansible system role. Changing http to https for installing ibm power tools
 sed -i '252s/http:/https:/' /usr/share/ansible/roles/sap_hana_preconfigure/vars/RedHat_8.yml
 
 ## Execute ansible playbook
@@ -25,8 +22,4 @@ if [[ " $${power_linux_sap_arr[@]} " =~ " $${playbook_name} " ]]; then
     [ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1
 fi
 
-if [[ " $${community_sap_install_arr[@]} " =~ " $${playbook_name} " ]]; then
-    unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/community/sap_install/playbooks/$${playbook_name} --extra-vars "@$${ansible_vars_location}"
-    status=$?
-    [ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1
-fi
+### Bug in ansible system role. Not setting link for libstdc++.so.6 (not required fpr rhel-system-roles-sap 3.4 or later)
