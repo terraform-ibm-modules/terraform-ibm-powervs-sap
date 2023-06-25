@@ -87,7 +87,7 @@ module "power_infrastructure" {
   # Add explicit depends_on here due to https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/issues/143
   depends_on                  = [module.resource_group]
   source                      = "terraform-ibm-modules/powervs-infrastructure/ibm"
-  version                     = "8.2.1"
+  version                     = "8.3.0"
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = module.resource_group.resource_group_name
   powervs_workspace_name      = local.powervs_workspace_name
