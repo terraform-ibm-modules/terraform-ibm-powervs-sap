@@ -24,7 +24,7 @@ Use of this resource for production deployments is not recommended. Instead, gen
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_power_infrastructure"></a> [power\_infrastructure](#module\_power\_infrastructure) | terraform-ibm-modules/powervs-infrastructure/ibm | 8.2.1 |
+| <a name="module_power_infrastructure"></a> [power\_infrastructure](#module\_power\_infrastructure) | terraform-ibm-modules/powervs-infrastructure/ibm | 8.3.0 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | terraform-ibm-modules/resource-group/ibm | 1.0.5 |
 | <a name="module_sap_systems"></a> [sap\_systems](#module\_sap\_systems) | ../../ | n/a |
 
