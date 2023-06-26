@@ -52,7 +52,7 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM enabled resources. | `string` | `null` | no |
+| <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM enabled resources. | `string` | n/a | yes |
 | <a name="input_os_image_distro"></a> [os\_image\_distro](#input\_os\_image\_distro) | Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in optional parameters. | `string` | `"RHEL"` | no |
 | <a name="input_powervs_create_separate_fs_share"></a> [powervs\_create\_separate\_fs\_share](#input\_powervs\_create\_separate\_fs\_share) | Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used. | `bool` | `false` | no |
 | <a name="input_powervs_default_images"></a> [powervs\_default\_images](#input\_powervs\_default\_images) | Default SuSE and Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances. | <pre>object({<br>    sles_hana_image = string<br>    sles_nw_image   = string<br>    rhel_hana_image = string<br>    rhel_nw_image   = string<br>  })</pre> | <pre>{<br>  "rhel_hana_image": "RHEL8-SP4-SAP",<br>  "rhel_nw_image": "RHEL8-SP4-SAP-NETWEAVER",<br>  "sles_hana_image": "SLES15-SP3-SAP",<br>  "sles_nw_image": "SLES15-SP3-SAP-NETWEAVER"<br>}</pre> | no |

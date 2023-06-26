@@ -1,3 +1,9 @@
+variable "ibmcloud_api_key" {
+  description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
+  type        = string
+  sensitive   = true
+}
+
 variable "prerequisite_workspace_id" {
   description = "IBM Cloud Schematics workspace ID of an existing Power infrastructure for regulated industries deployment. If you do not yet have an existing deployment, click [here](https://cloud.ibm.com/catalog/) and search for 'Power Virtual Server with VPC landing zone' to create one."
   type        = string
@@ -205,11 +211,4 @@ variable "powervs_default_images" {
     "sles_nw_image" : "SLES15-SP3-SAP-NETWEAVER"
     "rhel_nw_image" : "RHEL8-SP4-SAP-NETWEAVER"
   }
-}
-
-variable "ibmcloud_api_key" {
-  description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
-  type        = string
-  sensitive   = true
-  default     = null
 }

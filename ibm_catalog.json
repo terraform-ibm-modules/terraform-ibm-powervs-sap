@@ -197,6 +197,16 @@
                             "type": "password"
                         },
                         {
+                            "key": "ibmcloud_api_key",
+                            "type": "multiline_secure_value",
+                            "required": true,
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "multiline_secure_value"
+                            }
+                        },
+                        {
                             "key": "sap_domain",
                             "required": true
                         },
@@ -214,15 +224,6 @@
                         },
                         {
                             "key": "powervs_default_images"
-                        },
-                        {
-                            "key": "ibmcloud_api_key",
-                            "type": "multiline_secure_value",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "multiline_secure_value"
-                            }
                         }
                     ],
                     "outputs": [
