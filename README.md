@@ -110,7 +110,6 @@ You need the following permissions to run this module.
 
 - [ Basic Power Virtual Server for SAP HANA Module Example](solutions/basic)
 - [ Power Virtual Server for SAP HANA example to create SAP prepared PowerVS instances from IBM Cloud Catalog](solutions/ibm-catalog/deployable-architectures/sap-ready-to-go)
-- [ Power Virtual Server for SAP HANA example to create SAP prepared PowerVS instances](solutions/terraform-registry/sap-ready-to-go)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
