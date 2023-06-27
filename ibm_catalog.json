@@ -286,7 +286,7 @@
                             ],
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96",
                             "name": "deploy-arch-ibm-pvs-inf",
-                            "version": ">=7.0.0"
+                            "version": ">=1.0.0"
                         }
                     ],
                     "architecture": {
