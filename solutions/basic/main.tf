@@ -1,19 +1,20 @@
 locals {
   ibm_powervs_zone_region_map = {
-    "syd04"    = "syd"
-    "syd05"    = "syd"
-    "eu-de-1"  = "eu-de"
-    "eu-de-2"  = "eu-de"
     "lon04"    = "lon"
     "lon06"    = "lon"
-    "tok04"    = "tok"
-    "us-east"  = "us-east"
-    "us-south" = "us-south"
-    "dal12"    = "us-south"
+    "eu-de-1"  = "eu-de"
+    "eu-de-2"  = "eu-de"
     "tor01"    = "tor"
-    "osa21"    = "osa"
-    "sao01"    = "sao"
     "mon01"    = "mon"
+    "osa21"    = "osa"
+    "tok04"    = "tok"
+    "syd04"    = "syd"
+    "syd05"    = "syd"
+    "sao01"    = "sao"
+    "us-south" = "us-south"
+    "dal10"    = "us-south"
+    "dal12"    = "us-south"
+    "us-east"  = "us-east"
   }
 
   ibm_powervs_zone_cloud_region_map = {
@@ -24,13 +25,14 @@ locals {
     "lon04"    = "eu-gb"
     "lon06"    = "eu-gb"
     "tok04"    = "jp-tok"
-    "us-east"  = "us-east"
-    "us-south" = "us-south"
-    "dal12"    = "us-south"
     "tor01"    = "ca-tor"
     "osa21"    = "jp-osa"
     "sao01"    = "br-sao"
     "mon01"    = "ca-tor"
+    "us-south" = "us-south"
+    "dal10"    = "us-south"
+    "dal12"    = "us-south"
+    "us-east"  = "us-east"
   }
 }
 
@@ -87,7 +89,7 @@ module "power_infrastructure" {
   # Add explicit depends_on here due to https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/issues/143
   depends_on                  = [module.resource_group]
   source                      = "terraform-ibm-modules/powervs-infrastructure/ibm"
-  version                     = "8.3.0"
+  version                     = "1.0.0"
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = module.resource_group.resource_group_name
   powervs_workspace_name      = local.powervs_workspace_name
