@@ -12,7 +12,7 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 
 | Variation   | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](./)   | 1  | 0 to N  | :white_check_mark:  |  :white_check_mark: |   :x: |
+| [sap-ready-to-go](./)   | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
 
 ## Architecture Diagram
 ![sap-ready-to-go](../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)

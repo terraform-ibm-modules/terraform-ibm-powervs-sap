@@ -39,13 +39,13 @@ You need the following permissions to run this module.
 ### Using Schematics Workspace ID from Power Virtual Server with VPC landing zone solution from IBM catalog
 | Variation  | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](solutions/ibm-catalog/sap-ready-to-go)  | :white_check_mark:  | 1  | 0 to N  | :white_check_mark:  |  :white_check_mark: |   :x: |
+| [sap-ready-to-go](solutions/ibm-catalog/sap-ready-to-go)  | :heavy_check_mark:  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
 
 
 ### Without Schematics Workspace ID
 | Variation   | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](solutions/sap-ready-to-go)   | 1  | 0 to N  | :white_check_mark:  |  :white_check_mark: |   :x: |
+| [sap-ready-to-go](solutions/sap-ready-to-go)   | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |    N/A |
 
 <!-- END EXAMPLES HOOK -->
 
