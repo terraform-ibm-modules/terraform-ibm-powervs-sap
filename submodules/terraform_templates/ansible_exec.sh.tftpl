@@ -9,7 +9,7 @@ power_linux_sap_arr=("powervs-sles.yml" "powervs-rhel.yml" "powervs-services.yml
 community_sap_install_arr=("sample-sap-hana-install.yml" "sample-sap-swpm.yml")
 
 ### Download and install collections from ansible-galaxy
-ansible-galaxy collection install ibm.power_linux_sap:1.0.11
+ansible-galaxy collection install ibm.power_linux_sap:1.0.10
 
 ### Bug in ansible system role. Deleting IBMinvscout package
 #sed -i '278,278{s/^/#/}' /usr/share/ansible/roles/sap_hana_preconfigure/vars/RedHat_8.yml
