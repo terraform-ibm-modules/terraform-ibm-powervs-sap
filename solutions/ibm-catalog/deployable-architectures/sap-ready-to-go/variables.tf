@@ -4,7 +4,7 @@ variable "prerequisite_workspace_id" {
 }
 
 variable "powervs_zone" {
-  description = "IBM Cloud data center location where IBM PowerVS infrastructure will be created."
+  description = "IBM Cloud data center location where IBM PowerVS Workspace exists."
   type        = string
 }
 
@@ -27,6 +27,12 @@ variable "powervs_sap_network_cidr" {
   description = "Network range for separate SAP network. E.g., '10.53.1.0/24'"
   type        = string
   default     = "10.53.1.0/24"
+}
+
+variable "ibmcloud_api_key" {
+  description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
+  type        = string
+  sensitive   = true
 }
 
 #####################################################
@@ -52,7 +58,7 @@ variable "sap_hana_hostname" {
 variable "sap_hana_profile" {
   description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
   type        = string
-  default     = "ush1-4x128"
+  default     = "ush1-4x256"
 }
 
 #####################################################
@@ -270,11 +276,4 @@ variable "sap_netweaver_storage_config" {
     tiers      = "tier3,tier3"
     paths      = "/usr/sap,/usr/sap/trans"
   }
-}
-
-variable "ibmcloud_api_key" {
-  description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
-  type        = string
-  sensitive   = true
-  default     = null
 }

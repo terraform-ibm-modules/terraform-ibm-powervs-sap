@@ -96,7 +96,7 @@
                                     "catalogID": "da12d6f3-3cb7-402e-9350-878837212a6e",
                                     "flavorConstraint": "powervs-workspace",
                                     "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96",
-                                    "versionConstraint": "\u003e=8.0.0"
+                                    "versionConstraint": "\u003e=1.0.0"
                                 },
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
@@ -136,14 +136,6 @@
                                     "value": "mon01"
                                 },
                                 {
-                                    "displayname": "Dallas (dal12)",
-                                    "value": "dal12"
-                                },
-                                {
-                                    "displayname": "Dallas (dal13)",
-                                    "value": "dal13"
-                                },
-                                {
                                     "displayname": "Osaka (osa21)",
                                     "value": "osa21"
                                 },
@@ -160,24 +152,24 @@
                                     "value": "syd05"
                                 },
                                 {
-                                    "displayname": "US-east (us-east)",
-                                    "value": "us-east"
+                                    "displayname": "Sao Paulo (sao01)",
+                                    "value": "sao01"
                                 },
                                 {
                                     "displayname": "US-south (us-south)",
                                     "value": "us-south"
                                 },
                                 {
-                                    "displayname": "Sao Paulo (sao01)",
-                                    "value": "sao01"
+                                    "displayname": "Dallas (dal10)",
+                                    "value": "dal10"
                                 },
                                 {
-                                    "displayname": "Washington DC (wdc04)",
-                                    "value": "wdc04"
+                                    "displayname": "Dallas (dal12)",
+                                    "value": "dal12"
                                 },
                                 {
-                                    "displayname": "Washington DC (wdc06)",
-                                    "value": "wdc06"
+                                    "displayname": "US-east (us-east)",
+                                    "value": "us-east"
                                 }
                             ],
                             "hidden": false,
@@ -252,6 +244,16 @@
                             "type": "password"
                         },
                         {
+                            "key": "ibmcloud_api_key",
+                            "type": "multiline_secure_value",
+                            "required": true,
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "multiline_secure_value"
+                            }
+                        },
+                        {
                             "key": "sap_domain",
                             "required": true
                         },
@@ -297,27 +299,21 @@
                     ],
                     "outputs": [
                         {
-                            "description": "Private IPs of the Share FS instance.",
                             "key": "share_fs_ips"
                         },
                         {
-                            "description": "All private IPS of PowerVS instances and Jump IP to access the host.",
                             "key": "powervs_lpars_data"
                         },
                         {
-                            "description": "Data from PowerVS infrastructure layer",
                             "key": "infrastructure_data"
                         },
                         {
-                            "description": "Public IP of Provided Bastion/JumpServer Host",
                             "key": "access_host_or_ip"
                         },
                         {
-                            "description": "All private IPS of HANA instance",
                             "key": "hana_ips"
                         },
                         {
-                            "description": "All private IPS of NetWeaver instances",
                             "key": "netweaver_ips"
                         }
                     ],
@@ -355,7 +351,7 @@
                             ],
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96",
                             "name": "deploy-arch-ibm-pvs-inf",
-                            "version": ">=7.0.0"
+                            "version": ">=1.0.0"
                         }
                     ],
                     "architecture": {
