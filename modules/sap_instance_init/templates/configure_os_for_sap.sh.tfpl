@@ -8,7 +8,7 @@ ansible_log_path=${ansible_log_path}
 power_linux_sap_arr=("power-linux-configure.yml")
 
 ### Download and install collections from ansible-galaxy
-ansible-galaxy collection install ibm.power_linux_sap:1.0.11
+ansible-galaxy collection install ibm.power_linux_sap:1.1.0
 
 ### Bug in ansible system role. Changing http to https for installing ibm power tools
 sed -i '252s/http:/https:/' /usr/share/ansible/roles/sap_hana_preconfigure/vars/RedHat_8.yml
