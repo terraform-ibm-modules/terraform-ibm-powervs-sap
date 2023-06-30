@@ -34,19 +34,9 @@ You need the following permissions to run this module.
 - [SAP Ready to go PowerVS](reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.md)
 
 <!-- BEGIN EXAMPLES HOOK -->
-## Solutions
+## Examples
 
-### Using Schematics Workspace ID from Power Virtual Server with VPC landing zone solution from IBM catalog
-| Variation  | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](solutions/ibm-catalog/sap-ready-to-go)  | :heavy_check_mark:  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
-
-
-### Without Schematics Workspace ID
-| Variation   | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](solutions/sap-ready-to-go)   | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |    N/A |
-
+- [Examples](examples)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGIN CONTRIBUTING HOOK -->
