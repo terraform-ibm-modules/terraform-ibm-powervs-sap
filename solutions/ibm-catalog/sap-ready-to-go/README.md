@@ -26,8 +26,8 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.5 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.52.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.6 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.54.0 |
 
 ## Modules
 
@@ -35,18 +35,18 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 |------|--------|---------|
 | <a name="module_powervs_attach_sap_network"></a> [powervs\_attach\_sap\_network](#module\_powervs\_attach\_sap\_network) | ../../../modules/powervs_attach_private_network | n/a |
 | <a name="module_powervs_create_sap_network"></a> [powervs\_create\_sap\_network](#module\_powervs\_create\_sap\_network) | ../../../modules/powervs_create_private_network | n/a |
-| <a name="module_powervs_hana_instance"></a> [powervs\_hana\_instance](#module\_powervs\_hana\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.4 |
+| <a name="module_powervs_hana_instance"></a> [powervs\_hana\_instance](#module\_powervs\_hana\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.5 |
 | <a name="module_powervs_hana_storage_calculation"></a> [powervs\_hana\_storage\_calculation](#module\_powervs\_hana\_storage\_calculation) | ../../../modules/powervs_hana_storage_config | n/a |
-| <a name="module_powervs_netweaver_instance"></a> [powervs\_netweaver\_instance](#module\_powervs\_netweaver\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.4 |
-| <a name="module_powervs_sharefs_instance"></a> [powervs\_sharefs\_instance](#module\_powervs\_sharefs\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.4 |
+| <a name="module_powervs_netweaver_instance"></a> [powervs\_netweaver\_instance](#module\_powervs\_netweaver\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.5 |
+| <a name="module_powervs_sharefs_instance"></a> [powervs\_sharefs\_instance](#module\_powervs\_sharefs\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.5 |
 | <a name="module_sap_instance_init"></a> [sap\_instance\_init](#module\_sap\_instance\_init) | ../../../modules/sap_instance_init | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.52.0/docs/data-sources/schematics_output) | data source |
-| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.52.0/docs/data-sources/schematics_workspace) | data source |
+| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.54.0/docs/data-sources/schematics_output) | data source |
+| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.54.0/docs/data-sources/schematics_workspace) | data source |
 
 ## Inputs
 
