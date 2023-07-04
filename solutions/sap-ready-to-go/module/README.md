@@ -1,6 +1,5 @@
-# Power Virtual Server for SAP HANA example to create SAP prepared PowerVS instances from IBM Cloud Catalog
-
-The Power Virtual Server for SAP HANA example automates the following tasks:
+# Power Virtual Server for SAP SYSTEM MODULE
+The Power Virtual Server for SAP module automates the following tasks:
 
 - Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
 - Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.
@@ -9,27 +8,24 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
 
-
-| Variation   | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](./)   | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
-
-## Architecture Diagram
-![sap-ready-to-go](../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.5 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.54.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ./module | n/a |
+| <a name="module_powervs_attach_sap_network"></a> [powervs\_attach\_sap\_network](#module\_powervs\_attach\_sap\_network) | ../../../modules/powervs_attach_private_network | n/a |
+| <a name="module_powervs_create_sap_network"></a> [powervs\_create\_sap\_network](#module\_powervs\_create\_sap\_network) | ../../../modules/powervs_create_private_network | n/a |
+| <a name="module_powervs_hana_instance"></a> [powervs\_hana\_instance](#module\_powervs\_hana\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.5 |
+| <a name="module_powervs_hana_storage_calculation"></a> [powervs\_hana\_storage\_calculation](#module\_powervs\_hana\_storage\_calculation) | ../../../modules/powervs_hana_storage_config | n/a |
+| <a name="module_powervs_netweaver_instance"></a> [powervs\_netweaver\_instance](#module\_powervs\_netweaver\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.5 |
+| <a name="module_powervs_sharefs_instance"></a> [powervs\_sharefs\_instance](#module\_powervs\_sharefs\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.5 |
+| <a name="module_sap_instance_init"></a> [sap\_instance\_init](#module\_sap\_instance\_init) | ../../../modules/sap_instance_init | n/a |
 
 ## Resources
 
@@ -43,7 +39,6 @@ No resources.
 | <a name="input_additional_networks"></a> [additional\_networks](#input\_additional\_networks) | Existing list of subnets name to be attached to PowerVS instances. First network has to be a management network. | `list(string)` | <pre>[<br>  "mgmt_net",<br>  "bkp_net"<br>]</pre> | no |
 | <a name="input_cloud_connection_count"></a> [cloud\_connection\_count](#input\_cloud\_connection\_count) | Existing number of Cloud connections to which new subnet must be attached. | `string` | `2` | no |
 | <a name="input_dns_host_or_ip"></a> [dns\_host\_or\_ip](#input\_dns\_host\_or\_ip) | Private IP address of DNS server, resolver or forwarder. Set empty if not configuring OS. | `string` | n/a | yes |
-| <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM enabled resources. | `string` | n/a | yes |
 | <a name="input_nfs_host_or_ip_path"></a> [nfs\_host\_or\_ip\_path](#input\_nfs\_host\_or\_ip\_path) | Full path on NFS server (in form <hostname\_or\_ip>:<directory>, e.g., '10.20.10.4:/nfs'). Set to empty if not configuring OS. | `string` | n/a | yes |
 | <a name="input_ntp_host_or_ip"></a> [ntp\_host\_or\_ip](#input\_ntp\_host\_or\_ip) | Private IP address of NTP time server or forwarder. Set empty if not configuring OS. | `string` | n/a | yes |
 | <a name="input_os_image_distro"></a> [os\_image\_distro](#input\_os\_image\_distro) | Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in optional parameters. | `string` | `"RHEL"` | no |
