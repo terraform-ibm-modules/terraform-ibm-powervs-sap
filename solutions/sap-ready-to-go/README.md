@@ -10,9 +10,9 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 - Optionally configures a shared NFS directory on all created PowerVS instances.
 
 
-| Variation   | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](./)   | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
+| Variation  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| [sap-ready-to-go](./)  | N/A  | N/A  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
 
 ## Architecture Diagram
 ![sap-ready-to-go](../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
@@ -22,7 +22,7 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.5 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.6 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.54.0 |
 
 ## Modules
