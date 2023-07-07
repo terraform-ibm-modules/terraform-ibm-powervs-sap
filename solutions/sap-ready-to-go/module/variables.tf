@@ -52,7 +52,7 @@ variable "powervs_sap_network_cidr" {
 }
 
 variable "os_image_distro" {
-  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in optional parameters."
+  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in 'var.powervs_default_images' optional parameters below."
   type        = string
   default     = "RHEL"
 
@@ -76,7 +76,7 @@ variable "powervs_create_separate_fs_share" {
 #####################################################
 
 variable "powervs_hana_instance_name" {
-  description = "SAP HANA hostname (non FQDN). Will get the form of <prefix>-<sap_hana_hostname>. Max length of final hostname must be <= 13 characters."
+  description = "SAP HANA hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_hana_instance_name>. Max length of final hostname must be <= 13 characters."
   type        = string
   default     = "hana"
 }
@@ -98,7 +98,7 @@ variable "powervs_netweaver_instance_count" {
 }
 
 variable "powervs_netweaver_instance_name" {
-  description = "SAP Netweaver hostname (non FQDN). Will get the form of <prefix>-<sap_netweaver_hostname>-<number>. Max length of final hostname must be <= 13 characters."
+  description = "SAP Netweaver hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters."
   type        = string
   default     = "nw"
 }
