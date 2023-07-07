@@ -3,7 +3,7 @@
 #######################################################
 locals {
 
-  auto_cal_memory_size        = tonumber(element(split("x", var.powervs_hana_sap_profile_id), 1)) < 128 ? 128 : tonumber(element(split("x", var.powervs_hana_sap_profile_id), 1))
+  auto_cal_memory_size        = tonumber(element(split("x", var.powervs_hana_sap_profile_id), 1)) < 256 ? 256 : tonumber(element(split("x", var.powervs_hana_sap_profile_id), 1))
   auto_cal_data_volume_size   = floor((local.auto_cal_memory_size * 1.1) / 4) + 1
   auto_cal_log_volume_size    = floor((local.auto_cal_memory_size * 0.5) / 4) + 1 > 512 ? 512 : floor((local.auto_cal_memory_size * 0.5) / 4) + 1
   auto_cal_shared_volume_size = floor(local.auto_cal_memory_size > 1024 ? 1024 : local.auto_cal_memory_size)
