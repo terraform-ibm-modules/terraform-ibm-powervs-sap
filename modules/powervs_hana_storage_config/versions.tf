@@ -1,13 +1,7 @@
 #####################################################
-# PowerVs SAP Instance Module
+# Storage cal module
 #####################################################
 
 terraform {
   required_version = ">= 1.3"
-  required_providers {
-    ibm = {
-      source  = "IBM-Cloud/ibm"
-      version = ">=1.49.0"
-    }
-  }
 }

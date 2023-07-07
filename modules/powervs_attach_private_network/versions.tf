@@ -1,5 +1,5 @@
 #####################################################
-# PowerVs SAP Instance Module
+# IBM Cloud PowerVS workspace Module
 #####################################################
 
 terraform {

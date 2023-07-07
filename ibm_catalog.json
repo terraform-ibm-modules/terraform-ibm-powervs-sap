@@ -45,65 +45,34 @@
                     "label": "SAP ready PowerVS",
                     "name": "sap-ready-to-go",
                     "install_type": "extension",
-                    "working_directory": "solutions/ibm-catalog/deployable-architectures/sap-ready-to-go",
+                    "working_directory": "solutions/ibm-catalog/sap-ready-to-go",
                     "usage_template": "module \"sap_systems\" {\n  source                    = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//${{workingDirectory}}?archive=tgz&flavor=${{flavor}}&kind=${{kind}}&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key          = var.ibmcloud_api_key\n  prerequisite_workspace_id = var.prerequisite_workspace_id\n  powervs_zone              = var.powervs_zone\n  prefix                    = var.prefix\n  ssh_private_key           = var.ssh_private_key\n}",
-                    "compliance": {
-                        "authority": "scc-v3",
-                        "controls": [
-                            {
-                                "profile": {
-                                    "name": "IBM Cloud for Financial Services",
-                                    "version": "1.2.0"
-                                },
-                                "names": [
-                                    "AC-2(4)(0)",
-                                    "AC-2(7)(b)",
-                                    "AC-2(g)",
-                                    "AC-6(9)(0)",
-                                    "AU-2(a)",
-                                    "AU-2(d)",
-                                    "AU-3(0)",
-                                    "AU-4(0)",
-                                    "AU-8(1)(a)",
-                                    "AU-8(1)(b)",
-                                    "AU-8(a)",
-                                    "AU-8(b)",
-                                    "AU-11(0)",
-                                    "AU-12(a)",
-                                    "AU-12(b)",
-                                    "AU-12(c)",
-                                    "CA-7(d)",
-                                    "IA-3(0)",
-                                    "SC-2(0)",
-                                    "SC-3(0)",
-                                    "SC-7(4)(c)",
-                                    "SC-8(0)",
-                                    "SC-8(1)(0)",
-                                    "SC-11(0)",
-                                    "SC-23(0)",
-                                    "SI-4(a)",
-                                    "SI-4(b)",
-                                    "SI-4(c)",
-                                    "SI-12(0)"
-                                ]
-                            }
-                        ]
-                    },
+                    "compliance": {},
+                    "dependencies": [
+                        {
+                            "flavors": [
+                                "powervs-workspace"
+                            ],
+                            "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
+                            "name": "deploy-arch-ibm-pvs-inf",
+                            "version": ">=1.0.0"
+                        }
+                    ],
                     "configuration": [
                         {
+                            "key": "prerequisite_workspace_id",
+                            "required": true,
                             "custom_config": {
                                 "config_constraints": {
-                                    "catalogID": "da12d6f3-3cb7-402e-9350-878837212a6e",
+                                    "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
                                     "flavorConstraint": "powervs-workspace",
-                                    "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96",
-                                    "versionConstraint": "\u003e=1.0.0"
+                                    "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
+                                    "versionConstraint": ">=1.0.0"
                                 },
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
                                 "type": "schematics_workspace"
-                            },
-                            "key": "prerequisite_workspace_id",
-                            "required": true
+                            }
                         },
                         {
                             "key": "powervs_zone",
@@ -160,10 +129,6 @@
                                     "value": "us-south"
                                 },
                                 {
-                                    "displayname": "Dallas (dal10)",
-                                    "value": "dal10"
-                                },
-                                {
                                     "displayname": "Dallas (dal12)",
                                     "value": "dal12"
                                 },
@@ -172,7 +137,6 @@
                                     "value": "us-east"
                                 }
                             ],
-                            "hidden": false,
                             "custom_config": {}
                         },
                         {
@@ -198,39 +162,34 @@
                                     "value": "SLES"
                                 }
                             ],
-                            "hidden": false,
                             "custom_config": {}
                         },
                         {
-                            "key": "create_separate_fs_share",
+                            "key": "powervs_create_separate_fs_share",
                             "required": true
                         },
                         {
-                            "key": "sap_hana_profile",
+                            "key": "powervs_hana_instance_name",
                             "required": true
                         },
                         {
-                            "key": "sap_hana_hostname",
+                            "key": "powervs_hana_sap_profile_id",
                             "required": true
                         },
                         {
-                            "key": "sap_netweaver_cpu_number",
+                            "key": "powervs_netweaver_instance_count",
                             "required": true
                         },
                         {
-                            "key": "sap_netweaver_memory_size",
+                            "key": "powervs_netweaver_instance_name",
                             "required": true
                         },
                         {
-                            "key": "sap_netweaver_hostname",
+                            "key": "powervs_netweaver_cpu_number",
                             "required": true
                         },
                         {
-                            "key": "sap_netweaver_instance_number",
-                            "required": true
-                        },
-                        {
-                            "key": "configure_os",
+                            "key": "powervs_netweaver_memory_size",
                             "required": true
                         },
                         {
@@ -258,52 +217,22 @@
                             "required": true
                         },
                         {
-                            "key": "default_hana_rhel_image"
+                            "key": "powervs_share_storage_config"
                         },
                         {
-                            "key": "default_hana_sles_image"
+                            "key": "powervs_hana_custom_storage_config"
                         },
                         {
-                            "key": "default_netweaver_rhel_image"
+                            "key": "powervs_hana_additional_storage_config"
                         },
                         {
-                            "key": "default_netweaver_sles_image"
+                            "key": "powervs_netweaver_storage_config"
                         },
                         {
-                            "key": "default_shared_fs_rhel_image"
-                        },
-                        {
-                            "key": "default_shared_fs_sles_image"
-                        },
-                        {
-                            "key": "sap_hana_additional_storage_config"
-                        },
-                        {
-                            "key": "sap_hana_custom_storage_config"
-                        },
-                        {
-                            "key": "sap_hana_instance_config"
-                        },
-                        {
-                            "key": "sap_netweaver_instance_config"
-                        },
-                        {
-                            "key": "sap_netweaver_storage_config"
-                        },
-                        {
-                            "key": "sap_share_instance_config"
-                        },
-                        {
-                            "key": "sap_share_storage_config"
+                            "key": "powervs_default_images"
                         }
                     ],
                     "outputs": [
-                        {
-                            "key": "share_fs_ips"
-                        },
-                        {
-                            "key": "powervs_lpars_data"
-                        },
                         {
                             "key": "infrastructure_data"
                         },
@@ -311,10 +240,22 @@
                             "key": "access_host_or_ip"
                         },
                         {
-                            "key": "hana_ips"
+                            "key": "powervs_hana_instance_ips"
                         },
                         {
-                            "key": "netweaver_ips"
+                            "key": "powervs_hana_instance_management_ip"
+                        },
+                        {
+                            "key": "powervs_netweaver_instance_ips"
+                        },
+                        {
+                            "key": "powervs_netweaver_instance_management_ips"
+                        },
+                        {
+                            "key": "powervs_share_fs_ips"
+                        },
+                        {
+                            "key": "powervs_lpars_data"
                         }
                     ],
                     "iam_permissions": [
@@ -343,34 +284,23 @@
                             "service_name": "power-iaas"
                         }
                     ],
-                    "dependencies": [
-                        {
-                            "flavors": [
-                                "full-stack",
-                                "extension"
-                            ],
-                            "id": "2dd486c7-b317-4aaa-907b-42671485ad96",
-                            "name": "deploy-arch-ibm-pvs-inf",
-                            "version": ">=1.0.0"
-                        }
-                    ],
                     "architecture": {
                         "features": [
                             {
-                                "description": "Not installed",
-                                "title": "SAP solution"
+                                "title": "SAP solution",
+                                "description": "Not installed"
                             },
                             {
-                                "description": "SAP HANA Instance: One\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1",
-                                "title": "PowerVS instances"
+                                "title": "PowerVS instances",
+                                "description": "SAP HANA Instance: One\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1"
                             },
                             {
-                                "description": "Available",
-                                "title": "Power Virtual Server with VPC landing zone"
+                                "title": "Power Virtual Server with VPC landing zone",
+                                "description": "Available"
                             },
                             {
-                                "description": "Available",
-                                "title": "Secure infrastructure on VPC for regulated industries"
+                                "title": "Secure infrastructure on VPC for regulated industries",
+                                "description": "Available"
                             }
                         ],
                         "diagrams": [

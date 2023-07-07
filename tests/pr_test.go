@@ -32,8 +32,8 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 	}
 
 	options.TerraformVars = map[string]interface{}{
-		"prefix":         options.Prefix,
-		"resource_group": options.ResourceGroup,
+		"prefix": options.Prefix,
+		//"resource_group": options.ResourceGroup,
 		// locking into syd05 as this DC is stable for attaching disks
 		"powervs_zone": "syd05",
 	}
@@ -44,6 +44,7 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 func TestRunDefaultExample(t *testing.T) {
 	t.Parallel()
 
+	t.Skip("Skipping upgrade test until initial code is in master branch")
 	options := setupOptions(t, "power-sap")
 
 	output, err := options.RunTestConsistency()
