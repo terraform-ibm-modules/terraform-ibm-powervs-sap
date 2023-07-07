@@ -55,6 +55,7 @@
                             ],
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
+                            "install_type": "fullstack",
                             "version": ">=1.0.0"
                         }
                     ],
