@@ -1,0 +1,72 @@
+#!/bin/bash
+set -e
+
+#Set up input variables for downloading files from COS
+usage="ibmcloud_cos.sh  [-i cos api key] [-h]
+Download Objects from Ibmcloud COS
+where:
+    -h  show this help text
+    -i  cos api key"
+
+options=':hi:v:p:d:'
+while getopts $options option; do
+    case "$option" in
+    h)
+        echo "$usage"
+        exit
+        ;;
+    i) cos_api_key=$OPTARG ;;
+    :)
+        printf "missing argument for -%s\n" "$OPTARG" >&2
+        echo "$usage" >&2
+        exit 1
+        ;;
+    \?)
+        printf "illegal option: -%s\n" "$OPTARG" >&2
+        echo "$usage" >&2
+        exit 1
+        ;;
+    esac
+done
+
+if [ ! "$cos_api_key" ]; then
+    echo "arguments -i for api key must be provided"
+    echo "$usage" >&2
+    exit 1
+fi
+
+export IBMCLOUD_API_KEY=$cos_api_key
+export IBMCOS_REGION="${cos_region}"
+export IBMCOS_SERVICE_INSTANCE_CRN="${cos_resource_instance_id}"
+export IBMCOS_BUCKET="${cos_bucket_name}"
+export COS_FOLDER_NAME="${cos_dir_name}"
+export DOWNLOAD_DIRECTORY="${download_dir_path}"
+
+# Install IBM Cloud CLI
+curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+ibmcloud config --check-version false
+
+# Install plugin for COS cmd's
+ibmcloud plugin install cloud-object-storage -f
+
+# LogIn to the IBM Cloud with IBM API key:
+ibmcloud login --no-region --apikey $IBMCLOUD_API_KEY
+
+# Config CRN value
+ibmcloud cos config crn --crn $IBMCOS_SERVICE_INSTANCE_CRN --force
+
+mkdir -p $DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME
+
+IBMCOS_BUCKET_FILES_LIST=$(ibmcloud cos objects --bucket $IBMCOS_BUCKET --region $IBMCOS_REGION | awk '/^Name/{p=1;next}p {print $1}' | grep $COS_FOLDER_NAME)
+
+for FILENAME in $IBMCOS_BUCKET_FILES_LIST; do
+    echo "Downloading $FILENAME"
+    FILENAME_ONLY=$(echo $FILENAME | awk '{gsub(".*/", ""); print}')
+    if [ ! -f $IBMCOS_DOWNLOAD_DIRECTORY/$FILENAME_ONLY ]; then
+
+        yes y | ibmcloud cos object-get --bucket $IBMCOS_BUCKET --key $FILENAME --region=$IBMCOS_REGION $DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME/$FILENAME_ONLY
+
+    else
+        echo "File already exists"
+    fi
+done

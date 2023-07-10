@@ -21,5 +21,3 @@ if [[ " $${power_linux_sap_arr[@]} " =~ " $${playbook_name} " ]]; then
     status=$?
     [ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1
 fi
-
-### Bug in ansible system role. Not setting link for libstdc++.so.6 (not required fpr rhel-system-roles-sap 3.4 or later)
