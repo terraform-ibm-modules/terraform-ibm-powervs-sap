@@ -128,7 +128,7 @@ variable "sap_hana_vars" {
   })
   default = {
     "sap_hana_install_sid" : "HDB"
-    "sap_hana_install_number" : "06"
+    "sap_hana_install_number" : "02"
     "sap_hana_install_master_password" : "NewPass$321"
   }
   sensitive = true
