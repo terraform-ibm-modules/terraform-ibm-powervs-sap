@@ -52,7 +52,7 @@ ibmcloud plugin install cloud-object-storage -f
 # LogIn to the IBM Cloud with IBM API key:
 ibmcloud login --no-region --apikey $IBMCLOUD_API_KEY
 
-# Config CRN value
+# Config COS CRN
 ibmcloud cos config crn --crn $IBMCOS_SERVICE_INSTANCE_CRN --force
 
 mkdir -p $DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME
@@ -70,3 +70,5 @@ for FILENAME in $IBMCOS_BUCKET_FILES_LIST; do
         echo "File already exists"
     fi
 done
+
+ibmcloud logout

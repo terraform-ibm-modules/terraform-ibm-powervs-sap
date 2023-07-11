@@ -1,0 +1,11 @@
+# Install directory must contain
+#   1.  IMDB_SERVER*SAR file
+#   2.  IMDB_*SAR files for all components you wish to install
+#   3.  SAPCAR executable
+
+---
+
+sap_hana_install_software_directory: "${sap_hana_install_software_directory}"
+sap_hana_install_sid: "${sap_hana_install_sid}"
+sap_hana_install_number: "${sap_hana_install_number}"
+sap_hana_install_master_password: "${sap_hana_install_master_password}"

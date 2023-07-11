@@ -90,11 +90,12 @@ variable "sap_domain" {
 variable "cos_configuration" {
   description = "COS details to download the files to the target host"
   type = object({
-    cos_apikey               = string
-    cos_region               = string
-    cos_resource_instance_id = string
-    cos_bucket_name          = string
-    cos_hanadb_path          = string
+    cos_apikey                 = string
+    cos_region                 = string
+    cos_resource_instance_id   = string
+    cos_bucket_name            = string
+    cos_hana_software_path     = string
+    cos_solution_software_path = string
   })
   sensitive = true
 }

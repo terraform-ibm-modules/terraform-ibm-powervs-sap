@@ -6,9 +6,11 @@
 locals {
   scr_scripts_dir = "${path.module}/templates"
   dst_scripts_dir = "/root/terraform_scripts"
+  date            = formatdate("DD-MM-YYYY-hh-mm", timestamp())
 
   src_script_ibmcloud_cos_tfpl_path = "${local.scr_scripts_dir}/ibmcloud_cos.sh.tfpl"
-  dst_script_ibmcloud_cos_sh_path   = "${local.dst_scripts_dir}/ibmcloud_cos_download.sh"
+  dst_script_ibmcloud_cos_sh_path   = "${local.dst_scripts_dir}/ibmcloud_cos_download_${local.date}.sh"
+  log_file                          = "${local.dst_scripts_dir}/ibmcloud_cos_download_${local.date}_status.log"
 
 }
 
@@ -47,14 +49,14 @@ resource "null_resource" "download_objects" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x ${local.dst_script_ibmcloud_cos_sh_path}",
-      "${local.dst_script_ibmcloud_cos_sh_path} -i ${var.cos_configuration.cos_apikey} > ${local.dst_scripts_dir}/ibmcloud_cos_download_status.log",
+      "${local.dst_script_ibmcloud_cos_sh_path} -i ${var.cos_configuration.cos_apikey} > ${local.log_file}",
       "chmod 777 -R ${var.cos_configuration.download_dir_path}"
     ]
   }
 
   provisioner "remote-exec" {
     inline = [
-      "cat ${local.dst_scripts_dir}/ibmcloud_cos_download_status.log"
+      "cat ${local.log_file}"
     ]
   }
 

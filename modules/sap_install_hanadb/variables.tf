@@ -21,13 +21,17 @@ variable "ansible_vault_password" {
   sensitive   = true
 }
 
+variable "hana_template" {
+  description = "Template name for installation. Supported values are s4hana, bw4hana"
+  type        = string
+  validation {
+    condition     = (upper(var.hana_template) == "S4HANA" || upper(var.hana_template) == "BW4HANA")
+    error_message = "Supported values are 'bw4hana' or 's4hana' only."
+  }
+}
+
 variable "sap_hana_vars" {
   description = "SAP HANA variables for HANA DB installation"
-  type = object({
-    sap_hana_install_software_directory = string
-    sap_hana_install_sid                = string
-    sap_hana_install_number             = string
-    sap_hana_install_master_password    = string
-  })
-  sensitive = true
+  type        = map(any)
+  sensitive   = true
 }

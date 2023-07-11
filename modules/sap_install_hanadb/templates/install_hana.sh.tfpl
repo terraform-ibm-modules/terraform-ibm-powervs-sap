@@ -12,5 +12,8 @@ echo -e "- hosts: all\n  roles:\n  - { role: sap_hana_install }" >$${ansible_log
 echo -e "[defaults]\nlog_path=$${ansible_log_path}/$${playbook_name}.$(date "+%Y.%m.%d-%H.%M.%S").log" >ansible.cfg
 
 unbuffer ansible-playbook --connection=local -i 'localhost,' $${ansible_log_path}/$${playbook_name} --extra-vars "@$${ansible_vars_location}" --vault-password-file password_file
-status=$?
-[ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1
+if [ $? -ne 0 ]; then
+    rm -rf password_file
+    exit 1
+fi
+echo \"Playbook command successful\"

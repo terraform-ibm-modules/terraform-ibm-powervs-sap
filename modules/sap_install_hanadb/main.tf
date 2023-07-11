@@ -4,9 +4,21 @@
 
 locals {
 
-  scr_scripts_dir = "${path.module}/templates"
-  dst_scripts_dir = "/root/terraform_scripts"
+  hana_templates = {
+    "s4hana"  = "${local.scr_scripts_dir}/hanadb_for_s4hana_bw4hana.yml.tfpl"
+    "bw4hana" = "${local.scr_scripts_dir}/hanadb_for_s4hana_bw4hana.yml.tfpl"
+  }
+  hana_template = lookup(local.hana_templates, var.hana_template, null)
 
+  sap_hana_vars = var.hana_template == "s4hana" || var.hana_template == "bw4hana" ? templatefile(local.hana_template,
+    { sap_hana_install_software_directory = var.sap_hana_vars.sap_hana_install_software_directory,
+      sap_hana_install_sid                = var.sap_hana_vars.sap_hana_install_sid,
+      sap_hana_install_number             = var.sap_hana_vars.sap_hana_install_number,
+      sap_hana_install_master_password    = var.sap_hana_vars.sap_hana_install_master_password
+  }) : ""
+
+  scr_scripts_dir                   = "${path.module}/templates"
+  dst_scripts_dir                   = "/root/terraform_scripts"
   src_script_install_hana_tfpl_path = "${local.scr_scripts_dir}/install_hana.sh.tfpl"
   dst_script_install_hana_tfpl_path = "${local.dst_scripts_dir}/install_hana.sh"
   dst_ansible_hana_vars_path        = "${local.dst_scripts_dir}/ansible_hana_vars.yml"
@@ -24,20 +36,22 @@ resource "null_resource" "sap_install_hanadb" {
     timeout      = "10m"
   }
 
+
+  ####### Create Terraform scripts directory ############
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p ${local.dst_scripts_dir}",
+      "chmod 777 ${local.dst_scripts_dir}",
+    ]
+  }
+
   provisioner "file" {
 
     ######### Write the HANA installation variables in ansible var file. ####
-    content = <<EOF
-# Install directory must contain
-#   1.  IMDB_SERVER*SAR file
-#   2.  IMDB_*SAR files for all components you wish to install
-#   3.  SAPCAR executable
-
-${yamlencode(var.sap_hana_vars)}
+    content     = <<EOF
+${local.sap_hana_vars}
 EOF
-
     destination = local.dst_ansible_hana_vars_path
-
   }
 
   ####  Encrypting the ansible var file with sensitive information  ####
@@ -65,7 +79,12 @@ EOF
     inline = [
       "chmod +x ${local.dst_script_install_hana_tfpl_path}",
       local.dst_script_install_hana_tfpl_path,
-      # Deleting Ansible Vault password used to encrypt the var files with sensitive information
+    ]
+  }
+
+  # Deleting Ansible Vault password used to encrypt the var files with sensitive information
+  provisioner "remote-exec" {
+    inline = [
       "rm -rf password_file"
     ]
   }
