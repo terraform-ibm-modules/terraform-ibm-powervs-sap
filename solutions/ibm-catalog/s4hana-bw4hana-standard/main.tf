@@ -142,6 +142,7 @@ module "sap_install_hana" {
   sap_hana_vars          = local.sap_hana_playbook_vars
   hana_template          = "s4hana"
 }
+
 /*
 #####################################################
 # Download Solution(S4HANA/Bw4HANA) binaries from COS to nfs host

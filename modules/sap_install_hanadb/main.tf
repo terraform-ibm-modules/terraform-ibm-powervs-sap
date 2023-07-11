@@ -5,8 +5,8 @@
 locals {
 
   hana_templates = {
-    "s4hana"  = "${local.scr_scripts_dir}/hanadb_for_s4hana_bw4hana.yml.tfpl"
-    "bw4hana" = "${local.scr_scripts_dir}/hanadb_for_s4hana_bw4hana.yml.tfpl"
+    "s4hana"  = "${local.scr_scripts_dir}/sap-hana-install-vars-for-s4hana-bw4hana.yml.tfpl"
+    "bw4hana" = "${local.scr_scripts_dir}/sap-hana-install-vars-for-s4hana-bw4hana.yml.tfpl"
   }
   hana_template = lookup(local.hana_templates, var.hana_template, null)
 
@@ -21,6 +21,8 @@ locals {
   dst_scripts_dir                   = "/root/terraform_scripts"
   src_script_install_hana_tfpl_path = "${local.scr_scripts_dir}/install_hana.sh.tfpl"
   dst_script_install_hana_tfpl_path = "${local.dst_scripts_dir}/install_hana.sh"
+  src_ansible_playbook_path         = "${local.scr_scripts_dir}/sap-hana-install.yml"
+  dst_ansible_playbook_path         = "${local.dst_scripts_dir}/sap-hana-install.yml"
   dst_ansible_hana_vars_path        = "${local.dst_scripts_dir}/ansible_hana_vars.yml"
 }
 
@@ -62,12 +64,19 @@ EOF
     ]
   }
 
+  ######### Copy playbook to remote host ####
+  provisioner "file" {
+    source      = local.src_ansible_playbook_path
+    destination = local.dst_ansible_playbook_path
+  }
+
   #### Copy the bash template to target host  ####
   provisioner "file" {
     destination = local.dst_script_install_hana_tfpl_path
     content = templatefile(
       local.src_script_install_hana_tfpl_path,
       {
+        "ansible_playbook_path" : local.dst_ansible_playbook_path
         "ansible_extra_vars_path" : local.dst_ansible_hana_vars_path
         "ansible_log_path" : local.dst_scripts_dir
       }
