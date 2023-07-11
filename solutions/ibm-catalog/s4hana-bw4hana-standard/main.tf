@@ -140,10 +140,10 @@ module "sap_install_hana" {
   ssh_private_key        = var.ssh_private_key
   ansible_vault_password = var.ansible_vault_password
   sap_hana_vars          = local.sap_hana_playbook_vars
-  hana_template          = "s4hana"
+  hana_template          = "s4b4"
 }
 
-/*
+
 #####################################################
 # Download Solution(S4HANA/Bw4HANA) binaries from COS to nfs host
 #####################################################
@@ -173,24 +173,37 @@ module "cos_download_netweaver_binaries" {
 #####################################################
 
 locals {
-  sap_solution_vars = {
-    sap_hana_install_software_directory = "${local.nfs_directory}/${var.cos_configuration.cos_hana_software_path}"
+  product_catalog_map = {
+    "s4hana-2020"  = "NW_ABAP_OneHost:S4HANA2020.CORE.HDB.ABAP"
+    "s4hana-2021"  = "NW_ABAP_OneHost:S4HANA2021.CORE.HDB.ABAP"
+    "s4hana-2022"  = "NW_ABAP_OneHost:S4HANA2022.CORE.HDB.ABAP"
+    "bw4hana-2021" = "NW_ABAP_OneHost:BW4HANA2021.CORE.HDB.ABAP"
+  }
 
-
-
-    sap_hana_install_sid             = var.sap_hana_vars.sap_hana_install_sid
-    sap_hana_install_number          = var.sap_hana_vars.sap_hana_install_number
-    sap_hana_install_master_password = var.sap_hana_vars.sap_hana_install_master_password
+  sap_solution_playbook_vars = {
+    sap_swpm_product_catalog_id        = lookup(local.product_catalog_map, var.sap_solution)
+    sap_install_media_detect_directory = "${local.nfs_directory}/${var.cos_configuration.cos_solution_software_path}"
+    sap_swpm_sid                       = var.sap_solution_vars.sap_swpm_sid
+    sap_swpm_pas_instance_nr           = var.sap_solution_vars.sap_swpm_pas_instance_nr
+    sap_swpm_ascs_instance_nr          = var.sap_solution_vars.sap_swpm_ascs_instance_nr
+    sap_swpm_master_password           = var.sap_solution_vars.sap_swpm_master_password
+    sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
+    sap_domain                         = var.sap_domain
+    sap_swpm_db_host                   = "${var.prefix}-${var.powervs_hana_instance_name}"
+    sap_swpm_db_ip                     = module.sap_system.powervs_hana_instance_management_ip
+    sap_swpm_db_sid                    = var.sap_hana_vars.sap_hana_install_sid
+    sap_swpm_db_instance_nr            = var.sap_hana_vars.sap_hana_install_number
+    sap_swpm_db_master_password        = var.sap_hana_vars.sap_hana_install_master_password
   }
 }
 
 module "sap_install_netweaver" {
   source                 = "../../../modules/sap_install_solutions"
-  depends_on             = [module.cos_download_hana_binaries]
+  depends_on             = [module.cos_download_netweaver_binaries]
   access_host_or_ip      = local.access_host_or_ip
-  target_server_ip       = module.sap_system.powervs_nw_instance_management_ip
+  target_server_ip       = module.sap_system.powervs_netweaver_instance_management_ips
   ssh_private_key        = var.ssh_private_key
   ansible_vault_password = var.ansible_vault_password
-  sap_hana_vars          = local.sap_solution_vars
+  sap_solution_vars      = local.sap_solution_playbook_vars
+  solution_template      = "s4b4"
 }
-*/

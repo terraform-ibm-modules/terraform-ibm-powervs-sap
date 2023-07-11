@@ -1,0 +1,24 @@
+#!/bin/bash
+
+### Using input variables from terraform
+ansible_playbook_path=${ansible_playbook_path}
+ansible_vars_location=${ansible_extra_vars_path}
+ansible_log_path=${ansible_log_path}
+
+### Download and install collections from ansible-galaxy
+ansible-galaxy collection install community.sap_install:1.2.3
+ansible-galaxy collection install community.general:7.1.0
+
+## BUg in sap_general_preconfigure linux system role
+mkdir -p /usr/sap/lib
+ln -s /opt/rh/SAP/lib64/compat-sap-c++-10.so /usr/sap/lib/libstdc++.so.6
+
+##  Create config for ansible log path
+echo -e "[defaults]\nlog_path=$${ansible_playbook_path}.$(date "+%Y.%m.%d-%H.%M.%S").log" >ansible.cfg
+
+unbuffer ansible-playbook --connection=local -i 'localhost,' $${ansible_playbook_path} --extra-vars "@$${ansible_vars_location}" --vault-password-file password_file
+if [ $? -ne 0 ]; then
+    rm -rf password_file
+    exit 1
+fi
+echo \"Playbook command successful\"

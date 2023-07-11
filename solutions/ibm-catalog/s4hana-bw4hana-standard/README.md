@@ -34,7 +34,9 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cos_download_hana_binaries"></a> [cos\_download\_hana\_binaries](#module\_cos\_download\_hana\_binaries) | ../../../modules/ibmcloud_cos | n/a |
+| <a name="module_cos_download_netweaver_binaries"></a> [cos\_download\_netweaver\_binaries](#module\_cos\_download\_netweaver\_binaries) | ../../../modules/ibmcloud_cos | n/a |
 | <a name="module_sap_install_hana"></a> [sap\_install\_hana](#module\_sap\_install\_hana) | ../../../modules/sap_install_hanadb | n/a |
+| <a name="module_sap_install_netweaver"></a> [sap\_install\_netweaver](#module\_sap\_install\_netweaver) | ../../../modules/sap_install_solutions | n/a |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../sap-ready-to-go/module | n/a |
 
 ## Resources
@@ -66,7 +68,9 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6. | `string` | n/a | yes |
 | <a name="input_prerequisite_workspace_id"></a> [prerequisite\_workspace\_id](#input\_prerequisite\_workspace\_id) | IBM Cloud Schematics workspace ID of an existing Power infrastructure for regulated industries deployment. If you do not yet have an existing deployment, click [here](https://cloud.ibm.com/catalog/) and search for 'Power Virtual Server with VPC landing zone' to create one. | `string` | n/a | yes |
 | <a name="input_sap_domain"></a> [sap\_domain](#input\_sap\_domain) | SAP domain to be set for entire landscape. Set to null or empty if not configuring OS. | `string` | `"sap.com"` | no |
-| <a name="input_sap_hana_vars"></a> [sap\_hana\_vars](#input\_sap\_hana\_vars) | SAP HANA variables for HANA DB installation | <pre>object({<br>    sap_hana_install_sid             = string<br>    sap_hana_install_number          = string<br>    sap_hana_install_master_password = string<br>  })</pre> | n/a | yes |
+| <a name="input_sap_hana_vars"></a> [sap\_hana\_vars](#input\_sap\_hana\_vars) | SAP HANA variables for HANA DB installation | <pre>object({<br>    sap_hana_install_sid             = string<br>    sap_hana_install_number          = string<br>    sap_hana_install_master_password = string<br>  })</pre> | <pre>{<br>  "sap_hana_install_master_password": "NewPass$321",<br>  "sap_hana_install_number": "06",<br>  "sap_hana_install_sid": "HDB"<br>}</pre> | no |
+| <a name="input_sap_solution"></a> [sap\_solution](#input\_sap\_solution) | SAP Solution | `string` | n/a | yes |
+| <a name="input_sap_solution_vars"></a> [sap\_solution\_vars](#input\_sap\_solution\_vars) | SAP solution variables for SWPM installation | <pre>object({<br>    sap_swpm_sid              = string<br>    sap_swpm_ascs_instance_nr = string<br>    sap_swpm_pas_instance_nr  = string<br>    sap_swpm_master_password  = string<br>  })</pre> | <pre>{<br>  "sap_swpm_ascs_instance_nr": "00",<br>  "sap_swpm_master_password": "NewPass$321",<br>  "sap_swpm_pas_instance_nr": "01",<br>  "sap_swpm_sid": "S4H"<br>}</pre> | no |
 | <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh\_public\_key' which was created previously. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys). | `string` | n/a | yes |
 
 ## Outputs

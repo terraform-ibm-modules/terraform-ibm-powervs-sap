@@ -5,12 +5,11 @@
 locals {
 
   hana_templates = {
-    "s4hana"  = "${local.scr_scripts_dir}/sap-hana-install-vars-for-s4hana-bw4hana.yml.tfpl"
-    "bw4hana" = "${local.scr_scripts_dir}/sap-hana-install-vars-for-s4hana-bw4hana.yml.tfpl"
+    "s4b4" = "${local.scr_scripts_dir}/sap-hana-install-vars-for-s4hana-bw4hana.yml.tfpl"
   }
   hana_template = lookup(local.hana_templates, var.hana_template, null)
 
-  sap_hana_vars = var.hana_template == "s4hana" || var.hana_template == "bw4hana" ? templatefile(local.hana_template,
+  sap_hana_vars = var.hana_template == "s4b4" ? templatefile(local.hana_template,
     { sap_hana_install_software_directory = var.sap_hana_vars.sap_hana_install_software_directory,
       sap_hana_install_sid                = var.sap_hana_vars.sap_hana_install_sid,
       sap_hana_install_number             = var.sap_hana_vars.sap_hana_install_number,

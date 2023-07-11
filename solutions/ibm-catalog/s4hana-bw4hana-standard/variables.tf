@@ -104,6 +104,15 @@ variable "cos_configuration" {
 # Ansible SAP Installation Parameters
 #####################################################
 
+variable "sap_solution" {
+  description = "SAP Solution"
+  type        = string
+  validation {
+    condition     = contains(["s4hana-2022", "s4hana-2021", "s4hana-2020", "bw4hana-2021"], var.sap_solution) ? true : false
+    error_message = "Solution value has to be one of 's4hana-2022', 's4hana-2021', 's4hana-2020', 'bw4hana-2021'"
+  }
+}
+
 variable "ansible_vault_password" {
   description = "Vault password to encrypt ansible variable file for SAP installation"
   type        = string
@@ -117,9 +126,30 @@ variable "sap_hana_vars" {
     sap_hana_install_number          = string
     sap_hana_install_master_password = string
   })
+  default = {
+    "sap_hana_install_sid" : "HDB"
+    "sap_hana_install_number" : "06"
+    "sap_hana_install_master_password" : "NewPass$321"
+  }
   sensitive = true
 }
 
+variable "sap_solution_vars" {
+  description = "SAP solution variables for SWPM installation"
+  type = object({
+    sap_swpm_sid              = string
+    sap_swpm_ascs_instance_nr = string
+    sap_swpm_pas_instance_nr  = string
+    sap_swpm_master_password  = string
+  })
+  default = {
+    "sap_swpm_sid" : "S4H"
+    "sap_swpm_ascs_instance_nr" : "00"
+    "sap_swpm_pas_instance_nr" : "01"
+    "sap_swpm_master_password" : "NewPass$321"
+  }
+  sensitive = true
+}
 #####################################################
 # Optional Parameters
 #####################################################
