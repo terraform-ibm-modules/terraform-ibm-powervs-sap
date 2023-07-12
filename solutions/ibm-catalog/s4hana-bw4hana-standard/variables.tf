@@ -82,7 +82,7 @@ variable "ssh_private_key" {
 #####################################################
 
 variable "cos_configuration" {
-  description = "COS details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S4HANA or BW4HANA installation. It shouldn't contain any DB files as playbook will run into an error. Give the folder paths in COS. "
+  description = "COS details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S4HANA or BW4HANA installation. It shouldn't contain any DB files as playbook will run into an error. Give the folder paths in COS."
   type = object({
     cos_apikey                 = string
     cos_region                 = string
