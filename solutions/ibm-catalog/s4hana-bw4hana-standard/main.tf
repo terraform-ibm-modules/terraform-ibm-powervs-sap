@@ -161,7 +161,7 @@ locals {
 
 module "cos_download_netweaver_binaries" {
   source            = "../../../modules/ibmcloud_cos"
-  depends_on        = [module.sap_system]
+  depends_on        = [module.sap_install_hana]
   access_host_or_ip = local.access_host_or_ip
   target_server_ip  = local.ntp_host_or_ip
   ssh_private_key   = var.ssh_private_key
