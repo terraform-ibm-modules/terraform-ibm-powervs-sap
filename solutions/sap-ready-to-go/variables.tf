@@ -161,7 +161,7 @@ variable "nfs_host_or_ip_path" {
 }
 
 variable "sap_domain" {
-  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  description = "SAP domain to be set for entire landscape."
   type        = string
   default     = "sap.com"
 }

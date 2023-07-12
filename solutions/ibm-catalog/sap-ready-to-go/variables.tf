@@ -105,7 +105,7 @@ variable "ssh_private_key" {
 }
 
 variable "sap_domain" {
-  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  description = "SAP domain to be set for entire landscape."
   type        = string
   default     = "sap.com"
 }

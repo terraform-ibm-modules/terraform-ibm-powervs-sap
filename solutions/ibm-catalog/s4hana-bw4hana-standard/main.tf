@@ -56,6 +56,7 @@ locals {
   dns_host_or_ip              = local.powerinfra_output[0].dns_host_or_ip.value
   ntp_host_or_ip              = local.powerinfra_output[0].ntp_host_or_ip.value
   nfs_host_or_ip_path         = local.powerinfra_output[0].nfs_host_or_ip_path.value
+  powervs_default_images      = merge(var.powervs_default_images, { "sles_hana_image" : "SLES15-SP3-SAP", "sles_nw_image" : "SLES15-SP3-SAP-NETWEAVER" })
 }
 
 #####################################################
@@ -89,7 +90,7 @@ module "sap_system" {
   powervs_hana_custom_storage_config     = var.powervs_hana_custom_storage_config
   powervs_hana_additional_storage_config = var.powervs_hana_additional_storage_config
   powervs_netweaver_storage_config       = var.powervs_netweaver_storage_config
-  powervs_default_images                 = var.powervs_default_images
+  powervs_default_images                 = local.powervs_default_images
 }
 
 #####################################################

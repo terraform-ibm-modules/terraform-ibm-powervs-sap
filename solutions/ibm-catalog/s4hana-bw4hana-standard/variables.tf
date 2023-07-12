@@ -146,7 +146,7 @@ variable "sap_solution_vars" {
 }
 
 variable "sap_domain" {
-  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  description = "SAP domain to be set for entire landscape."
   type        = string
   default     = "sap.com"
 }
@@ -220,17 +220,13 @@ variable "powervs_netweaver_storage_config" {
 }
 
 variable "powervs_default_images" {
-  description = "Default SuSE and Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances."
+  description = "Default Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances."
   type = object({
-    sles_hana_image = string
-    sles_nw_image   = string
     rhel_hana_image = string
     rhel_nw_image   = string
   })
   default = {
     "rhel_hana_image" : "RHEL8-SP4-SAP"
     "rhel_nw_image" : "RHEL8-SP4-SAP-NETWEAVER"
-    "sles_hana_image" : "SLES15-SP3-SAP"
-    "sles_nw_image" : "SLES15-SP3-SAP-NETWEAVER"
   }
 }
