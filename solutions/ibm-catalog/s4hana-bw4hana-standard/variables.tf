@@ -77,12 +77,6 @@ variable "ssh_private_key" {
   sensitive   = true
 }
 
-variable "sap_domain" {
-  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
-  type        = string
-  default     = "sap.com"
-}
-
 #####################################################
 # COS Parameters to download binaries
 #####################################################
@@ -150,28 +144,16 @@ variable "sap_solution_vars" {
   }
   sensitive = true
 }
+
+variable "sap_domain" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+  default     = "sap.com"
+}
+
 #####################################################
 # Optional Parameters
 #####################################################
-
-variable "powervs_share_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
-  type = list(object({
-    name  = string
-    size  = string
-    count = string
-    tier  = string
-    mount = string
-  }))
-  default = [{
-    "name" : "share",
-    "size" : "1000",
-    "count" : "1",
-    "tier" : "tier3",
-    "mount" : "/share"
-
-  }]
-}
 
 variable "powervs_hana_custom_storage_config" {
   description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
