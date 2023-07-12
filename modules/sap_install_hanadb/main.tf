@@ -22,7 +22,7 @@ locals {
   dst_script_install_hana_tfpl_path = "${local.dst_scripts_dir}/install_hana.sh"
   src_ansible_playbook_path         = "${local.scr_scripts_dir}/sap-hana-install.yml"
   dst_ansible_playbook_path         = "${local.dst_scripts_dir}/sap-hana-install.yml"
-  dst_ansible_hana_vars_path        = "${local.dst_scripts_dir}/ansible_hana_vars.yml"
+  dst_ansible_hana_vars_path        = "${local.dst_scripts_dir}/sap-hana-install-vars.yml"
 }
 
 

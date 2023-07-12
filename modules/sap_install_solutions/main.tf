@@ -32,7 +32,7 @@ locals {
   dst_script_install_solution_tfpl_path = "${local.dst_scripts_dir}/install_swpm.sh"
   src_ansible_playbook_path             = "${local.scr_scripts_dir}/sap-swpm-install.yml"
   dst_ansible_playbook_path             = "${local.dst_scripts_dir}/sap-swpm-install.yml"
-  dst_ansible_solution_vars_path        = "${local.dst_scripts_dir}/ansible_swpm_vars.yml"
+  dst_ansible_solution_vars_path        = "${local.dst_scripts_dir}/sap-swpm-install-vars.yml"
 }
 
 
