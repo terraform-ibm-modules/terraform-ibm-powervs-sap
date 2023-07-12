@@ -2,7 +2,7 @@
     "products": [
         {
             "name": "deploy-arch-ibm-pvs-sap",
-            "label": "SAP on Power",
+            "label": "Power Virtual Server for SAP HANA",
             "product_kind": "solution",
             "tags": [
                 "virtualservers",
