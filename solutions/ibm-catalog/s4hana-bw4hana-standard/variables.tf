@@ -56,13 +56,13 @@ variable "powervs_netweaver_instance_name" {
 }
 
 variable "powervs_netweaver_cpu_number" {
-  description = "Number of CPUs for each SAP NetWeaver instance."
+  description = "Number of CPUs SAP NetWeaver instance."
   type        = string
   default     = "3"
 }
 
 variable "powervs_netweaver_memory_size" {
-  description = "Memory size for each SAP NetWeaver instance."
+  description = "Memory size SAP NetWeaver instance."
   type        = string
   default     = "32"
 }
