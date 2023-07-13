@@ -80,18 +80,26 @@ variable "ssh_private_key" {
 #####################################################
 # COS Parameters to download binaries
 #####################################################
+variable "cos_service_credentials" {
+  description = "COS service credentials. Requires 'apikey' and 'resource_instance_id' in heredoc json string."
+  type        = string
+  sensitive   = true
+}
 
 variable "cos_configuration" {
   description = "COS details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S4HANA or BW4HANA installation. It shouldn't contain any DB files as playbook will run into an error. Give the folder paths in COS."
   type = object({
-    cos_apikey                 = string
     cos_region                 = string
-    cos_resource_instance_id   = string
     cos_bucket_name            = string
     cos_hana_software_path     = string
     cos_solution_software_path = string
   })
-  sensitive = true
+  default = {
+    cos_region                 = "eu-geo",
+    cos_bucket_name            = "powervs-automation",
+    cos_hana_software_path     = "HANA_DB/rev66",
+    cos_solution_software_path = "S4HANA_2022",
+  }
 }
 
 #####################################################
@@ -99,7 +107,7 @@ variable "cos_configuration" {
 #####################################################
 
 variable "sap_solution" {
-  description = "SAP Solution"
+  description = "SAP Solution."
   type        = string
   validation {
     condition     = contains(["s4hana-2022", "s4hana-2021", "s4hana-2020", "bw4hana-2021"], var.sap_solution) ? true : false
@@ -108,41 +116,47 @@ variable "sap_solution" {
 }
 
 variable "ansible_vault_password" {
-  description = "Vault password to encrypt ansible variable file for SAP installation"
+  description = "Vault password to encrypt ansible variable file for SAP installation."
+  type        = string
+  sensitive   = true
+}
+
+variable "sap_hana_install_master_password" {
+  description = "SAP HANA master password"
   type        = string
   sensitive   = true
 }
 
 variable "sap_hana_vars" {
-  description = "SAP HANA variables for HANA DB installation"
+  description = "SAP HANA variables for HANA DB installation."
   type = object({
-    sap_hana_install_sid             = string
-    sap_hana_install_number          = string
-    sap_hana_install_master_password = string
+    sap_hana_install_sid    = string
+    sap_hana_install_number = string
   })
   default = {
-    "sap_hana_install_sid" : "HDB"
+    "sap_hana_install_sid" : "HDB",
     "sap_hana_install_number" : "02"
-    "sap_hana_install_master_password" : "NewPass$321"
   }
-  sensitive = true
+}
+
+variable "sap_swpm_master_password" {
+  description = "SAP SWPM master password."
+  type        = string
+  sensitive   = true
 }
 
 variable "sap_solution_vars" {
-  description = "SAP solution variables for SWPM installation"
+  description = "SAP solution variables for SWPM installation."
   type = object({
     sap_swpm_sid              = string
     sap_swpm_ascs_instance_nr = string
     sap_swpm_pas_instance_nr  = string
-    sap_swpm_master_password  = string
   })
   default = {
-    "sap_swpm_sid" : "S4H"
-    "sap_swpm_ascs_instance_nr" : "00"
+    "sap_swpm_sid" : "S4H",
+    "sap_swpm_ascs_instance_nr" : "00",
     "sap_swpm_pas_instance_nr" : "01"
-    "sap_swpm_master_password" : "NewPass$321"
   }
-  sensitive = true
 }
 
 variable "sap_domain" {
@@ -226,7 +240,7 @@ variable "powervs_default_images" {
     rhel_nw_image   = string
   })
   default = {
-    "rhel_hana_image" : "RHEL8-SP4-SAP"
+    "rhel_hana_image" : "RHEL8-SP4-SAP",
     "rhel_nw_image" : "RHEL8-SP4-SAP-NETWEAVER"
   }
 }

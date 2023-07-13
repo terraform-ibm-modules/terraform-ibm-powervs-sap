@@ -93,6 +93,12 @@ module "sap_system" {
   powervs_default_images                 = local.powervs_default_images
 }
 
+locals {
+  cos_service_credentials  = jsondecode(var.cos_service_credentials)
+  cos_apikey               = local.cos_service_credentials.apikey
+  cos_resource_instance_id = local.cos_service_credentials.resource_instance_id
+}
+
 #####################################################
 # Download HANA binaries from COS to nfs host
 #####################################################
@@ -100,9 +106,9 @@ module "sap_system" {
 locals {
   nfs_directory = split(":", local.nfs_host_or_ip_path)[1]
   cos_hana_configuration = {
-    cos_apikey               = var.cos_configuration.cos_apikey
+    cos_apikey               = local.cos_apikey
     cos_region               = var.cos_configuration.cos_region
-    cos_resource_instance_id = var.cos_configuration.cos_resource_instance_id
+    cos_resource_instance_id = local.cos_resource_instance_id
     cos_bucket_name          = var.cos_configuration.cos_bucket_name
     cos_dir_name             = var.cos_configuration.cos_hana_software_path
     download_dir_path        = local.nfs_directory
@@ -128,7 +134,7 @@ locals {
     sap_hana_install_software_directory = "${local.nfs_directory}/${var.cos_configuration.cos_hana_software_path}"
     sap_hana_install_sid                = var.sap_hana_vars.sap_hana_install_sid
     sap_hana_install_number             = var.sap_hana_vars.sap_hana_install_number
-    sap_hana_install_master_password    = var.sap_hana_vars.sap_hana_install_master_password
+    sap_hana_install_master_password    = var.sap_hana_install_master_password
   }
 }
 
@@ -143,16 +149,15 @@ module "sap_install_hana" {
   hana_template          = "s4b4"
 }
 
-
 #####################################################
 # Download Solution(S4HANA/Bw4HANA) binaries from COS to nfs host
 #####################################################
 
 locals {
   cos_solution_configuration = {
-    cos_apikey               = var.cos_configuration.cos_apikey
+    cos_apikey               = local.cos_apikey
     cos_region               = var.cos_configuration.cos_region
-    cos_resource_instance_id = var.cos_configuration.cos_resource_instance_id
+    cos_resource_instance_id = local.cos_resource_instance_id
     cos_bucket_name          = var.cos_configuration.cos_bucket_name
     cos_dir_name             = var.cos_configuration.cos_solution_software_path
     download_dir_path        = local.nfs_directory
@@ -186,14 +191,14 @@ locals {
     sap_swpm_sid                       = var.sap_solution_vars.sap_swpm_sid
     sap_swpm_pas_instance_nr           = var.sap_solution_vars.sap_swpm_pas_instance_nr
     sap_swpm_ascs_instance_nr          = var.sap_solution_vars.sap_swpm_ascs_instance_nr
-    sap_swpm_master_password           = var.sap_solution_vars.sap_swpm_master_password
+    sap_swpm_master_password           = var.sap_swpm_master_password
     sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
     sap_domain                         = var.sap_domain
     sap_swpm_db_host                   = "${var.prefix}-${var.powervs_hana_instance_name}"
     sap_swpm_db_ip                     = module.sap_system.powervs_hana_instance_management_ip
     sap_swpm_db_sid                    = var.sap_hana_vars.sap_hana_install_sid
     sap_swpm_db_instance_nr            = var.sap_hana_vars.sap_hana_install_number
-    sap_swpm_db_master_password        = var.sap_hana_vars.sap_hana_install_master_password
+    sap_swpm_db_master_password        = var.sap_hana_install_master_password
   }
 }
 

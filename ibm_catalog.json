@@ -448,10 +448,6 @@
                             "required": true
                         },
                         {
-                            "key": "cos_configuration",
-                            "required": true
-                        },
-                        {
                             "key": "sap_solution",
                             "type": "string",
                             "default_value": "",
@@ -477,6 +473,21 @@
                             "custom_config": {}
                         },
                         {
+                            "key": "cos_service_credentials",
+                            "required": true,
+                            "type": "password",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "multiline_secure_value"
+                            }
+                        },
+                        {
+                            "key": "cos_configuration",
+                            "required": true,
+                            "type": "json"
+                        },
+                        {
                             "key": "ansible_vault_password",
                             "required": true,
                             "type": "password",
@@ -487,12 +498,34 @@
                             }
                         },
                         {
+                            "key": "sap_hana_install_master_password",
+                            "required": true,
+                            "type": "password",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "multiline_secure_value"
+                            }
+                        },
+                        {
                             "key": "sap_hana_vars",
-                            "required": true
+                            "required": true,
+                            "type": "json"
+                        },
+                        {
+                            "key": "sap_swpm_master_password",
+                            "required": true,
+                            "type": "password",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "multiline_secure_value"
+                            }
                         },
                         {
                             "key": "sap_solution_vars",
-                            "required": true
+                            "required": true,
+                            "type": "json"
                         },
                         {
                             "key": "sap_domain",
