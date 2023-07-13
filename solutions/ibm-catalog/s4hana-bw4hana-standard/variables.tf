@@ -95,10 +95,10 @@ variable "cos_configuration" {
     cos_solution_software_path = string
   })
   default = {
-    cos_region                 = "eu-geo",
-    cos_bucket_name            = "powervs-automation",
-    cos_hana_software_path     = "HANA_DB/rev66",
-    cos_solution_software_path = "S4HANA_2022",
+    "cos_region" : "eu-geo",
+    "cos_bucket_name" : "powervs-automation",
+    "cos_hana_software_path" : "HANA_DB/rev66",
+    "cos_solution_software_path" : "S4HANA_2022"
   }
 }
 

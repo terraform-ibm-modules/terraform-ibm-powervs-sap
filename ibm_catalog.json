@@ -485,7 +485,7 @@
                         {
                             "key": "cos_configuration",
                             "required": true,
-                            "type": "json"
+                            "type": "JSON"
                         },
                         {
                             "key": "ansible_vault_password",
@@ -510,7 +510,7 @@
                         {
                             "key": "sap_hana_vars",
                             "required": true,
-                            "type": "json"
+                            "type": "JSON"
                         },
                         {
                             "key": "sap_swpm_master_password",
@@ -525,7 +525,7 @@
                         {
                             "key": "sap_solution_vars",
                             "required": true,
-                            "type": "json"
+                            "type": "JSON"
                         },
                         {
                             "key": "sap_domain",
