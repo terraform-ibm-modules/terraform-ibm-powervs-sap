@@ -485,7 +485,11 @@
                         {
                             "key": "cos_configuration",
                             "required": true,
-                            "type": "JSON"
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         },
                         {
                             "key": "ansible_vault_password",
@@ -510,7 +514,11 @@
                         {
                             "key": "sap_hana_vars",
                             "required": true,
-                            "type": "JSON"
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         },
                         {
                             "key": "sap_swpm_master_password",
@@ -525,7 +533,11 @@
                         {
                             "key": "sap_solution_vars",
                             "required": true,
-                            "type": "JSON"
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         },
                         {
                             "key": "sap_domain",
