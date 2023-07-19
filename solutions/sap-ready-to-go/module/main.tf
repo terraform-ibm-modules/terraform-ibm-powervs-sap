@@ -28,16 +28,34 @@ locals {
     access_host_or_ip = local.access_host_or_ip
     ssh_private_key   = var.ssh_private_key
   }
+
   powervs_proxy_settings = {
     proxy_host_or_ip_port = local.proxy_host_or_ip_port
     no_proxy_hosts        = "161.0.0.0/8,10.0.0.0/8"
   }
+
+  ## Configuration for sharefs instance and HANA instance
   powervs_network_services_config = {
     nfs = { enable = local.nfs_host_or_ip_path != "" ? true : false, nfs_server_path = local.nfs_host_or_ip_path, nfs_client_path = "/nfs" }
     dns = { enable = local.dns_host_or_ip != "" ? true : false, dns_server_ip = local.dns_host_or_ip }
     ntp = { enable = local.ntp_host_or_ip != "" ? true : false, ntp_server_ip = local.ntp_host_or_ip }
   }
 
+  ## Configuration for sharefs instance as NFS server
+  sharefs_nfs_server_config = {
+    nfs : {
+      enable : var.powervs_create_separate_fs_share ? true : false,
+    nfs_file_system : [for volume in var.powervs_share_storage_config : { name : volume.name, mount_path : volume.mount, size : volume.size }] }
+  }
+
+  ## Configuration for Netweaver instance
+  nfs_server_path = var.powervs_create_separate_fs_share ? join(";", concat([local.nfs_host_or_ip_path], [for volume in var.powervs_share_storage_config : "${module.powervs_sharefs_instance[0].pi_instance_mgmt_ip}:${volume.mount}"])) : local.nfs_host_or_ip_path
+  nfs_client_path = var.powervs_create_separate_fs_share ? join(";", concat(["/nfs"], [for volume in var.powervs_share_storage_config : volume.mount])) : "/nfs"
+  powervs_netweaver_network_services_config = {
+    nfs = { enable = local.nfs_host_or_ip_path != "" ? true : false, nfs_server_path = local.nfs_server_path, nfs_client_path = local.nfs_client_path }
+    dns = { enable = local.dns_host_or_ip != "" ? true : false, dns_server_ip = local.dns_host_or_ip }
+    ntp = { enable = local.ntp_host_or_ip != "" ? true : false, ntp_server_ip = local.ntp_host_or_ip }
+  }
 }
 
 #####################################################
@@ -98,10 +116,20 @@ module "powervs_sharefs_instance" {
 
 }
 
+module "sharefs_instance_init" {
+  source     = "./submodule/sharefs_instance_init"
+  depends_on = [module.powervs_sharefs_instance]
+  count      = var.powervs_create_separate_fs_share ? 1 : 0
+
+  access_host_or_ip = local.access_host_or_ip
+  target_server_ip  = module.powervs_sharefs_instance[0].pi_instance_mgmt_ip
+  ssh_private_key   = var.ssh_private_key
+  service_config    = local.sharefs_nfs_server_config
+}
+
 #####################################################
 # Deploy SAP HANA Instance
 #####################################################
-
 locals {
 
   powervs_hana_hostname = "${var.prefix}-${var.powervs_hana_instance_name}"
@@ -141,13 +169,16 @@ module "powervs_hana_instance" {
 
 locals {
 
-  powervs_netweaver_hostname = "${var.prefix}-${var.powervs_netweaver_instance_name}"
-  powervs_netweaver_os_image = var.os_image_distro == "SLES" ? var.powervs_default_images.sles_nw_image : var.powervs_default_images.rhel_nw_image
+  powervs_netweaver_hostname       = "${var.prefix}-${var.powervs_netweaver_instance_name}"
+  powervs_netweaver_os_image       = var.os_image_distro == "SLES" ? var.powervs_default_images.sles_nw_image : var.powervs_default_images.rhel_nw_image
+  netweaver_sapmnt_storage         = [{ "name" : "sapmnt", "size" : "300", "count" : "1", "tier" : "tier3", "mount" : "/sapmnt" }]
+  powervs_netweaver_storage_config = var.powervs_create_separate_fs_share ? var.powervs_netweaver_storage_config : concat(var.powervs_netweaver_storage_config, local.netweaver_sapmnt_storage)
+
 }
 
 module "powervs_netweaver_instance" {
   source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.6"
-  depends_on = [module.powervs_attach_sap_network]
+  depends_on = [module.powervs_attach_sap_network, module.sharefs_instance_init]
   count      = var.powervs_netweaver_instance_count
 
   pi_zone                    = var.powervs_zone
@@ -162,10 +193,10 @@ module "powervs_netweaver_instance" {
   pi_memory_size             = var.powervs_netweaver_memory_size
   pi_server_type             = "s922"
   pi_cpu_proc_type           = "shared"
-  pi_storage_config          = var.powervs_netweaver_storage_config
+  pi_storage_config          = local.powervs_netweaver_storage_config
   pi_instance_init           = local.powervs_instance_init
   pi_proxy_settings          = local.powervs_proxy_settings
-  pi_network_services_config = local.powervs_network_services_config
+  pi_network_services_config = local.powervs_netweaver_network_services_config
 
 }
 
@@ -185,7 +216,7 @@ module "sap_instance_init" {
 
   access_host_or_ip = local.access_host_or_ip
   target_server_ips = local.target_server_ips
-  sap_solutions     = local.sap_solutions
   ssh_private_key   = var.ssh_private_key
+  sap_solutions     = local.sap_solutions
   sap_domain        = var.sap_domain
 }

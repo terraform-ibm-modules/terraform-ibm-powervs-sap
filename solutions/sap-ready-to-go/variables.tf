@@ -180,12 +180,18 @@ variable "powervs_share_storage_config" {
     mount = string
   }))
   default = [{
-    "name" : "share",
-    "size" : "1000",
+    "name" : "sapmnt",
+    "size" : "300",
     "count" : "1",
     "tier" : "tier3",
-    "mount" : "/share"
-
+    "mount" : "/sapmnt"
+    },
+    {
+      "name" : "trans",
+      "size" : "50",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/usr/trans"
   }]
 }
 
@@ -242,13 +248,6 @@ variable "powervs_netweaver_storage_config" {
       "count" : "1",
       "tier" : "tier3",
       "mount" : "/usr/sap"
-    },
-    {
-      "name" : "usrtrans",
-      "size" : "50",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/usr/sap/trans"
     }
   ]
 }

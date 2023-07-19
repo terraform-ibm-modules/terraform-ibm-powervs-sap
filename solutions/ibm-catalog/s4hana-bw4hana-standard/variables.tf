@@ -30,6 +30,16 @@ variable "powervs_sap_network_cidr" {
 }
 
 #####################################################
+# PowerVS Shared FS Instance parameters
+#####################################################
+
+variable "powervs_create_separate_fs_share" {
+  description = "Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used."
+  type        = bool
+  default     = true
+}
+
+#####################################################
 # PowerVS HANA Instance parameters
 #####################################################
 
@@ -169,6 +179,31 @@ variable "sap_domain" {
 # Optional Parameters
 #####################################################
 
+variable "powervs_share_storage_config" {
+  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  type = list(object({
+    name  = string
+    size  = string
+    count = string
+    tier  = string
+    mount = string
+  }))
+  default = [{
+    "name" : "sapmnt",
+    "size" : "300",
+    "count" : "1",
+    "tier" : "tier3",
+    "mount" : "/sapmnt"
+    },
+    {
+      "name" : "trans",
+      "size" : "50",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/usr/trans"
+  }]
+}
+
 variable "powervs_hana_custom_storage_config" {
   description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
@@ -222,13 +257,6 @@ variable "powervs_netweaver_storage_config" {
       "count" : "1",
       "tier" : "tier3",
       "mount" : "/usr/sap"
-    },
-    {
-      "name" : "usrtrans",
-      "size" : "50",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/usr/sap/trans"
     }
   ]
 }

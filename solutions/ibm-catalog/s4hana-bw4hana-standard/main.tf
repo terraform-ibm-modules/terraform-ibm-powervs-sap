@@ -74,7 +74,7 @@ module "sap_system" {
   cloud_connection_count                 = local.cloud_connection_count
   additional_networks                    = local.additional_networks
   os_image_distro                        = "RHEL"
-  powervs_create_separate_fs_share       = false
+  powervs_create_separate_fs_share       = var.powervs_create_separate_fs_share
   powervs_hana_instance_name             = var.powervs_hana_instance_name
   powervs_hana_sap_profile_id            = var.powervs_hana_sap_profile_id
   powervs_netweaver_instance_count       = "1"
@@ -87,6 +87,7 @@ module "sap_system" {
   ntp_host_or_ip                         = local.ntp_host_or_ip
   nfs_host_or_ip_path                    = local.nfs_host_or_ip_path
   sap_domain                             = var.sap_domain
+  powervs_share_storage_config           = var.powervs_share_storage_config
   powervs_hana_custom_storage_config     = var.powervs_hana_custom_storage_config
   powervs_hana_additional_storage_config = var.powervs_hana_additional_storage_config
   powervs_netweaver_storage_config       = var.powervs_netweaver_storage_config

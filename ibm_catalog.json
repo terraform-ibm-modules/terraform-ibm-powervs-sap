@@ -424,6 +424,10 @@
                             "required": true
                         },
                         {
+                            "key": "powervs_create_separate_fs_share",
+                            "required": true
+                        },
+                        {
                             "key": "powervs_hana_instance_name",
                             "required": true
                         },
@@ -562,6 +566,9 @@
                                 "original_grouping": "deployment",
                                 "type": "multiline_secure_value"
                             }
+                        },
+                        {
+                            "key": "powervs_share_storage_config"
                         },
                         {
                             "key": "powervs_hana_custom_storage_config"

@@ -124,14 +124,21 @@ variable "powervs_share_storage_config" {
     mount = string
   }))
   default = [{
-    "name" : "share",
-    "size" : "1000",
+    "name" : "sapmnt",
+    "size" : "300",
     "count" : "1",
     "tier" : "tier3",
-    "mount" : "/share"
-
+    "mount" : "/sapmnt"
+    },
+    {
+      "name" : "trans",
+      "size" : "50",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/usr/trans"
   }]
 }
+
 
 variable "powervs_hana_custom_storage_config" {
   description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
@@ -186,13 +193,6 @@ variable "powervs_netweaver_storage_config" {
       "count" : "1",
       "tier" : "tier3",
       "mount" : "/usr/sap"
-    },
-    {
-      "name" : "usrtrans",
-      "size" : "50",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/usr/sap/trans"
     }
   ]
 }
