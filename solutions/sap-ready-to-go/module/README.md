@@ -9,7 +9,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 - Optionally configures a shared NFS directory on all created PowerVS instances.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
@@ -17,7 +17,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.2.1 |
 
-## Modules
+### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
@@ -30,11 +30,11 @@ The Power Virtual Server for SAP module automates the following tasks:
 | <a name="module_sap_instance_init"></a> [sap\_instance\_init](#module\_sap\_instance\_init) | ../../../modules/sap_instance_init | n/a |
 | <a name="module_sharefs_instance_init"></a> [sharefs\_instance\_init](#module\_sharefs\_instance\_init) | ./submodule/sharefs_instance_init | n/a |
 
-## Resources
+### Resources
 
 No resources.
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -67,7 +67,7 @@ No resources.
 | <a name="input_sap_domain"></a> [sap\_domain](#input\_sap\_domain) | SAP domain to be set for entire landscape. | `string` | `"sap.com"` | no |
 | <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh\_public\_key' which was created previously. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys). | `string` | n/a | yes |
 
-## Outputs
+### Outputs
 
 | Name | Description |
 |------|-------------|
