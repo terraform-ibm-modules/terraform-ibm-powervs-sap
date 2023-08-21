@@ -30,7 +30,6 @@ locals {
 
 }
 
-
 resource "null_resource" "sap_install_solution" {
   connection {
     type         = "ssh"
@@ -41,7 +40,6 @@ resource "null_resource" "sap_install_solution" {
     agent        = false
     timeout      = "10m"
   }
-
 
   ######### Create Terraform scripts directory #########
   provisioner "remote-exec" {
@@ -94,7 +92,7 @@ EOF
     ]
   }
 
-  # Deleting Ansible Vault password used to encrypt the var files with sensitive information
+  ########## Deleting Ansible Vault password used to encrypt the var files with sensitive information
   provisioner "remote-exec" {
     inline = [
       "rm -rf password_file"
