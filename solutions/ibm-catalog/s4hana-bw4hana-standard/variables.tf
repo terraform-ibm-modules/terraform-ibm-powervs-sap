@@ -91,13 +91,13 @@ variable "ssh_private_key" {
 # COS Parameters to download binaries
 #####################################################
 variable "cos_service_credentials" {
-  description = "COS service credentials. Requires 'apikey' and 'resource_instance_id' in heredoc json string."
+  description = "Cloud object storage Instance service credentials in heredoc json string."
   type        = string
   sensitive   = true
 }
 
 variable "cos_configuration" {
-  description = "COS details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S4HANA or BW4HANA installation. It shouldn't contain any DB files as playbook will run into an error. Give the folder paths in COS."
+  description = "Cloud object storage Instance details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S4HANA or BW4HANA installation. It shouldn't contain any DB files as playbook will run into an error. Give the folder paths in Cloud object storage Instance."
   type = object({
     cos_region                 = string
     cos_bucket_name            = string
