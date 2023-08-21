@@ -30,8 +30,8 @@ variable "hana_template" {
   }
 }
 
-variable "sap_hana_vars" {
-  description = "SAP HANA variables for HANA DB installation"
+variable "ansible_sap_hana_vars" {
+  description = "Ansible SAP HANA variables for HANA DB installation"
   type        = map(any)
   sensitive   = true
 }

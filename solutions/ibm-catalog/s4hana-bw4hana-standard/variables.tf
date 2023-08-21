@@ -137,7 +137,7 @@ variable "sap_hana_install_master_password" {
   sensitive   = true
 }
 
-variable "sap_hana_vars" {
+variable "ansible_sap_hana_vars" {
   description = "SAP HANA variables for HANA DB installation."
   type = object({
     sap_hana_install_sid    = string
@@ -155,7 +155,7 @@ variable "sap_swpm_master_password" {
   sensitive   = true
 }
 
-variable "sap_solution_vars" {
+variable "ansible_sap_solution_vars" {
   description = "SAP solution variables for SWPM installation."
   type = object({
     sap_swpm_sid              = string

@@ -4,19 +4,22 @@
 
 locals {
 
-  solution_templates = {
+  ansible_variables_templates = {
     "s4b4" = "${local.scr_scripts_dir}/sap-swpm-install-vars-s4hana-bw4hana.yml.tfpl"
-
   }
-  solution_template = lookup(local.solution_templates, var.solution_template, null)
 
-  sap_solution_vars = var.solution_template == "s4b4" ? templatefile(local.solution_template, var.sap_solution_vars) : ""
+  ansible_playbooks = {
+    "s4b4" = "${local.scr_scripts_dir}/sap-swpm-install.yml"
+  }
+
+  ansible_sap_solution_vars = templatefile(lookup(local.ansible_variables_templates, var.solution_template, null), var.ansible_sap_solution_vars)
+  ansible_playbook          = lookup(local.ansible_playbooks, var.solution_template, null)
 
   scr_scripts_dir                       = "${path.module}/templates"
   dst_scripts_dir                       = "/root/terraform_scripts"
   src_script_install_solution_tfpl_path = "${local.scr_scripts_dir}/install_swpm.sh.tfpl"
   dst_script_install_solution_tfpl_path = "${local.dst_scripts_dir}/install_swpm.sh"
-  src_ansible_playbook_path             = "${local.scr_scripts_dir}/sap-swpm-install.yml"
+  src_ansible_playbook_path             = "${local.scr_scripts_dir}/${local.ansible_playbook}"
   dst_ansible_playbook_path             = "${local.dst_scripts_dir}/sap-swpm-install.yml"
   dst_ansible_solution_vars_path        = "${local.dst_scripts_dir}/sap-swpm-install-vars.yml"
 }
@@ -46,7 +49,7 @@ resource "null_resource" "sap_install_solution" {
 
     ######### Write the SWPM installation variables in ansible var file. ####
     content     = <<EOF
-${local.sap_solution_vars}
+${local.ansible_sap_solution_vars}
 EOF
     destination = local.dst_ansible_solution_vars_path
   }

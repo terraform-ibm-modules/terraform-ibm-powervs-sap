@@ -30,8 +30,8 @@ variable "solution_template" {
   }
 }
 
-variable "sap_solution_vars" {
-  description = "SAP solution variables for SWPM installation"
+variable "ansible_sap_solution_vars" {
+  description = "Ansible SAP solution variables for SWPM installation"
   type        = map(any)
   sensitive   = true
 }

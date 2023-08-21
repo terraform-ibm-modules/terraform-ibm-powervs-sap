@@ -7,14 +7,8 @@ locals {
   hana_templates = {
     "s4b4" = "${local.scr_scripts_dir}/sap-hana-install-vars-for-s4hana-bw4hana.yml.tfpl"
   }
-  hana_template = lookup(local.hana_templates, var.hana_template, null)
-
-  sap_hana_vars = var.hana_template == "s4b4" ? templatefile(local.hana_template,
-    { sap_hana_install_software_directory = var.sap_hana_vars.sap_hana_install_software_directory,
-      sap_hana_install_sid                = var.sap_hana_vars.sap_hana_install_sid,
-      sap_hana_install_number             = var.sap_hana_vars.sap_hana_install_number,
-      sap_hana_install_master_password    = var.sap_hana_vars.sap_hana_install_master_password
-  }) : ""
+  hana_template         = lookup(local.hana_templates, var.hana_template, null)
+  ansible_sap_hana_vars = templatefile(local.hana_template, var.ansible_sap_hana_vars)
 
   scr_scripts_dir                   = "${path.module}/templates"
   dst_scripts_dir                   = "/root/terraform_scripts"
@@ -50,7 +44,7 @@ resource "null_resource" "sap_install_hanadb" {
 
     ######### Write the HANA installation variables in ansible var file. ####
     content     = <<EOF
-${local.sap_hana_vars}
+${local.ansible_sap_hana_vars}
 EOF
     destination = local.dst_ansible_hana_vars_path
   }

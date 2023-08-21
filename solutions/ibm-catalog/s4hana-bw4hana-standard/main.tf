@@ -59,9 +59,12 @@ locals {
   powervs_default_images      = merge(var.powervs_default_images, { "sles_hana_image" : "SLES15-SP3-SAP", "sles_nw_image" : "SLES15-SP3-SAP-NETWEAVER" })
 }
 
+
 #####################################################
-# Deploy PowerVS SAP instance ( 1 HANA instance and 1 Netweaver Instance)
+# Deploy PowerVS SAP instance
+# ( 1 HANA instance and 1 Netweaver Instance)
 #####################################################
+
 module "sap_system" {
   source                                 = "../../sap-ready-to-go/module"
   powervs_zone                           = var.powervs_zone
@@ -94,18 +97,21 @@ module "sap_system" {
   powervs_default_images                 = local.powervs_default_images
 }
 
+#####################################################
+# COS Service credentials
+# Download HANA binaries and SAP Solution binaries
+# from COS to nfs host
+#####################################################
+
 locals {
   cos_service_credentials  = jsondecode(var.cos_service_credentials)
   cos_apikey               = local.cos_service_credentials.apikey
   cos_resource_instance_id = local.cos_service_credentials.resource_instance_id
 }
 
-#####################################################
-# Download HANA binaries from COS to nfs host
-#####################################################
-
 locals {
   nfs_directory = split(":", local.nfs_host_or_ip_path)[1]
+
   cos_hana_configuration = {
     cos_apikey               = local.cos_apikey
     cos_region               = var.cos_configuration.cos_region
@@ -114,47 +120,7 @@ locals {
     cos_dir_name             = var.cos_configuration.cos_hana_software_path
     download_dir_path        = local.nfs_directory
   }
-}
 
-module "cos_download_hana_binaries" {
-  source            = "../../../modules/ibmcloud_cos"
-  depends_on        = [module.sap_system]
-  access_host_or_ip = local.access_host_or_ip
-  target_server_ip  = local.ntp_host_or_ip
-  ssh_private_key   = var.ssh_private_key
-  cos_configuration = local.cos_hana_configuration
-}
-
-
-#####################################################
-# Install HANA DB
-#####################################################
-
-locals {
-  sap_hana_playbook_vars = {
-    sap_hana_install_software_directory = "${local.nfs_directory}/${var.cos_configuration.cos_hana_software_path}"
-    sap_hana_install_sid                = var.sap_hana_vars.sap_hana_install_sid
-    sap_hana_install_number             = var.sap_hana_vars.sap_hana_install_number
-    sap_hana_install_master_password    = var.sap_hana_install_master_password
-  }
-}
-
-module "sap_install_hana" {
-  source                 = "../../../modules/sap_install_hanadb"
-  depends_on             = [module.cos_download_hana_binaries]
-  access_host_or_ip      = local.access_host_or_ip
-  target_server_ip       = module.sap_system.powervs_hana_instance_management_ip
-  ssh_private_key        = var.ssh_private_key
-  ansible_vault_password = var.ansible_vault_password
-  sap_hana_vars          = local.sap_hana_playbook_vars
-  hana_template          = "s4b4"
-}
-
-#####################################################
-# Download Solution(S4HANA/Bw4HANA) binaries from COS to nfs host
-#####################################################
-
-locals {
   cos_solution_configuration = {
     cos_apikey               = local.cos_apikey
     cos_region               = var.cos_configuration.cos_region
@@ -165,14 +131,47 @@ locals {
   }
 }
 
+module "cos_download_hana_binaries" {
+  source            = "../../../modules/ibmcloud_cos"
+  access_host_or_ip = local.access_host_or_ip
+  target_server_ip  = local.ntp_host_or_ip
+  ssh_private_key   = var.ssh_private_key
+  cos_configuration = local.cos_hana_configuration
+}
+
 module "cos_download_netweaver_binaries" {
   source            = "../../../modules/ibmcloud_cos"
-  depends_on        = [module.sap_install_hana]
+  depends_on        = [module.cos_download_hana_binaries]
   access_host_or_ip = local.access_host_or_ip
   target_server_ip  = local.ntp_host_or_ip
   ssh_private_key   = var.ssh_private_key
   cos_configuration = local.cos_solution_configuration
 }
+
+#####################################################
+# Install HANA DB
+#####################################################
+
+locals {
+  ansible_sap_hana_playbook_vars = {
+    sap_hana_install_software_directory = "${local.nfs_directory}/${var.cos_configuration.cos_hana_software_path}"
+    sap_hana_install_sid                = var.ansible_sap_hana_vars.sap_hana_install_sid
+    sap_hana_install_number             = var.ansible_sap_hana_vars.sap_hana_install_number
+    sap_hana_install_master_password    = var.sap_hana_install_master_password
+  }
+}
+
+module "sap_install_hana" {
+  source                 = "../../../modules/sap_install_hanadb"
+  depends_on             = [module.cos_download_hana_binaries, module.sap_system]
+  access_host_or_ip      = local.access_host_or_ip
+  target_server_ip       = module.sap_system.powervs_hana_instance_management_ip
+  ssh_private_key        = var.ssh_private_key
+  ansible_vault_password = var.ansible_vault_password
+  ansible_sap_hana_vars  = local.ansible_sap_hana_playbook_vars
+  hana_template          = "s4b4"
+}
+
 
 ####################################################
 # Install Netweaver solution
@@ -186,30 +185,30 @@ locals {
     "bw4hana-2021" = "NW_ABAP_OneHost:BW4HANA2021.CORE.HDB.ABAP"
   }
 
-  sap_solution_playbook_vars = {
+  ansible_sap_solution_playbook_vars = {
     sap_swpm_product_catalog_id        = lookup(local.product_catalog_map, var.sap_solution)
     sap_install_media_detect_directory = "${local.nfs_directory}/${var.cos_configuration.cos_solution_software_path}"
-    sap_swpm_sid                       = var.sap_solution_vars.sap_swpm_sid
-    sap_swpm_pas_instance_nr           = var.sap_solution_vars.sap_swpm_pas_instance_nr
-    sap_swpm_ascs_instance_nr          = var.sap_solution_vars.sap_swpm_ascs_instance_nr
+    sap_swpm_sid                       = var.ansible_sap_solution_vars.sap_swpm_sid
+    sap_swpm_pas_instance_nr           = var.ansible_sap_solution_vars.sap_swpm_pas_instance_nr
+    sap_swpm_ascs_instance_nr          = var.ansible_sap_solution_vars.sap_swpm_ascs_instance_nr
     sap_swpm_master_password           = var.sap_swpm_master_password
     sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
     sap_domain                         = var.sap_domain
     sap_swpm_db_host                   = "${var.prefix}-${var.powervs_hana_instance_name}"
     sap_swpm_db_ip                     = module.sap_system.powervs_hana_instance_management_ip
-    sap_swpm_db_sid                    = var.sap_hana_vars.sap_hana_install_sid
-    sap_swpm_db_instance_nr            = var.sap_hana_vars.sap_hana_install_number
+    sap_swpm_db_sid                    = var.ansible_sap_hana_vars.sap_hana_install_sid
+    sap_swpm_db_instance_nr            = var.ansible_sap_hana_vars.sap_hana_install_number
     sap_swpm_db_master_password        = var.sap_hana_install_master_password
   }
 }
 
 module "sap_install_netweaver" {
-  source                 = "../../../modules/sap_install_solutions"
-  depends_on             = [module.cos_download_netweaver_binaries]
-  access_host_or_ip      = local.access_host_or_ip
-  target_server_ip       = module.sap_system.powervs_netweaver_instance_management_ips
-  ssh_private_key        = var.ssh_private_key
-  ansible_vault_password = var.ansible_vault_password
-  sap_solution_vars      = local.sap_solution_playbook_vars
-  solution_template      = "s4b4"
+  source                    = "../../../modules/sap_install_solutions"
+  depends_on                = [module.cos_download_netweaver_binaries, module.sap_install_hana]
+  access_host_or_ip         = local.access_host_or_ip
+  target_server_ip          = module.sap_system.powervs_netweaver_instance_management_ips
+  ssh_private_key           = var.ssh_private_key
+  ansible_vault_password    = var.ansible_vault_password
+  ansible_sap_solution_vars = local.ansible_sap_solution_playbook_vars
+  solution_template         = "s4b4"
 }
