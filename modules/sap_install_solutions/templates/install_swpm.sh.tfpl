@@ -6,8 +6,8 @@ ansible_vars_location=${ansible_extra_vars_path}
 ansible_log_path=${ansible_log_path}
 
 ### Download and install collections from ansible-galaxy
-ansible-galaxy collection install community.sap_install:1.3.1
-ansible-galaxy collection install community.general:7.1.0
+ansible-galaxy collection install community.sap_install:1.3.1 -f
+ansible-galaxy collection install community.general:7.1.0 -f
 
 ## Bug in sap_general_preconfigure linux system role
 mkdir -p /usr/sap/lib
