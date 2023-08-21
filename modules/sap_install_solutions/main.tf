@@ -10,21 +10,7 @@ locals {
   }
   solution_template = lookup(local.solution_templates, var.solution_template, null)
 
-  sap_solution_vars = var.solution_template == "s4b4" ? templatefile(local.solution_template,
-    { sap_swpm_product_catalog_id        = var.sap_solution_vars.sap_swpm_product_catalog_id
-      sap_install_media_detect_directory = var.sap_solution_vars.sap_install_media_detect_directory
-      sap_swpm_sid                       = var.sap_solution_vars.sap_swpm_sid
-      sap_swpm_pas_instance_nr           = var.sap_solution_vars.sap_swpm_pas_instance_nr
-      sap_swpm_ascs_instance_nr          = var.sap_solution_vars.sap_swpm_ascs_instance_nr
-      sap_swpm_master_password           = var.sap_solution_vars.sap_swpm_master_password
-      sap_swpm_ascs_instance_hostname    = var.sap_solution_vars.sap_swpm_ascs_instance_hostname
-      sap_domain                         = var.sap_solution_vars.sap_domain
-      sap_swpm_db_host                   = var.sap_solution_vars.sap_swpm_db_host
-      sap_swpm_db_ip                     = var.sap_solution_vars.sap_swpm_db_ip
-      sap_swpm_db_sid                    = var.sap_solution_vars.sap_swpm_db_sid
-      sap_swpm_db_instance_nr            = var.sap_solution_vars.sap_swpm_db_instance_nr
-      sap_swpm_db_master_password        = var.sap_solution_vars.sap_swpm_db_master_password
-  }) : ""
+  sap_solution_vars = var.solution_template == "s4b4" ? templatefile(local.solution_template, var.sap_solution_vars) : ""
 
   scr_scripts_dir                       = "${path.module}/templates"
   dst_scripts_dir                       = "/root/terraform_scripts"
