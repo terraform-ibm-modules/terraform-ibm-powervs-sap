@@ -161,15 +161,15 @@ locals {
   }
 }
 
-module "sap_install_hana" {
-  source                 = "../../../modules/sap_install_hanadb"
-  depends_on             = [module.cos_download_hana_binaries, module.sap_system]
-  access_host_or_ip      = local.access_host_or_ip
-  target_server_ip       = module.sap_system.powervs_hana_instance_management_ip
-  ssh_private_key        = var.ssh_private_key
-  ansible_vault_password = var.ansible_vault_password
-  ansible_sap_hana_vars  = local.ansible_sap_hana_playbook_vars
-  hana_template          = "s4b4"
+module "ansible_sap_install_hana" {
+  source                    = "../../../modules/ansible_sap_install_all"
+  depends_on                = [module.cos_download_hana_binaries, module.sap_system]
+  access_host_or_ip         = local.access_host_or_ip
+  target_server_ip          = module.sap_system.powervs_hana_instance_management_ip
+  ssh_private_key           = var.ssh_private_key
+  ansible_vault_password    = var.ansible_vault_password
+  ansible_sap_solution_vars = local.ansible_sap_hana_playbook_vars
+  solution_template         = "s4b4_hana"
 }
 
 
@@ -202,13 +202,13 @@ locals {
   }
 }
 
-module "sap_install_netweaver" {
-  source                    = "../../../modules/sap_install_solutions"
-  depends_on                = [module.cos_download_netweaver_binaries, module.sap_install_hana]
+module "ansible_sap_install_netweaver" {
+  source                    = "../../../modules/ansible_sap_install_all"
+  depends_on                = [module.cos_download_netweaver_binaries, module.ansible_sap_install_hana]
   access_host_or_ip         = local.access_host_or_ip
   target_server_ip          = module.sap_system.powervs_netweaver_instance_management_ips
   ssh_private_key           = var.ssh_private_key
   ansible_vault_password    = var.ansible_vault_password
   ansible_sap_solution_vars = local.ansible_sap_solution_playbook_vars
-  solution_template         = "s4b4"
+  solution_template         = "s4b4_solution"
 }

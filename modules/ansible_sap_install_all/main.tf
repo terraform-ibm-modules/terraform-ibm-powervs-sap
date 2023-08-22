@@ -4,21 +4,6 @@
 
 locals {
 
-
-  scr_scripts_dir = "${path.module}/templates"
-  dst_scripts_dir = "/root/terraform_scripts"
-
-  ## for every solution always use 6 attributes as defined for s4b4 solution
-  ansible_sap_solutions = {
-    "s4b4" = {
-      "src_ansible_variable_path"             = "${local.scr_scripts_dir}/sap-swpm-install-vars-s4hana-bw4hana.yml.tfpl",
-      "dst_ansible_variable_path"             = "${local.dst_scripts_dir}/sap-swpm-install-vars.yml"
-      "src_ansible_playbook_path"             = "${local.scr_scripts_dir}/sap-swpm-install.yml",
-      "dst_ansible_playbook_path"             = "${local.dst_scripts_dir}/sap-swpm-install.yml",
-      "src_script_install_solution_tfpl_path" = "${local.scr_scripts_dir}/install_swpm.sh.tfpl",
-      "dst_script_install_solution_tfpl_path" = "${local.dst_scripts_dir}/install_swpm.sh"
-    }
-  }
   ansible_sap_solution = lookup(local.ansible_sap_solutions, var.solution_template, null)
 
   ansible_variables                     = templatefile(local.ansible_sap_solution.src_ansible_variable_path, var.ansible_sap_solution_vars)
