@@ -15,7 +15,7 @@ locals {
 
 }
 
-resource "null_resource" "sap_install_solution" {
+resource "null_resource" "ansible_sap_install_solution" {
   connection {
     type         = "ssh"
     user         = "root"
