@@ -34,7 +34,7 @@ resource "null_resource" "sap_install_solution" {
     ]
   }
 
-  ######### Write the SWPM installation variables in ansible var file. #########
+  ######### Write the variables to ansible var file. #########
   provisioner "file" {
     destination = local.dst_ansible_variable_path
     content     = <<EOF
@@ -69,7 +69,7 @@ EOF
     )
   }
 
-  #########  Execute community swpm role to install Netweaver. #########
+  #########  Execute ansible playbook to install solution #########
   provisioner "remote-exec" {
     inline = [
       "chmod +x ${local.dst_script_install_solution_tfpl_path}",
