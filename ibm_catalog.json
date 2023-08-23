@@ -436,10 +436,6 @@
                             "required": true
                         },
                         {
-                            "key": "powervs_netweaver_instance_count",
-                            "required": true
-                        },
-                        {
                             "key": "powervs_netweaver_instance_name",
                             "required": true
                         },
@@ -516,7 +512,7 @@
                             }
                         },
                         {
-                            "key": "sap_hana_vars",
+                            "key": "ansible_sap_hana_vars",
                             "required": true,
                             "custom_config": {
                                 "grouping": "deployment",
@@ -535,7 +531,7 @@
                             }
                         },
                         {
-                            "key": "sap_solution_vars",
+                            "key": "ansible_sap_solution_vars",
                             "required": true,
                             "custom_config": {
                                 "grouping": "deployment",

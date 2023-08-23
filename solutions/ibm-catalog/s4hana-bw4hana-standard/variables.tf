@@ -91,7 +91,7 @@ variable "ssh_private_key" {
 # COS Parameters to download binaries
 #####################################################
 variable "cos_service_credentials" {
-  description = "Cloud object storage Instance service credentials in heredoc json string."
+  description = "Cloud object storage Instance service credentials in [heredoc json strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings)"
   type        = string
   sensitive   = true
 }
