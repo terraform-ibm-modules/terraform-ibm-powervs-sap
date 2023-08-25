@@ -30,6 +30,7 @@ sap_swpm_db_schema_abap_password: '${sap_swpm_db_master_password}'
 sap_swpm_db_sidadm_password: '${sap_swpm_db_master_password}'
 sap_swpm_db_schema_abap: "SAPHANADB"
 sap_swpm_update_etchosts: true
+sap_swpm_install_saphostagent: true
 
 
 # Generate inifile.params using sap_swpm Ansible Role
@@ -45,3 +46,4 @@ sap_swpm_inifile_list:
   - nw_config_primary_application_server_instance
   - nw_config_ports
   - sap_os_linux_user
+  - nw_config_host_agent
