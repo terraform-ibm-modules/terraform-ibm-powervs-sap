@@ -93,7 +93,7 @@ locals {
 }
 
 module "powervs_sharefs_instance" {
-  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.7"
+  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.8"
   depends_on = [module.powervs_attach_sap_network]
   count      = var.powervs_create_separate_fs_share ? 1 : 0
 
@@ -145,7 +145,7 @@ module "powervs_hana_storage_calculation" {
 }
 
 module "powervs_hana_instance" {
-  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.7"
+  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.8"
   depends_on = [module.powervs_attach_sap_network]
 
   pi_zone                    = var.powervs_zone
@@ -177,7 +177,7 @@ locals {
 }
 
 module "powervs_netweaver_instance" {
-  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.7"
+  source     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=v0.2.8"
   depends_on = [module.powervs_attach_sap_network, module.sharefs_instance_init]
   count      = var.powervs_netweaver_instance_count
 

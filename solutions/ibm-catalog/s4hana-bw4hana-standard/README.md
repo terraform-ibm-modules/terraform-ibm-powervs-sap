@@ -22,37 +22,39 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.6 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.54.0 |
 
-## Modules
+### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_ansible_sap_install_hana"></a> [ansible\_sap\_install\_hana](#module\_ansible\_sap\_install\_hana) | ../../../modules/ansible_sap_install_all | n/a |
+| <a name="module_ansible_sap_install_netweaver"></a> [ansible\_sap\_install\_netweaver](#module\_ansible\_sap\_install\_netweaver) | ../../../modules/ansible_sap_install_all | n/a |
 | <a name="module_cos_download_hana_binaries"></a> [cos\_download\_hana\_binaries](#module\_cos\_download\_hana\_binaries) | ../../../modules/ibmcloud_cos | n/a |
 | <a name="module_cos_download_netweaver_binaries"></a> [cos\_download\_netweaver\_binaries](#module\_cos\_download\_netweaver\_binaries) | ../../../modules/ibmcloud_cos | n/a |
-| <a name="module_sap_install_hana"></a> [sap\_install\_hana](#module\_sap\_install\_hana) | ../../../modules/sap_install_hanadb | n/a |
-| <a name="module_sap_install_netweaver"></a> [sap\_install\_netweaver](#module\_sap\_install\_netweaver) | ../../../modules/sap_install_solutions | n/a |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../sap-ready-to-go/module | n/a |
 
-## Resources
+### Resources
 
 | Name | Type |
 |------|------|
 | [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.54.0/docs/data-sources/schematics_output) | data source |
 | [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.54.0/docs/data-sources/schematics_workspace) | data source |
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_ansible_sap_hana_vars"></a> [ansible\_sap\_hana\_vars](#input\_ansible\_sap\_hana\_vars) | SAP HANA variables for HANA DB installation. | <pre>object({<br>    sap_hana_install_sid    = string<br>    sap_hana_install_number = string<br>  })</pre> | <pre>{<br>  "sap_hana_install_number": "02",<br>  "sap_hana_install_sid": "HDB"<br>}</pre> | no |
+| <a name="input_ansible_sap_solution_vars"></a> [ansible\_sap\_solution\_vars](#input\_ansible\_sap\_solution\_vars) | SAP solution variables for SWPM installation. | <pre>object({<br>    sap_swpm_sid              = string<br>    sap_swpm_ascs_instance_nr = string<br>    sap_swpm_pas_instance_nr  = string<br>  })</pre> | <pre>{<br>  "sap_swpm_ascs_instance_nr": "00",<br>  "sap_swpm_pas_instance_nr": "01",<br>  "sap_swpm_sid": "S4H"<br>}</pre> | no |
 | <a name="input_ansible_vault_password"></a> [ansible\_vault\_password](#input\_ansible\_vault\_password) | Vault password to encrypt ansible variable file for SAP installation. | `string` | n/a | yes |
-| <a name="input_cos_configuration"></a> [cos\_configuration](#input\_cos\_configuration) | COS details to download the files to the target host. 'cos\_hana\_software\_path' should contain only binaries required for HANA DB installation. 'cos\_solution\_software\_path' should contain only binaries required for S4HANA or BW4HANA installation. It shouldn't contain any DB files as playbook will run into an error. Give the folder paths in COS. | <pre>object({<br>    cos_region                 = string<br>    cos_bucket_name            = string<br>    cos_hana_software_path     = string<br>    cos_solution_software_path = string<br>  })</pre> | <pre>{<br>  "cos_bucket_name": "powervs-automation",<br>  "cos_hana_software_path": "HANA_DB/rev66",<br>  "cos_region": "eu-geo",<br>  "cos_solution_software_path": "S4HANA_2022"<br>}</pre> | no |
-| <a name="input_cos_service_credentials"></a> [cos\_service\_credentials](#input\_cos\_service\_credentials) | COS service credentials. Requires 'apikey' and 'resource\_instance\_id' in heredoc json string. | `string` | n/a | yes |
+| <a name="input_cos_configuration"></a> [cos\_configuration](#input\_cos\_configuration) | Cloud object storage Instance details to download the files to the target host. 'cos\_hana\_software\_path' should contain only binaries required for HANA DB installation. 'cos\_solution\_software\_path' should contain only binaries required for S4HANA or BW4HANA installation. It shouldn't contain any DB files as playbook will run into an error. Give the folder paths in Cloud object storage Instance. | <pre>object({<br>    cos_region                 = string<br>    cos_bucket_name            = string<br>    cos_hana_software_path     = string<br>    cos_solution_software_path = string<br>  })</pre> | <pre>{<br>  "cos_bucket_name": "powervs-automation",<br>  "cos_hana_software_path": "HANA_DB/rev66",<br>  "cos_region": "eu-geo",<br>  "cos_solution_software_path": "S4HANA_2022"<br>}</pre> | no |
+| <a name="input_cos_service_credentials"></a> [cos\_service\_credentials](#input\_cos\_service\_credentials) | Cloud object storage Instance service credentials in [heredoc json strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings) | `string` | n/a | yes |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM enabled resources. | `string` | n/a | yes |
 | <a name="input_powervs_create_separate_fs_share"></a> [powervs\_create\_separate\_fs\_share](#input\_powervs\_create\_separate\_fs\_share) | Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used. | `bool` | `true` | no |
 | <a name="input_powervs_default_images"></a> [powervs\_default\_images](#input\_powervs\_default\_images) | Default Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances. | <pre>object({<br>    rhel_hana_image = string<br>    rhel_nw_image   = string<br>  })</pre> | <pre>{<br>  "rhel_hana_image": "RHEL8-SP4-SAP",<br>  "rhel_nw_image": "RHEL8-SP4-SAP-NETWEAVER"<br>}</pre> | no |
@@ -71,13 +73,11 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 | <a name="input_prerequisite_workspace_id"></a> [prerequisite\_workspace\_id](#input\_prerequisite\_workspace\_id) | IBM Cloud Schematics workspace ID of an existing Power infrastructure for regulated industries deployment. If you do not yet have an existing deployment, click [here](https://cloud.ibm.com/catalog/) and search for 'Power Virtual Server with VPC landing zone' to create one. | `string` | n/a | yes |
 | <a name="input_sap_domain"></a> [sap\_domain](#input\_sap\_domain) | SAP domain to be set for entire landscape. | `string` | `"sap.com"` | no |
 | <a name="input_sap_hana_install_master_password"></a> [sap\_hana\_install\_master\_password](#input\_sap\_hana\_install\_master\_password) | SAP HANA master password | `string` | n/a | yes |
-| <a name="input_sap_hana_vars"></a> [sap\_hana\_vars](#input\_sap\_hana\_vars) | SAP HANA variables for HANA DB installation. | <pre>object({<br>    sap_hana_install_sid    = string<br>    sap_hana_install_number = string<br>  })</pre> | <pre>{<br>  "sap_hana_install_number": "02",<br>  "sap_hana_install_sid": "HDB"<br>}</pre> | no |
 | <a name="input_sap_solution"></a> [sap\_solution](#input\_sap\_solution) | SAP Solution. | `string` | n/a | yes |
-| <a name="input_sap_solution_vars"></a> [sap\_solution\_vars](#input\_sap\_solution\_vars) | SAP solution variables for SWPM installation. | <pre>object({<br>    sap_swpm_sid              = string<br>    sap_swpm_ascs_instance_nr = string<br>    sap_swpm_pas_instance_nr  = string<br>  })</pre> | <pre>{<br>  "sap_swpm_ascs_instance_nr": "00",<br>  "sap_swpm_pas_instance_nr": "01",<br>  "sap_swpm_sid": "S4H"<br>}</pre> | no |
 | <a name="input_sap_swpm_master_password"></a> [sap\_swpm\_master\_password](#input\_sap\_swpm\_master\_password) | SAP SWPM master password. | `string` | n/a | yes |
 | <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh\_public\_key' which was created previously. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys). | `string` | n/a | yes |
 
-## Outputs
+### Outputs
 
 | Name | Description |
 |------|-------------|
