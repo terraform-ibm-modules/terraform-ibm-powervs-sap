@@ -23,10 +23,10 @@ The Power Virtual Server for SAP module automates the following tasks:
 |------|--------|---------|
 | <a name="module_powervs_attach_sap_network"></a> [powervs\_attach\_sap\_network](#module\_powervs\_attach\_sap\_network) | ../../../modules/powervs_attach_private_network | n/a |
 | <a name="module_powervs_create_sap_network"></a> [powervs\_create\_sap\_network](#module\_powervs\_create\_sap\_network) | ../../../modules/powervs_create_private_network | n/a |
-| <a name="module_powervs_hana_instance"></a> [powervs\_hana\_instance](#module\_powervs\_hana\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.6 |
+| <a name="module_powervs_hana_instance"></a> [powervs\_hana\_instance](#module\_powervs\_hana\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.7 |
 | <a name="module_powervs_hana_storage_calculation"></a> [powervs\_hana\_storage\_calculation](#module\_powervs\_hana\_storage\_calculation) | ../../../modules/powervs_hana_storage_config | n/a |
-| <a name="module_powervs_netweaver_instance"></a> [powervs\_netweaver\_instance](#module\_powervs\_netweaver\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.6 |
-| <a name="module_powervs_sharefs_instance"></a> [powervs\_sharefs\_instance](#module\_powervs\_sharefs\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.6 |
+| <a name="module_powervs_netweaver_instance"></a> [powervs\_netweaver\_instance](#module\_powervs\_netweaver\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.7 |
+| <a name="module_powervs_sharefs_instance"></a> [powervs\_sharefs\_instance](#module\_powervs\_sharefs\_instance) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git | v0.2.7 |
 | <a name="module_sap_instance_init"></a> [sap\_instance\_init](#module\_sap\_instance\_init) | ../../../modules/sap_instance_init | n/a |
 
 ### Resources
