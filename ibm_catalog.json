@@ -130,6 +130,10 @@
                                     "value": "us-south"
                                 },
                                 {
+                                    "displayname": "Dallas (dal10)",
+                                    "value": "dal10"
+                                },
+                                {
                                     "displayname": "Dallas (dal12)",
                                     "value": "dal12"
                                 },
@@ -403,6 +407,10 @@
                                 {
                                     "displayname": "US-south (us-south)",
                                     "value": "us-south"
+                                },
+                                {
+                                    "displayname": "Dallas (dal10)",
+                                    "value": "dal10"
                                 },
                                 {
                                     "displayname": "Dallas (dal12)",
