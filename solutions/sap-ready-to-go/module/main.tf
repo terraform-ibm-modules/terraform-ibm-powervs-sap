@@ -229,4 +229,10 @@ module "ansible_sap_instance_init" {
   ssh_private_key   = var.ssh_private_key
   sap_solutions     = local.sap_solutions
   sap_domain        = var.sap_domain
+
+}
+
+moved {
+  from = module.sap_instance_init
+  to   = module.ansible_sap_instance_init
 }
