@@ -195,7 +195,7 @@ locals {
     sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
     sap_domain                         = var.sap_domain
     sap_swpm_db_host                   = "${var.prefix}-${var.powervs_hana_instance_name}"
-    sap_swpm_db_ip                     = module.sap_system.powervs_hana_instance_management_ip
+    sap_swpm_db_ip                     = module.sap_system.powervs_hana_instance_sap_ip
     sap_swpm_db_sid                    = var.ansible_sap_hana_vars.sap_hana_install_sid
     sap_swpm_db_instance_nr            = var.ansible_sap_hana_vars.sap_hana_install_number
     sap_swpm_db_master_password        = var.sap_hana_install_master_password

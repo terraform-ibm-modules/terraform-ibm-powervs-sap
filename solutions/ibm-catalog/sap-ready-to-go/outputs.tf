@@ -18,6 +18,11 @@ output "powervs_hana_instance_management_ip" {
   value       = module.sap_system.powervs_hana_instance_management_ip
 }
 
+output "powervs_hana_instance_sap_ip" {
+  description = "SAP IP of PowerVS HANA Instance"
+  value       = module.sap_system.powervs_hana_instance_sap_ip
+}
+
 output "powervs_netweaver_instance_ips" {
   description = "All private IPS of NetWeaver instances"
   value       = module.sap_system.powervs_netweaver_instance_ips

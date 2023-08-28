@@ -1,3 +1,8 @@
+locals {
+  per_enabled_dc_list = ["dal10"]
+  per_enabled         = contains(local.per_enabled_dc_list, var.powervs_zone)
+}
+
 #####################################################
 # Get Values from Infrastructure Workspace
 #####################################################
@@ -74,6 +79,7 @@ module "powervs_create_sap_network" {
 module "powervs_attach_sap_network" {
   source     = "../../../modules/powervs_attach_private_network"
   depends_on = [module.powervs_create_sap_network]
+  count      = local.per_enabled ? 0 : 1
 
   powervs_zone                   = var.powervs_zone
   powervs_resource_group_name    = local.powervs_resource_group_name
@@ -163,6 +169,10 @@ module "powervs_hana_instance" {
 
 }
 
+locals {
+  powervs_hana_instance_ips    = split(", ", module.powervs_hana_instance.pi_instance_private_ips)
+  powervs_hana_instance_sap_ip = local.powervs_hana_instance_ips[index([for ip in local.powervs_hana_instance_ips : alltrue([for i, v in split(".", ip) : tonumber(split(".", cidrhost(local.powervs_sap_network.cidr, 0))[i]) <= tonumber(v) && tonumber(v) <= tonumber(split(".", cidrhost(local.powervs_sap_network.cidr, -1))[i])])], true)]
+}
 #####################################################
 # Deploy SAP Netweaver Instance
 #####################################################
