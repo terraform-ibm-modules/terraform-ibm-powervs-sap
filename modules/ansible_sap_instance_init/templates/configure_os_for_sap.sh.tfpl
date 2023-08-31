@@ -10,7 +10,7 @@ power_linux_sap_arr=("power-linux-configure.yml")
 ### Download and install collections from ansible-galaxy
 ansible-galaxy collection install ibm.power_linux_sap:1.1.3 -f
 
-### Bug in ansible system role. CHanging http to https for installing ibm power tools
+### Bug in ansible system role. Changing http to https for installing ibm power tools
 sed -i 's,http://public.dhe.ibm.com/software/server/POWER/Linux/yum/download/ibm-power-repo-latest.noarch.rpm,https://public.dhe.ibm.com/software/server/POWER/Linux/yum/download/ibm-power-repo-latest.noarch.rpm,g' /usr/share/ansible/roles/sap_hana_preconfigure/vars/RedHat_8.yml
 
 ## Execute ansible playbook
