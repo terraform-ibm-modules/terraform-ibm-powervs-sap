@@ -1,0 +1,16 @@
+#!/bin/bash
+
+### Using input variables from terraform
+ansible_playbook_path=${ansible_playbook_path}
+ansible_vars_location=${ansible_extra_vars_path}
+ansible_log_path=${ansible_log_path}
+
+##  Create config for ansible log path
+echo -e "[defaults]\nlog_path=$${ansible_playbook_path}.$(date "+%Y.%m.%d-%H.%M.%S").log" >ansible.cfg
+
+unbuffer ansible-playbook --connection=local -i 'localhost,' $${ansible_playbook_path} --extra-vars "@$${ansible_vars_location}" --vault-password-file password_file
+if [ $? -ne 0 ]; then
+    rm -rf password_file
+    exit 1
+fi
+echo \"Playbook command successful\"
