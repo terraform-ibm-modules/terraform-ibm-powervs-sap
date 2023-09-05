@@ -255,9 +255,9 @@ variable "powervs_default_images" {
     rhel_nw_image   = string
   })
   default = {
-    "sles_hana_image" : "SLES15-SP3-SAP"
-    "rhel_hana_image" : "RHEL8-SP4-SAP"
-    "sles_nw_image" : "SLES15-SP3-SAP-NETWEAVER"
-    "rhel_nw_image" : "RHEL8-SP4-SAP-NETWEAVER"
+    "sles_hana_image" : "SLES15-SP4-SAP"
+    "rhel_hana_image" : "RHEL8-SP6-SAP"
+    "sles_nw_image" : "SLES15-SP4-SAP-NETWEAVER"
+    "rhel_nw_image" : "RHEL8-SP6-SAP-NETWEAVER"
   }
 }
