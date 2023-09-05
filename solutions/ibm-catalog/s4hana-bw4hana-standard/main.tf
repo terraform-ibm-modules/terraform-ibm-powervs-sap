@@ -148,6 +148,7 @@ module "cos_download_netweaver_binaries" {
   cos_configuration = local.cos_solution_configuration
 }
 
+
 #####################################################
 # Install HANA DB
 #####################################################
@@ -191,6 +192,10 @@ locals {
     sap_swpm_sid                       = var.ansible_sap_solution_vars.sap_swpm_sid
     sap_swpm_pas_instance_nr           = var.ansible_sap_solution_vars.sap_swpm_pas_instance_nr
     sap_swpm_ascs_instance_nr          = var.ansible_sap_solution_vars.sap_swpm_ascs_instance_nr
+    sap_swpm_mp_stack_path             = var.ansible_sap_solution_vars.sap_swpm_mp_stack_path
+    sap_swpm_mp_stack_file_name        = var.ansible_sap_solution_vars.sap_swpm_mp_stack_file_name
+    sap_swpm_configure_tms             = var.ansible_sap_solution_vars.sap_swpm_configure_tms
+    sap_swpm_tms_tr_files_path         = var.ansible_sap_solution_vars.sap_swpm_tms_tr_files_path
     sap_swpm_master_password           = var.sap_swpm_master_password
     sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
     sap_domain                         = var.sap_domain

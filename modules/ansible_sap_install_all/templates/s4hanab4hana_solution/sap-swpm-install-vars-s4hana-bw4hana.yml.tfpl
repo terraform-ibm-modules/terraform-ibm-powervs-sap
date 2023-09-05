@@ -32,6 +32,14 @@ sap_swpm_db_schema_abap: "SAPHANADB"
 sap_swpm_update_etchosts: true
 sap_swpm_install_saphostagent: true
 
+%{ if "${sap_swpm_mp_stack_path}" != "" && "${sap_swpm_mp_stack_file_name}" != "" }
+# MP Stack
+sap_swpm_mp_stack_path: "${sap_swpm_mp_stack_path}"
+sap_swpm_mp_stack_file_name: "${sap_swpm_mp_stack_file_name}"
+sap_swpm_configure_tms: "${sap_swpm_configure_tms}"
+sap_swpm_tmsadm_password: "${sap_swpm_master_password}"
+sap_swpm_tms_tr_files_path: "${sap_swpm_tms_tr_files_path}"
+%{ endif }
 
 # Generate inifile.params using sap_swpm Ansible Role
 sap_swpm_inifile_list:
@@ -47,3 +55,8 @@ sap_swpm_inifile_list:
   - nw_config_ports
   - sap_os_linux_user
   - nw_config_host_agent
+  - maintenance_plan_stack_tms_config
+  - maintenance_plan_stack_tms_transports
+  - maintenance_plan_stack_spam_config
+  - maintenance_plan_stack_sum_config
+  - maintenance_plan_stack_sum_10_batch_mode
