@@ -56,7 +56,7 @@ locals {
   dns_host_or_ip              = local.powerinfra_output[0].dns_host_or_ip.value
   ntp_host_or_ip              = local.powerinfra_output[0].ntp_host_or_ip.value
   nfs_host_or_ip_path         = local.powerinfra_output[0].nfs_host_or_ip_path.value
-  powervs_default_images      = merge(var.powervs_default_images, { "sles_hana_image" : "SLES15-SP3-SAP", "sles_nw_image" : "SLES15-SP3-SAP-NETWEAVER" })
+  powervs_default_images      = merge(var.powervs_default_images, { "sles_hana_image" : "SLES15-SP4-SAP", "sles_nw_image" : "SLES15-SP4-SAP-NETWEAVER" })
 }
 
 
