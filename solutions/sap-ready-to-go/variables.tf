@@ -161,7 +161,7 @@ variable "nfs_host_or_ip_path" {
 }
 
 variable "sap_domain" {
-  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  description = "SAP domain to be set for entire landscape."
   type        = string
   default     = "sap.com"
 }
@@ -180,12 +180,18 @@ variable "powervs_share_storage_config" {
     mount = string
   }))
   default = [{
-    "name" : "share",
-    "size" : "1000",
+    "name" : "sapmnt",
+    "size" : "300",
     "count" : "1",
     "tier" : "tier3",
-    "mount" : "/share"
-
+    "mount" : "/sapmnt"
+    },
+    {
+      "name" : "trans",
+      "size" : "50",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/usr/trans"
   }]
 }
 
@@ -242,13 +248,6 @@ variable "powervs_netweaver_storage_config" {
       "count" : "1",
       "tier" : "tier3",
       "mount" : "/usr/sap"
-    },
-    {
-      "name" : "usrtrans",
-      "size" : "50",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/usr/sap/trans"
     }
   ]
 }
@@ -262,9 +261,9 @@ variable "powervs_default_images" {
     rhel_nw_image   = string
   })
   default = {
-    "sles_hana_image" : "SLES15-SP3-SAP"
-    "rhel_hana_image" : "RHEL8-SP4-SAP"
-    "sles_nw_image" : "SLES15-SP3-SAP-NETWEAVER"
-    "rhel_nw_image" : "RHEL8-SP4-SAP-NETWEAVER"
+    "sles_hana_image" : "SLES15-SP4-SAP"
+    "rhel_hana_image" : "RHEL8-SP6-SAP"
+    "sles_nw_image" : "SLES15-SP4-SAP-NETWEAVER"
+    "rhel_nw_image" : "RHEL8-SP6-SAP-NETWEAVER"
   }
 }

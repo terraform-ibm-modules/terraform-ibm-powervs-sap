@@ -13,6 +13,11 @@ output "powervs_hana_instance_management_ip" {
   value       = module.powervs_hana_instance.pi_instance_mgmt_ip
 }
 
+output "powervs_hana_instance_sap_ip" {
+  description = "SAP IP of PowerVS HANA Instance"
+  value       = local.powervs_hana_instance_sap_ip
+}
+
 output "powervs_netweaver_instance_ips" {
   description = "All private IPS of NetWeaver instances"
   value       = var.powervs_netweaver_instance_count >= 1 ? module.powervs_netweaver_instance[*].pi_instance_private_ips : [""]

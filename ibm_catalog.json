@@ -126,8 +126,12 @@
                                     "value": "sao01"
                                 },
                                 {
-                                    "displayname": "US-south (us-south)",
+                                    "displayname": "Dallas (dallas)",
                                     "value": "us-south"
+                                },
+                                {
+                                    "displayname": "Dallas (dal10)",
+                                    "value": "dal10"
                                 },
                                 {
                                     "displayname": "Dallas (dal12)",
