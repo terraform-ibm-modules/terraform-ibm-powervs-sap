@@ -63,7 +63,10 @@ s4hana2022
 3. This file can be decrypted using the same value passed to variable **'ansible_vault_password'** during deployment. Use the command `ansible-vault decrypt /root/terraform_scripts/sap-swpm-install-vars.yml` and enter the password when prompted.
 
 
-
+## Ansible roles used
+1. **rhel system role:** `sap_hana_install`
+2. **community role:**  `community.sap_install.sap_swpm `
+3. **community role:**  `community.sap_install.sap_install_media_detect`
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
