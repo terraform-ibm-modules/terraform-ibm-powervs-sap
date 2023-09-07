@@ -8,8 +8,8 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
-- Supports installation of S4HANA2022, S4HANA2021, S4HANA2020, BW4HANA2021.
-- Supports installation using Maintainance planner as well.
+- Supports installation of **S4HANA2022, S4HANA2021, S4HANA2020, BW4HANA2021.**
+- Supports installation using **Maintainance planner** as well.
 
 ### Notes:
 This solution does not download any binaries from SAP portal. It is ones duty to have the binaries before hand and have it stored in Cloud object storage bucket as defined here.
