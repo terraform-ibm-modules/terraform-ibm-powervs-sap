@@ -20,7 +20,7 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 
 | Variation                       | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Creates ShareFS Instance | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 |---------------------------------|--------------------------|----------------------------------|-------------------------------|------------------------------|--------------------------|----------------------------|-----------------------------|----------------------|
-| s4hana-bw4hana-standard ]( ./ ) | :heavy_check_mark:       | :heavy_check_mark:               | 1                             | 1                            | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | :heavy_check_mark:   |
+| [s4hana-bw4hana-standard ]( ./ ) | :heavy_check_mark:       | :heavy_check_mark:               | 1                             | 1                            | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | :heavy_check_mark:   |
 
 ## Architecture Diagram
 ![s4hana-bw4hana-standard](../../../reference-architectures/s4hana-bw4hana-standard/deploy-arch-ibm-pvs-s4hana-bw4hana-standard.svg)

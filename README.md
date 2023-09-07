@@ -45,7 +45,7 @@ You need the following permissions to run this module.
 |-----------------------------------------------------------------|--------------------------|----------------------------------|-------------------------------|------------------------------|--------------------------|----------------------------|-----------------------------|----------------------|
 | [ sap-ready-to-go ]( ./solutions/ibm-catalog/sap-ready-to-go/ ) | :heavy_check_mark:       | :heavy_check_mark:               | 1                             | 0:N                          | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | N/A                  |
 | [ sap-ready-to-go ]( ./solutions/sap-ready-to-go/ )             | N/A                      | N/A                              | 1                             | 0:N                          | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | N/A                  |
-| s4hana-bw4hana-standard ]( ./ )                                 | :heavy_check_mark:       | :heavy_check_mark:               | 1                             | 1                            | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | :heavy_check_mark:   |
+| [s4hana-bw4hana-standard ]( ./ )                                 | :heavy_check_mark:       | :heavy_check_mark:               | 1                             | 1                            | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | :heavy_check_mark:   |
 
 
 
