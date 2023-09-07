@@ -510,7 +510,7 @@
                             }
                         },
                         {
-                            "key": "sap_hana_install_master_password",
+                            "key": "sap_hana_master_password",
                             "required": true,
                             "type": "password",
                             "custom_config": {

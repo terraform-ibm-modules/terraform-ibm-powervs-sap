@@ -91,7 +91,7 @@ variable "ssh_private_key" {
 # COS Parameters to download binaries
 #####################################################
 variable "cos_service_credentials" {
-  description = "Cloud object storage Instance service credentials to access the cos bucket [a json example of a service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)"
+  description = "Cloud object storage Instance service credentials to access the cos bucket [json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)"
   type        = string
   sensitive   = true
 }
