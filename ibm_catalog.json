@@ -321,7 +321,7 @@
                     }
                 },
                 {
-                    "label": "SAP S4HANA/BW4HANA Standard",
+                    "label": "SAP S4HANA / BW4HANA Standard",
                     "name": "s4hana-bw4hana",
                     "install_type": "extension",
                     "working_directory": "solutions/ibm-catalog/s4hana-bw4hana-standard",
@@ -405,7 +405,7 @@
                                     "value": "sao01"
                                 },
                                 {
-                                    "displayname": "US-south (us-south)",
+                                    "displayname": "Dallas (Dallas)",
                                     "value": "us-south"
                                 },
                                 {
@@ -611,6 +611,12 @@
                         },
                         {
                             "key": "powervs_lpars_data"
+                        },
+                        {
+                            "key": "ansible_sap_hana_vars"
+                        },
+                        {
+                            "key": "ansible_sap_solution_vars"
                         }
                     ],
                     "iam_permissions": [

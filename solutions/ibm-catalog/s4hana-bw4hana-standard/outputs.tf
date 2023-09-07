@@ -32,3 +32,13 @@ output "powervs_lpars_data" {
   description = "All private IPS of PowerVS instances and Jump IP to access the host."
   value       = module.sap_system.powervs_lpars_data
 }
+
+output "ansible_sap_hana_vars" {
+  description = "HANA system details"
+  value       = var.ansible_sap_hana_vars
+}
+
+output "ansible_sap_solution_vars" {
+  description = "Netweaver system details"
+  value       = var.ansible_sap_solution_vars
+}

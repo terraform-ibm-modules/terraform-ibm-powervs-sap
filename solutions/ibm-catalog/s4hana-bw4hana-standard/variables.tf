@@ -131,7 +131,7 @@ variable "ansible_vault_password" {
   sensitive   = true
 }
 
-variable "sap_hana_install_master_password" {
+variable "sap_hana_master_password" {
   description = "SAP HANA master password"
   type        = string
   sensitive   = true

@@ -169,7 +169,7 @@ locals {
   ansible_sap_hana_playbook_vars = merge(var.ansible_sap_hana_vars,
     {
       sap_hana_install_software_directory = "${local.nfs_directory}/${var.cos_configuration.cos_hana_software_path}",
-      sap_hana_install_master_password    = var.sap_hana_install_master_password
+      sap_hana_install_master_password    = var.sap_hana_master_password
     }
   )
 }
@@ -209,7 +209,7 @@ locals {
       sap_swpm_db_ip                     = module.sap_system.powervs_hana_instance_sap_ip
       sap_swpm_db_sid                    = var.ansible_sap_hana_vars.sap_hana_install_sid
       sap_swpm_db_instance_nr            = var.ansible_sap_hana_vars.sap_hana_install_number
-      sap_swpm_db_master_password        = var.sap_hana_install_master_password
+      sap_swpm_db_master_password        = var.sap_hana_master_password
     }
   )
 }
