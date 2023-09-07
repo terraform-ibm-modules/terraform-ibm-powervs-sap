@@ -45,7 +45,7 @@ variable "os_image_distro" {
 #####################################################
 
 variable "powervs_create_separate_fs_share" {
-  description = "Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used."
+  description = "Deploy separate IBM PowerVS instance as central file system share for purposes like sapmnt folder. (0.5 cpus, 2 GB memory size, shared processor on s922.)"
   type        = bool
   default     = false
 }
