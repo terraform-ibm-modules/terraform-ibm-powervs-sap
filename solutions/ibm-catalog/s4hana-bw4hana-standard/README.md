@@ -1,24 +1,69 @@
-# Power Virtual Server for SAP HANA solution to create SAP S4HANA and BW4HANA PowerVS instances from IBM Cloud Catalog
+# Power Virtual Server for SAP HANA solution to create SAP S4HANA or BW4HANA standard installation on PowerVS instances from IBM Cloud Catalog
 
 The Power Virtual Server for SAP HANA example automates the following tasks:
 
 - Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
-- Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.
+- Creates and configures One PowerVS instance for SAP NetWeaver that is based on best practices.
 - Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
 - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
+- Supports installation of S4HANA2022, S4HANA2021, S4HANA2020, BW4HANA2021.
+- Supports installation using Maintainance planner as well.
+
+### Notes:
+This solution does not download any binaries from SAP portal. It is ones duty to have the binaries before hand and have it stored in Cloud object storage bucket as defined here.
 
 ## Before you begin
 Note: **This solution requires a schematics workspace id as an input.**
 If you do not have a PowerVS infrastructure that is the full stack solution for a PowerVS Workspace that includes the full stack solution for Secure Landing Zone, create it first.
 
-| Variation  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](./)  | :heavy_check_mark:  | :heavy_check_mark:  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
+| Variation                       | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Creates ShareFS Instance | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
+|---------------------------------|--------------------------|----------------------------------|-------------------------------|------------------------------|--------------------------|----------------------------|-----------------------------|----------------------|
+| s4hana-bw4hana-standard ]( ./ ) | :heavy_check_mark:       | :heavy_check_mark:               | 1                             | 1                            | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | :heavy_check_mark:   |
 
 ## Architecture Diagram
-![sap-ready-to-go](../../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
+![s4hana-bw4hana-standard](../../../reference-architectures/s4hana-bw4hana-standard/deploy-arch-ibm-pvs-s4hana-bw4hana-standard.svg)
+
+
+## Prerequisites
+
+### 1. COS service credentials
+1. Recommended to have a COS Instance in the same region where the s4hana/bw4hana deployment is planned as copying the files on to the lpar will be faster.
+2. **'cos_service_credentials'** variable requires a value in **json format**. This can be obtained using the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)
+
+### 2. SAP binaries required for installation and folder structure in COS
+1. All binaries for HANA database and SAP solution (S4HANA or BW4HANA) must be uploaded to the Cloud object storage bucket in IBM cloud before starting this deployment.
+2. For example the binaries required for S4HANA 2022 are listed [here](./docs/s4hana2022_binaries.md).
+3. Example folder structure :
+```
+s4hana2022
+|
+|_HANA_DB
+| |_all IMDB* Files and SAPCAR files (all files similar to listed in point 2 above example file)
+|
+|_S4HANA_2022
+  |_all files similar to listed in point 2 above example file
+  |_maintainance planner stack xml file (optional)
+```
+Do not mix the HANA DB binaries with the S4HANA/BW4HANA solution binaries otherwise the ansible playbook execution will fail.
+
+4. If you have a **Maintainance planner stack xml** file place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in variable **'ansible_sap_solution_vars.sap_swpm_mp_stack_file_name'**. Leave it empty if you do not have this stack xml file.
+5. **'cos_configuration'** variable needs to be set correctly based on the folder structure created.
+
+   `"cos_region":` region of cos bucket in IBM cloud. Example **eu-gb**\
+   `"cos_bucket_name":`  cos bucket name\
+   `"cos_hana_software_path":` folder path to hana db binaries from the root of bucket. Example from point 3 the value would be **"s4hana2022/HANA_DB"**\
+   `"cos_solution_software_path":` folder path to s4hana binaries from the root of bucket. Example from point 3 the value would be **"s4hana2022/S4HANA_2022"**
+
+
+## Post Deployment
+1. All the installation logs, ansible playbook and variable files will be under the directory `/root/terraform_scripts/`.
+2. The **ansible vault password** will be used to encrypt the ansible variable file which was created during deployment. This variable file will be placed under `/root/terraform_scripts/sap-hana-install.yml` on **HANA instance** and `/root/terraform_scripts/sap-swpm-install-vars.yml` on **Netweaver Instance**.
+3. This file can be decrypted using the same value passed to variable **'ansible_vault_password'** during deployment. Use the command `ansible-vault decrypt /root/terraform_scripts/sap-swpm-install-vars.yml` and enter the password when prompted.
+
+
+
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

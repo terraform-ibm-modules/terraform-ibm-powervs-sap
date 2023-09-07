@@ -41,10 +41,11 @@ You need the following permissions to run this module.
 
 ## Solutions
 
-| Variation  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](./solutions/ibm-catalog/sap-ready-to-go/)  | :heavy_check_mark:  | :heavy_check_mark:  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
-| [sap-ready-to-go](./solutions/sap-ready-to-go/)  | N/A  | N/A  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
+| Variation                                                       | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Creates ShareFS Instance | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
+|-----------------------------------------------------------------|--------------------------|----------------------------------|-------------------------------|------------------------------|--------------------------|----------------------------|-----------------------------|----------------------|
+| [ sap-ready-to-go ]( ./solutions/ibm-catalog/sap-ready-to-go/ ) | :heavy_check_mark:       | :heavy_check_mark:               | 1                             | 0:N                          | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | N/A                  |
+| [ sap-ready-to-go ]( ./solutions/sap-ready-to-go/ )             | N/A                      | N/A                              | 1                             | 0:N                          | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | N/A                  |
+| s4hana-bw4hana-standard ]( ./ )                                 | :heavy_check_mark:       | :heavy_check_mark:               | 1                             | 1                            | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | :heavy_check_mark:   |
 
 
 

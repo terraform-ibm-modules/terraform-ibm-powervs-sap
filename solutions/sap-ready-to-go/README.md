@@ -10,9 +10,10 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 - Optionally configures a shared NFS directory on all created PowerVS instances.
 
 
-| Variation  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](./)  | N/A  | N/A  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
+| Variation                                                       | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Creates ShareFS Instance | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
+|-----------------------------------------------------------------|--------------------------|----------------------------------|-------------------------------|------------------------------|--------------------------|----------------------------|-----------------------------|----------------------|
+| [ sap-ready-to-go ]( ./solutions/sap-ready-to-go/ )             | N/A                      | N/A                              | 1                             | 0:N                          | 0 or 1                   | :heavy_check_mark:         | :heavy_check_mark:          | N/A                  |
+
 
 ## Architecture Diagram
 ![sap-ready-to-go](../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
