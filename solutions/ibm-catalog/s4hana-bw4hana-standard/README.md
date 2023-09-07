@@ -46,9 +46,9 @@ s4hana2022
   |_all files similar to listed in point 2 above example file
   |_maintainance planner stack xml file (optional)
 ```
-Do not mix the HANA DB binaries with the S4HANA/BW4HANA solution binaries otherwise the ansible playbook execution will fail.
+**Do not mix the HANA DB binaries with the S4HANA/BW4HANA solution binaries otherwise the ansible playbook execution will fail.**
 
-4. If you have a **Maintainance planner stack xml** file place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in variable **'ansible_sap_solution_vars.sap_swpm_mp_stack_file_name'**. Leave it empty if you do not have this stack xml file.
+4. If you have a **Maintainance planner stack xml** file, place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in variable **'ansible_sap_solution_vars.sap_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack xml file.
 5. **'cos_configuration'** variable needs to be set correctly based on the folder structure created.
 
    `"cos_region":` region of cos bucket in IBM cloud. Example **eu-gb**\
