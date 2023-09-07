@@ -12,7 +12,7 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 - Supports installation using **Maintainance planner** as well.
 
 ### Notes:
-This solution does not download any binaries from SAP portal. It is ones duty to have the binaries before hand and have it stored in Cloud object storage bucket as defined here.
+**This solution does not download any binaries from SAP portal. It is ones duty to have the binaries before hand and have it stored in Cloud object storage bucket as defined [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-cos).
 
 ## Before you begin
 Note: **This solution requires a schematics workspace id as an input.**
