@@ -168,7 +168,7 @@ variable "ansible_sap_solution_vars" {
     "sap_swpm_sid" : "S4H",
     "sap_swpm_ascs_instance_nr" : "00",
     "sap_swpm_pas_instance_nr" : "01",
-    "sap_swpm_mp_stack_file_name" : "MP_Stack.xml",
+    "sap_swpm_mp_stack_file_name" : ""
   }
   validation {
     condition     = var.ansible_sap_solution_vars.sap_swpm_ascs_instance_nr != var.ansible_sap_solution_vars.sap_swpm_pas_instance_nr
