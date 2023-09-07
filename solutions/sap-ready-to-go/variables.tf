@@ -73,7 +73,7 @@ variable "os_image_distro" {
 #####################################################
 
 variable "powervs_create_separate_fs_share" {
-  description = "Deploy separate IBM PowerVS instance(0.5 cpus, 2 GB memory size, shared processor on s922.) as central file system share. All filesystems defined in 'powervs_share_storage_config' optional variable will be NFS exported and mounted on HANA and NW PowerVS instances."
+  description = "Deploy separate IBM PowerVS instance(0.5 cpus, 2 GB memory size, shared processor on s922.) as central file system share. All filesystems defined in 'powervs_share_storage_config' optional variable will be NFS exported and mounted on Netweaver PowerVS instances."
   type        = bool
 }
 
