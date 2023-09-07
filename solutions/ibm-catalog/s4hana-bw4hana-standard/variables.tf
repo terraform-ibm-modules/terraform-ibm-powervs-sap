@@ -34,7 +34,7 @@ variable "powervs_sap_network_cidr" {
 #####################################################
 
 variable "powervs_create_separate_fs_share" {
-  description = "Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used."
+  description = "Deploy separate IBM PowerVS instance(0.5 cpus, 2 GB memory size, shared processor on s922.) as central file system share. All filesystems defined in 'powervs_share_storage_config' optional variable will be NFS exported and mounted on Netweaver PowerVS instances."
   type        = bool
   default     = true
 }
@@ -91,13 +91,13 @@ variable "ssh_private_key" {
 # COS Parameters to download binaries
 #####################################################
 variable "cos_service_credentials" {
-  description = "Cloud object storage Instance service credentials in [heredoc json strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings)"
+  description = "Cloud object storage Instance service credentials to access the cos bucket [a json example of a service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)"
   type        = string
   sensitive   = true
 }
 
 variable "cos_configuration" {
-  description = "Cloud object storage Instance details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S4HANA or BW4HANA installation. It shouldn't contain any DB files as playbook will run into an error. Give the folder paths in Cloud object storage Instance."
+  description = "Cloud object storage Instance details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S4HANA or BW4HANA installation. If you have a stack xml file (maintainance planner) also place it under the 'cos_solution_software_path' dir and shouldn't contain any DB files as playbook will run into an error. Give the folder paths in Cloud object storage Instance."
   type = object({
     cos_region                 = string
     cos_bucket_name            = string
@@ -156,25 +156,23 @@ variable "sap_swpm_master_password" {
 }
 
 variable "ansible_sap_solution_vars" {
-  description = "SAP solution variables for SWPM installation."
+  description = "SAP solution variables for SWPM installation. If sap_swpm_mp_stack_file_name is empty, then installation will not use maintainance planner and tms will not be installed and configured. "
   type = object({
     sap_swpm_sid                = string
     sap_swpm_ascs_instance_nr   = string
     sap_swpm_pas_instance_nr    = string
-    sap_swpm_mp_stack_path      = string
     sap_swpm_mp_stack_file_name = string
-    sap_swpm_configure_tms      = string
-    sap_swpm_tms_tr_files_path  = string
 
   })
   default = {
     "sap_swpm_sid" : "S4H",
     "sap_swpm_ascs_instance_nr" : "00",
     "sap_swpm_pas_instance_nr" : "01",
-    "sap_swpm_mp_stack_path" : "/nfs/S4HANA_2022/",
     "sap_swpm_mp_stack_file_name" : "MP_Stack.xml",
-    "sap_swpm_configure_tms" : "true",
-    "sap_swpm_tms_tr_files_path" : "/nfs/S4HANA_2022/"
+  }
+  validation {
+    condition     = var.ansible_sap_solution_vars.sap_swpm_ascs_instance_nr != var.ansible_sap_solution_vars.sap_swpm_pas_instance_nr
+    error_message = "ASCS and PAS instance number must not be same"
   }
 }
 

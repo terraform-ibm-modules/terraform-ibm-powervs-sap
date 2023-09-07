@@ -1,3 +1,8 @@
+# Install directory **should not contain**. Otherwise it will error out
+#   1.  IMDB_SERVER*SAR file
+#   2.  IMDB_*SAR files for all components you wish to install
+#   3.  SAPCAR executable
+
 ---
 
 sap_swpm_product_catalog_id: '${sap_swpm_product_catalog_id}'
@@ -32,13 +37,13 @@ sap_swpm_db_schema_abap: "SAPHANADB"
 sap_swpm_update_etchosts: true
 sap_swpm_install_saphostagent: true
 
-%{ if "${sap_swpm_mp_stack_path}" != "" && "${sap_swpm_mp_stack_file_name}" != "" }
+%{ if "${sap_swpm_mp_stack_file_name}" != "" }
 # MP Stack
-sap_swpm_mp_stack_path: "${sap_swpm_mp_stack_path}"
+sap_swpm_mp_stack_path: "${sap_install_media_detect_directory}"
 sap_swpm_mp_stack_file_name: "${sap_swpm_mp_stack_file_name}"
-sap_swpm_configure_tms: "${sap_swpm_configure_tms}"
+sap_swpm_configure_tms: true
 sap_swpm_tmsadm_password: "${sap_swpm_master_password}"
-sap_swpm_tms_tr_files_path: "${sap_swpm_tms_tr_files_path}"
+sap_swpm_tms_tr_files_path: "${sap_install_media_detect_directory}"
 %{ endif }
 
 # Generate inifile.params using sap_swpm Ansible Role

@@ -150,16 +150,28 @@ module "cos_download_netweaver_binaries" {
 
 
 #####################################################
+# Ansible vars validation
+#####################################################
+
+locals {
+  instance_nr_validation     = var.ansible_sap_hana_vars.sap_hana_install_number != var.ansible_sap_solution_vars.sap_swpm_ascs_instance_nr && var.ansible_sap_hana_vars.sap_hana_install_number != var.ansible_sap_solution_vars.sap_swpm_pas_instance_nr
+  instance_nr_validation_msg = "HANA sap_hana_install_number , ASCS sap_swpm_ascs_instance_nr and PAS sap_swpm_pas_instance_nr instance numbers must not be same"
+  # tflint-ignore: terraform_unused_declarations
+  instance_nr_validation_chk = regex("^${local.instance_nr_validation_msg}$", (local.instance_nr_validation ? local.instance_nr_validation_msg : ""))
+}
+
+
+#####################################################
 # Install HANA DB
 #####################################################
 
 locals {
-  ansible_sap_hana_playbook_vars = {
-    sap_hana_install_software_directory = "${local.nfs_directory}/${var.cos_configuration.cos_hana_software_path}"
-    sap_hana_install_sid                = var.ansible_sap_hana_vars.sap_hana_install_sid
-    sap_hana_install_number             = var.ansible_sap_hana_vars.sap_hana_install_number
-    sap_hana_install_master_password    = var.sap_hana_install_master_password
-  }
+  ansible_sap_hana_playbook_vars = merge(var.ansible_sap_hana_vars,
+    {
+      sap_hana_install_software_directory = "${local.nfs_directory}/${var.cos_configuration.cos_hana_software_path}",
+      sap_hana_install_master_password    = var.sap_hana_install_master_password
+    }
+  )
 }
 
 module "ansible_sap_install_hana" {
@@ -186,25 +198,20 @@ locals {
     "bw4hana-2021" = "NW_ABAP_OneHost:BW4HANA2021.CORE.HDB.ABAP"
   }
 
-  ansible_sap_solution_playbook_vars = {
-    sap_swpm_product_catalog_id        = lookup(local.product_catalog_map, var.sap_solution)
-    sap_install_media_detect_directory = "${local.nfs_directory}/${var.cos_configuration.cos_solution_software_path}"
-    sap_swpm_sid                       = var.ansible_sap_solution_vars.sap_swpm_sid
-    sap_swpm_pas_instance_nr           = var.ansible_sap_solution_vars.sap_swpm_pas_instance_nr
-    sap_swpm_ascs_instance_nr          = var.ansible_sap_solution_vars.sap_swpm_ascs_instance_nr
-    sap_swpm_mp_stack_path             = var.ansible_sap_solution_vars.sap_swpm_mp_stack_path
-    sap_swpm_mp_stack_file_name        = var.ansible_sap_solution_vars.sap_swpm_mp_stack_file_name
-    sap_swpm_configure_tms             = var.ansible_sap_solution_vars.sap_swpm_configure_tms
-    sap_swpm_tms_tr_files_path         = var.ansible_sap_solution_vars.sap_swpm_tms_tr_files_path
-    sap_swpm_master_password           = var.sap_swpm_master_password
-    sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
-    sap_domain                         = var.sap_domain
-    sap_swpm_db_host                   = "${var.prefix}-${var.powervs_hana_instance_name}"
-    sap_swpm_db_ip                     = module.sap_system.powervs_hana_instance_sap_ip
-    sap_swpm_db_sid                    = var.ansible_sap_hana_vars.sap_hana_install_sid
-    sap_swpm_db_instance_nr            = var.ansible_sap_hana_vars.sap_hana_install_number
-    sap_swpm_db_master_password        = var.sap_hana_install_master_password
-  }
+  ansible_sap_solution_playbook_vars = merge(var.ansible_sap_solution_vars,
+    {
+      sap_swpm_product_catalog_id        = lookup(local.product_catalog_map, var.sap_solution)
+      sap_install_media_detect_directory = "${local.nfs_directory}/${var.cos_configuration.cos_solution_software_path}"
+      sap_swpm_master_password           = var.sap_swpm_master_password
+      sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
+      sap_domain                         = var.sap_domain
+      sap_swpm_db_host                   = "${var.prefix}-${var.powervs_hana_instance_name}"
+      sap_swpm_db_ip                     = module.sap_system.powervs_hana_instance_sap_ip
+      sap_swpm_db_sid                    = var.ansible_sap_hana_vars.sap_hana_install_sid
+      sap_swpm_db_instance_nr            = var.ansible_sap_hana_vars.sap_hana_install_number
+      sap_swpm_db_master_password        = var.sap_hana_install_master_password
+    }
+  )
 }
 
 module "ansible_sap_install_netweaver" {
