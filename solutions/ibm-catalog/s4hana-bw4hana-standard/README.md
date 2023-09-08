@@ -17,7 +17,7 @@
 
 
 ## Before you begin
-1. **It is required to have an existing IBM Cloud Object Storage (COS) instance**. Within the instance, an Object Storage Bucket containing the **SAP Software installation media files is required in correct folder structure as defined** [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-cos).
+1. **It is required to have an existing IBM Cloud Object Storage (COS) instance**. Within the instance, an Object Storage Bucket containing the **SAP Software installation media files is required in correct folder structure as defined** [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-ibm-cloud-object-storage-bucket).
 
 2. **This solution requires a schematics workspace id as an input.**
 If you do not have a PowerVS infrastructure that is the full stack solution for a PowerVS Workspace that includes the full stack solution for Secure Landing Zone, create it first.
@@ -33,11 +33,11 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 
 ## Prerequisites
 
-### 1. COS service credentials
+### 1. IBM Cloud Object Storage service credentials
 1. Recommended to have a COS Instance in the same region where the S/4HANA or BW/4HANA deployment is planned as copying the files on to the lpar will be faster.
 2. **'ibmcloud_cos_service_credentials'** variable requires a value in **json format**. This can be obtained using the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)
 
-### 2. SAP binaries required for installation and folder structure in COS
+### 2. SAP binaries required for installation and folder structure in IBM Cloud Object Storage bucket
 1. All binaries for HANA database and SAP solution (S/4HANA or BW/4HANA) must be uploaded to the IBM Cloud Object Storage Instance bucket in IBM Cloud before starting this deployment.
 2. For example the binaries required for S/4HANA 2022 are listed [here](./docs/s4hana2022_binaries.md).
 3. Example folder structure :
