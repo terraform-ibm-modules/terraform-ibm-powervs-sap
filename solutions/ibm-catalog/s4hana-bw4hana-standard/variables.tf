@@ -88,10 +88,10 @@ variable "ssh_private_key" {
 }
 
 #####################################################
-# COS Parameters to download binaries
+# IBM Cloud Object Storage Parameters to download binaries
 #####################################################
 variable "ibmcloud_cos_service_credentials" {
-  description = "Cloud object storage Instance service credentials to access the cos bucket [json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)"
+  description = "IBM Cloud object storage Instance service credentials to access the bucket in the instance.[json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)"
   type        = string
   sensitive   = true
 }
