@@ -1,7 +1,6 @@
-# Install directory **should not contain**. Otherwise it will error out
-#   1.  IMDB_SERVER*SAR file
-#   2.  IMDB_*SAR files for all components you wish to install
-#   3.  SAPCAR executable
+# Install directory **should not contain** any IMDB files. Otherwise swpm roll will run into error. However exception is IMDB_CLIENT*.SAR file.
+#   1.  IMDB_SERVER*SAR file must be absent
+#   2.  IMDB_AFL*SAR, IMDB_LCAPPS*.SAR must be absent
 
 ---
 
