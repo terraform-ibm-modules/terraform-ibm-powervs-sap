@@ -321,7 +321,7 @@
                     }
                 },
                 {
-                    "label": "SAP S4HANA / BW4HANA Standard",
+                    "label": "SAP S/4HANA or BW/4HANA Standard",
                     "name": "s4hana-bw4hana",
                     "install_type": "extension",
                     "working_directory": "solutions/ibm-catalog/s4hana-bw4hana-standard",
@@ -462,26 +462,26 @@
                             "required": true,
                             "options": [
                                 {
-                                    "displayname": "S4HANA 2022",
+                                    "displayname": "S/4HANA 2022",
                                     "value": "s4hana-2022"
                                 },
                                 {
-                                    "displayname": "S4HANA 2021",
+                                    "displayname": "S/4HANA 2021",
                                     "value": "s4hana-2021"
                                 },
                                 {
-                                    "displayname": "S4HANA 2020",
+                                    "displayname": "S/4HANA 2020",
                                     "value": "s4hana-2020"
                                 },
                                 {
-                                    "displayname": "BW4HANA 2021",
+                                    "displayname": "BW/4HANA 2021",
                                     "value": "bw4hana-2021"
                                 }
                             ],
                             "custom_config": {}
                         },
                         {
-                            "key": "cos_service_credentials",
+                            "key": "ibmcloud_cos_service_credentials",
                             "required": true,
                             "type": "password",
                             "custom_config": {
@@ -491,7 +491,7 @@
                             }
                         },
                         {
-                            "key": "cos_configuration",
+                            "key": "ibmcloud_cos_configuration",
                             "required": true,
                             "custom_config": {
                                 "grouping": "deployment",
@@ -648,7 +648,7 @@
                     "architecture": {
                         "features": [
                             {
-                                "title": "SAP solution S4HANA/BW4HANA Standard",
+                                "title": "SAP solution S/4HANA or BW/4HANA Standard",
                                 "description": "Installed"
                             },
                             {
@@ -667,11 +667,11 @@
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": "S4HANA or BW4HANA solution on IBM POWERVS",
+                                    "caption": "S/4HANA or BW/4HANA solution on IBM POWERVS",
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/b4s4/reference-architectures/s4hana-bw4hana-standard/deploy-arch-ibm-pvs-s4hana-bw4hana-standard.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "'S4HANA / BW4HANA standard' variation of 'SAP on secure Power Virtual Servers' creates a basic and expandable SAP system landscape builds on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation. S4HANA or BW4HANA solution is installed based on selected version. \n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
+                                "description": "'S/4HANA or BW/4HANA standard' variation of 'SAP on secure Power Virtual Servers' creates a basic and expandable SAP system landscape builds on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation. S/4HANA or BW/4HANA solution is installed based on selected version. \n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
                             }
                         ]
                     }

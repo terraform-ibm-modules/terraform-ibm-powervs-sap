@@ -15,8 +15,8 @@ variable "ssh_private_key" {
   sensitive   = true
 }
 
-variable "cos_configuration" {
-  description = "COS details to download the files to the target host"
+variable "ibmcloud_cos_configuration" {
+  description = "IBM Cloud Object Storage details to download the files to the target host"
   type = object({
     cos_apikey               = string
     cos_region               = string

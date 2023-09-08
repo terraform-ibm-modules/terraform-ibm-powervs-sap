@@ -104,7 +104,7 @@ module "sap_system" {
 #####################################################
 
 locals {
-  cos_service_credentials  = jsondecode(var.cos_service_credentials)
+  cos_service_credentials  = jsondecode(var.ibmcloud_cos_service_credentials)
   cos_apikey               = local.cos_service_credentials.apikey
   cos_resource_instance_id = local.cos_service_credentials.resource_instance_id
 }
@@ -112,40 +112,40 @@ locals {
 locals {
   nfs_directory = split(":", local.nfs_host_or_ip_path)[1]
 
-  cos_hana_configuration = {
+  ibmcloud_cos_hana_configuration = {
     cos_apikey               = local.cos_apikey
-    cos_region               = var.cos_configuration.cos_region
+    cos_region               = var.ibmcloud_cos_configuration.cos_region
     cos_resource_instance_id = local.cos_resource_instance_id
-    cos_bucket_name          = var.cos_configuration.cos_bucket_name
-    cos_dir_name             = var.cos_configuration.cos_hana_software_path
+    cos_bucket_name          = var.ibmcloud_cos_configuration.cos_bucket_name
+    cos_dir_name             = var.ibmcloud_cos_configuration.cos_hana_software_path
     download_dir_path        = local.nfs_directory
   }
 
-  cos_solution_configuration = {
+  ibmcloud_cos_solution_configuration = {
     cos_apikey               = local.cos_apikey
-    cos_region               = var.cos_configuration.cos_region
+    cos_region               = var.ibmcloud_cos_configuration.cos_region
     cos_resource_instance_id = local.cos_resource_instance_id
-    cos_bucket_name          = var.cos_configuration.cos_bucket_name
-    cos_dir_name             = var.cos_configuration.cos_solution_software_path
+    cos_bucket_name          = var.ibmcloud_cos_configuration.cos_bucket_name
+    cos_dir_name             = var.ibmcloud_cos_configuration.cos_solution_software_path
     download_dir_path        = local.nfs_directory
   }
 }
 
-module "cos_download_hana_binaries" {
-  source            = "../../../modules/ibmcloud_cos"
-  access_host_or_ip = local.access_host_or_ip
-  target_server_ip  = local.ntp_host_or_ip
-  ssh_private_key   = var.ssh_private_key
-  cos_configuration = local.cos_hana_configuration
+module "ibmcloud_cos_download_hana_binaries" {
+  source                     = "../../../modules/ibmcloud_cos"
+  access_host_or_ip          = local.access_host_or_ip
+  target_server_ip           = local.ntp_host_or_ip
+  ssh_private_key            = var.ssh_private_key
+  ibmcloud_cos_configuration = local.ibmcloud_cos_hana_configuration
 }
 
-module "cos_download_netweaver_binaries" {
-  source            = "../../../modules/ibmcloud_cos"
-  depends_on        = [module.cos_download_hana_binaries]
-  access_host_or_ip = local.access_host_or_ip
-  target_server_ip  = local.ntp_host_or_ip
-  ssh_private_key   = var.ssh_private_key
-  cos_configuration = local.cos_solution_configuration
+module "ibmcloud_cos_download_netweaver_binaries" {
+  source                     = "../../../modules/ibmcloud_cos"
+  depends_on                 = [module.ibmcloud_cos_download_hana_binaries]
+  access_host_or_ip          = local.access_host_or_ip
+  target_server_ip           = local.ntp_host_or_ip
+  ssh_private_key            = var.ssh_private_key
+  ibmcloud_cos_configuration = local.ibmcloud_cos_solution_configuration
 }
 
 
@@ -168,7 +168,7 @@ locals {
 locals {
   ansible_sap_hana_playbook_vars = merge(var.ansible_sap_hana_vars,
     {
-      sap_hana_install_software_directory = "${local.nfs_directory}/${var.cos_configuration.cos_hana_software_path}",
+      sap_hana_install_software_directory = "${local.nfs_directory}/${var.ibmcloud_cos_configuration.cos_hana_software_path}",
       sap_hana_install_master_password    = var.sap_hana_master_password
     }
   )
@@ -176,7 +176,7 @@ locals {
 
 module "ansible_sap_install_hana" {
   source                    = "../../../modules/ansible_sap_install_all"
-  depends_on                = [module.cos_download_hana_binaries, module.sap_system]
+  depends_on                = [module.ibmcloud_cos_download_hana_binaries, module.sap_system]
   access_host_or_ip         = local.access_host_or_ip
   target_server_ip          = module.sap_system.powervs_hana_instance_management_ip
   ssh_private_key           = var.ssh_private_key
@@ -201,7 +201,7 @@ locals {
   ansible_sap_solution_playbook_vars = merge(var.ansible_sap_solution_vars,
     {
       sap_swpm_product_catalog_id        = lookup(local.product_catalog_map, var.sap_solution)
-      sap_install_media_detect_directory = "${local.nfs_directory}/${var.cos_configuration.cos_solution_software_path}"
+      sap_install_media_detect_directory = "${local.nfs_directory}/${var.ibmcloud_cos_configuration.cos_solution_software_path}"
       sap_swpm_master_password           = var.sap_swpm_master_password
       sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
       sap_domain                         = var.sap_domain
@@ -216,7 +216,7 @@ locals {
 
 module "ansible_sap_install_netweaver" {
   source                    = "../../../modules/ansible_sap_install_all"
-  depends_on                = [module.cos_download_netweaver_binaries, module.ansible_sap_install_hana]
+  depends_on                = [module.ibmcloud_cos_download_netweaver_binaries, module.ansible_sap_install_hana]
   access_host_or_ip         = local.access_host_or_ip
   target_server_ip          = module.sap_system.powervs_netweaver_instance_management_ips
   ssh_private_key           = var.ssh_private_key

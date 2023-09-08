@@ -90,14 +90,14 @@ variable "ssh_private_key" {
 #####################################################
 # COS Parameters to download binaries
 #####################################################
-variable "cos_service_credentials" {
+variable "ibmcloud_cos_service_credentials" {
   description = "Cloud object storage Instance service credentials to access the cos bucket [json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)"
   type        = string
   sensitive   = true
 }
 
-variable "cos_configuration" {
-  description = "Cloud object storage Instance details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S4HANA or BW4HANA installation. If you have a stack xml file (maintainance planner) also place it under the 'cos_solution_software_path' dir and shouldn't contain any DB files as playbook will run into an error. Give the folder paths in Cloud object storage Instance."
+variable "ibmcloud_cos_configuration" {
+  description = "Cloud object storage Instance details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S/4HANA or BW/4HANA installation. If you have a stack xml file (maintainance planner) also place it under the 'cos_solution_software_path' dir and shouldn't contain any DB files as playbook will run into an error. Give the folder paths in Cloud object storage Instance."
   type = object({
     cos_region                 = string
     cos_bucket_name            = string

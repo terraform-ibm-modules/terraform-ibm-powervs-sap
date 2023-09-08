@@ -1,6 +1,10 @@
-# Power Virtual Server for SAP HANA solution to create SAP S4HANA or BW4HANA standard installation on PowerVS instances from IBM Cloud Catalog
+# IBM Power Virtual Server for SAP HANA solution to create SAP S4HANA or BW4HANA standard installation on PowerVS instances from IBM Cloud Catalog
 
-The Power Virtual Server for SAP HANA example automates the following tasks:
+# Summary
+## Summary Outcome:
+   SAP S/4HANA or SAP BW/4HANA in Standard installation configuration to IBM Power VS hosts'
+
+## Summary Tasks
 
 - Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
 - Creates and configures One PowerVS instance for SAP NetWeaver that is based on best practices.
@@ -8,15 +12,16 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
-- Supports installation of **S4HANA2022, S4HANA2021, S4HANA2020, BW4HANA2021.**
+- Supports installation of **S/4HANA2022, S/4HANA2021, S/4HANA2020, BW/4HANA2021.**
 - Supports installation using **Maintainance planner** as well.
 
-### Notes:
-**This solution does not download any binaries from SAP portal. It is ones duty to have the binaries before hand and have it stored in Cloud object storage bucket as defined** [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-cos).
 
 ## Before you begin
-Note: **This solution requires a schematics workspace id as an input.**
+1. **It is required to have an existing IBM Cloud Object Storage (COS) instance**. Within the instance, an Object Storage Bucket containing the **SAP Software installation media files is required in correct folder structure as defined** [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-cos).
+
+2. **This solution requires a schematics workspace id as an input.**
 If you do not have a PowerVS infrastructure that is the full stack solution for a PowerVS Workspace that includes the full stack solution for Secure Landing Zone, create it first.
+
 
 | Variation                       | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Creates ShareFS Instance | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 |---------------------------------|--------------------------|----------------------------------|-------------------------------|------------------------------|--------------------------|----------------------------|-----------------------------|----------------------|
@@ -29,12 +34,12 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 ## Prerequisites
 
 ### 1. COS service credentials
-1. Recommended to have a COS Instance in the same region where the s4hana/bw4hana deployment is planned as copying the files on to the lpar will be faster.
-2. **'cos_service_credentials'** variable requires a value in **json format**. This can be obtained using the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)
+1. Recommended to have a COS Instance in the same region where the S/4HANA or BW/4HANA deployment is planned as copying the files on to the lpar will be faster.
+2. **'ibmcloud_cos_service_credentials'** variable requires a value in **json format**. This can be obtained using the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)
 
 ### 2. SAP binaries required for installation and folder structure in COS
-1. All binaries for HANA database and SAP solution (S4HANA or BW4HANA) must be uploaded to the Cloud object storage bucket in IBM cloud before starting this deployment.
-2. For example the binaries required for S4HANA 2022 are listed [here](./docs/s4hana2022_binaries.md).
+1. All binaries for HANA database and SAP solution (S/4HANA or BW/4HANA) must be uploaded to the IBM Cloud Object Storage Instance bucket in IBM Cloud before starting this deployment.
+2. For example the binaries required for S/4HANA 2022 are listed [here](./docs/s4hana2022_binaries.md).
 3. Example folder structure :
 ```
 s4hana2022
@@ -46,15 +51,15 @@ s4hana2022
   |_all files similar to listed in point 2 above example file
   |_maintainance planner stack xml file (optional)
 ```
-**Do not mix the HANA DB binaries with the S4HANA/BW4HANA solution binaries otherwise the ansible playbook execution will fail.**
+**Do not mix the HANA DB binaries with the S/4HANA or BW/4HANA solution binaries otherwise the ansible playbook execution will fail.**
 
 4. If you have a **Maintainance planner stack xml** file, place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in variable **'ansible_sap_solution_vars.sap_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack xml file.
-5. **'cos_configuration'** variable needs to be set correctly based on the folder structure created.
+5. **'ibmcloud_cos_configuration'** variable needs to be set correctly based on the folder structure created.
 
-   `"cos_region":` region of cos bucket in IBM cloud. Example **eu-gb**\
+   `"cos_region":` region of IBM Cloud Object Storage instance bucket. Example **eu-gb**\
    `"cos_bucket_name":`  cos bucket name\
    `"cos_hana_software_path":` folder path to hana db binaries from the root of bucket. Example from point 3 the value would be **"s4hana2022/HANA_DB"**\
-   `"cos_solution_software_path":` folder path to s4hana binaries from the root of bucket. Example from point 3 the value would be **"s4hana2022/S4HANA_2022"**
+   `"cos_solution_software_path":` folder path to S/4HANA binaries from the root of bucket. Example from point 3 the value would be **"s4hana2022/S4HANA_2022"**
 
 
 ## Post Deployment
@@ -64,9 +69,9 @@ s4hana2022
 
 
 ## Ansible roles used
-1. **rhel system role:** `sap_hana_install`
-2. **community role:**  `community.sap_install.sap_swpm `
-3. **community role:**  `community.sap_install.sap_install_media_detect`
+1. **RHEL System Roles:** `sap_hana_install`
+2. **Community role:**  `community.sap_install.sap_swpm `
+3. **Community role:**  `community.sap_install.sap_install_media_detect`
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -83,8 +88,8 @@ s4hana2022
 |------|--------|---------|
 | <a name="module_ansible_sap_install_hana"></a> [ansible\_sap\_install\_hana](#module\_ansible\_sap\_install\_hana) | ../../../modules/ansible_sap_install_all | n/a |
 | <a name="module_ansible_sap_install_netweaver"></a> [ansible\_sap\_install\_netweaver](#module\_ansible\_sap\_install\_netweaver) | ../../../modules/ansible_sap_install_all | n/a |
-| <a name="module_cos_download_hana_binaries"></a> [cos\_download\_hana\_binaries](#module\_cos\_download\_hana\_binaries) | ../../../modules/ibmcloud_cos | n/a |
-| <a name="module_cos_download_netweaver_binaries"></a> [cos\_download\_netweaver\_binaries](#module\_cos\_download\_netweaver\_binaries) | ../../../modules/ibmcloud_cos | n/a |
+| <a name="module_ibmcloud_cos_download_hana_binaries"></a> [ibmcloud\_cos\_download\_hana\_binaries](#module\_ibmcloud\_cos\_download\_hana\_binaries) | ../../../modules/ibmcloud_cos | n/a |
+| <a name="module_ibmcloud_cos_download_netweaver_binaries"></a> [ibmcloud\_cos\_download\_netweaver\_binaries](#module\_ibmcloud\_cos\_download\_netweaver\_binaries) | ../../../modules/ibmcloud_cos | n/a |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../sap-ready-to-go/module | n/a |
 
 ### Resources
@@ -101,9 +106,9 @@ s4hana2022
 | <a name="input_ansible_sap_hana_vars"></a> [ansible\_sap\_hana\_vars](#input\_ansible\_sap\_hana\_vars) | SAP HANA variables for HANA DB installation. | <pre>object({<br>    sap_hana_install_sid    = string<br>    sap_hana_install_number = string<br>  })</pre> | <pre>{<br>  "sap_hana_install_number": "02",<br>  "sap_hana_install_sid": "HDB"<br>}</pre> | no |
 | <a name="input_ansible_sap_solution_vars"></a> [ansible\_sap\_solution\_vars](#input\_ansible\_sap\_solution\_vars) | SAP solution variables for SWPM installation. If sap\_swpm\_mp\_stack\_file\_name is empty, then installation will not use maintainance planner and tms will not be installed and configured. | <pre>object({<br>    sap_swpm_sid                = string<br>    sap_swpm_ascs_instance_nr   = string<br>    sap_swpm_pas_instance_nr    = string<br>    sap_swpm_mp_stack_file_name = string<br><br>  })</pre> | <pre>{<br>  "sap_swpm_ascs_instance_nr": "00",<br>  "sap_swpm_mp_stack_file_name": "",<br>  "sap_swpm_pas_instance_nr": "01",<br>  "sap_swpm_sid": "S4H"<br>}</pre> | no |
 | <a name="input_ansible_vault_password"></a> [ansible\_vault\_password](#input\_ansible\_vault\_password) | Vault password to encrypt ansible variable file for SAP installation. | `string` | n/a | yes |
-| <a name="input_cos_configuration"></a> [cos\_configuration](#input\_cos\_configuration) | Cloud object storage Instance details to download the files to the target host. 'cos\_hana\_software\_path' should contain only binaries required for HANA DB installation. 'cos\_solution\_software\_path' should contain only binaries required for S4HANA or BW4HANA installation. If you have a stack xml file (maintainance planner) also place it under the 'cos\_solution\_software\_path' dir and shouldn't contain any DB files as playbook will run into an error. Give the folder paths in Cloud object storage Instance. | <pre>object({<br>    cos_region                 = string<br>    cos_bucket_name            = string<br>    cos_hana_software_path     = string<br>    cos_solution_software_path = string<br>  })</pre> | <pre>{<br>  "cos_bucket_name": "powervs-automation",<br>  "cos_hana_software_path": "HANA_DB/rev66",<br>  "cos_region": "eu-geo",<br>  "cos_solution_software_path": "S4HANA_2022"<br>}</pre> | no |
-| <a name="input_cos_service_credentials"></a> [cos\_service\_credentials](#input\_cos\_service\_credentials) | Cloud object storage Instance service credentials to access the cos bucket [json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials) | `string` | n/a | yes |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM enabled resources. | `string` | n/a | yes |
+| <a name="input_ibmcloud_cos_configuration"></a> [ibmcloud\_cos\_configuration](#input\_ibmcloud\_cos\_configuration) | Cloud object storage Instance details to download the files to the target host. 'cos\_hana\_software\_path' should contain only binaries required for HANA DB installation. 'cos\_solution\_software\_path' should contain only binaries required for S/4HANA or BW/4HANA installation. If you have a stack xml file (maintainance planner) also place it under the 'cos\_solution\_software\_path' dir and shouldn't contain any DB files as playbook will run into an error. Give the folder paths in Cloud object storage Instance. | <pre>object({<br>    cos_region                 = string<br>    cos_bucket_name            = string<br>    cos_hana_software_path     = string<br>    cos_solution_software_path = string<br>  })</pre> | <pre>{<br>  "cos_bucket_name": "powervs-automation",<br>  "cos_hana_software_path": "HANA_DB/rev66",<br>  "cos_region": "eu-geo",<br>  "cos_solution_software_path": "S4HANA_2022"<br>}</pre> | no |
+| <a name="input_ibmcloud_cos_service_credentials"></a> [ibmcloud\_cos\_service\_credentials](#input\_ibmcloud\_cos\_service\_credentials) | Cloud object storage Instance service credentials to access the cos bucket [json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials) | `string` | n/a | yes |
 | <a name="input_powervs_create_separate_fs_share"></a> [powervs\_create\_separate\_fs\_share](#input\_powervs\_create\_separate\_fs\_share) | Deploy separate IBM PowerVS instance(0.5 cpus, 2 GB memory size, shared processor on s922.) as central file system share. All filesystems defined in 'powervs\_share\_storage\_config' optional variable will be NFS exported and mounted on Netweaver PowerVS instances. | `bool` | `true` | no |
 | <a name="input_powervs_default_images"></a> [powervs\_default\_images](#input\_powervs\_default\_images) | Default Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances. | <pre>object({<br>    rhel_hana_image = string<br>    rhel_nw_image   = string<br>  })</pre> | <pre>{<br>  "rhel_hana_image": "RHEL8-SP6-SAP",<br>  "rhel_nw_image": "RHEL8-SP6-SAP-NETWEAVER"<br>}</pre> | no |
 | <a name="input_powervs_hana_additional_storage_config"></a> [powervs\_hana\_additional\_storage\_config](#input\_powervs\_hana\_additional\_storage\_config) | Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. | <pre>list(object({<br>    name  = string<br>    size  = string<br>    count = string<br>    tier  = string<br>    mount = string<br>  }))</pre> | <pre>[<br>  {<br>    "count": "1",<br>    "mount": "/usr/sap",<br>    "name": "usrsap",<br>    "size": "50",<br>    "tier": "tier3"<br>  }<br>]</pre> | no |

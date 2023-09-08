@@ -36,11 +36,11 @@ resource "null_resource" "download_objects" {
     content = templatefile(
       local.src_script_ibmcloud_cos_tfpl_path,
       {
-        "cos_region" : var.cos_configuration.cos_region
-        "cos_resource_instance_id" : var.cos_configuration.cos_resource_instance_id
-        "cos_bucket_name" : var.cos_configuration.cos_bucket_name
-        "cos_dir_name" : var.cos_configuration.cos_dir_name
-        "download_dir_path" : var.cos_configuration.download_dir_path
+        "cos_region" : var.ibmcloud_cos_configuration.cos_region
+        "cos_resource_instance_id" : var.ibmcloud_cos_configuration.cos_resource_instance_id
+        "cos_bucket_name" : var.ibmcloud_cos_configuration.cos_bucket_name
+        "cos_dir_name" : var.ibmcloud_cos_configuration.cos_dir_name
+        "download_dir_path" : var.ibmcloud_cos_configuration.download_dir_path
       }
     )
   }
@@ -49,8 +49,8 @@ resource "null_resource" "download_objects" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x ${local.dst_script_ibmcloud_cos_sh_path}",
-      "${local.dst_script_ibmcloud_cos_sh_path} -i ${var.cos_configuration.cos_apikey} > ${local.log_file}",
-      "chmod 777 -R ${var.cos_configuration.download_dir_path}"
+      "${local.dst_script_ibmcloud_cos_sh_path} -i ${var.ibmcloud_cos_configuration.cos_apikey} > ${local.log_file}",
+      "chmod 777 -R ${var.ibmcloud_cos_configuration.download_dir_path}"
     ]
   }
 
