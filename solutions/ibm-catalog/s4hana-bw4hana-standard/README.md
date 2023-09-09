@@ -39,7 +39,7 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 
 ### 2. SAP binaries required for installation and folder structure in IBM Cloud Object Storage bucket
 1. All binaries for HANA database and SAP solution (S/4HANA or BW/4HANA) must be uploaded to the IBM Cloud Object Storage Instance bucket in IBM Cloud before starting this deployment.
-2. For example the binaries required for S/4HANA 2022 are listed [here](./docs/s4hana2022_binaries.md).
+2. For example the binaries required for S/4HANA 2022 and BW/4HANA 2021 are listed [here](./docs/s4hana22_bw4hana21_binaries.md).
 3. Example folder structure :
 ```
 s4hana2022
