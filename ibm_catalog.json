@@ -32,7 +32,7 @@
             ],
             "short_description": "Deploy SAP systems on Power Virtual Server with VPC landing zone",
             "long_description": "This deployable architecture is designed to assist you in deploying SAP ERP software landscapes into IBM Cloud on the IBM Power Virtual Server infrastructure. This is the second step in the deployment process for creating a full environment. Before starting this step, you should first deploy 'Power Virtual Server with VPC landing zone'. Once this is completed, you are prepared to start this step.\n\nSAP on Power Virtual Server creates and prepares Power Virtual Server instances for SAP HANA and SAP NetWeaver workloads. After deployment completes, you may (depending on the framework you chose) begin installing SAP on the configured instances or login to your newly created SAP instances directly.",
-            "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-ready-to-go/#README",
+            "offering_docs_url": "https://cloud.ibm.com/docs/sap-powervs?topic=sap-powervs-sap-powervs-automation-solution",
             "offering_icon_url": "data:image/svg+xml;base64,PHN2ZyBpZD0iU0FQb25Qb3dlciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iMCAwIDMyIDMyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9IjB3cG82d2txd2EiIHgxPSItMTg1NS4yMDgiIHkxPSItMjUwMi41NjMiIHgyPSItMTg1NS4yMDgiIHkyPSItMjUyMi4xNzkiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMS4wNiAwIDAgLS40OTEgMTk3My42NzYgLTEyMjcuMjkzKSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIvPjxzdG9wIG9mZnNldD0iLjgiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJwODB2MGMwMnZiIiB4MT0iMzI4LjUwMiIgeTE9Ii02NzY1LjY0NyIgeDI9IjMyOC41MDIiIHkyPSItNjc4NS4yNjMiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMS4wNiAwIDAgLjUxNSAtMzM5Ljk2NyAzNTEzLjI1KSIgeGxpbms6aHJlZj0iIzB3cG82d2txd2EiLz48bGluZWFyR3JhZGllbnQgaWQ9ImRrMDJ3NXQweWMiIHgxPSItOTUzLjI2NiIgeTE9Ii0yODI4LjY1OSIgeDI9Ii05NTMuMjY2IiB5Mj0iLTI4MzguNTMzIiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEuMDYgMCAwIC0uNjY5IDEwMzcuMjE4IC0xODc2LjQzOSkiIHhsaW5rOmhyZWY9IiMwd3BvNndrcXdhIi8+PGxpbmVhckdyYWRpZW50IGlkPSJvbjF6NG9xNmVkIiB4MT0iLTE5MjMuMjUiIHkxPSItMjYyMC4yOSIgeDI9Ii0xOTIzLjI1IiB5Mj0iLTI2MjcuODg1IiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEuMDYgMCAwIC42NjkgMjA0OC4wOTEgMTc4Mi4zNjQpIiB4bGluazpocmVmPSIjMHdwbzZ3a3F3YSIvPjxsaW5lYXJHcmFkaWVudCBpZD0iZGw0OXc5YXdnZSIgeDE9Ii0xOTE1LjgwMiIgeTE9Ii0zMTkxLjI5NSIgeDI9Ii0xOTE1LjgwMiIgeTI9Ii0zMTk4Ljg4OSIgZ3JhZGllbnRUcmFuc2Zvcm09Im1hdHJpeCgxLjA2IDAgMCAuNjY5IDIwNDMuNDggMjE0MS4xMjgpIiB4bGluazpocmVmPSIjMHdwbzZ3a3F3YSIvPjxsaW5lYXJHcmFkaWVudCBpZD0iemI2Y3VlbnRsZyIgeDE9IjAiIHkxPSIzMiIgeDI9IjMyIiB5Mj0iMCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iLjEiIHN0b3AtY29sb3I9IiMwOGJkYmEiLz48c3RvcCBvZmZzZXQ9Ii45IiBzdG9wLWNvbG9yPSIjMGY2MmZlIi8+PC9saW5lYXJHcmFkaWVudD48bWFzayBpZD0iOG5zZ3FxYnBjZiIgeD0iMCIgeT0iMCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMTUuOTgyIDMwYy03LjcyIDAtMTQtNi4yOC0xNC0xNHM2LjI4MS0xNCAxNC0xNCAxNCA2LjI4IDE0IDE0LTYuMjggMTQtMTQgMTR6bTAtMjZjLTYuNjE3IDAtMTIgNS4zODMtMTIgMTJzNS4zODMgMTIgMTIgMTIgMTItNS4zODMgMTItMTItNS4zODMtMTItMTItMTJ6IiBzdHlsZT0iZmlsbDojZmZmIi8+PHBhdGggZD0iTTMwLjY5MSAzMC43MDhIMTEuNzI5bDMtOC43MDggMTAuNDY1LjAxMSA1LjU3Ny0uMDIxLS4wOCA4LjcxOHpNNi45ODIgMjBsLTYgNS40OTRWNi44MDdsNiA1LjAxNVYyMHpNMTYuMDAzIDFoMTQuOTk5djEzLjAzMkgxNi4wMDN6Ii8+PHBhdGggdHJhbnNmb3JtPSJyb3RhdGUoLTEzNSA3Ljk0MyA2Ljc4NykiIHN0eWxlPSJmaWxsOnVybCgjMHdwbzZ3a3F3YSkiIGQ9Ik00Ljc2NCAxLjk3aDYuMzU3djkuNjM1SDQuNzY0eiIvPjxwYXRoIHRyYW5zZm9ybT0icm90YXRlKDEzNSA4LjEwNiAyNS4zNDQpIiBzdHlsZT0iZmlsbDp1cmwoI3A4MHYwYzAydmIpIiBkPSJNNC45MjggMjAuMjk1aDYuMzU3djEwLjA5OEg0LjkyOHoiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgxODAgMjcuMTYxIDE4Ljg2MykiIHN0eWxlPSJmaWxsOnVybCgjZGswMnc1dDB5YykiIGQ9Ik0yMy45ODIgMTUuNTYxaDYuMzU3djYuNjA0aC02LjM1N3oiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgtNzAuNzkgMTAuMjYyIDI3LjE5NSkiIHN0eWxlPSJmaWxsOnVybCgjb24xejRvcTZlZCkiIGQ9Ik03LjA4NCAyNC42NTVoNi4zNTd2NS4wOEg3LjA4NHoiLz48cGF0aCBkPSJNOC45ODIgMjAuOThoLTZjLTEuMTAzIDAtMi0uODk3LTItMnYtNmMwLTEuMTAzLjg5Ny0yIDItMmg2YzEuMTAzIDAgMiAuODk3IDIgMnY2YzAgMS4xMDMtLjg5NyAyLTIgMnptLTYtOHY2aDYuMDAxdi02SDIuOTgyek0yOS4wMDIgMzFoLTEzYy0xLjEwMyAwLTItLjg5Ny0yLTJ2LTRjMC0xLjEwMy44OTctMiAyLTJoMTNjMS4xMDMgMCAyIC44OTcgMiAydjRjMCAxLjEwMy0uODk3IDItMiAyem0tMTMtNnY0aDEzLjAwMXYtNEgxNi4wMDJ6IiBzdHlsZT0iZmlsbDojZmZmIi8+PGNpcmNsZSBjeD0iMTkuMDAyIiBjeT0iMjciIHI9IjEiIHN0eWxlPSJmaWxsOiNmZmYiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgMTMuNTQzIDQuMDMyKSIgc3R5bGU9ImZpbGw6dXJsKCNkbDQ5dzlhd2dlKSIgZD0iTTEwLjM2NCAxLjQ5Mmg2LjM1N3Y1LjA4aC02LjM1N3oiLz48L21hc2s+PC9kZWZzPjxnIHN0eWxlPSJtYXNrOnVybCgjOG5zZ3FxYnBjZikiPjxwYXRoIHN0eWxlPSJmaWxsOnVybCgjemI2Y3VlbnRsZykiIGQ9Ik0wIDBoMzJ2MzJIMHoiLz48L2c+PHBhdGggZD0iTTI1LjQ2MiAxMkgxOWExIDEgMCAwIDEtMS0xVjQuMDM1YTEgMSAwIDAgMSAuOTk3LTFsMTItLjAzNUgzMWExIDEgMCAwIDEgLjc4NCAxLjYyMWwtNS41MzggN2EuOTk4Ljk5OCAwIDAgMS0uNzg0LjM3OXpNMjAgMTBoNC45NzhsMy45NTEtNC45OTRMMjAgNS4wMzJWMTB6IiBzdHlsZT0iZmlsbDojMDAxZDZjIi8+PC9zdmc+",
             "features": [
                 {
@@ -82,47 +82,47 @@
                             "required": true,
                             "options": [
                                 {
-                                    "displayname": "London (lon04)",
+                                    "displayname": "London 04 (lon04)",
                                     "value": "lon04"
                                 },
                                 {
-                                    "displayname": "London (lon06)",
+                                    "displayname": "London 06 (lon06)",
                                     "value": "lon06"
                                 },
                                 {
-                                    "displayname": "Frankfurt (eu-de-1)",
+                                    "displayname": "Frankfurt 1 (eu-de-1)",
                                     "value": "eu-de-1"
                                 },
                                 {
-                                    "displayname": "Frankfurt (eu-de-2)",
+                                    "displayname": "Frankfurt 2 (eu-de-2)",
                                     "value": "eu-de-2"
                                 },
                                 {
-                                    "displayname": "Toronto (tor01)",
+                                    "displayname": "Toronto 01 (tor01)",
                                     "value": "tor01"
                                 },
                                 {
-                                    "displayname": "Montreal (mon01)",
+                                    "displayname": "Montreal 01 (mon01)",
                                     "value": "mon01"
                                 },
                                 {
-                                    "displayname": "Osaka (osa21)",
+                                    "displayname": "Osaka 21 (osa21)",
                                     "value": "osa21"
                                 },
                                 {
-                                    "displayname": "Tokyo (tok04)",
+                                    "displayname": "Tokyo 04 (tok04)",
                                     "value": "tok04"
                                 },
                                 {
-                                    "displayname": "Sydney (syd04)",
+                                    "displayname": "Sydney 04 (syd04)",
                                     "value": "syd04"
                                 },
                                 {
-                                    "displayname": "Sydney (syd05)",
+                                    "displayname": "Sydney 05 (syd05)",
                                     "value": "syd05"
                                 },
                                 {
-                                    "displayname": "Sao Paulo (sao01)",
+                                    "displayname": "Sao Paulo 01 (sao01)",
                                     "value": "sao01"
                                 },
                                 {
@@ -130,15 +130,15 @@
                                     "value": "us-south"
                                 },
                                 {
-                                    "displayname": "Dallas (dal10)",
+                                    "displayname": "Dallas 10 (dal10)",
                                     "value": "dal10"
                                 },
                                 {
-                                    "displayname": "Dallas (dal12)",
+                                    "displayname": "Dallas 12 (dal12)",
                                     "value": "dal12"
                                 },
                                 {
-                                    "displayname": "US-east (us-east)",
+                                    "displayname": "Washington DC (us-east)",
                                     "value": "us-east"
                                 }
                             ],
