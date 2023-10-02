@@ -5,6 +5,3 @@ CRA_TARGETS:
     CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json"
     CRA_ENVIRONMENT_VARIABLES:
       TF_VAR_prefix: "cra-infra"
-      TF_VAR_powervs_zone: "syd05"
-      TF_VAR_powervs_resource_group_name: "Default"
-      TF_VAR_powervs_workspace_name: "powervs-workspace"
