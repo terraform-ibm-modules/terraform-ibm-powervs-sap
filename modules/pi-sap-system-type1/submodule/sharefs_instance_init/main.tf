@@ -1,6 +1,6 @@
 locals {
   scr_scripts_dir = "${path.module}/templates"
-  dst_scripts_dir = "/root/terraform_scripts"
+  dst_scripts_dir = "/root/terraform_files"
 
   ansible_configure_network_services_playbook_name = "powervs-services.yml"
   src_script_configure_network_services_tftpl_path = "${local.scr_scripts_dir}/configure_network_services.sh.tftpl"

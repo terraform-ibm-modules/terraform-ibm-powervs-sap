@@ -1,28 +1,7 @@
-variable "powervs_zone" {
+variable "pi_zone" {
   description = "IBM Cloud data center location where IBM PowerVS Workspace exists."
   type        = string
 }
-
-variable "powervs_resource_group_name" {
-  description = "Existing IBM Cloud resource group name."
-  type        = string
-}
-
-variable "pi_workspace_guid" {
-  description = "PowerVS infrastructure workspace id. The unique identifier of the new resource instance."
-  type        = string
-}
-
-variable "powervs_sshkey_name" {
-  description = "Existing PowerVS SSH Key Name."
-  type        = string
-}
-
-variable "pi_images" {
-  description = "Object containing imported PowerVS image names and image ids."
-  type        = map
-}
-
 
 variable "prefix" {
   description = "Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6."
@@ -33,147 +12,74 @@ variable "prefix" {
   }
 }
 
-variable "ssh_private_key" {
-  description = "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key' which was created previously. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
+variable "pi_workspace_guid" {
+  description = "PowerVS infrastructure workspace guid. The GUID of the resource instance."
   type        = string
-  sensitive   = true
 }
 
-variable "cloud_connection_count" {
-  description = "Existing number of Cloud connections to which new subnet must be attached."
+variable "pi_ssh_public_key_name" {
+  description = "Existing PowerVS SSH Public Key Name."
   type        = string
-  default     = 2
 }
 
-variable "additional_networks" {
-  description = "Existing list of subnets name to be attached to PowerVS instances. First network has to be a management network."
-  type        = list(object({
-    cidr = string
-    id   = string
-    name = string
-  }))
+variable "pi_networks" {
+  description = "Existing list of subnets to be attached to PowerVS instances. The first element will become the primary interface. Run 'ibmcloud pi networks' to list available private subnets."
+  type = list(
+    object({
+      name = string
+      id   = string
+      cidr = optional(string)
+    })
+  )
 }
 
-variable "powervs_sap_network_cidr" {
-  description = "Network range for separate SAP network. E.g., '10.53.1.0/24'"
+variable "pi_sap_network_cidr" {
+  description = "Additional private subnet for SAP communication which will be created. CIDR for SAP network. E.g., '10.53.1.0/24'"
   type        = string
   default     = "10.53.1.0/24"
 }
 
-variable "os_image_distro" {
-  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in 'var.powervs_default_images' optional parameters below."
-  type        = string
-  default     = "RHEL"
 
-  validation {
-    condition     = (upper(var.os_image_distro) == "RHEL" || upper(var.os_image_distro) == "SLES")
-    error_message = "Supported values are 'RHEL' or 'SLES' only."
-  }
+variable "cloud_connection_count" {
+  description = "Existing number of Cloud connections to which new subnet must be attached. Will be ignored in case of PER enabled DC."
+  type        = string
+  default     = 2
 }
 
 #####################################################
 # PowerVS Shared FS Instance parameters
 #####################################################
 
-variable "powervs_create_separate_fs_share" {
-  description = "Deploy separate IBM PowerVS instance(0.5 cpus, 2 GB memory size, shared processor on s922.) as central file system share. All filesystems defined in 'powervs_share_storage_config' optional variable will be NFS exported and mounted on Netweaver PowerVS instances."
+variable "pi_create_separate_fsshare_instance" {
+  description = "Deploy separate IBM PowerVS instance(0.5 cpus, 2 GB memory size, shared processor on s922.) as central file system share. All filesystems defined in 'pi_fsshare_instance_storage_config' optional variable will be NFS exported and mounted on Netweaver PowerVS instances."
   type        = bool
 }
 
-#####################################################
-# PowerVS HANA Instance parameters
-#####################################################
-
-variable "powervs_hana_instance_name" {
-  description = "SAP HANA hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_hana_instance_name>. Max length of final hostname must be <= 13 characters."
+variable "pi_fsshare_instance_image_id" {
+  description = "Image ID used for PowerVS fsshare instance. Run 'ibmcloud pi images' to list available images."
   type        = string
-  default     = "hana"
+  default     = null
 }
 
-variable "powervs_hana_sap_profile_id" {
-  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
+variable "pi_fsshare_instance_cpu_number" {
+  description = "Number of CPUs for fsshare instance."
   type        = string
-  default     = "ush1-4x256"
+  default     = ".5"
 }
 
-#####################################################
-# PowerVS NetWeaver Instance parameters
-#####################################################
-
-variable "powervs_netweaver_instance_count" {
-  description = "Number of SAP NetWeaver instances that should be created."
-  type        = number
-  default     = 1
-}
-
-variable "powervs_netweaver_instance_name" {
-  description = "SAP Netweaver hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters."
+variable "pi_fsshare_instance_memory_size" {
+  description = "Memory size for fsshare instance."
   type        = string
-  default     = "nw"
+  default     = "2"
 }
 
-variable "powervs_netweaver_cpu_number" {
-  description = "Number of CPUs for each SAP NetWeaver instance."
+variable "pi_fsshare_instance_cpu_proc_type" {
+  description = "Dedicated or shared processors. "
   type        = string
-  default     = "3"
+  default     = "shared"
 }
 
-variable "powervs_netweaver_memory_size" {
-  description = "Memory size for each SAP NetWeaver instance."
-  type        = string
-  default     = "32"
-}
-
-#####################################################
-# PVS SAP instance Initialization
-#####################################################
-
-variable "access_host_or_ip" {
-  description = "The public IP address or hostname for the access host. The address is used to reach the target or server_host IP address and to configure the DNS, NTP, NFS, and Squid proxy services. Set to null or empty if not configuring OS."
-  type        = string
-}
-
-variable "proxy_host_or_ip_port" {
-  description = "Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>."
-  type        = string
-
-  validation {
-    condition     = can(regex("\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\\b:[0-9]+", var.proxy_host_or_ip_port))
-    error_message = "Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>."
-  }
-}
-
-variable "dns_host_or_ip" {
-  description = "Private IP address of DNS server, resolver or forwarder. Set empty if not configuring OS."
-  type        = string
-}
-
-variable "ntp_host_or_ip" {
-  description = "Private IP address of NTP time server or forwarder. Set empty if not configuring OS."
-  type        = string
-}
-
-variable "nfs_host_or_ip_path" {
-  description = "Full path on NFS server (in form <hostname_or_ip>:<directory>, e.g., '10.20.10.4:/nfs'). Set to empty if not configuring OS."
-  type        = string
-
-  validation {
-    condition     = can(regex("\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\\b:\\/[A-Za-z0-9]+", var.nfs_host_or_ip_path)) || var.nfs_host_or_ip_path == ""
-    error_message = "Full path on NFS server (in form <hostname_or_ip>:<directory>, e.g., '10.20.10.4:/nfs') or it should be empty"
-  }
-}
-
-variable "sap_domain" {
-  description = "SAP domain to be set for entire landscape."
-  type        = string
-  default     = "sap.com"
-}
-
-#####################################################
-# Optional Parameters
-#####################################################
-
-variable "powervs_share_storage_config" {
+variable "pi_fsshare_instance_storage_config" {
   description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
@@ -183,22 +89,36 @@ variable "powervs_share_storage_config" {
     mount = string
   }))
   default = [{
-    "name" : "sapmnt",
-    "size" : "300",
-    "count" : "1",
-    "tier" : "tier3",
-    "mount" : "/sapmnt"
-    },
-    {
-      "name" : "trans",
-      "size" : "50",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/usr/trans"
+    "name" : "",
+    "size" : "",
+    "count" : "",
+    "tier" : "",
+    "mount" : ""
   }]
 }
 
-variable "powervs_hana_custom_storage_config" {
+#####################################################
+# PowerVS HANA Instance parameters
+#####################################################
+
+variable "pi_hana_instance_name" {
+  description = "SAP HANA hostname (non FQDN). Will get the form of <var.prefix>-<var.pi_hana_instance_name>. Max length of final hostname must be <= 13 characters."
+  type        = string
+  default     = "hana"
+}
+
+variable "pi_hana_instance_sap_profile_id" {
+  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'pi_hana_instance_custom_storage_config' parameter."
+  type        = string
+  default     = "ush1-4x256"
+}
+
+variable "pi_hana_instance_image_id" {
+  description = "Image ID used for PowerVS HANA instance. Run 'ibmcloud pi images' to list available images."
+  type        = string
+}
+
+variable "pi_hana_instance_custom_storage_config" {
   description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
@@ -216,7 +136,7 @@ variable "powervs_hana_custom_storage_config" {
   }]
 }
 
-variable "powervs_hana_additional_storage_config" {
+variable "pi_hana_instance_additional_storage_config" {
   description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
@@ -226,16 +146,55 @@ variable "powervs_hana_additional_storage_config" {
     mount = string
   }))
   default = [{
-    "name" : "usrsap",
-    "size" : "50",
-    "count" : "1",
-    "tier" : "tier3",
-    "mount" : "/usr/sap"
-
+    "name" : "",
+    "size" : "",
+    "count" : "",
+    "tier" : "",
+    "mount" : ""
   }]
 }
 
-variable "powervs_netweaver_storage_config" {
+#####################################################
+# PowerVS NetWeaver Instance parameters
+#####################################################
+
+variable "pi_netweaver_instance_count" {
+  description = "Number of SAP NetWeaver instances that should be created."
+  type        = number
+  default     = 1
+}
+
+variable "pi_netweaver_instance_name" {
+  description = "SAP Netweaver hostname (non FQDN). Will get the form of <var.prefix>-<var.pi_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters."
+  type        = string
+  default     = "nw"
+}
+
+variable "pi_netweaver_instance_image_id" {
+  description = "Image ID used for PowerVS Netweaver instance. Run 'ibmcloud pi images' to list available images."
+  type        = string
+  default     = null
+}
+
+variable "pi_netweaver_instance_cpu_number" {
+  description = "Number of CPUs for each SAP NetWeaver instance."
+  type        = string
+  default     = "3"
+}
+
+variable "pi_netweaver_instance_memory_size" {
+  description = "Memory size for each SAP NetWeaver instance."
+  type        = string
+  default     = "32"
+}
+
+variable "pi_netweaver_instance_cpu_proc_type" {
+  description = "Dedicated or shared processors for each SAP NetWeaver instance."
+  type        = string
+  default     = "shared"
+}
+
+variable "pi_netweaver_instance_storage_config" {
   description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
@@ -244,29 +203,53 @@ variable "powervs_netweaver_storage_config" {
     tier  = string
     mount = string
   }))
-  default = [
-    {
-      "name" : "usrsap",
-      "size" : "50",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/usr/sap"
-    }
-  ]
+  default = [{
+    "name" : "",
+    "size" : "",
+    "count" : "",
+    "tier" : "",
+    "mount" : ""
+  }]
 }
 
-variable "powervs_default_images" {
-  description = "Default SuSE and Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances."
-  type = object({
-    sles_hana_image = string
-    sles_nw_image   = string
-    rhel_hana_image = string
-    rhel_nw_image   = string
-  })
+#####################################################
+# PVS SAP instance Initialization
+#####################################################
+
+variable "pi_instance_init_linux" {
+  description = "Configures a PowerVS linux instance to have internet access by setting proxy on it, updates os and create filesystems using ansible collection [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/). where 'proxy_host_or_ip_port' E.g., 10.10.10.4:3128 <ip:port>, 'bastion_host_ip' is public IP of bastion/jump host to access the private IP of created linux PowerVS instance."
+  sensitive   = true
+  type = object(
+    {
+      enable                = bool
+      bastion_host_ip       = string
+      ssh_private_key       = string
+      proxy_host_or_ip_port = string
+      no_proxy_hosts        = string
+    }
+  )
+}
+
+variable "sap_network_services_config" {
+  description = "Configures network services NTP, NFS and DNS on PowerVS instance. Requires 'pi_instance_init_linux' to be specified as internet access is required to download ansible collection [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) to configure these services."
+  type = object(
+    {
+      nfs = object({ enable = bool, nfs_server_path = string, nfs_client_path = string })
+      dns = object({ enable = bool, dns_server_ip = string })
+      ntp = object({ enable = bool, ntp_server_ip = string })
+    }
+  )
+
   default = {
-    "sles_hana_image" : "SLES15-SP4-SAP"
-    "rhel_hana_image" : "RHEL8-SP6-SAP"
-    "sles_nw_image" : "SLES15-SP4-SAP-NETWEAVER"
-    "rhel_nw_image" : "RHEL8-SP6-SAP-NETWEAVER"
+    nfs = { enable = false, nfs_server_path = "", nfs_client_path = "" }
+    dns = { enable = false, dns_server_ip = "" }
+    ntp = { enable = false, ntp_server_ip = "" }
   }
+
+}
+
+variable "sap_domain" {
+  description = "SAP domain to be set for entire landscape."
+  type        = string
+  default     = "sap.com"
 }

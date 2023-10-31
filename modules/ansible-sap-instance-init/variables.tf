@@ -9,9 +9,9 @@ variable "sap_domain" {
   default     = ""
 }
 
-variable "target_server_ips" {
+variable "target_server_ip" {
   description = "List of private IPs of PowerVS instances reachable from the access host."
-  type        = list(string)
+  type        = string
 }
 
 variable "ssh_private_key" {
@@ -20,7 +20,7 @@ variable "ssh_private_key" {
   sensitive   = true
 }
 
-variable "sap_solutions" {
-  description = "List of SAP solution configurations to be executed on the PowerVS instances defined in 'target_server_ips'. The order should match to 'target_server_ips'. Possible values are 'HANA', 'NETWEAVER', 'NONE'."
-  type        = list(string)
+variable "sap_solution" {
+  description = "SAP solution configuration to be executed on the PowerVS instances defined in 'target_server_ip'. Possible values are 'HANA', 'NETWEAVER', 'NONE'."
+  type        = string
 }

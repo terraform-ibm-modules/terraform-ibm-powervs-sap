@@ -3,61 +3,55 @@
 #####################################################
 
 locals {
-  scr_scripts_dir = "${path.module}/templates"
-  dst_scripts_dir = "/root/terraform_scripts"
+  src_ansible_templates_dir = "${path.module}/templates/"
+  dst_files_dir             = "/root/terraform_files"
 
-  ansible_configure_os_for_sap_playbook_name = "power-linux-configure.yml"
-  src_script_configure_os_for_sap_tfpl_path  = "${local.scr_scripts_dir}/configure_os_for_sap.sh.tfpl"
-  dst_script_configure_os_for_sap_sh_path    = "${local.dst_scripts_dir}/configure_os_for_sap.sh"
-  dst_ansible_vars_configure_os_for_sap_path = "${local.dst_scripts_dir}/ansible_configure_os_for_sap.yml"
-}
+  src_configure_os_for_sap_tpl_path           = "${local.src_ansible_templates_dir}/ansible_exec.sh.tftpl"
+  dst_configure_os_for_sap_file_path          = "${local.dst_files_dir}/configure_os_for_sap.sh"
+  src_playbook_configure_os_for_sap_tpl_path  = "${local.src_ansible_templates_dir}/playbook_configure_os_for_sap.yml.tftpl"
+  dst_playbook_configure_os_for_sap_file_path = "${local.dst_files_dir}/playbook_configure_os_for_sap.yml"
 
-#####################################################
-# 1. Execute Ansible galaxy role to prepare OS for SAP
-#####################################################
 
-resource "null_resource" "configure_os_for_sap" {
-  count = length(var.target_server_ips)
+  pi_configure_os_for_sap = {
+    # Creates terraform scripts directory
+    provisioner_remote_exec_inline_pre_exec_commands = ["mkdir -p ${local.dst_files_dir}", "chmod 777 ${local.dst_files_dir}", ]
 
-  connection {
-    type         = "ssh"
-    user         = "root"
-    bastion_host = var.access_host_or_ip
-    host         = var.target_server_ips[count.index]
-    private_key  = var.ssh_private_key
-    agent        = false
-    timeout      = "5m"
-  }
+    # Copy playbook template file to target host
+    provisioner_file_1 = {
+      destination_file_path     = local.dst_playbook_configure_os_for_sap_file_path,
+      source_template_file_path = local.src_playbook_configure_os_for_sap_tpl_path,
+      template_content          = { sap_solution = var.sap_solution, sap_domain = var.sap_domain }
+    }
 
-  #### Write the variables required for ansible roles to file on target host ####
-  provisioner "file" {
-    destination = local.dst_ansible_vars_configure_os_for_sap_path
-    content     = <<EOF
-sap_solution : '${var.sap_solutions[count.index]}'
-sap_domain : '${var.sap_domain}'
-EOF
-
-  }
-
-  ####### Copy Template file to target host ############
-  provisioner "file" {
-    destination = local.dst_script_configure_os_for_sap_sh_path
-    content = templatefile(
-      local.src_script_configure_os_for_sap_tfpl_path,
-      {
-        "ansible_playbook_name" : local.ansible_configure_os_for_sap_playbook_name
-        "ansible_extra_vars_path" : local.dst_ansible_vars_configure_os_for_sap_path
-        "ansible_log_path" : local.dst_scripts_dir
+    # Copy ansible exec template file to target host
+    provisioner_file_2 = {
+      destination_file_path     = local.dst_configure_os_for_sap_file_path,
+      source_template_file_path = local.src_configure_os_for_sap_tpl_path,
+      template_content = {
+        "ansible_playbook_file" : local.dst_playbook_configure_os_for_sap_file_path
+        "ansible_log_path" : local.dst_files_dir
       }
-    )
-  }
+    }
 
-  ####  Execute ansible roles: to hana/netweaver preconfigure  ####
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x ${local.dst_script_configure_os_for_sap_sh_path}",
-      local.dst_script_configure_os_for_sap_sh_path
+    #  Execute script: configure_os_for_sap.sh
+    provisioner_remote_exec_inline_post_exec_commands = [
+      "chmod +x ${local.dst_configure_os_for_sap_file_path}",
+      local.dst_configure_os_for_sap_file_path,
     ]
   }
+}
 
+
+
+module "ansible_sap_instance_init" {
+  source  = "terraform-ibm-modules/powervs-instance/ibm//modules//remote-exec-ansible"
+  version = "1.0.1"
+
+  bastion_host_ip                                   = var.access_host_or_ip
+  host_ip                                           = var.target_server_ip
+  ssh_private_key                                   = var.ssh_private_key
+  provisioner_remote_exec_inline_pre_exec_commands  = local.pi_configure_os_for_sap.provisioner_remote_exec_inline_pre_exec_commands
+  provisioner_file_1                                = local.pi_configure_os_for_sap.provisioner_file_1
+  provisioner_file_2                                = local.pi_configure_os_for_sap.provisioner_file_2
+  provisioner_remote_exec_inline_post_exec_commands = local.pi_configure_os_for_sap.provisioner_remote_exec_inline_post_exec_commands
 }

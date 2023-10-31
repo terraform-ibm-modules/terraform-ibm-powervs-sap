@@ -33,7 +33,7 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../sap-ready-to-go/module | n/a |
+| <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../../modules/pi-sap-system-type1 | n/a |
 
 ### Resources
 
@@ -75,8 +75,4 @@ If you do not have a PowerVS infrastructure that is the full stack solution for 
 | <a name="output_infrastructure_data"></a> [infrastructure\_data](#output\_infrastructure\_data) | Data from PowerVS infrastructure layer |
 | <a name="output_powervs_hana_instance_ips"></a> [powervs\_hana\_instance\_ips](#output\_powervs\_hana\_instance\_ips) | All private IPS of HANA instance |
 | <a name="output_powervs_hana_instance_management_ip"></a> [powervs\_hana\_instance\_management\_ip](#output\_powervs\_hana\_instance\_management\_ip) | Management IP of HANA Instance |
-| <a name="output_powervs_lpars_data"></a> [powervs\_lpars\_data](#output\_powervs\_lpars\_data) | All private IPS of PowerVS instances and Jump IP to access the host. |
-| <a name="output_powervs_netweaver_instance_ips"></a> [powervs\_netweaver\_instance\_ips](#output\_powervs\_netweaver\_instance\_ips) | All private IPS of NetWeaver instances |
-| <a name="output_powervs_netweaver_instance_management_ips"></a> [powervs\_netweaver\_instance\_management\_ips](#output\_powervs\_netweaver\_instance\_management\_ips) | Management IPS of NetWeaver instances |
-| <a name="output_powervs_share_fs_ips"></a> [powervs\_share\_fs\_ips](#output\_powervs\_share\_fs\_ips) | Private IPs of the Share FS instance. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

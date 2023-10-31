@@ -197,7 +197,7 @@ variable "powervs_netweaver_storage_config" {
   ]
 }
 
-variable "powervs_default_images" {
+variable "powervs_default_sap_images" {
   description = "Default SuSE and Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances."
   type = object({
     sles_hana_image = string
