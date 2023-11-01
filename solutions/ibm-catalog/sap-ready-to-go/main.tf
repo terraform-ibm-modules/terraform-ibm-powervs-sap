@@ -19,8 +19,8 @@ locals {
   powervs_hana_instance = {
     name                      = var.powervs_hana_instance_name
     image_id                  = lookup(local.powervs_images, local.powervs_hana_os_image, null)
-    sap_profile_id            = var.powervs_hana_sap_profile_id
-    additional_storage_config = var.powervs_hana_additional_storage_config
+    sap_profile_id            = var.powervs_hana_instance_sap_profile_id
+    additional_storage_config = var.powervs_hana_instance_additional_storage_config
   }
 
   powervs_netweaver_instance = {
@@ -30,7 +30,7 @@ locals {
     processors     = var.powervs_netweaver_cpu_number
     memory         = var.powervs_netweaver_memory_size
     proc_type      = "shared"
-    storage_config = var.powervs_netweaver_storage_config
+    storage_config = var.powervs_netweaver_instance_storage_config
   }
 }
 
@@ -46,7 +46,7 @@ module "sap_system" {
   cloud_connection_count                 = local.cloud_connection_count
   pi_sharefs_instance                    = local.powervs_sharefs_instance
   pi_hana_instance                       = local.powervs_hana_instance
-  pi_hana_instance_custom_storage_config = var.powervs_hana_custom_storage_config
+  pi_hana_instance_custom_storage_config = var.powervs_hana_instance_custom_storage_config
   pi_netweaver_instance                  = local.powervs_netweaver_instance
   pi_instance_init_linux                 = local.powervs_instance_init_linux
   sap_network_services_config            = local.powervs_network_services_config
