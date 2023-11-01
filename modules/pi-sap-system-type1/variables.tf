@@ -50,72 +50,77 @@ variable "cloud_connection_count" {
 # PowerVS Shared FS Instance parameters
 #####################################################
 
-variable "pi_create_separate_fsshare_instance" {
-  description = "Deploy separate IBM PowerVS instance(0.5 cpus, 2 GB memory size, shared processor on s922.) as central file system share. All filesystems defined in 'pi_fsshare_instance_storage_config' optional variable will be NFS exported and mounted on Netweaver PowerVS instances."
-  type        = bool
-}
-
-variable "pi_fsshare_instance_image_id" {
-  description = "Image ID used for PowerVS fsshare instance. Run 'ibmcloud pi images' to list available images."
-  type        = string
-  default     = null
-}
-
-variable "pi_fsshare_instance_cpu_number" {
-  description = "Number of CPUs for fsshare instance."
-  type        = string
-  default     = ".5"
-}
-
-variable "pi_fsshare_instance_memory_size" {
-  description = "Memory size for fsshare instance."
-  type        = string
-  default     = "2"
-}
-
-variable "pi_fsshare_instance_cpu_proc_type" {
-  description = "Dedicated or shared processors. "
-  type        = string
-  default     = "shared"
-}
-
-variable "pi_fsshare_instance_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
-  type = list(object({
-    name  = string
-    size  = string
-    count = string
-    tier  = string
-    mount = string
-  }))
-  default = [{
-    "name" : "",
-    "size" : "",
-    "count" : "",
-    "tier" : "",
-    "mount" : ""
-  }]
+variable "pi_sharefs_instance" {
+  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'pi_sharefs_instance_storage_config' variable will be NFS exported and mounted on Netweaver PowerVS instances if enabled. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  type = object({
+    enable     = bool
+    name       = string
+    image_id   = string
+    processors = string
+    memory     = string
+    proc_type  = string
+    storage_config = list(object({
+      name  = string
+      size  = string
+      count = string
+      tier  = string
+      mount = string
+    }))
+  })
+  default = {
+    enable     = false
+    name       = "share"
+    image_id   = "insert_value_here"
+    processors = "0.5"
+    memory     = "2"
+    proc_type  = "shared"
+    storage_config = [{
+      "name" : "sapmnt",
+      "size" : "300",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/sapmnt"
+      },
+      {
+        "name" : "trans",
+        "size" : "50",
+        "count" : "1",
+        "tier" : "tier3",
+        "mount" : "/usr/trans"
+    }]
+  }
 }
 
 #####################################################
 # PowerVS HANA Instance parameters
 #####################################################
 
-variable "pi_hana_instance_name" {
-  description = "SAP HANA hostname (non FQDN). Will get the form of <var.prefix>-<var.pi_hana_instance_name>. Max length of final hostname must be <= 13 characters."
-  type        = string
-  default     = "hana"
-}
-
-variable "pi_hana_instance_sap_profile_id" {
-  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'pi_hana_instance_custom_storage_config' parameter."
-  type        = string
-  default     = "ush1-4x256"
-}
-
-variable "pi_hana_instance_image_id" {
-  description = "Image ID used for PowerVS HANA instance. Run 'ibmcloud pi images' to list available images."
-  type        = string
+variable "pi_hana_instance" {
+  description = "SAP HANA hostname (non FQDN) will get the form of <var.prefix>-<var.pi_hana_instance_name>. SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'pi_hana_instance_custom_storage_config' parameter. Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  type = object({
+    name           = string
+    image_id       = string
+    sap_profile_id = string
+    additional_storage_config = list(object({
+      name  = string
+      size  = string
+      count = string
+      tier  = string
+      mount = string
+    }))
+  })
+  default = {
+    name           = "hana"
+    image_id       = "insert_value_here"
+    sap_profile_id = "ush1-4x256"
+    additional_storage_config = [{
+      "name" : "usrsap",
+      "size" : "50",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/usr/sap"
+    }]
+  }
 }
 
 variable "pi_hana_instance_custom_storage_config" {
@@ -136,80 +141,42 @@ variable "pi_hana_instance_custom_storage_config" {
   }]
 }
 
-variable "pi_hana_instance_additional_storage_config" {
-  description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
-  type = list(object({
-    name  = string
-    size  = string
-    count = string
-    tier  = string
-    mount = string
-  }))
-  default = [{
-    "name" : "",
-    "size" : "",
-    "count" : "",
-    "tier" : "",
-    "mount" : ""
-  }]
-}
-
 #####################################################
 # PowerVS NetWeaver Instance parameters
 #####################################################
 
-variable "pi_netweaver_instance_count" {
-  description = "Number of SAP NetWeaver instances that should be created."
-  type        = number
-  default     = 1
-}
-
-variable "pi_netweaver_instance_name" {
-  description = "SAP Netweaver hostname (non FQDN). Will get the form of <var.prefix>-<var.pi_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters."
-  type        = string
-  default     = "nw"
-}
-
-variable "pi_netweaver_instance_image_id" {
-  description = "Image ID used for PowerVS Netweaver instance. Run 'ibmcloud pi images' to list available images."
-  type        = string
-  default     = null
-}
-
-variable "pi_netweaver_instance_cpu_number" {
-  description = "Number of CPUs for each SAP NetWeaver instance."
-  type        = string
-  default     = "3"
-}
-
-variable "pi_netweaver_instance_memory_size" {
-  description = "Memory size for each SAP NetWeaver instance."
-  type        = string
-  default     = "32"
-}
-
-variable "pi_netweaver_instance_cpu_proc_type" {
-  description = "Dedicated or shared processors for each SAP NetWeaver instance."
-  type        = string
-  default     = "shared"
-}
-
-variable "pi_netweaver_instance_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
-  type = list(object({
-    name  = string
-    size  = string
-    count = string
-    tier  = string
-    mount = string
-  }))
-  default = [{
-    "name" : "",
-    "size" : "",
-    "count" : "",
-    "tier" : "",
-    "mount" : ""
-  }]
+variable "pi_netweaver_instance" {
+  description = "'instance_count' is number of SAP NetWeaver instances that should be created. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. "
+  type = object({
+    instance_count = number
+    name           = string
+    image_id       = string
+    processors     = string
+    memory         = string
+    proc_type      = string
+    storage_config = list(object({
+      name  = string
+      size  = string
+      count = string
+      tier  = string
+      mount = string
+    }))
+  })
+  default = {
+    instance_count = 1
+    name           = "nw"
+    image_id       = null
+    processors     = "0.5"
+    memory         = "2"
+    proc_type      = "shared"
+    storage_config = [{
+      "name" : "usrsap",
+      "size" : "50",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/usr/sap"
+    }]
+  }
 }
 
 #####################################################

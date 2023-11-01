@@ -12,9 +12,6 @@
     sap_domain: ${sap_domain}
 
   roles:
-  - { role: ibm.power_linux_sap.powervs_client_enable_services, when: client_config is defined }
-
-  roles:
   - { role: ibm.power_linux_sap.powervs_prepare_rhel_sap, when: sap_solution is defined and ansible_distribution is match("RedHat*") }
   - { role: ibm.power_linux_sap.powervs_prepare_sles_sap, when: sap_solution is defined and ansible_distribution is match("SLES*") }
   tasks:

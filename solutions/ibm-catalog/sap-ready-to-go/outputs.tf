@@ -28,9 +28,9 @@ output "powervs_netweaver_instance_management_ips" {
   value       = module.sap_system.pi_netweaver_instance_management_ips
 }
 
-output "powervs_share_fs_ips" {
+output "powervs_sharefs_ips" {
   description = "Private IPs of the Share FS instance."
-  value       = module.sap_system.pi_fsshare_ips
+  value       = module.sap_system.pi_sharefs_ips
 }
 
 /*
