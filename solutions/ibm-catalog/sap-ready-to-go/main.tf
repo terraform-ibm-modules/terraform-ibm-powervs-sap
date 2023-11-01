@@ -1,47 +1,55 @@
 #####################################################
-# Deploy SAP system ( 1 HANA instance and 0:N Netweaver Instance)
+# Deploy SAP system
+# 1 HANA instance
+# 0:N Netweaver Instance
+# 1 Optional Sharefs instance
 #####################################################
 
-provider "ibm" {
-  alias            = "ibm-pi"
-  region           = lookup(local.ibm_powervs_zone_region_map, var.powervs_zone, null)
-  zone             = var.powervs_zone
-  ibmcloud_api_key = var.ibmcloud_api_key != null ? var.ibmcloud_api_key : null
+locals {
+  powervs_sharefs_instance = {
+    enable         = var.powervs_create_separate_sharefs_instance
+    name           = var.powervs_sharefs_instance.name
+    image_id       = lookup(local.powervs_images, local.powervs_sharefs_os_image, null)
+    processors     = var.powervs_sharefs_instance.processors
+    memory         = var.powervs_sharefs_instance.memory
+    proc_type      = var.powervs_sharefs_instance.proc_type
+    storage_config = var.powervs_sharefs_instance.storage_config
+  }
+
+  powervs_hana_instance = {
+    name                      = var.powervs_hana_instance_name
+    image_id                  = lookup(local.powervs_images, local.powervs_hana_os_image, null)
+    sap_profile_id            = var.powervs_hana_instance_sap_profile_id
+    additional_storage_config = var.powervs_hana_instance_additional_storage_config
+  }
+
+  powervs_netweaver_instance = {
+    instance_count = var.powervs_netweaver_instance_count
+    name           = var.powervs_netweaver_instance_name
+    image_id       = lookup(local.powervs_images, local.powervs_netweaver_os_image, null)
+    processors     = var.powervs_netweaver_cpu_number
+    memory         = var.powervs_netweaver_memory_size
+    proc_type      = "shared"
+    storage_config = var.powervs_netweaver_instance_storage_config
+  }
 }
 
 module "sap_system" {
   source = "../../../modules/pi-sap-system-type1"
-  providers = {
-    ibm = ibm.ibm-pi
-  }
-  pi_workspace_guid           = local.powervs_workspace_guid
-  pi_images                   = local.powervs_images
-  powervs_zone                = var.powervs_zone
-  powervs_resource_group_name = local.powervs_resource_group_name
-  #powervs_workspace_name                 = local.powervs_workspace_name
-  powervs_sshkey_name                    = local.powervs_sshkey_name
+
+  pi_zone                                = var.powervs_zone
   prefix                                 = var.prefix
-  ssh_private_key                        = var.ssh_private_key
-  powervs_sap_network_cidr               = var.powervs_sap_network_cidr
+  pi_workspace_guid                      = local.powervs_workspace_guid
+  pi_ssh_public_key_name                 = local.powervs_sshkey_name
+  pi_networks                            = local.powervs_networks
+  pi_sap_network_cidr                    = var.powervs_sap_network_cidr
   cloud_connection_count                 = local.cloud_connection_count
-  additional_networks                    = local.additional_networks
-  os_image_distro                        = var.os_image_distro
-  powervs_create_separate_fs_share       = var.powervs_create_separate_fs_share
-  powervs_hana_instance_name             = var.powervs_hana_instance_name
-  powervs_hana_sap_profile_id            = var.powervs_hana_sap_profile_id
-  powervs_netweaver_instance_count       = var.powervs_netweaver_instance_count
-  powervs_netweaver_instance_name        = var.powervs_netweaver_instance_name
-  powervs_netweaver_cpu_number           = var.powervs_netweaver_cpu_number
-  powervs_netweaver_memory_size          = var.powervs_netweaver_memory_size
-  access_host_or_ip                      = local.access_host_or_ip
-  proxy_host_or_ip_port                  = local.proxy_host_or_ip_port
-  dns_host_or_ip                         = local.dns_host_or_ip
-  ntp_host_or_ip                         = local.ntp_host_or_ip
-  nfs_host_or_ip_path                    = local.nfs_host_or_ip_path
+  pi_sharefs_instance                    = local.powervs_sharefs_instance
+  pi_hana_instance                       = local.powervs_hana_instance
+  pi_hana_instance_custom_storage_config = var.powervs_hana_instance_custom_storage_config
+  pi_netweaver_instance                  = local.powervs_netweaver_instance
+  pi_instance_init_linux                 = local.powervs_instance_init_linux
+  sap_network_services_config            = local.powervs_network_services_config
   sap_domain                             = var.sap_domain
-  powervs_share_storage_config           = var.powervs_share_storage_config
-  powervs_hana_custom_storage_config     = var.powervs_hana_custom_storage_config
-  powervs_hana_additional_storage_config = var.powervs_hana_additional_storage_config
-  powervs_netweaver_storage_config       = var.powervs_netweaver_storage_config
-  powervs_default_images                 = var.powervs_default_images
+
 }

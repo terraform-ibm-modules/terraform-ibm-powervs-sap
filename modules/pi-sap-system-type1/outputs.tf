@@ -1,47 +1,46 @@
 output "access_host_or_ip" {
   description = "Public IP of Provided Bastion/JumpServer Host"
-  value       = var.access_host_or_ip
+  value       = var.pi_instance_init_linux.bastion_host_ip
 }
 
-output "powervs_hana_instance_ips" {
+output "pi_hana_instance_ips" {
   description = "All private IPS of HANA instance"
-  value       = module.powervs_hana_instance.pi_instance_private_ips
+  value       = module.pi_hana_instance.pi_instance_private_ips
 }
 
-output "powervs_hana_instance_management_ip" {
+output "pi_hana_instance_management_ip" {
   description = "Management IP of HANA Instance"
-  value       = module.powervs_hana_instance.pi_instance_primary_ip
+  value       = module.pi_hana_instance.pi_instance_primary_ip
 }
 
-output "powervs_hana_instance_sap_ip" {
+output "pi_hana_instance_sap_ip" {
   description = "SAP IP of PowerVS HANA Instance"
-  value       = local.powervs_hana_instance_sap_ip
+  value       = local.pi_hana_instance_sap_ip
 }
 
-/*output "powervs_netweaver_instance_ips" {
+output "pi_netweaver_instance_ips" {
   description = "All private IPS of NetWeaver instances"
-  value       = var.powervs_netweaver_instance_count >= 1 ? module.powervs_netweaver_instance[*].pi_instance_private_ips : [""]
+  value       = var.pi_netweaver_instance.instance_count >= 1 ? module.pi_netweaver_instance[*].pi_instance_private_ips : [""]
 }
 
-output "powervs_netweaver_instance_management_ips" {
+output "pi_netweaver_instance_management_ips" {
   description = "Management IPS of NetWeaver instances"
-  value       = var.powervs_netweaver_instance_count >= 1 ? join(",", module.powervs_netweaver_instance[*].pi_instance_mgmt_ip) : ""
+  value       = var.pi_netweaver_instance.instance_count >= 1 ? join(",", module.pi_netweaver_instance[*].pi_instance_primary_ip) : ""
 }
 
-output "powervs_share_fs_ips" {
+output "pi_sharefs_instance_ips" {
   description = "Private IPs of the Share FS instance."
-  value       = var.powervs_create_separate_fs_share ? module.powervs_sharefs_instance[0].pi_instance_mgmt_ip : ""
+  value       = var.pi_sharefs_instance.enable ? module.pi_sharefs_instance[0].pi_instance_private_ips : ""
 }
 
-output "powervs_lpars_data" {
+output "pi_lpars_data" {
   description = "All private IPS of PowerVS instances and Jump IP to access the host."
   value = {
-    "access_host_or_ip"                         = local.access_host_or_ip
-    "powervs_hana_instance_management_ip"       = module.powervs_hana_instance.pi_instance_mgmt_ip
-    "powervs_hana_instance_ips"                 = module.powervs_hana_instance.pi_instance_private_ips
-    "powervs_netweaver_instances_management_ip" = var.powervs_netweaver_instance_count >= 1 ? join(",", module.powervs_netweaver_instance[*].pi_instance_mgmt_ip) : ""
-    "powervs_netweaver_ips"                     = var.powervs_netweaver_instance_count >= 1 ? module.powervs_netweaver_instance[*].pi_instance_private_ips : [""]
-    "powervs_share_fs_ip"                       = var.powervs_create_separate_fs_share ? module.powervs_sharefs_instance[0].pi_instance_mgmt_ip : ""
+    "access_host_or_ip"                    = nonsensitive(var.pi_instance_init_linux.bastion_host_ip)
+    "pi_hana_instance_management_ip"       = module.pi_hana_instance.pi_instance_primary_ip
+    "pi_hana_instance_ips"                 = module.pi_hana_instance.pi_instance_private_ips
+    "pi_netweaver_instances_management_ip" = var.pi_netweaver_instance.instance_count >= 1 ? join(",", module.pi_netweaver_instance[*].pi_instance_primary_ip) : ""
+    "pi_netweaver_instance_ips"            = var.pi_netweaver_instance.instance_count >= 1 ? module.pi_netweaver_instance[*].pi_instance_private_ips : [""]
+    "pi_sharefs_instance_ips"              = var.pi_sharefs_instance.enable ? module.pi_sharefs_instance[0].pi_instance_private_ips : ""
   }
 }
-*/
