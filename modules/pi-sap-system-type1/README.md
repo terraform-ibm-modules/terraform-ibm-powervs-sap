@@ -21,8 +21,9 @@ The Power Virtual Server for SAP module automates the following tasks:
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_ansible_netweaver_sapmnt_mount"></a> [ansible\_netweaver\_sapmnt\_mount](#module\_ansible\_netweaver\_sapmnt\_mount) | ../remote-exec-ansible | n/a |
 | <a name="module_ansible_sap_instance_init"></a> [ansible\_sap\_instance\_init](#module\_ansible\_sap\_instance\_init) | ../remote-exec-ansible | n/a |
-| <a name="module_ansible_sharefs_instance_init"></a> [ansible\_sharefs\_instance\_init](#module\_ansible\_sharefs\_instance\_init) | ../remote-exec-ansible | n/a |
+| <a name="module_ansible_sharefs_instance_exportfs"></a> [ansible\_sharefs\_instance\_exportfs](#module\_ansible\_sharefs\_instance\_exportfs) | ../remote-exec-ansible | n/a |
 | <a name="module_pi_attach_sap_network"></a> [pi\_attach\_sap\_network](#module\_pi\_attach\_sap\_network) | terraform-ibm-modules/powervs-workspace/ibm//modules/pi-cloudconnection-attach | 1.1.3 |
 | <a name="module_pi_hana_instance"></a> [pi\_hana\_instance](#module\_pi\_hana\_instance) | terraform-ibm-modules/powervs-instance/ibm | 1.0.2 |
 | <a name="module_pi_hana_storage_calculation"></a> [pi\_hana\_storage\_calculation](#module\_pi\_hana\_storage\_calculation) | ../pi-hana-storage-config | n/a |
@@ -65,5 +66,5 @@ The Power Virtual Server for SAP module automates the following tasks:
 | <a name="output_pi_lpars_data"></a> [pi\_lpars\_data](#output\_pi\_lpars\_data) | All private IPS of PowerVS instances and Jump IP to access the host. |
 | <a name="output_pi_netweaver_instance_ips"></a> [pi\_netweaver\_instance\_ips](#output\_pi\_netweaver\_instance\_ips) | All private IPS of NetWeaver instances |
 | <a name="output_pi_netweaver_instance_management_ips"></a> [pi\_netweaver\_instance\_management\_ips](#output\_pi\_netweaver\_instance\_management\_ips) | Management IPS of NetWeaver instances |
-| <a name="output_pi_sharefs_ips"></a> [pi\_sharefs\_ips](#output\_pi\_sharefs\_ips) | Private IPs of the Share FS instance. |
+| <a name="output_pi_sharefs_instance_ips"></a> [pi\_sharefs\_instance\_ips](#output\_pi\_sharefs\_instance\_ips) | Private IPs of the Share FS instance. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

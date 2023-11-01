@@ -15,6 +15,11 @@ resource "ibm_pi_network" "sap_network" {
 # Non PER DC: Attach the SAP network to CCs
 #####################################################
 
+locals {
+  per_enabled_dc_list = ["dal10"]
+  per_enabled         = contains(local.per_enabled_dc_list, var.pi_zone)
+}
+
 module "pi_attach_sap_network" {
   source  = "terraform-ibm-modules/powervs-workspace/ibm//modules/pi-cloudconnection-attach"
   version = "1.1.3"
@@ -29,6 +34,7 @@ locals {
   pi_sap_network = { "name" = "${var.prefix}-net", "cidr" = var.pi_sap_network_cidr, "id" = ibm_pi_network.sap_network.network_id }
   pi_networks    = concat(var.pi_networks, [local.pi_sap_network])
 }
+
 
 ##########################################################################################################
 # Deploy sharefs instance
@@ -58,7 +64,23 @@ module "pi_sharefs_instance" {
   pi_network_services_config = var.sap_network_services_config
 }
 
-module "ansible_sharefs_instance_init" {
+# Configuration for sharefs instance as NFS server
+locals {
+  valid_sharefs_nfs_config = var.pi_sharefs_instance.enable && var.pi_sharefs_instance.storage_config != null ? var.pi_sharefs_instance.storage_config[0].name != "" ? true : false : false
+  pi_sharefs_instance_nfs_server_config = {
+    nfs = {
+      enable = local.valid_sharefs_nfs_config ? true : false,
+      nfs_file_system = local.valid_sharefs_nfs_config ? [
+        for volume in var.pi_sharefs_instance.storage_config :
+        { name       = volume.name,
+          mount_path = volume.mount,
+          size       = volume.size
+        }
+    ] : [] }
+  }
+}
+
+module "ansible_sharefs_instance_exportfs" {
   source     = "../remote-exec-ansible"
   depends_on = [module.pi_sharefs_instance]
   count      = var.pi_sharefs_instance.enable ? 1 : 0
@@ -68,9 +90,9 @@ module "ansible_sharefs_instance_init" {
   ssh_private_key            = var.pi_instance_init_linux.ssh_private_key
   src_script_template_name   = "ansible_exec.sh.tftpl"
   dst_script_file_name       = "configure_nfs_server.sh"
-  src_playbook_template_name = "playbook_configure_nfs_server.yml.tftpl"
+  src_playbook_template_name = "playbook_configure_network_services.yml.tftpl"
   dst_playbook_file_name     = "playbook_configure_nfs_server.yml"
-  playbook_template_content  = { server_config = local.sharefs_nfs_server_config }
+  playbook_template_content  = { server_config = jsonencode(local.pi_sharefs_instance_nfs_server_config), client_config = jsonencode({}) }
 }
 
 
@@ -122,10 +144,9 @@ locals {
 }
 
 module "pi_netweaver_instance" {
-  source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "1.0.2"
-  depends_on = [module.ansible_sharefs_instance_init]
-  count      = var.pi_netweaver_instance.instance_count
+  source  = "terraform-ibm-modules/powervs-instance/ibm"
+  version = "1.0.2"
+  count   = var.pi_netweaver_instance.instance_count
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = "${local.pi_netweaver_instance_name}-${count.index + 1}"
@@ -139,7 +160,33 @@ module "pi_netweaver_instance" {
   pi_cpu_proc_type           = var.pi_netweaver_instance.proc_type
   pi_storage_config          = local.pi_netweaver_instance_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
-  pi_network_services_config = local.pi_netweaver_network_services_config
+  pi_network_services_config = var.sap_network_services_config
+}
+
+locals {
+  pi_netweaver_instance_sapmnt_config = {
+    nfs = {
+      enable          = local.valid_sharefs_nfs_config ? true : false,
+      nfs_server_path = local.valid_sharefs_nfs_config ? join(";", [for volume in var.pi_sharefs_instance.storage_config : "${module.pi_sharefs_instance[0].pi_instance_primary_ip}:${volume.mount}"]) : "",
+      nfs_client_path = local.valid_sharefs_nfs_config ? join(";", [for volume in var.pi_sharefs_instance.storage_config : volume.mount]) : ""
+    }
+  }
+}
+
+module "ansible_netweaver_sapmnt_mount" {
+
+  source     = "../remote-exec-ansible"
+  depends_on = [module.ansible_sharefs_instance_exportfs, module.pi_netweaver_instance]
+  count      = var.pi_sharefs_instance.enable && local.valid_sharefs_nfs_config ? var.pi_netweaver_instance.instance_count : 0
+
+  bastion_host               = var.pi_instance_init_linux.bastion_host_ip
+  host                       = module.pi_netweaver_instance[count.index].pi_instance_primary_ip
+  ssh_private_key            = var.pi_instance_init_linux.ssh_private_key
+  src_script_template_name   = "ansible_exec.sh.tftpl"
+  dst_script_file_name       = "sapmnt_mount.sh"
+  src_playbook_template_name = "playbook_configure_network_services.yml.tftpl"
+  dst_playbook_file_name     = "playbook_configure_sapmnt.yml"
+  playbook_template_content  = { server_config = jsonencode({}), client_config = jsonencode(local.pi_netweaver_instance_sapmnt_config) }
 }
 
 
@@ -155,7 +202,7 @@ locals {
 module "ansible_sap_instance_init" {
 
   source     = "../remote-exec-ansible"
-  depends_on = [module.pi_hana_instance, module.pi_netweaver_instance]
+  depends_on = [module.pi_hana_instance, module.pi_netweaver_instance, module.ansible_netweaver_sapmnt_mount]
   count      = length(local.target_server_ips)
 
   bastion_host               = var.pi_instance_init_linux.bastion_host_ip
