@@ -23,7 +23,6 @@ Three solutions are offered:
    - Additionally tunes the instances according to SAPs best practices which is fully ready for hosting SAP applications.
 3. [End to End Solution](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/e2e)
     - Creates a [Power Virtual Server with vpc landing zone](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/tree/main/modules/powervs-vpc-landing-zone) which creates a VPC Infrastructure and PowerVS infrastructure. Installs and configures the Squid Proxy, DNS Forwarder, NTP forwarder and NFS on hosts, and sets the host as the server for the NTP, NFS, and DNS services by using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
-    - Additionally creates a Power Virtual Server Instance of selected t-shirt size.
     - Creates and configures 1 HANA instance, 0 to N Netweaver Instances and 1 Optional ShareFS with RHEL or SLES Os distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
     - Optionally configures os network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
     - Additionally tunes the instances according to SAPs best practices which is fully ready for hosting SAP applications.
