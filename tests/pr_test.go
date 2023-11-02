@@ -73,7 +73,7 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 func TestRunBranchExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "sap-b")
+	options := setupOptions(t, "s")
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -82,7 +82,7 @@ func TestRunBranchExample(t *testing.T) {
 
 func TestRunMainExample(t *testing.T) {
 	t.Parallel()
-	options := setupOptions(t, "sap-m")
+	options := setupOptions(t, "s")
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
