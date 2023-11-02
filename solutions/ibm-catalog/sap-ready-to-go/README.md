@@ -1,24 +1,35 @@
-# Power Virtual Server for SAP HANA example to create SAP prepared PowerVS instances from IBM Cloud Catalog
+# IBM Cloud Catalog - Power Virtual Server for SAP HANA : 'sap-ready-to-go'
 
-The Power Virtual Server for SAP HANA example automates the following tasks:
+The 'sap-ready-to-go' solution automates the following tasks:
 
+- Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
 - Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
 - Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.
 - Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
 - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
+- Post instance provisioning, ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed.
+- Tested with RHEL8.4, RHEL 8.6, SLES15-SP4 and SLES15-SP6 images.
 
 ## Before you begin
-Note: **This solution requires a schematics workspace id as an input.**
-If you do not have a PowerVS infrastructure that is the full stack solution for a PowerVS Workspace that includes the full stack solution for Secure Landing Zone, create it first.
+-  **This solution requires a schematics workspace id as an input.**
+- If you do not have a [Power Virtual Server with VPC landing zone deployment](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?catalog_query=aHR0cHM6Ly9jbG91ZC5pYm0uY29tL2NhdGFsb2c%2Fc2VhcmNoPXBvd2VyI3NlYXJjaF9yZXN1bHRz) that is the full stack solution for a PowerVS Workspace with Secure Landing Zone, create it first.
 
-| Variation  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [sap-ready-to-go](./)  | :heavy_check_mark:  | :heavy_check_mark:  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
+## Notes
+- **Does not install any SAP softwares or solutions.**
+- Filesystem sizes for HANA data and HANA log are **calculated automatically** based on the **memory size**. Custom storage configuration is also supported.
+- If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all Netweaver Instances.
+- **Do not specify** a filesystem `/sapmnt` explicitly for Netweaver instance as, it is created internally when sharefs instance is not enabled.
+
+
+|                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
+|:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
+| [ IBM Catalog sap-ready-to-go ](./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
+
 
 ## Architecture Diagram
-![sap-ready-to-go](../../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
+![sap-ready-to-go](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
