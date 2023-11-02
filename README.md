@@ -10,7 +10,7 @@
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
 ## Summary
-This repository contains deployable architecture solutions which helps in Power Virtual Server for SAP HANA solutions. The solutions are available in IBM Cloud Catalog and also can be deployed without catalog as well except few solutions.
+This repository contains deployable architecture solutions which helps in deploying Power Virtual Server for SAP HANA solutions. The solutions are available in IBM Cloud Catalog and also can be deployed without catalog as well except few solutions.
 
 Three solutions are offered:
 1. [IBM catalog PowerVS sap-ready-to-go variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-ready-to-go)
