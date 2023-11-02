@@ -170,8 +170,8 @@ variable "pi_netweaver_instance" {
     instance_count = 1
     name           = "nw"
     image_id       = "insert_value_here"
-    processors     = "0.5"
-    memory         = "2"
+    processors     = "3"
+    memory         = "32"
     proc_type      = "shared"
     storage_config = [{
       "name" : "usrsap",
