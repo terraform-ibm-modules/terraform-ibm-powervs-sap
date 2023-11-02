@@ -24,7 +24,7 @@ The 'sap-ready-to-go' solution automates the following tasks:
 
 
 | Variation  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | [sap-ready-to-go](./)  | N/A  | N/A  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
 
 ## Architecture Diagram

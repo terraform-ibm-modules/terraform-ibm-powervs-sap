@@ -34,10 +34,15 @@ The end to end solution automates the following tasks:
     - Post instance provisioning, ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed.
     - Tested with RHEL8.4, RHEL 8.6, SLES15-SP4 and SLES15-SP6 images.
 
+## Notes
+- Does not install any SAP softwares or solutions.
+- Filesystem sizes for HANA data and HANA log are **calculated automatically** based on the **memory size**. Custom storage configuration is also supported.
+- If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all Netweaver Instances.
+- **Do not specify** a filesystem `/sapmnt` explicitly for Netweaver instance as, it is created internally when sharefs instance is not enabled.
 
 
 | Variation  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone |Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | [e2e](./)  | N/A  | N/A  | :heavy_check_mark: | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
 
 
