@@ -1,13 +1,26 @@
-# Power Virtual Server for SAP HANA example to create SAP prepared PowerVS instances from IBM Cloud Catalog
+# Power Virtual Server for SAP HANA : 'sap-ready-to-go'
 
-The Power Virtual Server for SAP HANA example automates the following tasks:
+The 'sap-ready-to-go' solution automates the following tasks:
 
+- Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
 - Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
 - Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.
 - Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
 - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
+- Post instance provisioning, ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed.
+- Tested with RHEL8.4, RHEL 8.6, SLES15-SP4 and SLES15-SP6 images.
+
+
+## Before you begin
+-  Power Virtual Server Workspace, images, management subnet, and ssh key must exist. This solutions does not create these resources.
+
+## Notes
+- Does not install any SAP softwares or solutions.
+- Filesystem sizes for HANA data and HANA log are **calculated automatically** based on the **memory size**. Custom storage configuration is also supported.
+- If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all Netweaver Instances.
+- **Do not specify** a filesystem `/sapmnt` explicitly for Netweaver instance as, it is created internally when sharefs instance is not enabled.
 
 
 | Variation  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
@@ -15,7 +28,7 @@ The Power Virtual Server for SAP HANA example automates the following tasks:
 | [sap-ready-to-go](./)  | N/A  | N/A  | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
 
 ## Architecture Diagram
-![sap-ready-to-go](../../reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
+![sap-ready-to-go](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
