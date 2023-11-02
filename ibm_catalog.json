@@ -326,10 +326,6 @@
                             {
                                 "title": "Power Virtual Server with VPC landing zone",
                                 "description": "Available"
-                            },
-                            {
-                                "title": "Secure infrastructure on VPC for regulated industries",
-                                "description": "Available"
                             }
                         ],
                         "diagrams": [
@@ -339,7 +335,7 @@
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "'SAP ready PowerVS' variation of 'SAP on secure Power Virtual Servers' creates a basic and expandable SAP system landscape builds on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
+                                "description": "'SAP ready PowerVS' variation of 'SAP on secure Power Virtual Servers' creates a basic and expandable SAP system landscape builds on the foundation of the 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
                             }
                         ]
                     }
