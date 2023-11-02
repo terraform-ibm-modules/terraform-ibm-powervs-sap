@@ -96,7 +96,7 @@ variable "configure_nfs_server" {
 variable "powervs_sap_network_cidr" {
   description = "Additional private subnet for SAP communication which will be created. CIDR for SAP network. E.g., '10.53.1.0/24'"
   type        = string
-  default     = "10.53.0.1/24"
+  default     = "10.53.0.0/24"
 }
 
 variable "powervs_default_sap_images" {

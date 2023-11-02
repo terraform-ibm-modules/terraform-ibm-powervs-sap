@@ -26,7 +26,7 @@ variable "prefix" {
 variable "powervs_sap_network_cidr" {
   description = "Network range for separate SAP network. E.g., '10.53.1.0/24'"
   type        = string
-  default     = "10.53.1.0/24"
+  default     = "10.53.0.0/24"
 }
 
 variable "os_image_distro" {
