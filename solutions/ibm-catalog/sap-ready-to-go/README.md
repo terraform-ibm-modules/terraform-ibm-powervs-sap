@@ -17,7 +17,7 @@ The 'sap-ready-to-go' solution automates the following tasks:
 - If you do not have a [Power Virtual Server with VPC landing zone deployment](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?catalog_query=aHR0cHM6Ly9jbG91ZC5pYm0uY29tL2NhdGFsb2c%2Fc2VhcmNoPXBvd2VyI3NlYXJjaF9yZXN1bHRz) that is the full stack solution for a PowerVS Workspace with Secure Landing Zone, create it first.
 
 ## Notes
-- Does not install any SAP softwares or solutions.
+- **Does not install any SAP softwares or solutions.**
 - Filesystem sizes for HANA data and HANA log are **calculated automatically** based on the **memory size**. Custom storage configuration is also supported.
 - If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all Netweaver Instances.
 - **Do not specify** a filesystem `/sapmnt` explicitly for Netweaver instance as, it is created internally when sharefs instance is not enabled.

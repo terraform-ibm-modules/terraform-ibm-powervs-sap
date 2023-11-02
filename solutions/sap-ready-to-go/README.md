@@ -17,7 +17,7 @@ The 'sap-ready-to-go' solution automates the following tasks:
 -  Power Virtual Server Workspace, images, management subnet, and ssh key must exist. This solutions does not create these resources.
 
 ## Notes
-- Does not install any SAP softwares or solutions.
+- **Does not install any SAP softwares or solutions.**
 - Filesystem sizes for HANA data and HANA log are **calculated automatically** based on the **memory size**. Custom storage configuration is also supported.
 - If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all Netweaver Instances.
 - **Do not specify** a filesystem `/sapmnt` explicitly for Netweaver instance as, it is created internally when sharefs instance is not enabled.

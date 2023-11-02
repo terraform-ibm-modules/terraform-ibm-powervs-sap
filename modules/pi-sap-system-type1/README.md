@@ -13,7 +13,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 - Tested with RHEL8.4, RHEL 8.6, SLES15-SP4 and SLES15-SP6 images.
 
 ## Notes:
-- Does not install any SAP softwares or solutions.
+- **Does not install any SAP softwares or solutions.**
 - Filesystem sizes for HANA data and HANA log are **calculated automatically** based on the **memory size**. Custom storage configuration is also supported.
 - If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all Netweaver Instances.
 - **Do not specify** a filesystem `/sapmnt` explicitly for Netweaver instance as, it is created internally when sharefs instance is not enabled.
