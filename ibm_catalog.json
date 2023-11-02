@@ -170,7 +170,8 @@
                         },
                         {
                             "key": "powervs_create_separate_sharefs_instance",
-                            "required": true
+                            "required": true,
+                            "default_value": ""
                         },
                         {
                             "key": "powervs_hana_instance_name",
@@ -321,7 +322,7 @@
                             },
                             {
                                 "title": "PowerVS instances",
-                                "description": "SAP HANA Instance: One\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1"
+                                "description": "SAP HANA Instance: 1\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1"
                             },
                             {
                                 "title": "Power Virtual Server with VPC landing zone",

@@ -24,7 +24,7 @@ variable "prefix" {
 }
 
 variable "powervs_sap_network_cidr" {
-  description = "Network range for separate SAP network. E.g., '10.53.1.0/24'"
+  description = "Network range for separate SAP network. E.g., '10.53.0.0/24'"
   type        = string
   default     = "10.53.0.0/24"
 }
@@ -207,7 +207,7 @@ variable "powervs_sharefs_instance" {
 }
 
 variable "powervs_default_sap_images" {
-  description = "Default SuSE and Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances."
+  description = "Default SUSE and Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances."
   type = object({
     sles_hana_image = string
     sles_nw_image   = string
@@ -215,9 +215,9 @@ variable "powervs_default_sap_images" {
     rhel_nw_image   = string
   })
   default = {
-    "sles_hana_image" : "SLES15-SP4-SAP"
-    "rhel_hana_image" : "RHEL8-SP6-SAP"
-    "sles_nw_image" : "SLES15-SP4-SAP-NETWEAVER"
+    "sles_hana_image" : "SLES15-SP4-SAP",
+    "rhel_hana_image" : "RHEL8-SP6-SAP",
+    "sles_nw_image" : "SLES15-SP4-SAP-NETWEAVER",
     "rhel_nw_image" : "RHEL8-SP6-SAP-NETWEAVER"
   }
 }

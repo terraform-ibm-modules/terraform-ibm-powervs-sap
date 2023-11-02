@@ -46,7 +46,7 @@ variable "powervs_networks" {
 }
 
 variable "powervs_sap_network_cidr" {
-  description = "Additional private subnet for SAP communication which will be created. CIDR for SAP network. E.g., '10.53.1.0/24'"
+  description = "Additional private subnet for SAP communication which will be created. CIDR for SAP network. E.g., '10.53.0.0/24'"
   type        = string
 }
 
