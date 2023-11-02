@@ -200,8 +200,8 @@ variable "powervs_netweaver_instance" {
   default = {
     instance_count = 1
     name           = "nw"
-    processors     = "0.5"
-    memory         = "2"
+    processors     = "3"
+    memory         = "32"
     proc_type      = "shared"
     storage_config = [{
       "name" : "usrsap",
