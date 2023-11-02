@@ -41,10 +41,9 @@ The end to end solution automates the following tasks:
 - **Do not specify** a filesystem `/sapmnt` explicitly for Netweaver instance as, it is created internally when sharefs instance is not enabled.
 
 
-| Variation  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone |Creates PowerVS HANA Instance | Creates PowerVS NW Instances |  Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [e2e](./)  | N/A  | N/A  | :heavy_check_mark: | 1  | 0 to N  | :heavy_check_mark:  |  :heavy_check_mark: |   N/A |
-
+|                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
+|:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
+|                      [ End-to-End ](./)                     |            N/A           |                N/A               |           :heavy_check_mark:          |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
