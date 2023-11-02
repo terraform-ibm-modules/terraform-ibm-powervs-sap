@@ -1,6 +1,6 @@
 output "access_host_or_ip" {
   description = "Public IP of Provided Bastion/JumpServer Host"
-  value       = var.powervs_instance_init_linux.bastion_host_ip
+  value       = nonsensitive(var.powervs_instance_init_linux.bastion_host_ip)
 }
 
 output "powervs_hana_instance_ips" {
