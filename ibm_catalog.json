@@ -55,7 +55,7 @@
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
                             "install_type": "fullstack",
-                            "version": ">=1.0.0"
+                            "version": ">=3.0.0"
                         }
                     ],
                     "configuration": [
@@ -67,7 +67,7 @@
                                     "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
                                     "flavorConstraint": "powervs-workspace",
                                     "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
-                                    "versionConstraint": ">=1.0.0"
+                                    "versionConstraint": ">=3.0.0"
                                 },
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
@@ -129,7 +129,7 @@
                                     "value": "us-south"
                                 },
                                 {
-                                    "displayname": "Dallas 10 (dal10)",
+                                    "displayname": "Dallas 10 (dal10) PER",
                                     "value": "dal10"
                                 },
                                 {
@@ -169,15 +169,16 @@
                             "custom_config": {}
                         },
                         {
-                            "key": "powervs_create_separate_fs_share",
-                            "required": true
+                            "key": "powervs_create_separate_sharefs_instance",
+                            "required": true,
+                            "default_value": ""
                         },
                         {
                             "key": "powervs_hana_instance_name",
                             "required": true
                         },
                         {
-                            "key": "powervs_hana_sap_profile_id",
+                            "key": "powervs_hana_instance_sap_profile_id",
                             "required": true
                         },
                         {
@@ -221,19 +222,44 @@
                             "required": true
                         },
                         {
-                            "key": "powervs_share_storage_config"
+                            "key": "powervs_hana_instance_custom_storage_config",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         },
                         {
-                            "key": "powervs_hana_custom_storage_config"
+                            "key": "powervs_hana_instance_additional_storage_config",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         },
                         {
-                            "key": "powervs_hana_additional_storage_config"
+                            "key": "powervs_netweaver_instance_storage_config",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         },
                         {
-                            "key": "powervs_netweaver_storage_config"
+                            "key": "powervs_sharefs_instance",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         },
                         {
-                            "key": "powervs_default_images"
+                            "key": "powervs_default_sap_images",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         }
                     ],
                     "outputs": [
@@ -256,7 +282,7 @@
                             "key": "powervs_netweaver_instance_management_ips"
                         },
                         {
-                            "key": "powervs_share_fs_ips"
+                            "key": "powervs_sharefs_instance_ips"
                         },
                         {
                             "key": "powervs_lpars_data"
@@ -296,14 +322,10 @@
                             },
                             {
                                 "title": "PowerVS instances",
-                                "description": "SAP HANA Instance: One\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1"
+                                "description": "SAP HANA Instance: 1\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1"
                             },
                             {
                                 "title": "Power Virtual Server with VPC landing zone",
-                                "description": "Available"
-                            },
-                            {
-                                "title": "Secure infrastructure on VPC for regulated industries",
                                 "description": "Available"
                             }
                         ],
@@ -314,7 +336,7 @@
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "'SAP ready PowerVS' variation of 'SAP on secure Power Virtual Servers' creates a basic and expandable SAP system landscape builds on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
+                                "description": "'SAP ready PowerVS' variation of 'SAP on secure Power Virtual Servers' creates a basic and expandable SAP system landscape builds on the foundation of the 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
                             }
                         ]
                     }
