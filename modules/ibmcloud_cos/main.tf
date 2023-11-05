@@ -5,12 +5,12 @@
 
 locals {
   scr_scripts_dir = "${path.module}/templates"
-  dst_scripts_dir = "/root/terraform_scripts"
+  dst_files_dir   = "/root/terraform_files"
   date            = formatdate("DD-MM-YYYY-hh-mm", timestamp())
 
   src_script_ibmcloud_cos_tfpl_path = "${local.scr_scripts_dir}/ibmcloud_cos.sh.tfpl"
-  dst_script_ibmcloud_cos_sh_path   = "${local.dst_scripts_dir}/ibmcloud_cos_download_${local.date}.sh"
-  log_file                          = "${local.dst_scripts_dir}/ibmcloud_cos_download_${local.date}_status.log"
+  dst_script_ibmcloud_cos_sh_path   = "${local.dst_files_dir}/ibmcloud_cos_download_${local.date}.sh"
+  log_file                          = "${local.dst_files_dir}/ibmcloud_cos_download_${local.date}_status.log"
 
 }
 
@@ -28,6 +28,12 @@ resource "null_resource" "download_objects" {
     private_key  = var.ssh_private_key
     agent        = false
     timeout      = "10m"
+  }
+
+  provisioner "remote-exec" {
+
+    inline = ["mkdir -p ${local.dst_files_dir}", "chmod 777 ${local.dst_files_dir}", ]
+
   }
 
   ####### Copy Template file to target host ############

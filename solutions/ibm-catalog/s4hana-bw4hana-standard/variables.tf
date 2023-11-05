@@ -1,11 +1,11 @@
-variable "ibmcloud_api_key" {
-  description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
-  type        = string
-  sensitive   = true
-}
+################################################################
+#
+# Required Parameters
+#
+################################################################
 
 variable "prerequisite_workspace_id" {
-  description = "IBM Cloud Schematics workspace ID of an existing Power infrastructure for regulated industries deployment. If you do not yet have an existing deployment, click [here](https://cloud.ibm.com/catalog/) and search for 'Power Virtual Server with VPC landing zone' to create one."
+  description = "IBM Cloud Schematics workspace ID of an existing 'Power Virtual Server with VPC landing zone' catalog solution. If you do not yet have an existing deployment, click [here](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?) to create one."
   type        = string
 }
 
@@ -24,24 +24,15 @@ variable "prefix" {
 }
 
 variable "powervs_sap_network_cidr" {
-  description = "Network range for separate SAP network. E.g., '10.53.1.0/24'"
+  description = "Network range for separate SAP network. E.g., '10.53.0.0/24'"
   type        = string
-  default     = "10.53.1.0/24"
+  default     = "10.53.0.0/24"
 }
 
-#####################################################
-# PowerVS Shared FS Instance parameters
-#####################################################
-
-variable "powervs_create_separate_fs_share" {
-  description = "Deploy separate IBM PowerVS instance(0.5 cpus, 2 GB memory size, shared processor on s922.) as central file system share. All filesystems defined in 'powervs_share_storage_config' optional variable will be NFS exported and mounted on Netweaver PowerVS instances."
+variable "powervs_create_separate_sharefs_instance" {
+  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on Netweaver PowerVS instances if enabled. Optional parameter 'powervs_share_fs_instance' can be configured if enabled."
   type        = bool
-  default     = true
 }
-
-#####################################################
-# PowerVS HANA Instance parameters
-#####################################################
 
 variable "powervs_hana_instance_name" {
   description = "SAP HANA hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_hana_instance_name>. Max length of final hostname must be <= 13 characters."
@@ -49,15 +40,11 @@ variable "powervs_hana_instance_name" {
   default     = "hana"
 }
 
-variable "powervs_hana_sap_profile_id" {
-  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
+variable "powervs_hana_instance_sap_profile_id" {
+  description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional parameter 'powervs_hana_instance_custom_storage_config'."
   type        = string
   default     = "ush1-4x256"
 }
-
-#####################################################
-# PowerVS NetWeaver Instance parameters
-#####################################################
 
 variable "powervs_netweaver_instance_name" {
   description = "SAP Netweaver hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters."
@@ -66,30 +53,17 @@ variable "powervs_netweaver_instance_name" {
 }
 
 variable "powervs_netweaver_cpu_number" {
-  description = "Number of CPUs SAP NetWeaver instance."
+  description = "Number of CPUs for each SAP NetWeaver instance."
   type        = string
   default     = "3"
 }
 
 variable "powervs_netweaver_memory_size" {
-  description = "Memory size SAP NetWeaver instance."
+  description = "Memory size for each SAP NetWeaver instance."
   type        = string
   default     = "32"
 }
 
-#####################################################
-# OS parameters
-#####################################################
-
-variable "ssh_private_key" {
-  description = "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key' which was created previously. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
-  type        = string
-  sensitive   = true
-}
-
-#####################################################
-# IBM Cloud Object Storage Parameters to download binaries
-#####################################################
 variable "ibmcloud_cos_service_credentials" {
   description = "IBM Cloud object storage Instance service credentials to access the bucket in the instance.[json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)"
   type        = string
@@ -97,7 +71,7 @@ variable "ibmcloud_cos_service_credentials" {
 }
 
 variable "ibmcloud_cos_configuration" {
-  description = "Cloud object storage Instance details to download the files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S/4HANA or BW/4HANA installation. If you have a stack xml file (maintainance planner) also place it under the 'cos_solution_software_path' dir and shouldn't contain any DB files as playbook will run into an error. Give the folder paths in Cloud object storage Instance."
+  description = "Cloud Object Storage Instance details to download the SAP installation files to the target host. 'cos_hana_software_path' should contain only binaries required for HANA DB installation. 'cos_solution_software_path' should contain only binaries required for S/4HANA or BW/4HANA installation. If you have a stack xml file (maintenance planner), place it under the 'cos_solution_software_path' dir and this dir shouldn't contain any DB files which causes installation to error out. Give the folder paths in Cloud object storage Instance.Avoid inserting '/' at the beginning for 'cos_hana_software_path' and 'cos_solution_software_path'."
   type = object({
     cos_region                 = string
     cos_bucket_name            = string
@@ -112,12 +86,8 @@ variable "ibmcloud_cos_configuration" {
   }
 }
 
-#####################################################
-# Ansible SAP Installation Parameters
-#####################################################
-
 variable "sap_solution" {
-  description = "SAP Solution."
+  description = "SAP Solution to be installed on Power Virtual Server."
   type        = string
   validation {
     condition     = contains(["s4hana-2022", "s4hana-2021", "s4hana-2020", "bw4hana-2021"], var.sap_solution) ? true : false
@@ -125,19 +95,13 @@ variable "sap_solution" {
   }
 }
 
-variable "ansible_vault_password" {
-  description = "Vault password to encrypt ansible variable file for SAP installation."
-  type        = string
-  sensitive   = true
-}
-
 variable "sap_hana_master_password" {
-  description = "SAP HANA master password"
+  description = "SAP HANA master password for HANA DB installation."
   type        = string
   sensitive   = true
 }
 
-variable "ansible_sap_hana_vars" {
+variable "sap_hana_vars" {
   description = "SAP HANA variables for HANA DB installation."
   type = object({
     sap_hana_install_sid    = string
@@ -150,13 +114,13 @@ variable "ansible_sap_hana_vars" {
 }
 
 variable "sap_swpm_master_password" {
-  description = "SAP SWPM master password."
+  description = "SAP SWPM master password for Netweaver installation."
   type        = string
   sensitive   = true
 }
 
-variable "ansible_sap_solution_vars" {
-  description = "SAP solution variables for SWPM installation. If sap_swpm_mp_stack_file_name is empty, then installation will not use maintainance planner and tms will not be installed and configured. "
+variable "sap_solution_vars" {
+  description = "SAP solution variables for SWPM installation. If 'sap_swpm_mp_stack_file_name' is empty, then installation will not use maintenance planner and TMS(Transport Management System ) will not be installed and configured. "
   type = object({
     sap_swpm_sid                = string
     sap_swpm_ascs_instance_nr   = string
@@ -171,7 +135,7 @@ variable "ansible_sap_solution_vars" {
     "sap_swpm_mp_stack_file_name" : ""
   }
   validation {
-    condition     = var.ansible_sap_solution_vars.sap_swpm_ascs_instance_nr != var.ansible_sap_solution_vars.sap_swpm_pas_instance_nr
+    condition     = var.sap_solution_vars.sap_swpm_ascs_instance_nr != var.sap_solution_vars.sap_swpm_pas_instance_nr
     error_message = "ASCS and PAS instance number must not be same"
   }
 }
@@ -182,37 +146,33 @@ variable "sap_domain" {
   default     = "sap.com"
 }
 
-#####################################################
-# Optional Parameters
-#####################################################
-
-variable "powervs_share_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
-  type = list(object({
-    name  = string
-    size  = string
-    count = string
-    tier  = string
-    mount = string
-  }))
-  default = [{
-    "name" : "sapmnt",
-    "size" : "300",
-    "count" : "1",
-    "tier" : "tier3",
-    "mount" : "/sapmnt"
-    },
-    {
-      "name" : "trans",
-      "size" : "50",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/usr/trans"
-  }]
+variable "ansible_vault_password" {
+  description = "Vault password to encrypt ansible variable file for SAP installation."
+  type        = string
+  sensitive   = true
 }
 
-variable "powervs_hana_custom_storage_config" {
-  description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+variable "ssh_private_key" {
+  description = "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key' which was created previously. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
+  type        = string
+  sensitive   = true
+}
+
+variable "ibmcloud_api_key" {
+  description = "IBM Cloud platform API key needed to deploy IAM enabled resources."
+  type        = string
+  sensitive   = true
+}
+
+
+################################################################
+#
+# Optional Parameters
+#
+################################################################
+
+variable "powervs_hana_instance_custom_storage_config" {
+  description = "Custom file systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
     size  = string
@@ -229,7 +189,7 @@ variable "powervs_hana_custom_storage_config" {
   }]
 }
 
-variable "powervs_hana_additional_storage_config" {
+variable "powervs_hana_instance_additional_storage_config" {
   description = "Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
@@ -248,8 +208,8 @@ variable "powervs_hana_additional_storage_config" {
   }]
 }
 
-variable "powervs_netweaver_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+variable "powervs_netweaver_instance_storage_config" {
+  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Please do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance."
   type = list(object({
     name  = string
     size  = string
@@ -268,8 +228,45 @@ variable "powervs_netweaver_storage_config" {
   ]
 }
 
-variable "powervs_default_images" {
-  description = "Default Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances."
+variable "powervs_sharefs_instance" {
+  description = "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  type = object({
+    name       = string
+    processors = string
+    memory     = string
+    proc_type  = string
+    storage_config = list(object({
+      name  = string
+      size  = string
+      count = string
+      tier  = string
+      mount = string
+    }))
+  })
+  default = {
+    "name" : "share",
+    "processors" : "0.5",
+    "memory" : "2",
+    "proc_type" : "shared",
+    "storage_config" : [{
+      "name" : "sapmnt",
+      "size" : "300",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/sapmnt"
+      },
+      {
+        "name" : "trans",
+        "size" : "50",
+        "count" : "1",
+        "tier" : "tier3",
+        "mount" : "/usr/trans"
+    }]
+  }
+}
+
+variable "powervs_default_sap_images" {
+  description = "Default SUSE and Red Hat Linux images to use for SAP HANA and SAP NetWeaver PowerVS instances."
   type = object({
     rhel_hana_image = string
     rhel_nw_image   = string

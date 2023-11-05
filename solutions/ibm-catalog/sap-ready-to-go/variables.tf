@@ -30,7 +30,7 @@ variable "powervs_sap_network_cidr" {
 }
 
 variable "os_image_distro" {
-  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in 'var.powervs_default_images' optional parameters below."
+  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in 'powervs_sap_default_images' optional parameters below."
   type        = string
 
   validation {
