@@ -57,8 +57,8 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 
 	options.TerraformVars = map[string]interface{}{
 		// locking into syd04 due to other data center issues
-		"powervs_zone": "syd04",
-		//"powervs_zone":                             options.Region,
+		//"powervs_zone": "syd04",
+		"powervs_zone":                             options.Region,
 		"prefix":                                   options.Prefix,
 		"powervs_resource_group_name":              options.ResourceGroup,
 		"landing_zone_configuration":               "3VPC_RHEL",
