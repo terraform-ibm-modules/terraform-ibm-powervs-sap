@@ -12,31 +12,42 @@
 ## Summary
 This repository contains deployable architecture solutions which helps in deploying Power Virtual Server for SAP HANA solutions. The solutions are available in IBM Cloud Catalog and also can be deployed without catalog as well except few solutions.
 
-Three solutions are offered:
-1. [IBM catalog PowerVS sap-ready-to-go variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-ready-to-go)
-    - Creates and configures 1 HANA instance, 0 to N Netweaver Instances and 1 Optional ShareFS with RHEL or SLES Os distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-    - Optionally configures os network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
+IBM Catalog Solutions which **requires pre-requisite Schematics Workspace ID** of [Power Virtual Server with vpc landing zone](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?) for below solutions :
+1. [IBM catalog PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-ready-to-go)
+    - Creates and configures 1 HANA instance, 0 to N NetWeaver Instances and 1 Optional ShareFS with RHEL or SLES OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
+    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
     - Additionally tunes the instances according to SAPs best practices which is fully ready for hosting SAP applications.
-2. [PowerVS sap-ready-to-go variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/sap-ready-to-go)
-   - Creates and configures 1 HANA instance, 0 to N Netweaver Instances and 1 Optional ShareFS with RHEL or SLES Os distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-   - Optionally configures os network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
+2. [IBM catalog S/4HANA and BW/4HANA Standard variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/s4hana-bw4hana-standard)
+    - Creates and configures 1 HANA instance, 1 NetWeaver Instances and 1 Optional ShareFS with RHEL OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
+    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
+    - Tunes the instances according to SAPs best practices.
+    - Downloads User provided preloaded SAP Installation binaries from IBM CLoud Object Storage Bucket.
+    - Installs and configures **SAP applications** (SAP HANA DB, SAP S4/HANA, SAP BW4/HANA) using RHEL Linux System Roles and [SAP Install community roles](https://galaxy.ansible.com/ui/repo/published/community/sap_install/).
+
+
+Solutions independent of IBM Cloud Schematics Workspace ID:
+1. [PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/sap-ready-to-go)
+   - Creates and configures 1 HANA instance, 0 to N NetWeaver Instances and 1 Optional ShareFS with RHEL or SLES OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
+   - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
    - Additionally tunes the instances according to SAPs best practices which is fully ready for hosting SAP applications.
-3. [End to End Solution](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/e2e)
+2. [End to End Solution](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/e2e)
     - Creates a [Power Virtual Server with vpc landing zone](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/tree/main/modules/powervs-vpc-landing-zone) which creates a VPC Infrastructure and PowerVS infrastructure. Installs and configures the Squid Proxy, DNS Forwarder, NTP forwarder and NFS on hosts, and sets the host as the server for the NTP, NFS, and DNS services by using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
-    - Creates and configures 1 HANA instance, 0 to N Netweaver Instances and 1 Optional ShareFS with RHEL or SLES Os distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-    - Optionally configures os network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
+    - Creates and configures 1 HANA instance, 0 to N NetWeaver Instances and 1 Optional ShareFS with RHEL or SLES OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
+    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
     - Additionally tunes the instances according to SAPs best practices which is fully ready for hosting SAP applications.
 
+
 ## Reference architectures
-- [IBM catalog PowerVS sap-ready-to-go variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
+- [IBM catalog PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
 - [Power Virtual Server with vpc landing zone](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/reference-architectures/full-stack/deploy-arch-ibm-pvs-inf-full-stack.svg)
 
 
 ## Solutions
 |                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 |:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
-| [ IBM Catalog sap-ready-to-go ]( ./solutions/ibm-catalog/sap-ready-to-go/ ) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
-|             [ sap-ready-to-go ]( ./solutions/sap-ready-to-go/ )             |            N/A           |                N/A               |                  N/A                  |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
+| [ IBM catalog PowerVS SAP Ready ]( ./solutions/ibm-catalog/sap-ready-to-go/ ) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
+| [ IBM catalog S/4HANA and BW/4HANA Standard variation ]( ./solutions/ibm-catalog/s4hana-bw4hana-standard ) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            1            |     :heavy_check_mark:     |      :heavy_check_mark:     |          :heavy_check_mark:         |
+|             [ PowerVS SAP Ready ]( ./solutions/sap-ready-to-go/ )             |            N/A           |                N/A               |                  N/A                  |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
 |                      [ End-to-End ]( ./solutions/e2e/ )                     |            N/A           |                N/A               |           :heavy_check_mark:          |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
 
 

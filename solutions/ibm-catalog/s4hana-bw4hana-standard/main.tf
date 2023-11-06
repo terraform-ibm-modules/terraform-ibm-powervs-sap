@@ -1,7 +1,7 @@
 ######################################################
 # Deploy SAP S/4HANA or SAP BW/4HANA
 # 1 HANA instance
-# 1 Netweaver Instance
+# 1 NetWeaver Instance
 # 1 Optional Sharefs instance
 ######################################################
 
@@ -157,7 +157,7 @@ module "ansible_sap_install_hana" {
 
 
 ####################################################
-# Ansible Install Netweaver solution
+# Ansible Install NetWeaver solution
 #####################################################
 
 locals {
@@ -172,6 +172,7 @@ locals {
     {
       sap_swpm_product_catalog_id        = lookup(local.product_catalog_map, var.sap_solution)
       sap_install_media_detect_directory = "${local.nfs_directory}/${var.ibmcloud_cos_configuration.cos_solution_software_path}"
+      sap_swpm_mp_stack_file_name        = var.ibmcloud_cos_configuration.cos_swpm_mp_stack_file_name
       sap_swpm_master_password           = var.sap_swpm_master_password
       sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
       sap_domain                         = var.sap_domain

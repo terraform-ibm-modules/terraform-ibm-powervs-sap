@@ -51,7 +51,7 @@ variable "cloud_connection_count" {
 #####################################################
 
 variable "pi_sharefs_instance" {
-  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'pi_sharefs_instance_storage_config' variable will be NFS exported and mounted on Netweaver PowerVS instances if enabled. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'pi_sharefs_instance_storage_config' variable will be NFS exported and mounted on NetWeaver PowerVS instances if enabled. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = object({
     enable     = bool
     name       = string
@@ -96,7 +96,7 @@ variable "pi_sharefs_instance" {
 #####################################################
 
 variable "pi_hana_instance" {
-  description = "SAP HANA hostname (non FQDN) will get the form of <var.prefix>-<var.pi_hana_instance_name>. SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'pi_hana_instance_custom_storage_config' parameter. 'additional_storage_config' additional file systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  description = "PowerVS SAP HANA instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_hana_instance_name>. Max length of final hostname must be <= 13 characters.'sap_profile_id' Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'pi_hana_instance_custom_storage_config' parameter. 'additional_storage_config' additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = object({
     name           = string
     image_id       = string
@@ -124,7 +124,7 @@ variable "pi_hana_instance" {
 }
 
 variable "pi_hana_instance_custom_storage_config" {
-  description = "Custom File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  description = "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
     size  = string
@@ -146,7 +146,7 @@ variable "pi_hana_instance_custom_storage_config" {
 #####################################################
 
 variable "pi_netweaver_instance" {
-  description = "'instance_count' is number of SAP NetWeaver instances that should be created. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. "
+  description = "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters. 'instance_count' is number of SAP NetWeaver instances that should be created. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. "
   type = object({
     instance_count = number
     name           = string
@@ -216,7 +216,7 @@ variable "sap_network_services_config" {
 }
 
 variable "sap_domain" {
-  description = "SAP domain to be set for entire landscape."
+  description = "SAP network domain name."
   type        = string
   default     = "sap.com"
 }

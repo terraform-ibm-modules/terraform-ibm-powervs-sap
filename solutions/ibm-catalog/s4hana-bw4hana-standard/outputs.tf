@@ -44,6 +44,6 @@ output "sap_hana_vars" {
 }
 
 output "sap_solution_vars" {
-  description = "SAP Netweaver system details."
+  description = "SAP NetWeaver system details."
   value       = var.sap_solution_vars
 }
