@@ -7,9 +7,9 @@
 ## Summary Tasks
 
 - Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-- Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
-- Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.
-- Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
+- Creates and configures **one** PowerVS instance for **SAP HANA** that is based on best practices.
+- Creates and configures **multiple** PowerVS instances for **SAP NetWeaver** that are based on best practices.
+- Creates and configures **one** **optional** PowerVS instance that can be used for sharing SAP files between other system instances.
 - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.

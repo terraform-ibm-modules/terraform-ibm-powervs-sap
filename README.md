@@ -12,7 +12,7 @@
 ## Summary
 This repository contains deployable architecture solutions which helps in deploying Power Virtual Server for SAP HANA solutions. The solutions are available in IBM Cloud Catalog and also can be deployed without catalog as well except few solutions.
 
-IBM Catalog Solutions which **requires pre-requisite Schematics Workspace ID** of [Power Virtual Server with vpc landing zone](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?) for below solutions :
+### IBM Catalog Solutions which **requires pre-requisite Schematics Workspace ID** of [Power Virtual Server with vpc landing zone](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?) for below solutions :
 1. [IBM catalog PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-ready-to-go)
     - Creates and configures 1 HANA instance, 0 to N NetWeaver Instances and 1 Optional ShareFS with RHEL or SLES OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
     - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
@@ -25,7 +25,7 @@ IBM Catalog Solutions which **requires pre-requisite Schematics Workspace ID** o
     - Installs and configures **SAP applications** (SAP HANA DB, SAP S4/HANA, SAP BW4/HANA) using RHEL Linux System Roles and [SAP Install community roles](https://galaxy.ansible.com/ui/repo/published/community/sap_install/).
 
 
-Solutions independent of IBM Cloud Schematics Workspace ID:
+### Solutions independent of IBM Cloud Schematics Workspace ID:
 1. [PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/sap-ready-to-go)
    - Creates and configures 1 HANA instance, 0 to N NetWeaver Instances and 1 Optional ShareFS with RHEL or SLES OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
