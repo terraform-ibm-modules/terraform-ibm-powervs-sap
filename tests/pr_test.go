@@ -83,7 +83,7 @@ func TestRunBranchExample(t *testing.T) {
 
 func TestRunMainExample(t *testing.T) {
 	t.Parallel()
-	options := setupOptions(t, "s", "eu-de-2")
+	options := setupOptions(t, "s", "tor01")
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
