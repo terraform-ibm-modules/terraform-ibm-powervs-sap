@@ -34,26 +34,27 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
+func setupOptions(t *testing.T, prefix string, region string) *testhelper.TestOptions {
 
 	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
-		Testing:            t,
-		TerraformDir:       defaultExampleTerraformDir,
-		Prefix:             prefix,
-		ResourceGroup:      resourceGroup,
-		Region:             "us-south", // specify default region to skip best choice query
-		DefaultRegion:      "us-south",
-		BestRegionYAMLPath: "../common-dev-assets/common-go-assets/cloudinfo-region-power-prefs.yaml", // specific to powervs zones
+		Testing:       t,
+		TerraformDir:  defaultExampleTerraformDir,
+		Prefix:        prefix,
+		ResourceGroup: resourceGroup,
+		Region:        region,
+		//Region:             "us-south", // specify default region to skip best choice query
+		//DefaultRegion:      "us-south",
+		//BestRegionYAMLPath: "../common-dev-assets/common-go-assets/cloudinfo-region-power-prefs.yaml", // specific to powervs zones
 	})
 
 	// query for best zone to deploy powervs example, based on current connection count
 	// NOTE: this is why we do not want to run multiple tests in parallel.
-	options.Region, _ = testhelper.GetBestPowerSystemsRegionO(options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], options.BestRegionYAMLPath, options.DefaultRegion,
-		testhelper.TesthelperTerraformOptions{CloudInfoService: sharedInfoSvc})
+	//options.Region, _ = testhelper.GetBestPowerSystemsRegionO(options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], options.BestRegionYAMLPath, options.DefaultRegion,
+	//testhelper.TesthelperTerraformOptions{CloudInfoService: sharedInfoSvc})
 	// if for any reason the region is empty at this point, such as error, use default
-	if len(options.Region) == 0 {
-		options.Region = options.DefaultRegion
-	}
+	//if len(options.Region) == 0 {
+	//options.Region = options.DefaultRegion
+	//}
 
 	options.TerraformVars = map[string]interface{}{
 		// locking into syd04 due to other data center issues
@@ -73,7 +74,7 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 func TestRunBranchExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "s")
+	options := setupOptions(t, "s", "tor01")
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -82,7 +83,7 @@ func TestRunBranchExample(t *testing.T) {
 
 func TestRunMainExample(t *testing.T) {
 	t.Parallel()
-	options := setupOptions(t, "s")
+	options := setupOptions(t, "s", "eu-de-2")
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
