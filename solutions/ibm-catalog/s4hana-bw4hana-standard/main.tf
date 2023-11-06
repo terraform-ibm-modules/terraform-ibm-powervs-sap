@@ -3,7 +3,7 @@
 # 1 HANA instance
 # 1 Netweaver Instance
 # 1 Optional Sharefs instance
-#####################################################
+######################################################
 
 locals {
   powervs_sharefs_instance = {
@@ -55,11 +55,12 @@ module "sap_system" {
 }
 
 
-#####################################################
+######################################################
 # COS Service credentials
 # Download HANA binaries and SAP Solution binaries
-# from COS to nfs host
-#####################################################
+# from IBM Cloud Object Storage(COS) to NFS intel
+# host (10.20.10.4)
+######################################################
 
 locals {
   cos_service_credentials  = jsondecode(var.ibmcloud_cos_service_credentials)
@@ -91,7 +92,7 @@ locals {
 }
 
 module "ibmcloud_cos_download_hana_binaries" {
-  source = "../../../modules/ibmcloud_cos"
+  source = "../../../modules/ibmcloud-cos"
   count  = local.powervs_network_services_config.nfs.enable ? 1 : 0
 
   access_host_or_ip          = local.access_host_or_ip
@@ -101,7 +102,7 @@ module "ibmcloud_cos_download_hana_binaries" {
 }
 
 module "ibmcloud_cos_download_netweaver_binaries" {
-  source     = "../../../modules/ibmcloud_cos"
+  source     = "../../../modules/ibmcloud-cos"
   depends_on = [module.ibmcloud_cos_download_hana_binaries]
   count      = local.powervs_network_services_config.nfs.enable ? 1 : 0
 
@@ -125,7 +126,7 @@ locals {
 
 
 #####################################################
-# Install HANA DB
+# Ansible Install HANA DB
 #####################################################
 
 locals {
@@ -156,7 +157,7 @@ module "ansible_sap_install_hana" {
 
 
 ####################################################
-# Install Netweaver solution
+# Ansible Install Netweaver solution
 #####################################################
 
 locals {

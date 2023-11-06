@@ -80,7 +80,7 @@ s4hana2022
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.6 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.56.1 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.58.1 |
 
 ### Modules
 
@@ -88,16 +88,16 @@ s4hana2022
 |------|--------|---------|
 | <a name="module_ansible_sap_install_hana"></a> [ansible\_sap\_install\_hana](#module\_ansible\_sap\_install\_hana) | ../../../modules/remote-exec-ansible-sap-install | n/a |
 | <a name="module_ansible_sap_install_netweaver"></a> [ansible\_sap\_install\_netweaver](#module\_ansible\_sap\_install\_netweaver) | ../../../modules/remote-exec-ansible-sap-install | n/a |
-| <a name="module_ibmcloud_cos_download_hana_binaries"></a> [ibmcloud\_cos\_download\_hana\_binaries](#module\_ibmcloud\_cos\_download\_hana\_binaries) | ../../../modules/ibmcloud_cos | n/a |
-| <a name="module_ibmcloud_cos_download_netweaver_binaries"></a> [ibmcloud\_cos\_download\_netweaver\_binaries](#module\_ibmcloud\_cos\_download\_netweaver\_binaries) | ../../../modules/ibmcloud_cos | n/a |
+| <a name="module_ibmcloud_cos_download_hana_binaries"></a> [ibmcloud\_cos\_download\_hana\_binaries](#module\_ibmcloud\_cos\_download\_hana\_binaries) | ../../../modules/ibmcloud-cos | n/a |
+| <a name="module_ibmcloud_cos_download_netweaver_binaries"></a> [ibmcloud\_cos\_download\_netweaver\_binaries](#module\_ibmcloud\_cos\_download\_netweaver\_binaries) | ../../../modules/ibmcloud-cos | n/a |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../../modules/pi-sap-system-type1 | n/a |
 
 ### Resources
 
 | Name | Type |
 |------|------|
-| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.56.1/docs/data-sources/schematics_output) | data source |
-| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.56.1/docs/data-sources/schematics_workspace) | data source |
+| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.58.1/docs/data-sources/schematics_output) | data source |
+| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.58.1/docs/data-sources/schematics_workspace) | data source |
 
 ### Inputs
 
@@ -132,5 +132,16 @@ s4hana2022
 
 ### Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP of Provided Bastion/JumpServer Host. |
+| <a name="output_infrastructure_data"></a> [infrastructure\_data](#output\_infrastructure\_data) | PowerVS infrastructure details. |
+| <a name="output_powervs_hana_instance_ips"></a> [powervs\_hana\_instance\_ips](#output\_powervs\_hana\_instance\_ips) | All private IPS of HANA instance. |
+| <a name="output_powervs_hana_instance_management_ip"></a> [powervs\_hana\_instance\_management\_ip](#output\_powervs\_hana\_instance\_management\_ip) | Management IP of HANA Instance. |
+| <a name="output_powervs_lpars_data"></a> [powervs\_lpars\_data](#output\_powervs\_lpars\_data) | All private IPS of PowerVS instances and Jump IP to access the host. |
+| <a name="output_powervs_netweaver_instance_ips"></a> [powervs\_netweaver\_instance\_ips](#output\_powervs\_netweaver\_instance\_ips) | All private IPs of NetWeaver instance. |
+| <a name="output_powervs_netweaver_instance_management_ip"></a> [powervs\_netweaver\_instance\_management\_ip](#output\_powervs\_netweaver\_instance\_management\_ip) | Management IP of NetWeaver instance. |
+| <a name="output_powervs_sharefs_instance_ips"></a> [powervs\_sharefs\_instance\_ips](#output\_powervs\_sharefs\_instance\_ips) | Private IPs of the Share FS instance. |
+| <a name="output_sap_hana_vars"></a> [sap\_hana\_vars](#output\_sap\_hana\_vars) | SAP HANA system details. |
+| <a name="output_sap_solution_vars"></a> [sap\_solution\_vars](#output\_sap\_solution\_vars) | SAP Netweaver system details. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

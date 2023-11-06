@@ -24,7 +24,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.58.1 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.2.1 |
 
 ### Modules
