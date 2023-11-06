@@ -74,7 +74,7 @@ func setupOptions(t *testing.T, prefix string, region string) *testhelper.TestOp
 func TestRunBranchExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "s", "tor01")
+	options := setupOptions(t, "s", "tok04")
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
