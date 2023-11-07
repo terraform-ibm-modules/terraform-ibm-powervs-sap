@@ -52,7 +52,6 @@ The end to end solution automates the following tasks:
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.6 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >=1.58.1 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1 |
 
 ### Modules
 
@@ -63,9 +62,7 @@ The end to end solution automates the following tasks:
 
 ### Resources
 
-| Name | Type |
-|------|------|
-| [time_sleep.wait_5_mins](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+No resources.
 
 ### Inputs
 
