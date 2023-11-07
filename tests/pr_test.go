@@ -74,7 +74,7 @@ func setupOptions(t *testing.T, prefix string, region string) *testhelper.TestOp
 func TestRunBranchExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "s", "syd04")
+	options := setupOptions(t, "s", "tok04")
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -83,7 +83,7 @@ func TestRunBranchExample(t *testing.T) {
 
 func TestRunMainExample(t *testing.T) {
 	t.Parallel()
-	options := setupOptions(t, "s", "sao01")
+	options := setupOptions(t, "s", "eu-de-2")
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
