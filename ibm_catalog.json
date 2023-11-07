@@ -602,10 +602,20 @@
                             "key": "powervs_netweaver_instance_storage_config"
                         },
                         {
-                            "key": "powervs_sharefs_instance"
+                            "key": "powervs_sharefs_instance",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         },
                         {
-                            "key": "powervs_default_sap_images"
+                            "key": "powervs_default_sap_images",
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
                         }
                     ],
                     "outputs": [
