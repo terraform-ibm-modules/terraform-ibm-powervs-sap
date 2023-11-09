@@ -1,7 +1,7 @@
 ---
 apiVersion: v1
 offerings:
-  - name: terraform-ibm-powervs-sap
+  - name: deploy-arch-ibm-pvs-sap
     kind: solution
     catalog_id: da12d6f3-3cb7-402e-9350-878837212a6e
     offering_id: 9aa6135e-75d5-467e-9f4a-ac2a21c069b8
