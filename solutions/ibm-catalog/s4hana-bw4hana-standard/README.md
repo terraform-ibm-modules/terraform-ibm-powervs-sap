@@ -86,9 +86,10 @@ s4hana2022
 ### 1. HANA Instance:
 **Default values:**
 ```
-/hana/data
-/hana/log
-/usr/sap
+/hana/shared (size auto calculated based on memory)
+/hana/data   (size auto calculated based on memory)
+/hana/log    (size auto calculated based on memory)
+/usr/sap     50GB
 ```
 
 *Note: Supports custom storage configuration using provided optional variables.*
@@ -96,8 +97,8 @@ s4hana2022
 ### 2. Netweaver Instance:
 **Default values:**
 ```
-/usr/sap
-/sapmnt (only if sharefs instance is not provisioned)
+/usr/sap 50GB
+/sapmnt  300GB (only if sharefs instance is not provisioned)
 ```
 
 *Note: Supports custom storage configuration using provided optional variables.*
@@ -105,8 +106,8 @@ s4hana2022
 ### 3. Sharefs Instance:
 **Default values:**
 ```
-/sapmnt
-/usr/trans
+/sapmnt    300GB
+/usr/trans 50GB
 ```
 
 *Note: Supports custom storage configuration using provided optional variables.*
