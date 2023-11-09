@@ -143,10 +143,15 @@ locals {
   pi_netweaver_instance_storage_config = var.pi_sharefs_instance.enable ? var.pi_netweaver_instance.storage_config : concat(var.pi_netweaver_instance.storage_config, local.pi_netweaver_instance_sapmnt_storage)
 }
 
+resource "time_sleep" "wait_1_min" {
+  create_duration = "60s"
+}
+
 module "pi_netweaver_instance" {
-  source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "1.0.2"
-  count   = var.pi_netweaver_instance.instance_count
+  source     = "terraform-ibm-modules/powervs-instance/ibm"
+  version    = "1.0.2"
+  count      = var.pi_netweaver_instance.instance_count
+  depends_on = [time_sleep.wait_1_min]
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = "${local.pi_netweaver_instance_name}-${count.index + 1}"
