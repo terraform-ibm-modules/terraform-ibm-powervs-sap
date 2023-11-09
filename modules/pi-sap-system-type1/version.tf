@@ -10,10 +10,9 @@ terraform {
       source  = "IBM-Cloud/ibm"
       version = ">= 1.58.1"
     }
-    # tflint-ignore: terraform_unused_required_providers
-    null = {
-      source  = "hashicorp/null"
-      version = ">= 3.2.1"
+    time = {
+      source  = "hashicorp/time"
+      version = ">= 0.9.1"
     }
 
   }
