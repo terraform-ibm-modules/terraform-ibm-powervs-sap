@@ -4,11 +4,27 @@
 ## Summary Outcome:
    SAP S/4HANA or SAP BW/4HANA in Standard installation configuration to IBM PowerVS hosts.
 
+|                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
+|:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
+| [ IBM catalog S/4HANA and BW/4HANA Standard variation ]( ./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            1            |     :heavy_check_mark:     |      :heavy_check_mark:     |          :heavy_check_mark:         |
+
+## Architecture Diagram
+![s4hana-bw4hana-standard]()
+
+## Overview
+1. [Summary Tasks](#summary-tasks)
+2. [Before you begin](#before-you-begin)
+3. [Notes](#notes)
+4. [Prerequisites](#prerequisites)
+5. [Post Deployment](#post-deployment)
+6. [Storage setup](#storage-setup)
+7. [Ansible roles used](#ansible-roles-used)
+
 ## Summary Tasks
 
 - Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-- Creates and configures **one** PowerVS instance for **SAP HANA** that is based on best practices.
-- Creates and configures **one** PowerVS instance for **SAP NetWeaver** that is based on best practices.
+- Creates and configures **one** PowerVS instance for **SAP HANA** that is based on best practices for **HANA database**.
+- Creates and configures **one** PowerVS instance for **SAP NetWeaver** that is based on best practices which **hosts the PAS and ASCS instance**.
 - Creates and configures **one** optional PowerVS instance that can be used for sharing SAP files between other system instances.
 - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
@@ -29,17 +45,7 @@
 - If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all NetWeaver Instances.
 - **Do not specify** a filesystem `/sapmnt` explicitly for NetWeaver instance as, it is created internally when sharefs instance is not enabled.
 
-|                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-|:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
-| [ IBM catalog S/4HANA and BW/4HANA Standard variation ]( ./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            1            |     :heavy_check_mark:     |      :heavy_check_mark:     |          :heavy_check_mark:         |
-
-
-## Architecture Diagram
-![s4hana-bw4hana-standard](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/s4hana-bw4hana-standard/deploy-arch-ibm-pvs-s4hana-bw4hana-standard.svg)
-
-
 ## Prerequisites
-
 ### 1. IBM Cloud Object Storage service credentials
 1. Recommended to have a COS Instance in the same region where the S/4HANA or BW/4HANA deployment is planned as copying the files on to the lpar will be faster.
 2. **'ibmcloud_cos_service_credentials'** variable requires a value in **json format**. This can be obtained using the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)
@@ -60,14 +66,15 @@ s4hana2022
 ```
 **Do not mix the HANA DB binaries with the S/4HANA or BW/4HANA solution binaries otherwise the ansible playbook execution will fail.**
 
-4. If you have a **Maintenance planner stack xml** file, place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in variable **'ansible_sap_solution_vars.sap_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack xml file.
+4. If you have a **Maintenance planner stack xml** file, place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in **'cos_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack xml file.
+
 5. **'ibmcloud_cos_configuration'** variable needs to be set correctly based on the folder structure created.
 
    `"cos_region":` region of IBM Cloud Object Storage instance bucket. Example **eu-gb**\
    `"cos_bucket_name":`  cos bucket name\
    `"cos_hana_software_path":` folder path to hana db binaries from the root of bucket. Example from point 3 the value would be **"s4hana2022/HANA_DB"**\
    `"cos_solution_software_path":` folder path to S/4HANA binaries from the root of bucket. Example from point 3 the value would be **"s4hana2022/S4HANA_2022"**\
-   `"cos_swpm_mp_stack_file_name":` Stack XML file name. Value must be set to empty `''` if not available. If value is provided, then this file **must be present** in the same path as `'cos_swpm_mp_stack_file_name'`.
+   `"cos_swpm_mp_stack_file_name":` Stack XML file name. Value must be set to empty `''` if not available. If value is provided, then this file **must be present** in the same path as `'cos_solution_software_path'`.
 
 
 ## Post Deployment
@@ -75,14 +82,43 @@ s4hana2022
 2. The **ansible vault password** will be used to encrypt the ansible playbook file which was created during deployment. This playbook file will be placed under `/root/terraform_files/sap-hana-install.yml` on **HANA instance** and `/root/terraform_files/sap-swpm-install-vars.yml` on **NetWeaver Instance**.
 3. This file can be decrypted using the same value passed to variable **'ansible_vault_password'** during deployment. Use the command `ansible-vault decrypt /root/terraform_files/sap-swpm-install-vars.yml` and enter the password when prompted.
 
+## Storage setup
+### 1. HANA Instance:
+**Default values:**
+```
+/hana/data
+/hana/log
+/usr/sap
+```
+
+*Note: Supports custom storage configuration using provided optional variables.*
+
+### 2. Netweaver Instance:
+**Default values:**
+```
+/usr/sap
+/sapmnt (only if sharefs instance is not provisioned)
+```
+
+*Note: Supports custom storage configuration using provided optional variables.*
+
+### 3. Sharefs Instance:
+**Default values:**
+```
+/sapmnt
+/usr/trans
+```
+
+*Note: Supports custom storage configuration using provided optional variables.*
+
 
 ## Ansible roles used
-1. **RHEL System Roles:** `sap_hana_install`
-2. **Community role:**  `community.sap_install.sap_swpm `
-3. **Community role:**  `community.sap_install.sap_install_media_detect`
+1. **[RHEL System Roles](https://access.redhat.com/articles/4488731):** `sap_hana_install, sap_general_preconfigure, sap_hana_preconfigure, sap_netweaver_preconfigure`
+2. **[Community role](https://galaxy.ansible.com/ui/repo/published/community/sap_install/):**  `sap_install.sap_swpm, sap_install.sap_install_media_detect `
+4. **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
 
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ### Requirements
 
 | Name | Version |

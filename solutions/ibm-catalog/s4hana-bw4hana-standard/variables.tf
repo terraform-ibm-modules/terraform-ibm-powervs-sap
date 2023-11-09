@@ -132,7 +132,7 @@ variable "sap_solution_vars" {
   default = {
     "sap_swpm_sid" : "S4H",
     "sap_swpm_ascs_instance_nr" : "00",
-    "sap_swpm_pas_instance_nr" : "01",
+    "sap_swpm_pas_instance_nr" : "01"
   }
   validation {
     condition     = var.sap_solution_vars.sap_swpm_ascs_instance_nr != var.sap_solution_vars.sap_swpm_pas_instance_nr
