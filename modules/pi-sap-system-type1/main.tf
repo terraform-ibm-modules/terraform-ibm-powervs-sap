@@ -144,6 +144,7 @@ locals {
 }
 
 resource "time_sleep" "wait_1_min" {
+  depends_on      = [ibm_pi_network.sap_network]
   create_duration = "60s"
 }
 
