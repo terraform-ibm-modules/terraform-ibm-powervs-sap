@@ -22,7 +22,7 @@ deployment-url: https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-s
 
 docs: https://cloud.ibm.com/docs/sap-powervs
 
-image_source: https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-s4hana-bw4hana/deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg
+image_source: https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-s4hana-bw4hana/deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg
 
 related_links:
   - title: 'SAP in IBM Cloud documentation'

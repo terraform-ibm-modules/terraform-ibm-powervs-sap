@@ -15,25 +15,25 @@ This repository contains deployable architecture solutions which helps in deploy
 ### IBM Catalog Solutions which **requires pre-requisite Schematics Workspace ID** of [Power Virtual Server with vpc landing zone](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?):
 1. [IBM catalog PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-ready-to-go)
     - Creates and configures **1 HANA instance, 0 to N NetWeaver Instances and 1 Optional ShareFS** with **RHEL or SLES OS** distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
+    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap`
     - Additionally tunes the instances according to SAPs best practices which is fully ready for hosting SAP applications.
 2. [IBM catalog PowerVS S/4HANA or BW/4HANA variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-s4hana-bw4hana)
     - Creates and configures **1 HANA instance, 1 NetWeaver Instances and 1 Optional ShareFS** with **RHEL** OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
+    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap`
     - Tunes the instances according to SAPs best practices.
     - Downloads user provided preloaded SAP Installation binaries from IBM Cloud Object Storage Bucket.
-    - Installs and configures **SAP applications** (SAP HANA DB, SAP S4/HANA, SAP BW4/HANA) using **[RHEL System Roles](https://access.redhat.com/articles/4488731):** `sap_hana_install, sap_general_preconfigure, sap_hana_preconfigure, sap_netweaver_preconfigure` and **[Community role](https://galaxy.ansible.com/ui/repo/published/community/sap_install/):**  `sap_install.sap_swpm, sap_install.sap_install_media_detect `
+    - Installs and configures **SAP applications** (SAP HANA DB, SAP S4/HANA, SAP BW4/HANA) using [RHEL System Roles](https://access.redhat.com/articles/4488731): `sap_hana_install, sap_general_preconfigure, sap_hana_preconfigure, sap_netweaver_preconfigure` and [Community role](https://galaxy.ansible.com/ui/repo/published/community/sap_install/):  `sap_install.sap_swpm, sap_install.sap_install_media_detect `
 
 
 ### Solutions independent of IBM Cloud pre-requisite Schematics Workspace ID:
 1. [PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/sap-ready-to-go)
    - Creates and configures **1 HANA instance, 0 to N NetWeaver Instances and 1 Optional ShareFS** with **RHEL or SLES** OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-   - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
+   - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap`
    - Additionally tunes the instances according to SAPs best practices which is fully ready for hosting SAP applications.
 2. [End to End Solution](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/e2e)
-    - Creates a [Power Virtual Server with vpc landing zone](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/tree/main/modules/powervs-vpc-landing-zone) which creates a VPC Infrastructure and PowerVS infrastructure. Installs and configures the Squid Proxy, DNS Forwarder, NTP forwarder and NFS on hosts, and sets the host as the server for the NTP, NFS, and DNS services by using ansible galaxy collection **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
+    - Creates a [Power Virtual Server with vpc landing zone](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/tree/main/modules/powervs-vpc-landing-zone) which creates a VPC Infrastructure and PowerVS infrastructure. Installs and configures the Squid Proxy, DNS Forwarder, NTP forwarder and NFS on hosts, and sets the host as the server for the NTP, NFS, and DNS services by using ansible galaxy collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap`
     - Creates and configures **1 HANA instance, 0 to N NetWeaver Instances and 1 Optional ShareFS** with **RHEL or SLES** OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
+    - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap`
     - Additionally tunes the instances according to SAPs best practices which is fully ready for hosting SAP applications.
 
 
