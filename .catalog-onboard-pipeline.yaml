@@ -10,3 +10,7 @@ offerings:
         mark_ready: false
         install_type: extension
         import_only: true
+      - name: sap-s4hana-bw4hana
+        mark_ready: false
+        install_type: extension
+        import_only: true
