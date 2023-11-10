@@ -2,14 +2,14 @@
 
 # Summary
 ## Summary Outcome:
-   SAP S/4HANA or SAP BW/4HANA in Standard installation configuration to IBM PowerVS hosts.
+   SAP S/4HANA or SAP BW/4HANA installation configuration to IBM PowerVS hosts.
 
 |                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 |:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
-| [ IBM catalog S/4HANA and BW/4HANA Standard variation ]( ./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            1            |     :heavy_check_mark:     |      :heavy_check_mark:     |          :heavy_check_mark:         |
+| [ IBM catalog S/4HANA or BW/4HANA variation ]( ./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            1            |     :heavy_check_mark:     |      :heavy_check_mark:     |          :heavy_check_mark:         |
 
 ## Architecture Diagram
-![s4hana-bw4hana-standard]()
+![sap-s4hana-bw4hana]()
 
 ## Overview
 1. [Summary Tasks](#summary-tasks)

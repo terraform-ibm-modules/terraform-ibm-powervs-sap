@@ -2,7 +2,7 @@
 
 copyright:
   years: 2023
-lastupdated: "2023-04-13"
+lastupdated: "2023-11-10"
 
 keywords:
 
@@ -10,6 +10,7 @@ subcollection: deployable-reference-architectures
 
 authors:
   - name: Arnold Beilmann
+  - name: Suraj Bharadwaj
 
 version: v1.0.0
 
