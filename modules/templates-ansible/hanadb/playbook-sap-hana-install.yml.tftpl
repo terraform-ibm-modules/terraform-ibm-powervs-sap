@@ -1,0 +1,20 @@
+# ------------------------------------------------------------------------
+# This playbook uses the RHEL Linux System Roles.
+# ------------------------------------------------------------------------
+# Install directory must contain
+#   1.  IMDB_SERVER*SAR file
+#   2.  IMDB_*SAR files for all components you wish to install
+#   3.  SAPCAR executable
+
+---
+- name: Ansible Play for executing SAP HANA install
+  hosts: all
+
+  vars:
+    sap_hana_install_software_directory: "${sap_hana_install_software_directory}"
+    sap_hana_install_sid: "${sap_hana_install_sid}"
+    sap_hana_install_number: "${sap_hana_install_number}"
+    sap_hana_install_master_password: "${sap_hana_install_master_password}"
+
+  roles:
+  - { role: sap_hana_install }

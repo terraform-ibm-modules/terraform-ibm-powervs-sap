@@ -1,0 +1,88 @@
+# ------------------------------------------------------------------------
+# This playbook uses:
+# 1. ansible-galaxy collection community.sap_install
+# 2. ansible-galaxy collection community.general
+# ------------------------------------------------------------------------
+# Install directory **should not contain** any IMDB files. Otherwise swpm roll will run into error. However exception is IMDB_CLIENT*.SAR file.
+#   1.  IMDB_SERVER*SAR file must be absent
+#   2.  IMDB_AFL*SAR, IMDB_LCAPPS*.SAR must be absent
+
+---
+
+- name: Ansible Play for executing SAP SWPM
+  hosts: all
+  become: true
+
+  vars:
+    sap_swpm_ansible_role_mode: default
+    sap_swpm_product_catalog_id: '${sap_swpm_product_catalog_id}'
+
+    # Software
+    sap_install_media_detect_directory: '${sap_install_media_detect_directory}'
+    sap_install_media_detect_source_directory: '${sap_install_media_detect_directory}'
+    sap_swpm_software_path: '${sap_install_media_detect_directory}'
+    sap_swpm_sapcar_path: '${sap_install_media_detect_directory}'
+    sap_swpm_swpm_path: '${sap_install_media_detect_directory}'
+
+    # NW Instance Parameters
+    sap_swpm_sid: '${sap_swpm_sid}'
+    sap_swpm_pas_instance_nr: '${sap_swpm_pas_instance_nr}'
+    sap_swpm_ascs_instance_nr: '${sap_swpm_ascs_instance_nr}'
+    sap_swpm_master_password: '${sap_swpm_master_password}'
+    sap_swpm_ddic_000_password: '${sap_swpm_master_password}'
+    sap_swpm_ascs_instance_hostname: '${sap_swpm_ascs_instance_hostname}'
+    sap_swpm_fqdn: '${sap_domain}'
+
+    # HDB Instance Parameters
+    sap_swpm_db_host: '${sap_swpm_db_host}'
+    sap_swpm_db_ip: '${sap_swpm_db_ip}'
+    sap_swpm_db_sid: '${sap_swpm_db_sid}'
+    sap_swpm_db_instance_nr: '${sap_swpm_db_instance_nr}'
+    sap_swpm_db_system_password: '${sap_swpm_db_master_password}'
+    sap_swpm_db_systemdb_password: '${sap_swpm_db_master_password}'
+    sap_swpm_db_schema_abap_password: '${sap_swpm_db_master_password}'
+    sap_swpm_db_sidadm_password: '${sap_swpm_db_master_password}'
+    sap_swpm_db_schema_abap: "SAPHANADB"
+    sap_swpm_update_etchosts: true
+    sap_swpm_install_saphostagent: true
+
+    %{ if "${sap_swpm_mp_stack_file_name}" != "" }
+    # MP Stack
+    sap_swpm_mp_stack_path: "${sap_install_media_detect_directory}"
+    sap_swpm_mp_stack_file_name: "${sap_swpm_mp_stack_file_name}"
+    sap_swpm_configure_tms: true
+    sap_swpm_tmsadm_password: "${sap_swpm_master_password}"
+    sap_swpm_tms_tr_files_path: "${sap_install_media_detect_directory}"
+    %{ endif }
+
+    # Generate inifile.params using sap_swpm Ansible Role
+    sap_swpm_inifile_list:
+      - swpm_installation_media
+      - swpm_installation_media_swpm2_hana
+      - credentials
+      - credentials_hana
+      - db_config_hana
+      - db_connection_nw_hana
+      - nw_config_other
+      - nw_config_central_services_abap
+      - nw_config_primary_application_server_instance
+      - nw_config_ports
+      - sap_os_linux_user
+      - nw_config_host_agent
+      - maintenance_plan_stack_tms_config
+      - maintenance_plan_stack_tms_transports
+      - maintenance_plan_stack_spam_config
+      - maintenance_plan_stack_sum_config
+      - maintenance_plan_stack_sum_10_batch_mode
+
+  tasks:
+    - name: Execute Ansible Role sap_install_media_detect
+      ansible.builtin.include_role:
+        name: { role: community.sap_install.sap_install_media_detect }
+
+    - name: Execute Ansible Role sap_swpm
+      ansible.builtin.include_role:
+        name: { role: community.sap_install.sap_swpm }
+
+    - name: SAP SWPM Post Install - Enforce Connection Info in hdbuserstore
+      ansible.builtin.shell: "runuser -l {{sap_swpm_sid|lower}}adm -c 'hdbuserstore SET DEFAULT {{ sap_swpm_db_host }}:3{{ sap_swpm_db_instance_nr }}13 {{ sap_swpm_db_schema_abap }} '{{ sap_swpm_db_system_password }}"

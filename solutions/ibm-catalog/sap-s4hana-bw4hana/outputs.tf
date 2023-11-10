@@ -19,12 +19,12 @@ output "powervs_hana_instance_management_ip" {
 }
 
 output "powervs_netweaver_instance_ips" {
-  description = "All private IPS of NetWeaver instances."
+  description = "All private IPs of NetWeaver instance."
   value       = module.sap_system.pi_netweaver_instance_ips
 }
 
-output "powervs_netweaver_instance_management_ips" {
-  description = "Management IPS of NetWeaver instances."
+output "powervs_netweaver_instance_management_ip" {
+  description = "Management IP of NetWeaver instance."
   value       = module.sap_system.pi_netweaver_instance_management_ips
 }
 
@@ -36,4 +36,14 @@ output "powervs_sharefs_instance_ips" {
 output "powervs_lpars_data" {
   description = "All private IPS of PowerVS instances and Jump IP to access the host."
   value       = module.sap_system.pi_lpars_data
+}
+
+output "sap_hana_vars" {
+  description = "SAP HANA system details."
+  value       = var.sap_hana_vars
+}
+
+output "sap_solution_vars" {
+  description = "SAP NetWeaver system details."
+  value       = var.sap_solution_vars
 }

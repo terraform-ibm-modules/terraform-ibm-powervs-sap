@@ -51,7 +51,7 @@ variable "ssh_private_key" {
 }
 
 variable "os_image_distro" {
-  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). OS release versions may be specified in 'var.powervs_default_images' optional parameters below."
+  description = "Image distribution to use for all instances(Shared, HANA, NetWeaver). OS release versions may be specified in 'var.powervs_default_images' optional parameters below."
   type        = string
 
   validation {
@@ -61,7 +61,7 @@ variable "os_image_distro" {
 }
 
 variable "powervs_create_separate_sharefs_instance" {
-  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on Netweaver PowerVS instances if enabled. Optional parameter 'powervs_share_fs_instance' can be configured if enabled."
+  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on NetWeaver PowerVS instances if enabled. Optional parameter 'powervs_share_fs_instance' can be configured if enabled."
   type        = bool
 }
 

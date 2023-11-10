@@ -30,7 +30,7 @@ resource "time_sleep" "wait_5_mins" {
 # Power Virtual Server SAP ready-to-go
 # Deploy SAP system
 # 1 HANA instance
-# 0:N Netweaver Instance
+# 0:N NetWeaver Instance
 # 1 Optional Sharefs instance
 # SAP instance Init
 #######################################################

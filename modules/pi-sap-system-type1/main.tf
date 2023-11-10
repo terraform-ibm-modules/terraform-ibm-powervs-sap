@@ -90,8 +90,8 @@ module "ansible_sharefs_instance_exportfs" {
   ssh_private_key            = var.pi_instance_init_linux.ssh_private_key
   src_script_template_name   = "ansible_exec.sh.tftpl"
   dst_script_file_name       = "configure_nfs_server.sh"
-  src_playbook_template_name = "playbook_configure_network_services.yml.tftpl"
-  dst_playbook_file_name     = "playbook_configure_nfs_server.yml"
+  src_playbook_template_name = "playbook-configure-network-services.yml.tftpl"
+  dst_playbook_file_name     = "playbook-configure-nfs-server.yml"
   playbook_template_content  = { server_config = jsonencode(local.pi_sharefs_instance_nfs_server_config), client_config = jsonencode({}) }
 }
 
@@ -133,7 +133,7 @@ locals {
 
 
 ##########################################################################################################
-# Deploy SAP Netweaver Instances
+# Deploy SAP NetWeaver Instances
 ##########################################################################################################
 
 locals {
@@ -190,8 +190,8 @@ module "ansible_netweaver_sapmnt_mount" {
   ssh_private_key            = var.pi_instance_init_linux.ssh_private_key
   src_script_template_name   = "ansible_exec.sh.tftpl"
   dst_script_file_name       = "sapmnt_mount.sh"
-  src_playbook_template_name = "playbook_configure_network_services.yml.tftpl"
-  dst_playbook_file_name     = "playbook_configure_sapmnt.yml"
+  src_playbook_template_name = "playbook-configure-network-services.yml.tftpl"
+  dst_playbook_file_name     = "playbook-configure-sapmnt.yml"
   playbook_template_content  = { server_config = jsonencode({}), client_config = jsonencode(local.pi_netweaver_instance_sapmnt_config) }
 }
 
@@ -216,7 +216,7 @@ module "ansible_sap_instance_init" {
   ssh_private_key            = var.pi_instance_init_linux.ssh_private_key
   src_script_template_name   = "ansible_exec.sh.tftpl"
   dst_script_file_name       = "configure_os_for_sap.sh"
-  src_playbook_template_name = "playbook_configure_os_for_sap.yml.tftpl"
-  dst_playbook_file_name     = "playbook_configure_os_for_sap.yml"
+  src_playbook_template_name = "playbook-configure-os-for-sap.yml.tftpl"
+  dst_playbook_file_name     = "playbook-configure-os-for-sap.yml"
   playbook_template_content  = { sap_solution = local.sap_solutions[count.index], sap_domain = var.sap_domain }
 }
