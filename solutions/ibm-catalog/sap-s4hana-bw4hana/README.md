@@ -1,4 +1,4 @@
-# IBM Cloud Catalog - Power Virtual Server for SAP HANA : 'SAP S/4HANA and SAP BW/4HANA standard'
+# IBM Cloud Catalog - Power Virtual Server for SAP HANA : 'SAP S/4HANA or SAP BW/4HANA'
 
 # Summary
 ## Summary Outcome:
@@ -6,10 +6,10 @@
 
 |                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 |:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
-| [ IBM catalog S/4HANA or BW/4HANA variation ]( ./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            1            |     :heavy_check_mark:     |      :heavy_check_mark:     |          :heavy_check_mark:         |
+| [ IBM catalog SAP S/4HANA or BW/4HANA variation ]( ./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            1            |     :heavy_check_mark:     |      :heavy_check_mark:     |          :heavy_check_mark:         |
 
 ## Architecture Diagram
-![sap-s4hana-bw4hana]()
+![sap-s4hana-bw4hana](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-s4hana-bw4hana/deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg)
 
 ## Overview
 1. [Summary Tasks](#summary-tasks)
