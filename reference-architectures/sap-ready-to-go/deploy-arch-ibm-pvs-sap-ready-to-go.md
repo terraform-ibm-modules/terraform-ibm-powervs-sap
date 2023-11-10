@@ -21,20 +21,17 @@ deployment-url: https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-s
 
 docs: https://cloud.ibm.com/docs/sap-powervs
 
-image_source: https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/reference-architectures/prepared-system-standard/deploy-arch-ibm-pvs-sap-standard.svg
+image_source: https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg
 
 related_links:
   - title: 'SAP in IBM Cloud documentation'
     url: 'https://cloud.ibm.com/docs/sap'
     description: 'SAP in IBM Cloud documentation.'
-  - title: 'Reference architecture for "VPC landing zone" as standard variation'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-vsi-ra'
-    description: 'Reference architecture for "VPC landing zone" as standard variation'
   - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-full-deploy-arch-ibm-pvs-inf-full-stack'
+    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-full-stack'
     description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
   - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-ext-deploy-arch-ibm-pvs-inf-extension'
+    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-extension'
     description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
 
 use-case: ITServiceManagement

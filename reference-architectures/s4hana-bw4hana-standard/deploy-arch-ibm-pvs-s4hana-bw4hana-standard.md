@@ -2,7 +2,7 @@
 
 copyright:
   years: 2023
-lastupdated: "2023-04-13"
+lastupdated: "2023-11-09"
 
 keywords:
 
@@ -10,6 +10,7 @@ subcollection: deployable-reference-architectures
 
 authors:
   - name: Arnold Beilmann
+  - name: Suraj Bharadwaj
 
 version: v1.0.0
 
@@ -21,20 +22,17 @@ deployment-url: https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-s
 
 docs: https://cloud.ibm.com/docs/sap-powervs
 
-image_source: https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/reference-architectures/prepared-system-standard/deploy-arch-ibm-pvs-sap-standard.svg
+image_source: https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/s4hana-bw4hana-standard/deploy-arch-ibm-pvs-s4hana-bw4hana-standard.svg
 
 related_links:
   - title: 'SAP in IBM Cloud documentation'
     url: 'https://cloud.ibm.com/docs/sap'
     description: 'SAP in IBM Cloud documentation.'
-  - title: 'Reference architecture for "VPC landing zone" as standard variation'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-vsi-ra'
-    description: 'Reference architecture for "VPC landing zone" as standard variation'
   - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-full-deploy-arch-ibm-pvs-inf-full-stack'
+    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-full-stack'
     description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
   - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-ext-deploy-arch-ibm-pvs-inf-extension'
+    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-extension'
     description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
 
 use-case: ITServiceManagement
@@ -49,15 +47,15 @@ content-type: reference-architecture
 
 {{site.data.keyword.attribute-definition-list}}
 
-# Power Virtual Server for SAP HANA - variation 'SAP ready PowerVS'
-{: #deploy-arch-ibm-pvs-sap-ready-to-go}
+# Power Virtual Server for SAP HANA - variation 'SAP S/4HANA and BW/4HANA standard'
+{: #deploy-arch-ibm-pvs-s4hana-bw4hana-standard}
 {: toc-content-type="reference-architecture"}
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
 {: toc-compliance="SAPCertified"}
-{: toc-version="1.0.0"}
+{: toc-version="1.2.1"}
 
-The SAP ready PowerVS variation of the Power Virtual Server for SAP HANA creates a basic and expandable SAP system landscape. The variation builds on the foundation of the VPC landing zone and Power Virtual Server with VPC landing zone. PowerVS instances for SAP HANA, SAP NetWeaver, and optionally for shared SAP files are deployed and preconfigured for SAP installation.
+'SAP S/4HANA and BW/4HANA standard' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver, and optionally for shared SAP files are deployed and preconfigured for SAP installation. S/4HANA or BW/4HANA solution is installed based on selected version.
 
 Services such as DNS, NTP and NFS running in VPC and provided by Power Virtual Server with VPC landing zone are leveraged.
 
@@ -68,14 +66,14 @@ The resulting SAP landscape leverages the services such as Activity Tracker, Clo
 ## Architecture diagram
 {: #architecture-diagram}
 
-![Architecture diagram for 'SAP on Power Virtual Server for SAP HANA' - variation 'SAP ready PowerVS'.](deploy-arch-ibm-pvs-sap-ready-to-go.svg "Architecture diagram"){: caption="Figure 1. PowerVS instances prepared to run SAP in PowerVS workspace" caption-side="bottom"}{: external download="deploy-arch-ibm-pvs-sap-ready-to-go.svg"}
+![Architecture diagram for 'SAP on Power Virtual Server for SAP HANA' - variation 'SAP S/4HANA and BW/4HANA standard'.](deploy-arch-ibm-pvs-s4hana-bw4hana-standard.svg "Architecture diagram"){: caption="Figure 1. Full SAP S/4HANA or BW/4HANA environment provisioned on a 'Power Virtual Server with VPC landing zone'" caption-side="bottom"}{: external download="deploy-arch-ibm-pvs-s4hana-bw4hana-standard.svg"}
 
 ## Design requirements
 {: #design-requirements}
 
-![Design requirements for 'Power Virtual Server for SAP HANA' - variation 'SAP ready PowerVS'.](heat-map-deploy-arch-ibm-pvs-sap-ready-to-go.svg "Design requirements"){: caption="Figure 2. Scope of the solution requirements" caption-side="bottom"}
+![Design requirements for 'Power Virtual Server for SAP HANA' - variation 'SAP S/4HANA and BW/4HANA standard'.](heat-map-deploy-arch-ibm-pvs-s4hana-bw4hana-standard.svg "Design requirements"){: caption="Figure 2. Scope of the solution requirements" caption-side="bottom"}
 
-IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that lets an enterprise establish its own private IBM Power computing environment on shared public cloud infrastructure. Because of scalability and resiliency, PowerVS is the premium platform for SAP workloads in the cloud world. The reference architecture for 'Power Virtual Server for SAP HANA' - variation 'SAP ready PowerVS' is designed to provide PowerVS Linux instances prepared and configured for SAP HANA and SAP NetWeaver workloads according to the best practices and requirements using IBM Cloud® deployable architectures framework.
+IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that lets an enterprise establish its own private IBM Power computing environment on shared public cloud infrastructure. Because of scalability and resiliency, PowerVS is the premium platform for SAP workloads in the cloud world. The reference architecture for 'Power Virtual Server for SAP HANA' - variation 'SAP S/4HANA and BW/4HANA standard' is designed to provide PowerVS Linux instances prepared and configured for SAP HANA and SAP NetWeaver workloads according to the best practices and requirements using IBM Cloud® deployable architectures framework. Additionally S/4HANA or BW/4HANA solution is installed based on selected version.
 
 ## Components
 {: #components}
@@ -112,8 +110,3 @@ IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that lets a
 {: #compliance}
 
 This deployable architecture is certified for SAP deployments.
-
-## Next steps
-{: #next-steps}
-
-Install the SAP system.
