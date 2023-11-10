@@ -31,7 +31,7 @@ The end to end solution automates the following tasks:
     - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
     - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
     - Optionally configures a shared NFS directory on all created PowerVS instances.
-    - Post instance provisioning, ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed.
+    - Post instance provisioning, ansible galaxy collection roles from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap` are executed.
     - Tested with RHEL8.4, RHEL 8.6, SLES15-SP4 and SLES15-SP6 images.
 
 ## Notes
