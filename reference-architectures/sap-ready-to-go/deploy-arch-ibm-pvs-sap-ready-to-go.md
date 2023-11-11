@@ -12,7 +12,7 @@ authors:
   - name: Arnold Beilmann
   - name: Suraj Bharadwaj
 
-version: v1.0.0
+version: v1.3.0
 
 # Whether the reference architecture is published to Cloud Docs production.
 # When set to false, the file is available only in staging. Default is false.
@@ -48,7 +48,7 @@ content-type: reference-architecture
 {{site.data.keyword.attribute-definition-list}}
 
 # Power Virtual Server for SAP HANA - variation 'SAP ready PowerVS'
-{: #deploy-arch-ibm-pvs-sap-ready-to-go}
+{: #sap-ready-to-go}
 {: toc-content-type="reference-architecture"}
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
@@ -64,12 +64,12 @@ Redundant IBM Cloud® connections provide the network bridge between the IBM Pow
 The resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the VPC landing zone and the network connectivity configuration provided by Power Virtual Server with VPC landing zone.
 
 ## Architecture diagram
-{: #architecture-diagram}
+{: #sap-ready-to-go-architecture-diagram}
 
 ![Architecture diagram for 'SAP on Power Virtual Server for SAP HANA' - variation 'SAP ready PowerVS'.](deploy-arch-ibm-pvs-sap-ready-to-go.svg "Architecture diagram"){: caption="Figure 1. PowerVS instances prepared to run SAP in PowerVS workspace" caption-side="bottom"}{: external download="deploy-arch-ibm-pvs-sap-ready-to-go.svg"}
 
 ## Design requirements
-{: #design-requirements}
+{: #sap-ready-to-go-design-requirements}
 
 ![Design requirements for 'Power Virtual Server for SAP HANA' - variation 'SAP ready PowerVS'.](heat-map-deploy-arch-ibm-pvs-sap-ready-to-go.svg "Design requirements"){: caption="Figure 2. Scope of the solution requirements" caption-side="bottom"}
 
