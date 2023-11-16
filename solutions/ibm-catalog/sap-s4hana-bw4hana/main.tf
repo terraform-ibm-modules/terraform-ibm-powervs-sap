@@ -170,7 +170,7 @@ locals {
 
   ansible_sap_solution_playbook_vars = merge(var.sap_solution_vars,
     {
-      sap_swpm_product_catalog_id        = lookup(local.product_catalog_map, var.sap_solution)
+      sap_swpm_product_catalog_id        = lookup(local.product_catalog_map, var.sap_solution, null)
       sap_install_media_detect_directory = "${local.nfs_directory}/${var.ibmcloud_cos_configuration.cos_solution_software_path}"
       sap_swpm_mp_stack_file_name        = var.ibmcloud_cos_configuration.cos_swpm_mp_stack_file_name
       sap_swpm_master_password           = var.sap_swpm_master_password
