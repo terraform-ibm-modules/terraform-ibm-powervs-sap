@@ -139,6 +139,10 @@
                                 {
                                     "displayname": "Washington DC (us-east)",
                                     "value": "us-east"
+                                },
+                                {
+                                    "displayname": "Washington DC 06 (wdc06) PER",
+                                    "value": "wdc06"
                                 }
                             ],
                             "custom_config": {}
@@ -439,6 +443,10 @@
                                 {
                                     "displayname": "Washington DC (us-east)",
                                     "value": "us-east"
+                                },
+                                {
+                                    "displayname": "Washington DC 06 (wdc06) PER",
+                                    "value": "wdc06"
                                 }
                             ],
                             "custom_config": {}
