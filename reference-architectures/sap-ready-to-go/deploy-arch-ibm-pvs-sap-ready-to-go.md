@@ -2,7 +2,7 @@
 
 copyright:
   years: 2023
-lastupdated: "2023-11-10"
+lastupdated: "2023-11-22"
 
 keywords:
 
@@ -12,7 +12,7 @@ authors:
   - name: Arnold Beilmann
   - name: Suraj Bharadwaj
 
-version: v1.3.0
+version: v1.4.0
 
 # Whether the reference architecture is published to Cloud Docs production.
 # When set to false, the file is available only in staging. Default is false.
