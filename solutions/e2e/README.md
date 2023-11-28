@@ -18,7 +18,7 @@ The end to end solution automates the following tasks:
     - Creates one or two IBM Cloud connections in Non PER environment.
     - Attaches the private networks to the IBM Cloud connections in Non PER environment.
     - Attaches the IBM Cloud connections to a transit gateway in Non PER environment.
-    - Attaches the PowerVS workspace to Transit gateway in PER enabled DC
+    - Attaches the PowerVS workspace to Transit gateway in PER enabled DC.
     - Creates an SSH key.
 
 - Finally Interconnects both VPC and PowerVS infrastructure.
@@ -58,7 +58,7 @@ The end to end solution automates the following tasks:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_fullstack"></a> [fullstack](#module\_fullstack) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 3.0.0 |
+| <a name="module_fullstack"></a> [fullstack](#module\_fullstack) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 3.1.0 |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../modules/pi-sap-system-type1 | n/a |
 
 ### Resources
