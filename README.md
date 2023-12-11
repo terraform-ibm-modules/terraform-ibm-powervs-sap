@@ -14,11 +14,11 @@ This repository contains deployable architecture solutions which helps in deploy
 
 ### IBM Catalog Solutions which **requires pre-requisite Schematics Workspace ID** of [Power Virtual Server with vpc landing zone](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?):
 1. [IBM catalog PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-ready-to-go)
-    - Creates and configures **1 HANA instance, 0 to N NetWeaver Instances and 1 Optional ShareFS** with **RHEL or SLES OS** distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
+    - Creates and configures **1 HANA instance, 0 to N NetWeaver instances and 1 Optional ShareFS** with **RHEL or SLES OS** distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
     - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap`
     - Additionally tunes the instances according to SAPs best practices which is fully ready for hosting SAP applications.
 2. [IBM catalog PowerVS S/4HANA or BW/4HANA variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-s4hana-bw4hana)
-    - Creates and configures **1 HANA instance, 1 NetWeaver Instances and 1 Optional ShareFS** with **RHEL** OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
+    - Creates and configures **1 HANA instance, 1 NetWeaver instances and 1 Optional ShareFS** with **RHEL** OS distribution. Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
     - Optionally configures OS network management services(NTP, NFS, and DNS services) using ansible galaxy collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap`
     - Tunes the instances according to SAPs best practices.
     - Downloads user provided preloaded SAP Installation binaries from IBM Cloud Object Storage Bucket.
