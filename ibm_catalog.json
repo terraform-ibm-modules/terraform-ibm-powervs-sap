@@ -28,7 +28,8 @@
                 "automation",
                 "secure",
                 "server",
-                "networking"
+                "networking",
+                "workspace"
             ],
             "short_description": "Deploy SAP systems on Power Virtual Server with VPC landing zone",
             "long_description": "This deployable architecture is designed to assist you in deploying SAP ERP software landscapes into IBM Cloud on the IBM Power Virtual Server infrastructure. This is the second step in the deployment process for creating a full environment. Before starting this step, you should first deploy 'Power Virtual Server with VPC landing zone'. Once this is completed, you are prepared to start this step.\n\nSAP on Power Virtual Server creates and prepares Power Virtual Server instances for SAP HANA and SAP NetWeaver workloads. After deployment completes, you may (depending on the framework you chose) begin installing SAP on the configured instances or login to your newly created SAP instances directly.",
