@@ -150,7 +150,8 @@
                         },
                         {
                             "key": "prefix",
-                            "required": true
+                            "required": true,
+                            "default_value": ""
                         },
                         {
                             "key": "powervs_sap_network_cidr",
@@ -203,18 +204,20 @@
                             "required": true
                         },
                         {
+                            "key": "ssh_private_key",
+                            "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
+                            "required": true,
                             "custom_config": {
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
                                 "type": "multiline_secure_value"
-                            },
-                            "key": "ssh_private_key",
-                            "required": true,
-                            "type": "password"
+                            }
                         },
                         {
                             "key": "ibmcloud_api_key",
                             "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
                             "required": true,
                             "custom_config": {
                                 "grouping": "deployment",
@@ -454,7 +457,8 @@
                         },
                         {
                             "key": "prefix",
-                            "required": true
+                            "required": true,
+                            "default_value": ""
                         },
                         {
                             "key": "powervs_sap_network_cidr",
@@ -487,8 +491,9 @@
                         },
                         {
                             "key": "ibmcloud_cos_service_credentials",
+                            "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
                             "required": true,
-                            "type": "password",
                             "custom_config": {
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
@@ -531,8 +536,9 @@
                         },
                         {
                             "key": "sap_hana_master_password",
+                            "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
                             "required": true,
-                            "type": "password",
                             "custom_config": {
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
@@ -550,8 +556,9 @@
                         },
                         {
                             "key": "sap_swpm_master_password",
+                            "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
                             "required": true,
-                            "type": "password",
                             "custom_config": {
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
@@ -573,8 +580,9 @@
                         },
                         {
                             "key": "ansible_vault_password",
+                            "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
                             "required": true,
-                            "type": "password",
                             "custom_config": {
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
@@ -583,8 +591,9 @@
                         },
                         {
                             "key": "ssh_private_key",
+                            "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
                             "required": true,
-                            "type": "password",
                             "custom_config": {
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
@@ -594,6 +603,7 @@
                         {
                             "key": "ibmcloud_api_key",
                             "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
                             "required": true,
                             "custom_config": {
                                 "grouping": "deployment",

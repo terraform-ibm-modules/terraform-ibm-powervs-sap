@@ -6,9 +6,8 @@ resource "ibm_pi_network" "sap_network" {
   pi_cloud_instance_id = var.pi_workspace_guid
   pi_network_name      = "${var.prefix}-net"
   pi_cidr              = var.pi_sap_network_cidr
-  pi_dns               = ["127.0.0.1"]
   pi_network_type      = "vlan"
-  pi_network_jumbo     = true
+  pi_network_mtu       = 9000
 }
 
 #####################################################
