@@ -21,7 +21,7 @@ locals {
 
 module "pi_attach_sap_network" {
   source  = "terraform-ibm-modules/powervs-workspace/ibm//modules/pi-cloudconnection-attach"
-  version = "1.2.1"
+  version = "1.5.0"
   count   = local.per_enabled ? 0 : 1
 
   pi_workspace_guid         = var.pi_workspace_guid
