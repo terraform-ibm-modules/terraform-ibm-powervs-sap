@@ -15,7 +15,7 @@ resource "ibm_pi_network" "sap_network" {
 #####################################################
 
 locals {
-  per_enabled_dc_list = ["dal10", "wdc06"]
+  per_enabled_dc_list = ["dal10", "wdc06", "wdc07", "mad02", "mad04", "eu-de-1", "eu-de-2", "sao04"]
   per_enabled         = contains(local.per_enabled_dc_list, var.pi_zone)
 }
 
