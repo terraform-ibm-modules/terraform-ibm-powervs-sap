@@ -1,38 +1,38 @@
-# End to End Solution : Power Virtual Server with VPC landing zone including Power Virtual Server for SAP HANA instances
+# End-to-End Solution: Power Virtual Server with VPC Landing Zone Including Power Virtual Server for SAP HANA Instances
 
-The end to end solution automates the following tasks:
+The end-to-end solution automates the following tasks:
 
-- A **VPC Infrastructure** based on value passed to `var.landing_zone_configuration` with the following components:
+- A **VPC Infrastructure** based on the value passed to `var.landing_zone_configuration` with the following components:
     -  **landing_zone_configuration = 3VPC_RHEL or 3VPC_SLES**
 
-        - Provisions three VPCs with one VSI in each VPC one management(jump/bastion) VSI, one inet-svs VSI configured as squid proxy server, one private-svs VSI (configured as NFS, NTP, DNS server) using [this preset](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/modules/powervs-vpc-landing-zone/presets/3vpc.preset.json.tftpl).
-        - Installs and configures the Squid Proxy, DNS Forwarder, NTP forwarder and NFS on hosts, and sets the host as the server for the NTP, NFS, and DNS services by using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
+        - Provisions three VPCs with one VSI in each VPC - one management (jump/bastion) VSI, one inet-svs VSI configured as a squid proxy server, and one private-svs VSI (configured as NFS, NTP, DNS server) using [this preset](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/modules/powervs-vpc-landing-zone/presets/3vpc.preset.json.tftpl).
+        - Installs and configures the Squid Proxy, DNS Forwarder, NTP forwarder, and NFS on hosts, and sets the host as the server for the NTP, NFS, and DNS services using Ansible Galaxy Collection Roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/).
 
     -  **landing_zone_configuration = 1VPC_RHEL**
 
-        - One VPC with one VSI for management(jump/bastion) using [this preset](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/modules/powervs-vpc-landing-zone/presets/1vpc.preset.json.tftpl).
-        -  Installation and configuration of Squid Proxy, DNS Forwarder, NTP forwarder and NFS on the bastion host, and sets the host as the server for the NTP, NFS, and DNS services using ansible galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/)
+        - One VPC with one VSI for management (jump/bastion) using [this preset](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/modules/powervs-vpc-landing-zone/presets/1vpc.preset.json.tftpl).
+        - Installation and configuration of Squid Proxy, DNS Forwarder, NTP forwarder, and NFS on the bastion host, and sets the host as the server for the NTP, NFS, and DNS services using Ansible Galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/)
 
 - **A Power Virtual Server workspace**  with the following network topology:
     - Creates two private networks: a management network and a backup network.
-    - Creates one or two IBM Cloud connections in Non PER environment.
-    - Attaches the private networks to the IBM Cloud connections in Non PER environment.
-    - Attaches the IBM Cloud connections to a transit gateway in Non PER environment.
-    - Attaches the PowerVS workspace to Transit gateway in PER enabled DC.
+    - Creates one or two IBM Cloud connections in a Non-PER environment.
+    - Attaches the private networks to the IBM Cloud connections in a Non-PER environment.
+    - Attaches the IBM Cloud connections to a transit gateway in a Non-PER environment.
+    - Attaches the PowerVS workspace to Transit gateway in PER-enabled DC.
     - Creates an SSH key.
 
-- Finally Interconnects both VPC and PowerVS infrastructure.
+- Finally, interconnects both VPC and PowerVS infrastructure.
 
 - **Power Virtual Server Instances**
-    - Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-    - Creates and configures one PowerVS instance for SAP HANA that is based on best practices.
-    - Creates and configures multiple PowerVS instances for SAP NetWeaver that are based on best practices.
-    - Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
-    - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
-    - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
-    - Optionally configures a shared NFS directory on all created PowerVS instances.
-    - Post instance provisioning, ansible galaxy collection roles from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap` are executed.
-    - Tested with RHEL8.4, RHEL 8.6, SLES15-SP4 and SLES15-SP6 images.
+    - Creates a new private subnet for SAP communication for the entire landscape and attaches it to cloud connections (in Non PER DC).
+    - Creates and configures one PowerVS instance for SAP HANA based on best practices.
+    - Creates and configures multiple PowerVS instances for SAP NetWeaver based on best practices.
+    - Creates and configures one optional PowerVS instance for sharing SAP files between other system instances.
+    - Connects all created PowerVS instances to a proxy server specified by IP address or hostname.
+- Optionally connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
+- Optionally configures a shared NFS directory on all created PowerVS instances.
+- Post-instance provisioning, Ansible Galaxy collection roles from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed: `power_linux_sap`.
+- Tested with RHEL8.4, RHEL 8.6, SLES15-SP4, and SLES15-SP6 images.
 
 ## Notes
 - **Does not install any SAP softwares or solutions.**

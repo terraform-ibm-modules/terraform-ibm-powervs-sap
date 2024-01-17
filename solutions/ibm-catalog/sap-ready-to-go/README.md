@@ -1,27 +1,27 @@
-# IBM Cloud Catalog - Power Virtual Server for SAP HANA : 'SAP ready PowerVS'
+# IBM Cloud Catalog - Power Virtual Server for SAP HANA: 'SAP Ready PowerVS'
 
 # Summary
 ## Summary Outcome:
-   SAP tuned HANA and NetWeaver configuration to IBM PowerVS hosts'
+   SAP-tuned HANA and NetWeaver configuration to IBM PowerVS hosts
 
 ## Summary Tasks
 
-- Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-- Creates and configures **one** PowerVS instance for **SAP HANA** that is based on best practices.
-- Creates and configures **multiple** PowerVS instances for **SAP NetWeaver** that are based on best practices.
-- Creates and configures **one** **optional** PowerVS instance that can be used for sharing SAP files between other system instances.
-- Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
-- Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
+- Creates a new private subnet for SAP communication for the entire landscape and attaches it to cloud connections (in Non PER DC).
+- Creates and configures one PowerVS instance for SAP HANA based on best practices.
+- Creates and configures multiple PowerVS instances for SAP NetWeaver based on best practices.
+- Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
+- Connects all created PowerVS instances to a proxy server specified by IP address or hostname.
+- Optionally connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
-- Post instance provisioning, ansible galaxy collection roles from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap` are executed.
-- Tested with RHEL8.4, RHEL 8.6, SLES15-SP4 and SLES15-SP6 images.
+- Post-instance provisioning, Ansible Galaxy collection roles from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed: `power_linux_sap`.
+- Tested with RHEL8.4, RHEL 8.6, SLES15-SP4, and SLES15-SP6 images.
 
 ## Before you begin
--  **This solution requires a schematics workspace id as an input.**
+- **This solution requires a schematics workspace ID as input.**
 - If you do not have a [Power Virtual Server with VPC landing zone deployment](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?catalog_query=aHR0cHM6Ly9jbG91ZC5pYm0uY29tL2NhdGFsb2c%2Fc2VhcmNoPXBvd2VyI3NlYXJjaF9yZXN1bHRz) that is the full stack solution for a PowerVS Workspace with Secure Landing Zone, create it first.
 
 ## Notes
-- **Does not install any SAP softwares or solutions.**
+- **Does not install any SAP software or solutions.**
 - Filesystem sizes for HANA data and HANA log are **calculated automatically** based on the **memory size**. Custom storage configuration is also supported.
 - If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all NetWeaver Instances.
 - **Do not specify** a filesystem `/sapmnt` explicitly for NetWeaver instance as, it is created internally when sharefs instance is not enabled.

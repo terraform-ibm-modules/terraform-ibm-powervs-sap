@@ -20,21 +20,19 @@
 6. [Storage setup](#storage-setup)
 7. [Ansible roles used](#ansible-roles-used)
 
-## Summary Tasks
-
-- Creates a new private subnet for SAP communication for entire landscape and attaches it to cloud connections(in Non PER DC).
-- Creates and configures **one** PowerVS instance for **SAP HANA** that is based on best practices for **HANA database**.
-- Creates and configures **one** PowerVS instance for **SAP NetWeaver** that is based on best practices which **hosts the PAS and ASCS instance**.
-- Creates and configures **one** optional PowerVS instance that can be used for sharing SAP files between other system instances.
-- Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
-- Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
+- Creates a new private subnet for SAP communication for the entire landscape and attaches it to cloud connections (in Non PER DC).
+- Creates and configures one PowerVS instance for SAP HANA based on best practices for HANA database.
+- Creates and configures one PowerVS instance for SAP NetWeaver based on best practices, hosting the PAS and ASCS instances.
+- Creates and configures one optional PowerVS instance for sharing SAP files between other system instances.
+- Connects all created PowerVS instances to a proxy server specified by IP address or hostname.
+- Optionally connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
-- Supports installation of **S/4HANA2022, S/4HANA2021, S/4HANA2020, BW/4HANA2021.**
-- Supports installation using **Maintenance planner** as well.
+- Supports installation of **S/4HANA2022, S/4HANA2021, S/4HANA2020, BW/4HANA2021**.
+- Supports installation using **Maintenance Planner** as well.
 
 
-## Before you begin
-1. **It is required to have an existing IBM Cloud Object Storage (COS) instance**. Within the instance, an Object Storage Bucket containing the **SAP Software installation media files is required in correct folder structure as defined** [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-ibm-cloud-object-storage-bucket).
+## Before You Begin
+1. **It is required to have an existing IBM Cloud Object Storage (COS) instance**. Within the instance, an Object Storage Bucket containing the **SAP Software installation media files is required in the correct folder structure as defined** [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-ibm-cloud-object-storage-bucket).
 
 2. **This solution requires a schematics workspace id as an input.**
 - If you do not have a [Power Virtual Server with VPC landing zone deployment](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?catalog_query=aHR0cHM6Ly9jbG91ZC5pYm0uY29tL2NhdGFsb2c%2Fc2VhcmNoPXBvd2VyI3NlYXJjaF9yZXN1bHRz) that is the full stack solution for a PowerVS Workspace with Secure Landing Zone, create it first.
@@ -43,12 +41,12 @@
 ## Notes
 - Filesystem sizes for HANA data and HANA log are **calculated automatically** based on the **memory size**. Custom storage configuration is also supported.
 - If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all NetWeaver Instances.
-- **Do not specify** a filesystem `/sapmnt` explicitly for NetWeaver instance as, it is created internally when sharefs instance is not enabled.
+- **Do not specify** a filesystem `/sapmnt` explicitly for NetWeaver instance as it is created internally when sharefs instance is not enabled.
 
 ## Prerequisites
-### 1. IBM Cloud Object Storage service credentials
-1. Recommended to have a COS Instance in the same region where the S/4HANA or BW/4HANA deployment is planned as copying the files on to the lpar will be faster.
-2. **'ibmcloud_cos_service_credentials'** variable requires a value in **json format**. This can be obtained using the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)
+### 1. IBM Cloud Object Storage Service Credentials
+1. Recommended to have a COS instance in the same region where the S/4HANA or BW/4HANA deployment is planned, as copying the files onto the LPAR will be faster.
+2. The 'ibmcloud_cos_service_credentials' variable requires a value in JSON format. This can be obtained using the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)
 
 ### 2. SAP binaries required for installation and folder structure in IBM Cloud Object Storage bucket
 1. All binaries for HANA database and SAP solution (S/4HANA or BW/4HANA) must be uploaded to the IBM Cloud Object Storage Instance bucket in IBM Cloud before starting this deployment.
@@ -66,20 +64,23 @@ s4hana2022
 ```
 **Do not mix the HANA DB binaries with the S/4HANA or BW/4HANA solution binaries otherwise the ansible playbook execution will fail.**
 
-4. If you have a **Maintenance planner stack xml** file, place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in **'cos_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack xml file.
+4. If you have a **Maintenance Planner Stack XML** file, place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in **'cos_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack XML file.
 
-5. **'ibmcloud_cos_configuration'** variable needs to be set correctly based on the folder structure created.
+5. The **'ibmcloud_cos_configuration'** variable must be set correctly based on the folder structure created.
 
-   `"cos_region":` region of IBM Cloud Object Storage instance bucket. Example **eu-gb**\
-   `"cos_bucket_name":`  cos bucket name\
-   `"cos_hana_software_path":` folder path to hana db binaries from the root of bucket. Example from point 3 the value would be **"s4hana2022/HANA_DB"**\
-   `"cos_solution_software_path":` folder path to S/4HANA binaries from the root of bucket. Example from point 3 the value would be **"s4hana2022/S4HANA_2022"**\
+   "cos_region": region of IBM Cloud Object Storage instance bucket. Example: **eu-gb**
+
+"cos_bucket_name": cos bucket name
+
+"cos_hana_software_path": folder path to HANA db binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2022/HANA_DB"**
+
+"cos_solution_software_path": folder path to S/4HANA binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2022/S4HANA_2022"**
    `"cos_swpm_mp_stack_file_name":` Stack XML file name. Value must be set to empty `''` if not available. If value is provided, then this file **must be present** in the same path as `'cos_solution_software_path'`.
 
 
 ## Post Deployment
-1. All the installation logs and ansible playbook files will be under the directory `/root/terraform_files/`.
-2. The **ansible vault password** will be used to encrypt the ansible playbook file which was created during deployment. This playbook file will be placed under `/root/terraform_files/sap-hana-install.yml` on **HANA instance** and `/root/terraform_files/sap-swpm-install-vars.yml` on **NetWeaver Instance**.
+1. All the installation logs and Ansible playbook files will be under the directory `/root/terraform_files/`.
+2. The **ansible vault password** will be used to encrypt the Ansible playbook file created during deployment. This playbook file will be placed under `/root/terraform_files/sap-hana-install.yml` on the **HANA instance** and `/root/terraform_files/sap-swpm-install-vars.yml` on the **NetWeaver Instance**.
 3. This file can be decrypted using the same value passed to variable **'ansible_vault_password'** during deployment. Use the command `ansible-vault decrypt /root/terraform_files/sap-swpm-install-vars.yml` and enter the password when prompted.
 
 ## Storage setup
