@@ -111,7 +111,7 @@ IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that allows
 
 This deployable architecture is certified for SAP deployments.
 
-## Next Steps
+## Next steps
 {: #next-steps}
 
 Install the SAP system.
