@@ -69,7 +69,7 @@ The resulting SAP landscape leverages the services such as Activity Tracker, Clo
 ## Design requirements
 {: #sap-s4hana-bw4hana-design-requirements}
 
-![Design Requirements for "Power Virtual Server for SAP HANA" - Variation "SAP S/4HANA or BW/4HANA"](heat-map-deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg "Design Requirements"){: caption="Figure 2. Scope of the Solution Requirements" caption-side="bottom"}
+![Design requirements for "Power Virtual Server for SAP HANA" - variation "SAP S/4HANA or BW/4HANA"](heat-map-deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg "Design requirements"){: caption="Figure 2. Scope of the Solution requirements" caption-side="bottom"}
 
 IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that allows an enterprise to establish its own private IBM Power computing environment on shared public cloud infrastructure. Due to its scalability and resilience, PowerVS is the premium platform for SAP workloads in the cloud world. The reference architecture for 'Power Virtual Server for SAP HANA' - variation 'SAP S/4HANA or BW/4HANA' is designed to provide PowerVS Linux instances prepared and configured for SAP HANA and SAP NetWeaver workloads according to the best practices and requirements using IBM Cloud® deployable architectures framework. Additionally, S/4HANA or BW/4HANA solution is installed based on the selected version.
 
