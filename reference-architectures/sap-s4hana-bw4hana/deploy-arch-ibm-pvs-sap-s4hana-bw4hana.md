@@ -63,7 +63,7 @@ Redundant IBM Cloud® connections provide the network bridge between the IBM Pow
 
 The resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the VPC landing zone and the network connectivity configuration provided by Power Virtual Server with VPC landing zone.
 
-## Architecture Diagram
+## Architecture diagram
 {: #sap-s4hana-bw4hana-architecture-diagram}
 
 ## Design Requirements
