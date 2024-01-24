@@ -25,23 +25,23 @@ docs: https://cloud.ibm.com/docs/sap-powervs
 image_source: https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg
 
 related_links:
-  - title: 'SAP in IBM Cloud Documentation'
+  - title: 'SAP in IBM Cloud documentation'
     url: 'https://cloud.ibm.com/docs/sap'
-    description: 'SAP in IBM Cloud Documentation.'
-  - title: 'Reference Architecture for "Power Virtual Server with VPC Landing Zone" as Full Stack Deployment'
+    description: 'SAP in IBM Cloud documentation.'
+  - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
     url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-full-stack'
-    description: 'Reference Architecture for "Power Virtual Server with VPC Landing Zone" as Full Stack Deployment'
-  - title: 'Reference Architecture for "Power Virtual Server with VPC Landing Zone" as Extension of Existing Deployment'
+    description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
+  - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
     url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-extension'
-    description: 'Reference Architecture for "Power Virtual Server with VPC Landing Zone" as Extension of Existing Deployment'
+    description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
 
-Use-case: ITServiceManagement
+use-case: ITServiceManagement
 
-Industry: Technology
+industry: Technology
 
-Compliance: SAPCertified
+compliance: SAPCertified
 
-Content-type: reference-architecture
+content-type: reference-architecture
 
 ---
 
@@ -66,7 +66,7 @@ The resulting SAP landscape leverages the services such as Activity Tracker, Clo
 ## Architecture diagram
 {: #sap-ready-to-go-architecture-diagram}
 
-![Architecture diagram for SAP on Power Virtual Server for SAP HANA - variation SAP Ready PowerVS](deploy-arch-ibm-pvs-sap-ready-to-go.svg "Architecture diagram"){: caption="Figure 1. PowerVS instances prepared to Run SAP in PowerVS Workspace" caption-side="bottom"}{: external download="deploy-arch-ibm-pvs-sap-ready-to-go.svg"}
+![Architecture diagram for 'SAP on Power Virtual Server for SAP HANA' - variation 'SAP ready PowerVS'.](deploy-arch-ibm-pvs-sap-ready-to-go.svg "Architecture diagram"){: caption="Figure 1. PowerVS instances prepared to run SAP in PowerVS workspace" caption-side="bottom"}{: external download="deploy-arch-ibm-pvs-sap-ready-to-go.svg"}
 
 ## Design requirements
 {: #sap-ready-to-go-design-requirements}
