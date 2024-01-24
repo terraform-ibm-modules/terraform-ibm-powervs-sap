@@ -1,4 +1,4 @@
-# End-to-End Solution: Power Virtual Server with VPC Landing Zone Including Power Virtual Server for SAP HANA Instances
+# End-to-end solution: Power Virtual Server with VPC landing zone including Power Virtual Server for SAP HANA instances
 
 The end-to-end solution automates the following tasks:
 
