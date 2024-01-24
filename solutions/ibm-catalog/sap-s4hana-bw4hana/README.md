@@ -31,7 +31,7 @@
 - Supports installation using **Maintenance Planner** as well.
 
 
-## Before You Begin
+## Before you begin
 1. **It is required to have an existing IBM Cloud Object Storage (COS) instance**. Within the instance, an Object Storage Bucket containing the **SAP Software installation media files is required in the correct folder structure as defined** [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-ibm-cloud-object-storage-bucket).
 
 2. **This solution requires a schematics workspace id as an input.**
