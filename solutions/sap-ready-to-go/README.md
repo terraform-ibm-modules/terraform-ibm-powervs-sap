@@ -13,7 +13,7 @@ The 'sap-ready-to-go' solution automates the following tasks:
 - Tested with RHEL8.4, RHEL 8.6, SLES15-SP4, and SLES15-SP6 images.
 
 
-## Before You Begin
+## Before you begin
 - Power Virtual Server Workspace, images, management subnet, and SSH key must exist. This solution does not create these resources.
 
 ## Notes
