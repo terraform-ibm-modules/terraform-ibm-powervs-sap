@@ -27,7 +27,7 @@ This repository contains deployable architecture solutions that help in deployin
 
 ### Solutions independent of IBM Cloud prerequisite Schematics workspace ID:
 1. [PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/sap-ready-to-go)
-   - Creates and configures **one HANA instance, zero to several NetWeaver instances and one optional ShareFS** with **RHEL or SLES OS** distribution. Creates a new private subnet for SAP communication for the entire landscape and attaches it to cloud connections (in Non PER DC).
+   - Creates and configures **one HANA instance, zero to several NetWeaver instances and one optional ShareFS** with **RHEL or SLES OS** distribution. Creates a private subnet for SAP communication for the entire landscape, and attaches it to cloud connections (in non-PER DC).
    - Optionally configures OS network management services (NTP, NFS, and DNS services) using Ansible Galaxy collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/)
    - Additionally tunes the instances according to SAP's best practices, which is fully ready for hosting SAP applications.
 2. [End-to-End Solution](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/e2e)
