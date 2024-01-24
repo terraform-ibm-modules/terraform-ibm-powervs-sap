@@ -68,7 +68,7 @@ The resulting SAP landscape leverages the services such as Activity Tracker, Clo
 
 ![Architecture diagram for SAP on Power Virtual Server for SAP HANA - variation SAP Ready PowerVS](deploy-arch-ibm-pvs-sap-ready-to-go.svg "Architecture diagram"){: caption="Figure 1. PowerVS instances prepared to Run SAP in PowerVS Workspace" caption-side="bottom"}{: external download="deploy-arch-ibm-pvs-sap-ready-to-go.svg"}
 
-## Design Requirements
+## Design requirements
 {: #sap-ready-to-go-design-requirements}
 
 ![Design Requirements for 'Power Virtual Server for SAP HANA' - Variation 'SAP Ready PowerVS'](heat-map-deploy-arch-ibm-pvs-sap-ready-to-go.svg "Design Requirements"){: caption="Figure 2. Scope of the Solution Requirements" caption-side="bottom"}
