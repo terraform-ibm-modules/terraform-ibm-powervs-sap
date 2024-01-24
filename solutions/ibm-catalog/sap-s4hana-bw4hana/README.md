@@ -44,7 +44,7 @@
 - **Do not specify** a filesystem `/sapmnt` explicitly for NetWeaver instance as it is created internally when sharefs instance is not enabled.
 
 ## Prerequisites
-### 1. IBM Cloud Object Storage Service Credentials
+### 1. IBM Cloud Object Storage service credentials
 1. Recommended to have a COS instance in the same region where the S/4HANA or BW/4HANA deployment is planned, as copying the files onto the LPAR will be faster.
 2. The 'ibmcloud_cos_service_credentials' variable requires a value in JSON format. This can be obtained using the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)
 
