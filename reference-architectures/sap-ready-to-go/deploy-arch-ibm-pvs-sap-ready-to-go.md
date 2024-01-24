@@ -63,7 +63,7 @@ Redundant IBM Cloud® connections provide the network bridge between the IBM Pow
 
 The resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the VPC landing zone and the network connectivity configuration provided by Power Virtual Server with VPC landing zone.
 
-## Architecture Diagram
+## Architecture diagram
 {: #sap-ready-to-go-architecture-diagram}
 
 ![Architecture Diagram for SAP on Power Virtual Server for SAP HANA - Variation SAP Ready PowerVS](deploy-arch-ibm-pvs-sap-ready-to-go.svg "Architecture Diagram"){: caption="Figure 1. PowerVS Instances Prepared to Run SAP in PowerVS Workspace" caption-side="bottom"}{: external download="deploy-arch-ibm-pvs-sap-ready-to-go.svg"}
