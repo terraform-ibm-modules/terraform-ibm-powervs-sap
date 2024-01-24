@@ -24,7 +24,7 @@ The end-to-end solution automates the following tasks:
 - Finally, interconnects both VPC and PowerVS infrastructure.
 
 - **Power Virtual Server Instances**
-    - Creates a new private subnet for SAP communication for the entire landscape and attaches it to cloud connections (in Non PER DC).
+    - Creates a new private subnet for SAP communication for the entire landscape and attaches it to cloud connections (in non-PER DC).
     - Creates and configures one PowerVS instance for SAP HANA based on best practices.
     - Creates and configures multiple PowerVS instances for SAP NetWeaver based on best practices.
     - Creates and configures one optional PowerVS instance for sharing SAP files between other system instances.
