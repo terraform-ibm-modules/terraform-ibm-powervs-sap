@@ -66,7 +66,7 @@ The resulting SAP landscape leverages the services such as Activity Tracker, Clo
 ## Architecture diagram
 {: #sap-s4hana-bw4hana-architecture-diagram}
 
-## Design Requirements
+## Design requirements
 {: #sap-s4hana-bw4hana-design-requirements}
 
 ![Design Requirements for "Power Virtual Server for SAP HANA" - Variation "SAP S/4HANA or BW/4HANA"](heat-map-deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg "Design Requirements"){: caption="Figure 2. Scope of the Solution Requirements" caption-side="bottom"}
