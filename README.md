@@ -25,7 +25,7 @@ This repository contains deployable architecture solutions that help in deployin
     - Installs and configures **SAP applications** (SAP HANA DB, SAP S4/HANA, SAP BW4/HANA) using [RHEL System Roles](https://access.redhat.com/articles/4488731): `sap_hana_install`, `sap_general_preconfigure`, `sap_hana_preconfigure`, `sap_netweaver_preconfigure` and [Community role](https://galaxy.ansible.com/ui/repo/published/community/sap_install/): `sap_install.sap_swpm`, `sap_install.sap_install_media_detect`
 
 
-### Solutions Independent of IBM Cloud Pre-requisite Schematics Workspace ID:
+### Solutions independent of IBM Cloud prerequisite Schematics workspace ID:
 1. [PowerVS SAP Ready Variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/sap-ready-to-go)
    - Creates and configures **one HANA instance, zero to several NetWeaver instances and one optional ShareFS** with **RHEL or SLES OS** distribution. Creates a new private subnet for SAP communication for the entire landscape and attaches it to cloud connections (in Non PER DC).
    - Optionally configures OS network management services (NTP, NFS, and DNS services) using Ansible Galaxy collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/)
