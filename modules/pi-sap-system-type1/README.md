@@ -2,7 +2,7 @@
 
 The Power Virtual Server for SAP module automates the following tasks:
 
-- Creates a new private subnet for SAP communication for the entire landscape and attaches it to cloud connections (in Non-PER DC).
+- Creates a private subnet for SAP communication for the entire landscape, and attaches it to cloud connections (in non-PER DC).
 - Creates and configures one PowerVS instance for SAP HANA based on best practices.
 - Creates and configures multiple PowerVS instances for SAP NetWeaver based on best practices.
 - Creates and configures one optional PowerVS instance (sharefs) that can be used for sharing SAP files between other system instances.
