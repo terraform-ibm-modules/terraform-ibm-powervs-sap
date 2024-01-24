@@ -64,7 +64,7 @@ s4hana2022
 ```
 **Do not mix the HANA DB binaries with the S/4HANA or BW/4HANA solution binaries otherwise the ansible playbook execution will fail.**
 
-4. If you have a **Maintenance Planner Stack XML** file, place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in **'cos_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack XML file.
+4. If you have a **maintenance planner stack XML** file, place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in **'cos_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack XML file.
 
 5. The **'ibmcloud_cos_configuration'** variable must be set correctly based on the folder structure created.
 
