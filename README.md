@@ -57,6 +57,7 @@ This repository contains deployable architecture solutions that help in deployin
 * [terraform-ibm-powervs-sap](#terraform-ibm-powervs-sap)
 * [Submodules](./modules)
     * [pi-sap-system-type1](./modules/pi-sap-system-type1)
+* [Examples](./examples)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
