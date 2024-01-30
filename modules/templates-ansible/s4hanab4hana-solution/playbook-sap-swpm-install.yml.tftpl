@@ -85,4 +85,4 @@
         name: { role: community.sap_install.sap_swpm }
 
     - name: SAP SWPM Post Install - Enforce Connection Info in hdbuserstore
-      ansible.builtin.shell: "runuser -l {{sap_swpm_sid|lower}}adm -c 'hdbuserstore SET DEFAULT {{ sap_swpm_db_host }}:3{{ sap_swpm_db_instance_nr }}13 {{ sap_swpm_db_schema_abap }} '{{ sap_swpm_db_system_password }}"
+      ansible.builtin.shell: "runuser -l {{sap_swpm_sid|lower}}adm -c 'hdbuserstore SET DEFAULT {{ sap_swpm_db_host }}:3{{ sap_swpm_db_instance_nr }}15 {{ sap_swpm_db_schema_abap }} '{{ sap_swpm_db_system_password }}"
