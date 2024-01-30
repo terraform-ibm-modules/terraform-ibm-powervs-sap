@@ -2,7 +2,7 @@
 
 copyright:
   years: 2024
-lastupdated: "2024-01-11"
+lastupdated: "2024-01-30"
 
 keywords:
 
@@ -12,7 +12,7 @@ authors:
   - name: Arnold Beilmann
   - name: Suraj Bharadwaj
 
-version: v1.6.0
+version: v1.6.1
 
 # Whether the reference architecture is published to Cloud Docs production.
 # When set to false, the file is available only in staging. Default is false.
@@ -53,7 +53,7 @@ content-type: reference-architecture
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
 {: toc-compliance="SAPCertified"}
-{: toc-version="1.6.0"}
+{: toc-version="1.6.1"}
 
 'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape built on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver, and optionally for shared SAP files are deployed and preconfigured for SAP installation. The S/4HANA or BW/4HANA solution is installed based on the selected version.
 
