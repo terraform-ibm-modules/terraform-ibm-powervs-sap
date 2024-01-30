@@ -52,7 +52,8 @@
                     "dependencies": [
                         {
                             "flavors": [
-                                "powervs-workspace"
+                                "powervs-workspace",
+                                "powervs-import-workspace"
                             ],
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
@@ -67,7 +68,6 @@
                             "custom_config": {
                                 "config_constraints": {
                                     "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
-                                    "flavorConstraint": "powervs-workspace",
                                     "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                                     "versionConstraint": ">=3.0.0"
                                 },
@@ -367,7 +367,8 @@
                     "dependencies": [
                         {
                             "flavors": [
-                                "powervs-workspace"
+                                "powervs-workspace",
+                                "powervs-import-workspace"
                             ],
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
@@ -382,7 +383,6 @@
                             "custom_config": {
                                 "config_constraints": {
                                     "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
-                                    "flavorConstraint": "powervs-workspace",
                                     "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                                     "versionConstraint": ">=3.0.0"
                                 },
