@@ -23,8 +23,8 @@ module "fullstack" {
   configure_nfs_server        = var.configure_nfs_server
 }
 
-resource "time_sleep" "wait_5_mins" {
-  create_duration = "300s"
+resource "time_sleep" "wait_10_mins" {
+  create_duration = "600s"
 }
 #######################################################
 # Power Virtual Server SAP ready-to-go
@@ -62,7 +62,7 @@ locals {
 
 module "sap_system" {
   source     = "../../modules/pi-sap-system-type1"
-  depends_on = [time_sleep.wait_5_mins]
+  depends_on = [time_sleep.wait_10_mins]
   providers  = { ibm = ibm.ibm-pi }
 
   pi_zone                                = var.powervs_zone

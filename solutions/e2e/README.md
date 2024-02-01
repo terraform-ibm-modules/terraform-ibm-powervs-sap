@@ -65,7 +65,7 @@ The end-to-end solution automates the following tasks:
 
 | Name | Type |
 |------|------|
-| [time_sleep.wait_5_mins](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+| [time_sleep.wait_10_mins](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 
 ### Inputs
 
