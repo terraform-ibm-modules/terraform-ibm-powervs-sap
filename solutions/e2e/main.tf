@@ -7,7 +7,7 @@
 
 module "fullstack" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "4.3.0"
+  version = "4.4.0"
 
   providers = { ibm.ibm-is = ibm.ibm-is, ibm.ibm-pi = ibm.ibm-pi }
 
@@ -23,8 +23,8 @@ module "fullstack" {
   configure_nfs_server        = var.configure_nfs_server
 }
 
-resource "time_sleep" "wait_5_mins" {
-  create_duration = "300s"
+resource "time_sleep" "wait_10_mins" {
+  create_duration = "600s"
 }
 #######################################################
 # Power Virtual Server SAP ready-to-go
@@ -62,7 +62,7 @@ locals {
 
 module "sap_system" {
   source     = "../../modules/pi-sap-system-type1"
-  depends_on = [time_sleep.wait_5_mins]
+  depends_on = [time_sleep.wait_10_mins]
   providers  = { ibm = ibm.ibm-pi }
 
   pi_zone                                = var.powervs_zone
