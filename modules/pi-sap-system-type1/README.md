@@ -34,7 +34,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 | <a name="module_ansible_netweaver_sapmnt_mount"></a> [ansible\_netweaver\_sapmnt\_mount](#module\_ansible\_netweaver\_sapmnt\_mount) | ../remote-exec-ansible | n/a |
 | <a name="module_ansible_sap_instance_init"></a> [ansible\_sap\_instance\_init](#module\_ansible\_sap\_instance\_init) | ../remote-exec-ansible | n/a |
 | <a name="module_ansible_sharefs_instance_exportfs"></a> [ansible\_sharefs\_instance\_exportfs](#module\_ansible\_sharefs\_instance\_exportfs) | ../remote-exec-ansible | n/a |
-| <a name="module_pi_attach_sap_network"></a> [pi\_attach\_sap\_network](#module\_pi\_attach\_sap\_network) | terraform-ibm-modules/powervs-workspace/ibm//modules/pi-cloudconnection-attach | 1.6.0 |
+| <a name="module_pi_attach_sap_network"></a> [pi\_attach\_sap\_network](#module\_pi\_attach\_sap\_network) | terraform-ibm-modules/powervs-workspace/ibm//modules/pi-cloudconnection-attach | 1.7.0 |
 | <a name="module_pi_hana_instance"></a> [pi\_hana\_instance](#module\_pi\_hana\_instance) | terraform-ibm-modules/powervs-instance/ibm | 1.0.2 |
 | <a name="module_pi_hana_storage_calculation"></a> [pi\_hana\_storage\_calculation](#module\_pi\_hana\_storage\_calculation) | ../pi-hana-storage-config | n/a |
 | <a name="module_pi_netweaver_instance"></a> [pi\_netweaver\_instance](#module\_pi\_netweaver\_instance) | terraform-ibm-modules/powervs-instance/ibm | 1.0.2 |
