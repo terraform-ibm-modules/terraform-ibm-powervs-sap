@@ -50,7 +50,7 @@ The end-to-end solution automates the following tasks:
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.6 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.7 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >=1.61.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1 |
 
