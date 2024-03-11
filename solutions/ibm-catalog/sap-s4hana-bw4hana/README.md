@@ -120,13 +120,13 @@ s4hana2022
 4. **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
 
 
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.6 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.61.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3, < 1.7 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | =1.62.0 |
 
 ### Modules
 
@@ -142,8 +142,8 @@ s4hana2022
 
 | Name | Type |
 |------|------|
-| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.60.0/docs/data-sources/schematics_output) | data source |
-| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.60.0/docs/data-sources/schematics_workspace) | data source |
+| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.62.0/docs/data-sources/schematics_output) | data source |
+| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.62.0/docs/data-sources/schematics_workspace) | data source |
 
 ### Inputs
 
