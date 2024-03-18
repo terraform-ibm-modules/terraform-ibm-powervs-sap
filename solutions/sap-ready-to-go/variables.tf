@@ -19,8 +19,8 @@ variable "prefix" {
   description = "Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6."
   type        = string
   validation {
-    condition     = length(var.prefix) <= 6
-    error_message = "Prefix length exceeds 6 characters"
+    condition     = length(var.prefix) <= 6 && can(regex("^[A-Za-z0-9]+$", var.prefix))
+    error_message = "Prefix must be an alphanumeric string with maximum length of 6 characters."
   }
 }
 
