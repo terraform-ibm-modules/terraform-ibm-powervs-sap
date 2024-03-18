@@ -44,9 +44,9 @@ locals {
 }
 
 module "pi_sharefs_instance" {
-  source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "1.0.3"
-  count   = var.pi_sharefs_instance.enable ? 1 : 0
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=power_ha"
+  #version = "1.0.3"
+  count = var.pi_sharefs_instance.enable ? 1 : 0
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_sharefs_instance_name
@@ -54,6 +54,7 @@ module "pi_sharefs_instance" {
   pi_image_id                = var.pi_sharefs_instance.image_id
   pi_networks                = local.pi_networks
   pi_sap_profile_id          = null
+  pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_sharefs_instance.processors
   pi_memory_size             = var.pi_sharefs_instance.memory
   pi_server_type             = "s922"
@@ -111,8 +112,8 @@ module "pi_hana_storage_calculation" {
 }
 
 module "pi_hana_instance" {
-  source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "1.0.3"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=power_ha"
+  #version = "1.0.3"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
@@ -120,6 +121,7 @@ module "pi_hana_instance" {
   pi_image_id                = var.pi_hana_instance.image_id
   pi_networks                = local.pi_networks
   pi_sap_profile_id          = var.pi_hana_instance.sap_profile_id
+  pi_boot_image_storage_tier = "tier3"
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
@@ -148,8 +150,8 @@ resource "time_sleep" "wait_1_min" {
 }
 
 module "pi_netweaver_instance" {
-  source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "1.0.3"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-instance.git?ref=power_ha"
+  #version    = "1.0.3"
   count      = var.pi_netweaver_instance.instance_count
   depends_on = [time_sleep.wait_1_min]
 
@@ -159,6 +161,7 @@ module "pi_netweaver_instance" {
   pi_image_id                = var.pi_netweaver_instance.image_id
   pi_networks                = local.pi_networks
   pi_sap_profile_id          = null
+  pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_netweaver_instance.processors
   pi_memory_size             = var.pi_netweaver_instance.memory
   pi_server_type             = "s922"
