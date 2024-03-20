@@ -122,7 +122,7 @@ module "pi_hana_instance" {
   pi_image_id                = var.pi_hana_instance.image_id
   pi_networks                = local.pi_networks
   pi_sap_profile_id          = var.pi_hana_instance.sap_profile_id
-  pi_boot_image_storage_tier = "tier3"
+  pi_boot_image_storage_tier = "tier1"
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
