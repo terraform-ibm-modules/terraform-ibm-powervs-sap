@@ -15,13 +15,13 @@ resource "ibm_pi_network" "sap_network" {
 #####################################################
 
 locals {
-  per_enabled_dc_list = ["dal10", "dal12", "wdc06", "wdc07", "mad02", "mad04", "eu-de-1", "eu-de-2", "sao01", "sao04", "tok04"]
+  per_enabled_dc_list = ["dal10", "dal12", "wdc06", "wdc07", "mad02", "mad04", "eu-de-1", "eu-de-2", "sao01", "sao04", "tok04", "osa21"]
   per_enabled         = contains(local.per_enabled_dc_list, var.pi_zone)
 }
 
 module "pi_attach_sap_network" {
   source  = "terraform-ibm-modules/powervs-workspace/ibm//modules/pi-cloudconnection-attach"
-  version = "1.8.0"
+  version = "1.9.0"
   count   = local.per_enabled ? 0 : 1
 
   pi_workspace_guid         = var.pi_workspace_guid
