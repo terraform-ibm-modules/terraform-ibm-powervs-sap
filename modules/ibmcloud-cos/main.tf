@@ -1,4 +1,3 @@
-
 #####################################################
 # 1. Download objects from IBMCLOUD COS
 #####################################################
@@ -18,7 +17,11 @@ locals {
 # 1. Download objects from IBMCLOUD COS
 #####################################################
 
-resource "null_resource" "download_objects" {
+resource "terraform_data" "trigger_cos_configuration" {
+  input = var.ibmcloud_cos_configuration
+}
+
+resource "terraform_data" "download_objects" {
 
   connection {
     type         = "ssh"
@@ -30,10 +33,10 @@ resource "null_resource" "download_objects" {
     timeout      = "10m"
   }
 
+  triggers_replace = terraform_data.trigger_cos_configuration
+
   provisioner "remote-exec" {
-
     inline = ["mkdir -p ${local.dst_files_dir}", "chmod 777 ${local.dst_files_dir}", ]
-
   }
 
   ####### Copy Template file to target host ############
@@ -55,7 +58,7 @@ resource "null_resource" "download_objects" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x ${local.dst_script_ibmcloud_cos_sh_path}",
-      "${local.dst_script_ibmcloud_cos_sh_path} -i ${var.ibmcloud_cos_configuration.cos_apikey} > ${local.log_file}",
+      "${local.dst_script_ibmcloud_cos_sh_path} -i ${var.ibmcloud_cos_configuration.cos_apikey} &> ${local.log_file} || { exit 1; } ",
       "chmod 777 -R ${var.ibmcloud_cos_configuration.download_dir_path}"
     ]
   }
@@ -65,5 +68,4 @@ resource "null_resource" "download_objects" {
       "cat ${local.log_file}"
     ]
   }
-
 }
