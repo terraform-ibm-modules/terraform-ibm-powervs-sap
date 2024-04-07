@@ -21,7 +21,7 @@ locals {
 
 module "pi_attach_sap_network" {
   source  = "terraform-ibm-modules/powervs-workspace/ibm//modules/pi-cloudconnection-attach"
-  version = "1.7.3"
+  version = "1.11.0"
   count   = local.per_enabled ? 0 : 1
 
   pi_workspace_guid         = var.pi_workspace_guid
@@ -45,7 +45,7 @@ locals {
 
 module "pi_sharefs_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "1.0.3"
+  version = "1.1.0"
   count   = var.pi_sharefs_instance.enable ? 1 : 0
 
   pi_workspace_guid          = var.pi_workspace_guid
@@ -112,7 +112,7 @@ module "pi_hana_storage_calculation" {
 
 module "pi_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "1.0.3"
+  version = "1.1.0"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
@@ -149,7 +149,7 @@ resource "time_sleep" "wait_1_min" {
 
 module "pi_netweaver_instance" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "1.0.3"
+  version    = "1.1.0"
   count      = var.pi_netweaver_instance.instance_count
   depends_on = [time_sleep.wait_1_min]
 
