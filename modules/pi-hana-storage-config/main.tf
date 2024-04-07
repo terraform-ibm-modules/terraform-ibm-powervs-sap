@@ -2,20 +2,44 @@
 ### Storage Calculation for HANA Instance
 #######################################################
 locals {
+  memory_size = tonumber(element(split("x", var.pi_hana_instance_sap_profile_id), 1))
+  auto_cal_storage_config = {
+    "memory_lt_900" = {
+      "shared_disk_size" = local.memory_size,
+      "shared_disk_tier" = "tier3", #3 IOPS/GB
+      "log_disk_size"    = ceil((local.memory_size / 2) / 4),
+      "log_disk_tier"    = "tier5k", #fixed 5k iops
+      "data_disk_size"   = local.memory_size < 256 ? 77 : ceil((local.memory_size * 1.2) / 4),
+      "data_disk_tier"   = "tier0" #10 IOPS/GB
+    },
+    "memory_bt_900_2100" = {
+      "shared_disk_size" = 1000,
+      "shared_disk_tier" = "tier3", #3 IOPS/GB
+      "log_disk_size"    = 128,
+      "log_disk_tier"    = "tier0", #10 IOPS/GB
+      "data_disk_size"   = 648,
+      "data_disk_tier"   = "tier3" #3 IOPS/GB
+    },
+    "memory_gt_2100" = {
+      "shared_disk_size" = 1000,
+      "shared_disk_tier" = "tier3", #3 IOPS/GB
+      "log_disk_size"    = 128,
+      "log_disk_tier"    = "tier0", #10 IOPS/GB
+      "data_disk_size"   = floor((local.memory_size * 1.2) / 4),
+      "data_disk_tier"   = "tier3", #3 IOPS/GB
+    }
+  }
 
-  auto_cal_memory_size        = tonumber(element(split("x", var.pi_hana_instance_sap_profile_id), 1)) < 256 ? 256 : tonumber(element(split("x", var.pi_hana_instance_sap_profile_id), 1))
-  auto_cal_data_volume_size   = floor((local.auto_cal_memory_size * 1.1) / 4) + 1
-  auto_cal_log_volume_size    = floor((local.auto_cal_memory_size * 0.5) / 4) + 1 > 512 ? 512 : floor((local.auto_cal_memory_size * 0.5) / 4) + 1
-  auto_cal_shared_volume_size = floor(local.auto_cal_memory_size > 1024 ? 1024 : local.auto_cal_memory_size)
+  storage_config = local.memory_size < 900 ? local.auto_cal_storage_config["memory_lt_900"] : local.memory_size > 2100 ? local.auto_cal_storage_config["memory_gt_2100"] : local.auto_cal_storage_config["memory_bt_900_2100"]
   auto_cal_hana_storage_config = [
     {
-      name = "data", size = local.auto_cal_data_volume_size, count = "4", tier = "tier1", mount = "/hana/data"
+      name = "data", size = local.storage_config["data_disk_size"], count = "4", tier = local.storage_config["data_disk_tier"], mount = "/hana/data"
     },
     {
-      name = "log", size = local.auto_cal_log_volume_size, count = "4", tier = "tier1", mount = "/hana/log"
+      name = "log", size = local.storage_config["log_disk_size"], count = "4", tier = local.storage_config["log_disk_tier"], mount = "/hana/log"
     },
     {
-      name = "shared", size = local.auto_cal_shared_volume_size, count = "1", tier = "tier3", mount = "/hana/shared"
+      name = "shared", size = local.storage_config["shared_disk_size"], count = "1", tier = local.storage_config["shared_disk_tier"], mount = "/hana/shared"
     }
   ]
 
