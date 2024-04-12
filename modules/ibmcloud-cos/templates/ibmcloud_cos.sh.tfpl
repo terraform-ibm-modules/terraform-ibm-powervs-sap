@@ -50,7 +50,13 @@ ibmcloud config --check-version false
 ibmcloud plugin install cloud-object-storage -f
 
 # LogIn to the IBM Cloud with IBM API key:
-ibmcloud login --no-region --apikey $IBMCLOUD_API_KEY
+# Attempt login
+if ibmcloud login --no-region --apikey "$IBMCLOUD_API_KEY"; then
+    echo "Login successful. Continuing with the script..."
+else
+    echo "Failed to login to IBM Cloud. Exiting..."
+    exit 1
+fi
 
 # Config COS CRN
 ibmcloud cos config crn --crn $IBMCOS_SERVICE_INSTANCE_CRN --force
@@ -62,10 +68,8 @@ IBMCOS_BUCKET_FILES_LIST=$(ibmcloud cos objects --bucket $IBMCOS_BUCKET --region
 for FILENAME in $IBMCOS_BUCKET_FILES_LIST; do
     echo "Downloading $FILENAME"
     FILENAME_ONLY=$(echo $FILENAME | awk '{gsub(".*/", ""); print}')
-    if [ ! -f $IBMCOS_DOWNLOAD_DIRECTORY/$FILENAME_ONLY ]; then
-
+    if [ ! -f $DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME/$FILENAME_ONLY ]; then
         yes y | ibmcloud cos object-get --bucket $IBMCOS_BUCKET --key $FILENAME --region=$IBMCOS_REGION $DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME/$FILENAME_ONLY
-
     else
         echo "File already exists"
     fi
