@@ -18,8 +18,8 @@ variable "prefix" {
   description = "Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6."
   type        = string
   validation {
-    condition     = length(var.prefix) <= 6
-    error_message = "Prefix length exceeds 6 characters"
+    condition     = length(var.prefix) <= 6 && can(regex("^[A-Za-z0-9]+$", var.prefix))
+    error_message = "Prefix must be an alphanumeric string with maximum length of 6 characters."
   }
 }
 
@@ -179,6 +179,7 @@ variable "powervs_hana_instance_custom_storage_config" {
     count = string
     tier  = string
     mount = string
+    pool  = optional(string)
   }))
   default = [{
     "name" : "",
@@ -197,6 +198,7 @@ variable "powervs_hana_instance_additional_storage_config" {
     count = string
     tier  = string
     mount = string
+    pool  = optional(string)
   }))
   default = [{
     "name" : "usrsap",
@@ -216,6 +218,7 @@ variable "powervs_netweaver_instance_storage_config" {
     count = string
     tier  = string
     mount = string
+    pool  = optional(string)
   }))
   default = [
     {
@@ -241,6 +244,7 @@ variable "powervs_sharefs_instance" {
       count = string
       tier  = string
       mount = string
+      pool  = optional(string)
     }))
   })
   default = {

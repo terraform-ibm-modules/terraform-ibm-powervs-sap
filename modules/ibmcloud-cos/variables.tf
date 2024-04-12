@@ -1,6 +1,6 @@
 
 variable "access_host_or_ip" {
-  description = "Public IP of Bastion Host"
+  description = "Public IP of Bastion Host."
   type        = string
 }
 
@@ -16,7 +16,7 @@ variable "ssh_private_key" {
 }
 
 variable "ibmcloud_cos_configuration" {
-  description = "IBM Cloud Object Storage details to download the files to the target host"
+  description = "IBM Cloud Object Storage details to download the files to the target host."
   type = object({
     cos_apikey               = string
     cos_region               = string

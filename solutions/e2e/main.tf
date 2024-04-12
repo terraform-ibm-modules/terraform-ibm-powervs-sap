@@ -7,7 +7,7 @@
 
 module "fullstack" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "4.5.1"
+  version = "4.9.0"
 
   providers = { ibm.ibm-is = ibm.ibm-is, ibm.ibm-pi = ibm.ibm-pi }
 
@@ -21,6 +21,7 @@ module "fullstack" {
   configure_dns_forwarder     = var.configure_dns_forwarder
   configure_ntp_forwarder     = var.configure_ntp_forwarder
   configure_nfs_server        = var.configure_nfs_server
+  powervs_image_names         = ["SLES15-SP4-SAP", "RHEL8-SP6-SAP", "SLES15-SP4-SAP-NETWEAVER", "RHEL8-SP6-SAP-NETWEAVER"]
 }
 
 resource "time_sleep" "wait_10_mins" {

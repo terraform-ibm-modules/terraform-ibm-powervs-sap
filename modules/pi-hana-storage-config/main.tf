@@ -1,21 +1,50 @@
 #######################################################
 ### Storage Calculation for HANA Instance
 #######################################################
-locals {
 
-  auto_cal_memory_size        = tonumber(element(split("x", var.pi_hana_instance_sap_profile_id), 1)) < 256 ? 256 : tonumber(element(split("x", var.pi_hana_instance_sap_profile_id), 1))
-  auto_cal_data_volume_size   = floor((local.auto_cal_memory_size * 1.1) / 4) + 1
-  auto_cal_log_volume_size    = floor((local.auto_cal_memory_size * 0.5) / 4) + 1 > 512 ? 512 : floor((local.auto_cal_memory_size * 0.5) / 4) + 1
-  auto_cal_shared_volume_size = floor(local.auto_cal_memory_size > 1024 ? 1024 : local.auto_cal_memory_size)
+locals {
+  memory_size = tonumber(element(split("x", var.pi_hana_instance_sap_profile_id), 1))
+  auto_cal_storage_config = {
+    "memory_lt_900" = {
+      shared_disk = { tier = "tier3", count = "1", size = local.memory_size },                                                 #3 IOPS/GB
+      log_disk    = { tier = "tier5k", count = "4", size = ceil((local.memory_size / 2) / 4) },                                #fixed 5k iops
+      data_disk   = { tier = "tier0", count = "4", size = local.memory_size < 256 ? 77 : ceil((local.memory_size * 1.2) / 4) } #25 IOPS/GB
+    },
+    "memory_bt_900_2100" = {
+      shared_disk = { tier = "tier3", count = "1", size = 1000 }, #3 IOPS/GB
+      log_disk    = { tier = "tier0", count = "4", size = 128 },  #25 IOPS/GB
+      data_disk   = { tier = "tier3", count = "4", size = 648 }   #3 IOPS/GB
+    },
+    "memory_gt_2100" = {
+      shared_disk = { tier = "tier3", count = "1", size = 1000 },                                #3 IOPS/GB
+      log_disk    = { tier = "tier0", count = "4", size = 128 },                                 #25 IOPS/GB
+      data_disk   = { tier = "tier3", count = "4", size = floor((local.memory_size * 1.2) / 4) } #3 IOPS/GB
+    }
+  }
+
+  storage_config = local.memory_size < 900 ? local.auto_cal_storage_config["memory_lt_900"] : local.memory_size > 2100 ? local.auto_cal_storage_config["memory_gt_2100"] : local.auto_cal_storage_config["memory_bt_900_2100"]
+
   auto_cal_hana_storage_config = [
     {
-      name = "data", size = local.auto_cal_data_volume_size, count = "4", tier = "tier1", mount = "/hana/data"
+      name  = "data"
+      size  = local.storage_config["data_disk"]["size"]
+      count = local.storage_config["data_disk"]["count"]
+      tier  = local.storage_config["data_disk"]["tier"]
+      mount = "/hana/data"
     },
     {
-      name = "log", size = local.auto_cal_log_volume_size, count = "4", tier = "tier1", mount = "/hana/log"
+      name  = "log"
+      size  = local.storage_config["log_disk"]["size"]
+      count = local.storage_config["log_disk"]["count"]
+      tier  = local.storage_config["log_disk"]["tier"]
+      mount = "/hana/log"
     },
     {
-      name = "shared", size = local.auto_cal_shared_volume_size, count = "1", tier = "tier3", mount = "/hana/shared"
+      name  = "shared"
+      size  = local.storage_config["shared_disk"]["size"]
+      count = local.storage_config["shared_disk"]["count"]
+      tier  = local.storage_config["shared_disk"]["tier"]
+      mount = "/hana/shared"
     }
   ]
 

@@ -4,7 +4,7 @@
 
 resource "ibm_pi_network" "sap_network" {
   pi_cloud_instance_id = var.pi_workspace_guid
-  pi_network_name      = "${var.prefix}-net"
+  pi_network_name      = "${var.prefix}-sap-net"
   pi_cidr              = var.pi_sap_network_cidr
   pi_network_type      = "vlan"
   pi_network_mtu       = 9000
@@ -15,13 +15,13 @@ resource "ibm_pi_network" "sap_network" {
 #####################################################
 
 locals {
-  per_enabled_dc_list = ["dal10", "dal12", "wdc06", "wdc07", "mad02", "mad04", "eu-de-1", "eu-de-2", "sao01", "sao04"]
+  per_enabled_dc_list = ["dal10", "dal12", "wdc06", "wdc07", "mad02", "mad04", "eu-de-1", "eu-de-2", "sao01", "sao04", "tok04", "osa21", "syd05", "lon06"]
   per_enabled         = contains(local.per_enabled_dc_list, var.pi_zone)
 }
 
 module "pi_attach_sap_network" {
   source  = "terraform-ibm-modules/powervs-workspace/ibm//modules/pi-cloudconnection-attach"
-  version = "1.7.3"
+  version = "1.11.0"
   count   = local.per_enabled ? 0 : 1
 
   pi_workspace_guid         = var.pi_workspace_guid
@@ -45,8 +45,9 @@ locals {
 
 module "pi_sharefs_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "1.0.3"
-  count   = var.pi_sharefs_instance.enable ? 1 : 0
+  version = "1.1.0"
+
+  count = var.pi_sharefs_instance.enable ? 1 : 0
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_sharefs_instance_name
@@ -54,6 +55,7 @@ module "pi_sharefs_instance" {
   pi_image_id                = var.pi_sharefs_instance.image_id
   pi_networks                = local.pi_networks
   pi_sap_profile_id          = null
+  pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_sharefs_instance.processors
   pi_memory_size             = var.pi_sharefs_instance.memory
   pi_server_type             = "s922"
@@ -112,7 +114,7 @@ module "pi_hana_storage_calculation" {
 
 module "pi_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "1.0.3"
+  version = "1.1.0"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
@@ -120,6 +122,7 @@ module "pi_hana_instance" {
   pi_image_id                = var.pi_hana_instance.image_id
   pi_networks                = local.pi_networks
   pi_sap_profile_id          = var.pi_hana_instance.sap_profile_id
+  pi_boot_image_storage_tier = "tier3"
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
@@ -149,7 +152,7 @@ resource "time_sleep" "wait_1_min" {
 
 module "pi_netweaver_instance" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "1.0.3"
+  version    = "1.1.0"
   count      = var.pi_netweaver_instance.instance_count
   depends_on = [time_sleep.wait_1_min]
 
@@ -159,6 +162,7 @@ module "pi_netweaver_instance" {
   pi_image_id                = var.pi_netweaver_instance.image_id
   pi_networks                = local.pi_networks
   pi_sap_profile_id          = null
+  pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_netweaver_instance.processors
   pi_memory_size             = var.pi_netweaver_instance.memory
   pi_server_type             = "s922"
