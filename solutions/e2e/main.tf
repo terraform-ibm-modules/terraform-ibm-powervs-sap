@@ -21,6 +21,7 @@ module "fullstack" {
   configure_dns_forwarder     = var.configure_dns_forwarder
   configure_ntp_forwarder     = var.configure_ntp_forwarder
   configure_nfs_server        = var.configure_nfs_server
+  powervs_image_names         = ["SLES15-SP4-SAP", "RHEL8-SP6-SAP", "SLES15-SP4-SAP-NETWEAVER", "RHEL8-SP6-SAP-NETWEAVER"]
 }
 
 resource "time_sleep" "wait_10_mins" {
