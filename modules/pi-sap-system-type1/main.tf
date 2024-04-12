@@ -4,7 +4,7 @@
 
 resource "ibm_pi_network" "sap_network" {
   pi_cloud_instance_id = var.pi_workspace_guid
-  pi_network_name      = "${var.prefix}-net"
+  pi_network_name      = "${var.prefix}-sap-net"
   pi_cidr              = var.pi_sap_network_cidr
   pi_network_type      = "vlan"
   pi_network_mtu       = 9000
@@ -122,7 +122,7 @@ module "pi_hana_instance" {
   pi_image_id                = var.pi_hana_instance.image_id
   pi_networks                = local.pi_networks
   pi_sap_profile_id          = var.pi_hana_instance.sap_profile_id
-  pi_boot_image_storage_tier = "tier1"
+  pi_boot_image_storage_tier = "tier3"
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
