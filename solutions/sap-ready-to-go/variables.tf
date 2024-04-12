@@ -109,6 +109,7 @@ variable "powervs_sharefs_instance" {
       count = string
       tier  = string
       mount = string
+      pool  = optional(string)
     }))
   })
   default = {
@@ -148,6 +149,7 @@ variable "powervs_hana_instance" {
       count = string
       tier  = string
       mount = string
+      pool  = optional(string)
     }))
   })
   default = {
@@ -171,6 +173,7 @@ variable "powervs_hana_instance_custom_storage_config" {
     count = string
     tier  = string
     mount = string
+    pool  = optional(string)
   }))
   default = [{
     "name" : "",
@@ -199,6 +202,7 @@ variable "powervs_netweaver_instance" {
       count = string
       tier  = string
       mount = string
+      pool  = optional(string)
     }))
   })
   default = {
