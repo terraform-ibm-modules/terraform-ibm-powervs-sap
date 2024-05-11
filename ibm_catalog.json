@@ -83,7 +83,7 @@
                             "required": true,
                             "options": [
                                 {
-                                    "displayname": "Dallas (dallas)",
+                                    "displayname": "Dallas (dallas) PER",
                                     "value": "us-south"
                                 },
                                 {
@@ -139,7 +139,7 @@
                                     "value": "tok04"
                                 },
                                 {
-                                    "displayname": "Toronto 01 (tor01)",
+                                    "displayname": "Toronto 01 (tor01) PER",
                                     "value": "tor01"
                                 },
                                 {
@@ -398,7 +398,7 @@
                             "required": true,
                             "options": [
                                 {
-                                    "displayname": "Dallas (dallas)",
+                                    "displayname": "Dallas (dallas) PER",
                                     "value": "us-south"
                                 },
                                 {
@@ -454,7 +454,7 @@
                                     "value": "tok04"
                                 },
                                 {
-                                    "displayname": "Toronto 01 (tor01)",
+                                    "displayname": "Toronto 01 (tor01) PER",
                                     "value": "tor01"
                                 },
                                 {
