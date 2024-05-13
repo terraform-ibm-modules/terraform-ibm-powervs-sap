@@ -71,6 +71,7 @@
 				"RHEL8-SP6-SAP",
 				"RHEL8-SP6-SAP-NETWEAVER"
 			],
+			"type": "array",
 			"hidden": false,
 			"required": true
 		},
@@ -267,7 +268,7 @@
 				},
 				{
 					"name": "sap_domain",
-					"value": "ref:../../inputs/"
+					"value": "ref:../../inputs/sap_domain"
 				},
 				{
 					"name": "ansible_vault_password",
