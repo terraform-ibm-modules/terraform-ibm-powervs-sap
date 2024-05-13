@@ -1,0 +1,217 @@
+{
+	"inputs": [
+		{
+			"name": "powervs_zone",
+			"required": true,
+			"type": "string",
+			"hidden": false
+		},
+		{
+			"name": "powervs_resource_group_name",
+			"required": true,
+			"type": "string",
+			"hidden": false,
+			"default": "",
+			"custom_config": {}
+		},
+		{
+			"name": "power_infrastructure_prefix",
+			"required": true,
+			"type": "string",
+			"hidden": false,
+			"default": "idemo",
+			"custom_config": {}
+		},
+		{
+			"name": "sap_system_prefix",
+			"required": true,
+			"type": "string",
+			"hidden": false,
+			"default": "sdemo",
+			"custom_config": {}
+		},
+		{
+			"name": "external_access_ip",
+			"required": true,
+			"type": "string",
+			"hidden": false,
+			"default": "0.0.0.0/0",
+			"custom_config": {}
+		},
+		{
+			"name": "ssh_public_key",
+			"required": true,
+			"type": "password",
+			"hidden": false,
+			"custom_config": {}
+		},
+		{
+			"name": "ssh_private_key",
+			"required": true,
+			"type": "password",
+			"hidden": false,
+			"custom_config": {}
+		},
+		{
+			"name": "landing_zone_configuration",
+			"default": "3VPC_RHEL",
+			"type": "string",
+			"hidden": false,
+			"required": true
+		},
+		{
+			"name": "powervs_image_names",
+			"default": [
+				"IBMi-75-03-2924-1",
+				"IBMi-74-09-2984-1",
+				"7300-02-01",
+				"7200-05-07",
+				"SLES15-SP4-SAP",
+				"SLES15-SP4-SAP-NETWEAVER",
+				"RHEL8-SP6-SAP",
+				"RHEL8-SP6-SAP-NETWEAVER"
+			],
+			"hidden": false,
+			"required": true
+		},
+		{
+			"name": "powervs_sap_network_cidr",
+			"required": true,
+			"type": "string",
+			"hidden": false,
+			"custom_config": {}
+		},
+		{
+			"name": "os_image_distro",
+			"required": true,
+			"type": "string",
+			"hidden": false,
+			"custom_config": {}
+		},
+		{
+			"name": "powervs_create_separate_sharefs_instance",
+			"required": true,
+			"type": "boolean",
+			"hidden": false,
+			"custom_config": {}
+		},
+		{
+			"name": "powervs_hana_instance_name",
+			"required": true,
+			"type": "string",
+			"hidden": false,
+			"default": "hana",
+			"custom_config": {}
+		},
+		{
+			"name": "powervs_hana_instance_sap_profile_id",
+			"required": true,
+			"type": "string",
+			"hidden": false,
+			"default": "ush1-4x256",
+			"custom_config": {}
+		}
+	],
+	"members": [
+		{
+			"inputs": [
+				{
+					"name": "prerequisite_workspace_id",
+					"value": "ref:../Power%20Virtual%20Server%20with%20VPC%20landing%20zone/outputs/schematics_workspace_id"
+				},
+				{
+					"name": "powervs_zone",
+					"value": "ref:../../inputs/powervs_zone"
+				},
+				{
+					"name": "prefix",
+					"value": "ref:../../inputs/sap_system_prefix"
+				},
+				{
+					"name": "powervs_sap_network_cidr",
+					"value": "ref:../../inputs/powervs_sap_network_cidr"
+				},
+				{
+					"name": "ssh_private_key",
+					"value": "ref:../../inputs/ssh_private_key"
+				},
+				{
+					"name": "os_image_distro",
+					"value": "ref:../../inputs/os_image_distro"
+				},
+				{
+					"name": "powervs_create_separate_sharefs_instance",
+					"value": "ref:../../inputs/powervs_create_separate_sharefs_instance"
+				},
+				{
+					"name": "powervs_hana_instance_name",
+					"value": "ref:../../inputs/powervs_hana_instance_name"
+				},
+				{
+					"name": "powervs_hana_instance_sap_profile_id",
+					"value": "ref:../../inputs/powervs_hana_instance_sap_profile_id"
+				},
+				{
+					"name": "powervs_netweaver_instance_count",
+					"value": "1"
+				},
+				{
+					"name": "powervs_netweaver_instance_name",
+					"value": "nw"
+				},
+				{
+					"name": "powervs_netweaver_cpu_number",
+					"value": "3"
+				},
+				{
+					"name": "powervs_netweaver_memory_size",
+					"value": "32"
+				},
+				{
+					"name": "sap_domain",
+					"value": "sap.com"
+				}
+			],
+			"name": "PowerVS_SAP",
+			"version_locator": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc.1945f1e2-c3a8-467b-9d2c-9b717833f301-global"
+		},
+		{
+			"inputs": [
+				{
+					"name": "powervs_zone",
+					"value": "ref:../../inputs/powervs_zone"
+				},
+				{
+					"name": "powervs_resource_group_name",
+					"value": "ref:../../inputs/powervs_resource_group_name"
+				},
+				{
+					"name": "prefix",
+					"value": "ref:../../inputs/power_infrastructure_prefix"
+				},
+				{
+					"name": "landing_zone_configuration",
+					"value": "ref:../../inputs/landing_zone_configuration"
+				},
+				{
+					"name": "external_access_ip",
+					"value": "ref:../../inputs/external_access_ip"
+				},
+				{
+					"name": "ssh_public_key",
+					"value": "ref:../../inputs/ssh_public_key"
+				},
+				{
+					"name": "ssh_private_key",
+					"value": "ref:../../inputs/ssh_private_key"
+				},
+				{
+					"name": "powervs_image_names",
+					"value": "ref:../../inputs/powervs_image_names"
+				}
+			],
+			"name": "Power Virtual Server with VPC landing zone",
+			"version_locator": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc.6c4f126a-cc27-40b1-9fe7-0cdeb02048cb-global"
+		}
+	]
+}
