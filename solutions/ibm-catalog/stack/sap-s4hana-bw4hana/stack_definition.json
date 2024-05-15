@@ -105,7 +105,7 @@
 			"default": "ush1-4x256",
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "powervs_netweaver_instance_name",
 			"required": true,
 			"type": "string",
@@ -113,7 +113,7 @@
 			"default": "nw",
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "powervs_netweaver_cpu_number",
 			"required": true,
 			"type": "string",
@@ -121,7 +121,7 @@
 			"default": "3",
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "powervs_netweaver_memory_size",
 			"required": true,
 			"type": "string",
@@ -129,53 +129,53 @@
 			"default": "32",
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "ibmcloud_cos_service_credentials",
 			"required": true,
 			"type": "string",
 			"hidden": false,
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "ibmcloud_cos_configuration",
 			"required": true,
 			"hidden": false,
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "sap_solution",
 			"required": true,
 			"type": "string",
 			"hidden": false,
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "sap_hana_master_password",
 			"required": true,
 			"type": "string",
 			"hidden": false,
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "sap_hana_vars",
 			"required": true,
 			"hidden": false,
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "sap_swpm_master_password",
 			"required": true,
 			"type": "string",
 			"hidden": false,
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "sap_solution_vars",
 			"required": true,
 			"hidden": false,
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "sap_domain",
 			"required": true,
 			"type": "string",
@@ -183,12 +183,85 @@
 			"default": "sap.com",
 			"custom_config": {}
 		},
-        {
+		{
 			"name": "ansible_vault_password",
 			"required": true,
 			"type": "string",
 			"hidden": false,
 			"custom_config": {}
+		},
+		{
+			"name": "powervs_hana_instance_custom_storage_config",
+			"type": "object",
+			"hidden": false,
+			"default": {
+				"name": "",
+				"size": "",
+				"count": "",
+				"tier": "",
+				"mount": ""
+			},
+			"custom_config": {}
+		},
+		{
+			"name": "powervs_hana_instance_additional_storage_config",
+			"type": "object",
+			"hidden": false,
+			"default": {
+				"name": "usrsap",
+				"size": "50",
+				"count": "1",
+				"tier": "tier3",
+				"mount": "/usr/sap"
+			}
+		},
+		{
+			"name": "powervs_netweaver_instance_storage_config",
+			"type": "object",
+			"hidden": false,
+			"default": {
+				"name": "usrsap",
+				"size": "50",
+				"count": "1",
+				"tier": "tier3",
+				"mount": "/usr/sap"
+			}
+		},
+		{
+			"name": "powervs_sharefs_instance",
+			"type": "object",
+			"hidden": false,
+			"default": {
+				"name": "share",
+				"processors": "0.5",
+				"memory": "2",
+				"proc_type": "shared",
+				"storage_config": [
+					{
+						"name": "sapmnt",
+						"size": "300",
+						"count": "1",
+						"tier": "tier3",
+						"mount": "/sapmnt"
+					},
+					{
+						"name": "trans",
+						"size": "50",
+						"count": "1",
+						"tier": "tier3",
+						"mount": "/usr/trans"
+					}
+				]
+			}
+		},
+		{
+			"name": "powervs_default_sap_images",
+			"type": "object",
+			"hidden": false,
+			"default": {
+				"rhel_hana_image": "RHEL8-SP6-SAP",
+				"rhel_nw_image": "RHEL8-SP6-SAP-NETWEAVER"
+			}
 		}
 	],
 	"members": [
@@ -210,11 +283,11 @@
 					"name": "powervs_sap_network_cidr",
 					"value": "ref:../../inputs/powervs_sap_network_cidr"
 				},
-                {
+				{
 					"name": "powervs_create_separate_sharefs_instance",
 					"value": "ref:../../inputs/powervs_create_separate_sharefs_instance"
 				},
-                {
+				{
 					"name": "powervs_hana_instance_name",
 					"value": "ref:../../inputs/powervs_hana_instance_name"
 				},
@@ -238,31 +311,31 @@
 					"name": "powervs_netweaver_memory_size",
 					"value": "ref:../../inputs/powervs_netweaver_memory_size"
 				},
-                {
+				{
 					"name": "ibmcloud_cos_service_credentials",
 					"value": "ref:../../inputs/ibmcloud_cos_service_credentials"
 				},
-                {
+				{
 					"name": "ibmcloud_cos_configuration",
 					"value": "ref:../../inputs/ibmcloud_cos_configuration"
 				},
-                {
+				{
 					"name": "sap_solution",
 					"value": "ref:../../inputs/sap_solution"
 				},
-                {
+				{
 					"name": "sap_hana_master_password",
 					"value": "ref:../../inputs/sap_hana_master_password"
 				},
-                {
+				{
 					"name": "sap_hana_vars",
 					"value": "ref:../../inputs/sap_hana_vars"
 				},
-                {
+				{
 					"name": "sap_swpm_master_password",
 					"value": "ref:../../inputs/sap_swpm_master_password"
 				},
-                {
+				{
 					"name": "sap_solution_vars",
 					"value": "ref:../../inputs/sap_solution_vars"
 				},
@@ -274,9 +347,29 @@
 					"name": "ansible_vault_password",
 					"value": "ref:../../inputs/ansible_vault_password"
 				},
-                {
+				{
 					"name": "ssh_private_key",
 					"value": "ref:../../inputs/ssh_private_key"
+				},
+				{
+					"name": "powervs_hana_instance_custom_storage_config",
+					"value": "ref:../../inputs/powervs_hana_instance_custom_storage_config"
+				},
+				{
+					"name": "powervs_hana_instance_additional_storage_config",
+					"value": "ref:../../inputs/powervs_hana_instance_additional_storage_config"
+				},
+				{
+					"name": "powervs_netweaver_instance_storage_config",
+					"value": "ref:../../inputs/powervs_netweaver_instance_storage_config"
+				},
+				{
+					"name": "powervs_sharefs_instance",
+					"value": "ref:../../inputs/powervs_sharefs_instance"
+				},
+				{
+					"name": "powervs_default_sap_images",
+					"value": "ref:../../inputs/powervs_default_sap_images"
 				}
 			],
 			"name": "PowerVS_SAP_S4HANA_BW4HANA",
