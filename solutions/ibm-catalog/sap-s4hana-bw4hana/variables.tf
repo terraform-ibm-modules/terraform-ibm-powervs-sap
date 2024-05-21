@@ -152,6 +152,12 @@ variable "ansible_vault_password" {
   sensitive   = true
 }
 
+variable "software_download_directory" {
+  description = "Software installation binaries will be downloaded to this directory."
+  type        = string
+  default     = "/software"
+}
+
 variable "ssh_private_key" {
   description = "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key' which was created previously. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
   type        = string
@@ -276,7 +282,7 @@ variable "powervs_default_sap_images" {
     rhel_nw_image   = string
   })
   default = {
-    "rhel_hana_image" : "RHEL8-SP6-SAP",
-    "rhel_nw_image" : "RHEL8-SP6-SAP-NETWEAVER"
+    "rhel_hana_image" : "RHEL9-SP2-SAP",
+    "rhel_nw_image" : "RHEL9-SP2-SAP-NETWEAVER"
   }
 }

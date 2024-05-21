@@ -12,10 +12,15 @@ powervs_create_sharefs_instance = {
 powervs_hana_instance_image_id      = ""
 powervs_netweaver_instance_image_id = ""
 powervs_instance_init_linux = {
-  enable                = "" #true or false
-  bastion_host_ip       = ""
-  proxy_host_or_ip_port = "" #10.30.10.4:3128
-  no_proxy_hosts        = "161.0.0.0/8,10.0.0.0/8"
-  ssh_private_key       = <<-EOF
+  enable             = "" #true or false
+  bastion_host_ip    = ""
+  ansible_host_or_ip = ""
+  ssh_private_key    = <<-EOF
 EOF
+}
+sap_network_services_config = {
+  squid = { enable = false, squid_server_ip_port = "10.30.40.4:3128", no_proxy_hosts = "161.0.0.0/8,10.0.0.0/8" }
+  nfs   = { enable = false, nfs_server_path = "10.30.40.4:/nfs", nfs_client_path = "/nfs", opts = "sec=sys,nfsvers=4.1,nofail", fstype = "nfs4" }
+  dns   = { enable = false, dns_server_ip = "10.30.40.4" }
+  ntp   = { enable = false, ntp_server_ip = "10.30.40.4" }
 }

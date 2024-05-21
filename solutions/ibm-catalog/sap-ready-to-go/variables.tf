@@ -108,6 +108,12 @@ variable "sap_domain" {
   default     = "sap.com"
 }
 
+variable "nfs_directory" {
+  description = "Target directory on which the file storage share from VPC will be mounted."
+  type        = string
+  default     = "/nfs"
+}
+
 #####################################################
 # Optional Parameters
 #####################################################
@@ -151,7 +157,7 @@ variable "powervs_hana_instance_additional_storage_config" {
 }
 
 variable "powervs_netweaver_instance_storage_config" {
-  description = "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance."
+  description = "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' be will mounted from sharefs instance."
   type = list(object({
     name  = string
     size  = string
@@ -218,9 +224,9 @@ variable "powervs_default_sap_images" {
     rhel_nw_image   = string
   })
   default = {
-    "sles_hana_image" : "SLES15-SP4-SAP",
-    "rhel_hana_image" : "RHEL8-SP6-SAP",
-    "sles_nw_image" : "SLES15-SP4-SAP-NETWEAVER",
-    "rhel_nw_image" : "RHEL8-SP6-SAP-NETWEAVER"
+    "sles_hana_image" : "SLES15-SP5-SAP",
+    "rhel_hana_image" : "RHEL9-SP2-SAP",
+    "sles_nw_image" : "SLES15-SP5-SAP-NETWEAVER",
+    "rhel_nw_image" : "RHEL9-SP2-SAP-NETWEAVER"
   }
 }

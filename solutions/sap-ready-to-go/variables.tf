@@ -70,15 +70,14 @@ variable "powervs_netweaver_instance_image_id" {
 }
 
 variable "powervs_instance_init_linux" {
-  description = "Configures a PowerVS linux instance to have internet access by setting proxy on it, updates os and create filesystems using ansible collection [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/). where 'proxy_host_or_ip_port' E.g., 10.10.10.4:3128 <ip:port>, 'bastion_host_ip' is public IP of bastion/jump host to access the private IP of created linux PowerVS instance."
+  description = "Configures a PowerVS linux instance to have internet access by setting proxy on it, updates os and create filesystems using ansible collection [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) where 'bastion_host_ip' is public IP of bastion/jump host to access the 'ansible_host_or_ip' private IP of ansible node. This ansible host must have access to the power virtual server instance and ansible host OS must be RHEL distribution."
   sensitive   = true
   type = object(
     {
-      enable                = bool
-      bastion_host_ip       = string
-      ssh_private_key       = string
-      proxy_host_or_ip_port = string
-      no_proxy_hosts        = string
+      enable             = bool
+      bastion_host_ip    = string
+      ansible_host_or_ip = string
+      ssh_private_key    = string
     }
   )
 }
@@ -89,12 +88,6 @@ variable "powervs_instance_init_linux" {
 # Optional Parameters
 #
 #####################################################
-
-variable "cloud_connection_count" {
-  description = "Existing number of Cloud connections to which new subnet must be attached. Will be ignored in case of PER enabled DC."
-  type        = string
-  default     = 2
-}
 
 variable "powervs_sharefs_instance" {
   description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on NetWeaver PowerVS instances if enabled. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
@@ -226,19 +219,21 @@ variable "powervs_netweaver_instance" {
 ######################################
 
 variable "sap_network_services_config" {
-  description = "Configures network services NTP, NFS and DNS on PowerVS instance. Requires 'powervs_instance_init_linux' to be specified as internet access is required to download ansible collection [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) to configure these services."
+  description = "Configures network services NTP, NFS and DNS on PowerVS instance. Requires 'pi_instance_init_linux' to be specified."
   type = object(
     {
-      nfs = object({ enable = bool, nfs_server_path = string, nfs_client_path = string })
-      dns = object({ enable = bool, dns_server_ip = string })
-      ntp = object({ enable = bool, ntp_server_ip = string })
+      squid = object({ enable = bool, squid_server_ip_port = string, no_proxy_hosts = string })
+      nfs   = object({ enable = bool, nfs_server_path = string, nfs_client_path = string, opts = string, fstype = string })
+      dns   = object({ enable = bool, dns_server_ip = string })
+      ntp   = object({ enable = bool, ntp_server_ip = string })
     }
   )
 
   default = {
-    nfs = { enable = false, nfs_server_path = "", nfs_client_path = "" }
-    dns = { enable = false, dns_server_ip = "" }
-    ntp = { enable = false, ntp_server_ip = "" }
+    squid = { enable = false, squid_server_ip_port = "", no_proxy_hosts = "" }
+    nfs   = { enable = false, nfs_server_path = "", nfs_client_path = "", opts = "", fstype = "" }
+    dns   = { enable = false, dns_server_ip = "" }
+    ntp   = { enable = false, ntp_server_ip = "" }
   }
 
 }

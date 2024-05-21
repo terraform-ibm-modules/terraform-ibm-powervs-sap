@@ -7,7 +7,6 @@ CRA_TARGETS:
       TF_VAR_prefix: "cra-sap"
       TF_VAR_powervs_zone: "syd05"
       TF_VAR_powervs_resource_group_name: "Default"
-      TF_VAR_landing_zone_configuration: "3VPC_RHEL"
       TF_VAR_external_access_ip: "0.0.0.0/0"
       TF_VAR_powervs_create_separate_sharefs_instance: false
       TF_VAR_os_image_distro: "RHEL"

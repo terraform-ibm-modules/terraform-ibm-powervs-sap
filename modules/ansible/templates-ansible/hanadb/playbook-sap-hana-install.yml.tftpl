@@ -11,10 +11,12 @@
   hosts: all
 
   vars:
+    sap_hana_install_software_extract_directory: "/tmp/sap_hana_extracted"
+    sap_hana_install_cleanup_extract_directory: true
     sap_hana_install_software_directory: "${sap_hana_install_software_directory}"
     sap_hana_install_sid: "${sap_hana_install_sid}"
     sap_hana_install_number: "${sap_hana_install_number}"
     sap_hana_install_master_password: "${sap_hana_install_master_password}"
 
   roles:
-  - { role: sap_hana_install }
+  - { role: redhat.sap_install.sap_hana_install }

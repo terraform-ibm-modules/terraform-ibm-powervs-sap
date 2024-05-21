@@ -18,8 +18,6 @@
     sap_swpm_product_catalog_id: '${sap_swpm_product_catalog_id}'
 
     # Software
-    sap_install_media_detect_directory: '${sap_install_media_detect_directory}'
-    sap_install_media_detect_source_directory: '${sap_install_media_detect_directory}'
     sap_swpm_software_path: '${sap_install_media_detect_directory}'
     sap_swpm_sapcar_path: '${sap_install_media_detect_directory}'
     sap_swpm_swpm_path: '${sap_install_media_detect_directory}'
@@ -76,13 +74,9 @@
       - maintenance_plan_stack_sum_10_batch_mode
 
   tasks:
-    - name: Execute Ansible Role sap_install_media_detect
-      ansible.builtin.include_role:
-        name: { role: community.sap_install.sap_install_media_detect }
-
     - name: Execute Ansible Role sap_swpm
       ansible.builtin.include_role:
-        name: { role: community.sap_install.sap_swpm }
+        name: { role: redhat.sap_install.sap_swpm }
 
     - name: SAP SWPM Post Install - Enforce Connection Info in hdbuserstore
       ansible.builtin.shell: "runuser -l {{sap_swpm_sid|lower}}adm -c 'hdbuserstore SET DEFAULT {{ sap_swpm_db_host }}:3{{ sap_swpm_db_instance_nr }}15 {{ sap_swpm_db_schema_abap }} '{{ sap_swpm_db_system_password }}"

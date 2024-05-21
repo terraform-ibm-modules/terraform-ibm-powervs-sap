@@ -15,13 +15,11 @@ locals {
 module "sap_system" {
   source = "../../modules/pi-sap-system-type1"
 
-  pi_zone                                = var.powervs_zone
   prefix                                 = var.prefix
   pi_workspace_guid                      = var.powervs_workspace_guid
   pi_ssh_public_key_name                 = var.powervs_ssh_public_key_name
   pi_networks                            = var.powervs_networks
   pi_sap_network_cidr                    = var.powervs_sap_network_cidr
-  cloud_connection_count                 = var.cloud_connection_count
   pi_sharefs_instance                    = local.powervs_sharefs_instance
   pi_hana_instance                       = local.powervs_hana_instance
   pi_hana_instance_custom_storage_config = var.powervs_hana_instance_custom_storage_config

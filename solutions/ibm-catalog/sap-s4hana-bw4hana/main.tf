@@ -37,13 +37,11 @@ locals {
 module "sap_system" {
   source = "../../../modules/pi-sap-system-type1"
 
-  pi_zone                                = var.powervs_zone
   prefix                                 = var.prefix
   pi_workspace_guid                      = local.powervs_workspace_guid
   pi_ssh_public_key_name                 = local.powervs_sshkey_name
   pi_networks                            = local.powervs_networks
   pi_sap_network_cidr                    = var.powervs_sap_network_cidr
-  cloud_connection_count                 = local.cloud_connection_count
   pi_sharefs_instance                    = local.powervs_sharefs_instance
   pi_hana_instance                       = local.powervs_hana_instance
   pi_hana_instance_custom_storage_config = var.powervs_hana_instance_custom_storage_config
@@ -58,8 +56,8 @@ module "sap_system" {
 ######################################################
 # COS Service credentials
 # Download HANA binaries and SAP Solution binaries
-# from IBM Cloud Object Storage(COS) to NFS intel
-# host (10.20.10.4)
+# from IBM Cloud Object Storage(COS) to Ansible host
+# host NFS mount point
 ######################################################
 
 locals {
@@ -69,8 +67,6 @@ locals {
 }
 
 locals {
-  nfs_directory = local.powervs_network_services_config.nfs.enable ? split(":", local.nfs_host_or_ip_path)[1] : ""
-  nfs_server_ip = local.powervs_network_services_config.nfs.enable ? split(":", local.nfs_host_or_ip_path)[0] : ""
 
   ibmcloud_cos_hana_configuration = {
     cos_apikey               = local.cos_apikey
@@ -78,7 +74,7 @@ locals {
     cos_resource_instance_id = local.cos_resource_instance_id
     cos_bucket_name          = var.ibmcloud_cos_configuration.cos_bucket_name
     cos_dir_name             = var.ibmcloud_cos_configuration.cos_hana_software_path
-    download_dir_path        = local.nfs_directory
+    download_dir_path        = local.network_services_config.nfs.nfs_client_path
   }
 
   ibmcloud_cos_solution_configuration = {
@@ -87,7 +83,7 @@ locals {
     cos_resource_instance_id = local.cos_resource_instance_id
     cos_bucket_name          = var.ibmcloud_cos_configuration.cos_bucket_name
     cos_dir_name             = var.ibmcloud_cos_configuration.cos_solution_software_path
-    download_dir_path        = local.nfs_directory
+    download_dir_path        = local.network_services_config.nfs.nfs_client_path
   }
 }
 
@@ -96,7 +92,7 @@ module "ibmcloud_cos_download_hana_binaries" {
   count  = local.powervs_network_services_config.nfs.enable ? 1 : 0
 
   access_host_or_ip          = local.access_host_or_ip
-  target_server_ip           = local.nfs_server_ip
+  target_server_ip           = local.ansible_host_or_ip
   ssh_private_key            = var.ssh_private_key
   ibmcloud_cos_configuration = local.ibmcloud_cos_hana_configuration
 }
@@ -107,7 +103,7 @@ module "ibmcloud_cos_download_netweaver_binaries" {
   count      = local.powervs_network_services_config.nfs.enable ? 1 : 0
 
   access_host_or_ip          = local.access_host_or_ip
-  target_server_ip           = local.nfs_server_ip
+  target_server_ip           = local.ansible_host_or_ip
   ssh_private_key            = var.ssh_private_key
   ibmcloud_cos_configuration = local.ibmcloud_cos_solution_configuration
 }
@@ -132,29 +128,33 @@ locals {
 locals {
   ansible_sap_hana_playbook_vars = merge(var.sap_hana_vars,
     {
-      sap_hana_install_software_directory = "${local.nfs_directory}/${var.ibmcloud_cos_configuration.cos_hana_software_path}",
+      sap_hana_install_software_directory = "${var.software_download_directory}/${var.ibmcloud_cos_configuration.cos_hana_software_path}",
       sap_hana_install_master_password    = var.sap_hana_master_password
     }
   )
 }
 
 module "ansible_sap_install_hana" {
-  source     = "../../../modules/remote-exec-ansible-sap-install"
-  depends_on = [module.ibmcloud_cos_download_hana_binaries, module.sap_system]
-  count      = local.powervs_network_services_config.nfs.enable ? 1 : 0
 
-  bastion_host               = local.access_host_or_ip
-  host                       = module.sap_system.pi_hana_instance_management_ip
-  ssh_private_key            = var.ssh_private_key
-  ansible_vault_password     = var.ansible_vault_password
-  src_script_template_name   = "hanadb/install_hana.sh.tftpl"
-  dst_script_file_name       = "install_hana.sh"
+  source                 = "../../../modules/ansible"
+  depends_on             = [module.ibmcloud_cos_download_hana_binaries, module.sap_system]
+  count                  = local.powervs_network_services_config.nfs.enable ? 1 : 0
+  bastion_host_ip        = local.access_host_or_ip
+  ansible_host_or_ip     = local.ansible_host_or_ip
+  ssh_private_key        = var.ssh_private_key
+  ansible_vault_password = var.ansible_vault_password
+
+  src_script_template_name = "hanadb/install_hana.sh.tftpl"
+  dst_script_file_name     = "${var.prefix}-${var.powervs_hana_instance_name}_install_hana.sh"
+
   src_playbook_template_name = "hanadb/playbook-sap-hana-install.yml.tftpl"
-  dst_playbook_file_name     = "playbook-sap-hana-install.yml"
-  playbook_template_content  = local.ansible_sap_hana_playbook_vars
+  dst_playbook_file_name     = "${var.prefix}-${var.powervs_hana_instance_name}-playbook-sap-hana-install.yml"
+  playbook_template_vars     = local.ansible_sap_hana_playbook_vars
+
+  src_inventory_template_name = "pi-instance-inventory.tftpl"
+  dst_inventory_file_name     = "${var.prefix}-${var.powervs_hana_instance_name}-instance-inventory"
+  inventory_template_vars     = { "pi_instance_management_ip" : module.sap_system.pi_hana_instance_management_ip }
 }
-
-
 
 ####################################################
 # Ansible Install NetWeaver solution
@@ -171,7 +171,7 @@ locals {
   ansible_sap_solution_playbook_vars = merge(var.sap_solution_vars,
     {
       sap_swpm_product_catalog_id        = lookup(local.product_catalog_map, var.sap_solution, null)
-      sap_install_media_detect_directory = "${local.nfs_directory}/${var.ibmcloud_cos_configuration.cos_solution_software_path}"
+      sap_install_media_detect_directory = "${var.software_download_directory}/${var.ibmcloud_cos_configuration.cos_solution_software_path}"
       sap_swpm_mp_stack_file_name        = var.ibmcloud_cos_configuration.cos_swpm_mp_stack_file_name
       sap_swpm_master_password           = var.sap_swpm_master_password
       sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
@@ -185,18 +185,25 @@ locals {
   )
 }
 
-module "ansible_sap_install_netweaver" {
-  source     = "../../../modules/remote-exec-ansible-sap-install"
+module "ansible_sap_install_solution" {
+
+  source     = "../../../modules/ansible"
   depends_on = [module.ibmcloud_cos_download_netweaver_binaries, module.ansible_sap_install_hana]
   count      = local.powervs_network_services_config.nfs.enable ? 1 : 0
 
-  bastion_host               = local.access_host_or_ip
-  host                       = module.sap_system.pi_netweaver_instance_management_ips
-  ssh_private_key            = var.ssh_private_key
-  ansible_vault_password     = var.ansible_vault_password
-  src_script_template_name   = "s4hanab4hana-solution/install_swpm.sh.tftpl"
-  dst_script_file_name       = "install_swpm.sh"
+  bastion_host_ip        = local.access_host_or_ip
+  ansible_host_or_ip     = local.ansible_host_or_ip
+  ssh_private_key        = var.ssh_private_key
+  ansible_vault_password = var.ansible_vault_password
+
+  src_script_template_name = "s4hanab4hana-solution/install_swpm.sh.tftpl"
+  dst_script_file_name     = "${var.prefix}-${var.powervs_netweaver_instance_name}_install_swpm.sh"
+
   src_playbook_template_name = "s4hanab4hana-solution/playbook-sap-swpm-install.yml.tftpl"
-  dst_playbook_file_name     = "playbook-sap-swpm-install.yml"
-  playbook_template_content  = local.ansible_sap_solution_playbook_vars
+  dst_playbook_file_name     = "${var.prefix}-${var.powervs_netweaver_instance_name}-playbook-sap-swpm-install.yml"
+  playbook_template_vars     = local.ansible_sap_solution_playbook_vars
+
+  src_inventory_template_name = "pi-instance-inventory.tftpl"
+  dst_inventory_file_name     = "${var.prefix}-${var.powervs_netweaver_instance_name}-instance-inventory"
+  inventory_template_vars     = { "pi_instance_management_ip" : module.sap_system.pi_netweaver_instance_management_ips }
 }

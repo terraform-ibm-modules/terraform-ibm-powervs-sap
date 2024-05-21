@@ -112,11 +112,6 @@ output "powervs_images" {
   value       = module.fullstack.powervs_images
 }
 
-output "cloud_connection_count" {
-  description = "Number of cloud connections configured in created PowerVS infrastructure."
-  value       = module.fullstack.cloud_connection_count
-}
-
 
 ########################################################################
 # PowerVS Instance outputs

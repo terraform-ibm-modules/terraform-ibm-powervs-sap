@@ -1,13 +1,13 @@
 #####################################################
-# PowerVs SAP Instance Module
+# Ansible configure network services module
 #####################################################
 
 terraform {
-  required_version = ">= 1.3, < 1.7"
+  required_version = ">= 1.3"
   required_providers {
-    ibm = {
-      source  = "IBM-Cloud/ibm"
-      version = ">= 1.65.1"
+    random = {
+      source  = "hashicorp/random"
+      version = "3.6.1"
     }
   }
 }
