@@ -24,16 +24,6 @@ variable "powervs_resource_group_name" {
   type        = string
 }
 
-variable "landing_zone_configuration" {
-  description = "VPC landing zone configuration."
-  type        = string
-
-  validation {
-    condition     = contains(["3VPC_RHEL", "3VPC_SLES", "1VPC_RHEL"], var.landing_zone_configuration)
-    error_message = "Provided value must be one of ['3VPC_RHEL', '3VPC_SLES', '1VPC_RHEL'] only"
-  }
-}
-
 variable "external_access_ip" {
   description = "Specify the IP address or CIDR to login through SSH to the environment after deployment. Access to this environment will be allowed only from this IP address."
   type        = string
@@ -72,19 +62,19 @@ variable "powervs_create_separate_sharefs_instance" {
 #####################################################
 
 variable "configure_dns_forwarder" {
-  description = "Specify if DNS forwarder will be configured. This will allow you to use central DNS servers (e.g. IBM Cloud DNS servers) sitting outside of the created IBM PowerVS infrastructure. If yes, ensure 'dns_forwarder_config' optional variable is set properly. DNS forwarder will be installed on the private-svs vsi."
+  description = "Specify if DNS forwarder will be configured. This will allow you to use central DNS servers (e.g. IBM Cloud DNS servers) sitting outside of the created IBM PowerVS infrastructure. If yes, ensure 'dns_forwarder_config' optional variable is set properly. DNS forwarder will be installed on the network-services vsi."
   type        = bool
   default     = true
 }
 
 variable "configure_ntp_forwarder" {
-  description = "Specify if NTP forwarder will be configured. This will allow you to synchronize time between IBM PowerVS instances. NTP forwarder will be installed on the private-svs vsi."
+  description = "Specify if NTP forwarder will be configured. This will allow you to synchronize time between IBM PowerVS instances. NTP forwarder will be installed on the network-services vsi."
   type        = bool
   default     = true
 }
 
 variable "configure_nfs_server" {
-  description = "Specify if NFS server will be configured. This will allow you easily to share files between PowerVS instances (e.g., SAP installation files). NFS server will be installed on the private-svs vsi. If yes, ensure 'nfs_server_config' optional variable is set properly below. Default value is 1TB which will be mounted on /nfs."
+  description = "Specify if NFS server will be configured. This will allow you easily to share files between PowerVS instances (e.g., SAP installation files). NFS server will be installed on the network-services vsi. If yes, ensure 'nfs_server_config' optional variable is set properly below. Default value is 200GB which will be mounted on /nfs."
   type        = bool
   default     = true
 }
@@ -108,10 +98,10 @@ variable "powervs_default_sap_images" {
     rhel_nw_image   = string
   })
   default = {
-    "sles_hana_image" : "SLES15-SP4-SAP",
-    "rhel_hana_image" : "RHEL8-SP6-SAP",
-    "sles_nw_image" : "SLES15-SP4-SAP-NETWEAVER",
-    "rhel_nw_image" : "RHEL8-SP6-SAP-NETWEAVER"
+    "sles_hana_image" : "SLES15-SP5-SAP",
+    "rhel_hana_image" : "RHEL9-SP2-SAP",
+    "sles_nw_image" : "SLES15-SP5-SAP-NETWEAVER",
+    "rhel_nw_image" : "RHEL9-SP2-SAP-NETWEAVER"
   }
 }
 

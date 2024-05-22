@@ -9,31 +9,43 @@
 - name: Ansible Play for preparing OS for SAP
   hosts: all
   vars:
+    sap_hana_preconfigure_min_rhel_release_check: false
+    sap_hana_preconfigure_ibm_power_repo_url: 'https://public.dhe.ibm.com/software/server/POWER/Linux/yum/download/ibm-power-repo-latest.noarch.rpm'
     sap_solution: ${sap_solution}
     sap_domain: ${sap_domain}
 
   roles:
   - { role: ibm.power_linux_sap.powervs_prepare_rhel_sap, when: sap_solution is defined and ansible_distribution is match("RedHat*") }
   - { role: ibm.power_linux_sap.powervs_prepare_sles_sap, when: sap_solution is defined and ansible_distribution is match("SLES*") }
+
   tasks:
   - include_role:
-      name: sap_general_preconfigure
+      name: redhat.sap_install.sap_general_preconfigure
     vars:
        sap_general_preconfigure_fail_if_reboot_required: no
     when:
     - ansible_distribution is match("RedHat*")
     - sap_solution is defined
+
   - include_role:
-     name: sap_hana_preconfigure
+     name: redhat.sap_install.sap_hana_preconfigure
     vars:
       sap_hana_preconfigure_fail_if_reboot_required: no
     when:
     - ansible_distribution is match("RedHat*")
     - sap_solution is defined
     - sap_solution is match("HANA")
+
   - include_role:
-      name: sap_netweaver_preconfigure
+      name: redhat.sap_install.sap_netweaver_preconfigure
     when:
     - ansible_distribution is match("RedHat*")
     - sap_solution is defined
     - sap_solution is match("NETWEAVER")
+
+  - name: Reboot the machine with timeout 10 mins
+    ansible.builtin.reboot:
+
+  - name: Sleep 3 mins for host to be ready
+    ansible.builtin.pause:
+      minutes: 3

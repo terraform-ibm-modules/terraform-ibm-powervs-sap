@@ -10,30 +10,10 @@ resource "ibm_pi_network" "sap_network" {
   pi_network_mtu       = 9000
 }
 
-#####################################################
-# Non PER DC: Attach the SAP network to CCs
-#####################################################
-
-locals {
-  pi_non_per_dc_list = ["mon01", "lon04", "us-east"]
-  pi_per_disabled    = contains(local.pi_non_per_dc_list, var.pi_zone)
-}
-
-module "pi_attach_sap_network" {
-  source  = "terraform-ibm-modules/powervs-workspace/ibm//modules/pi-cloudconnection-attach"
-  version = "1.13.1"
-  count   = local.pi_per_disabled ? 1 : 0
-
-  pi_workspace_guid         = var.pi_workspace_guid
-  pi_private_subnet_ids     = [resource.ibm_pi_network.sap_network.network_id]
-  pi_cloud_connection_count = var.cloud_connection_count
-}
-
 locals {
   pi_sap_network = { "name" = "${var.prefix}-net", "cidr" = var.pi_sap_network_cidr, "id" = ibm_pi_network.sap_network.network_id }
   pi_networks    = concat(var.pi_networks, [local.pi_sap_network])
 }
-
 
 ##########################################################################################################
 # Deploy sharefs instance
@@ -45,9 +25,8 @@ locals {
 
 module "pi_sharefs_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "1.1.0"
-
-  count = var.pi_sharefs_instance.enable ? 1 : 0
+  version = "2.0.0"
+  count   = var.pi_sharefs_instance.enable ? 1 : 0
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_sharefs_instance_name
@@ -82,18 +61,28 @@ locals {
 }
 
 module "ansible_sharefs_instance_exportfs" {
-  source     = "../remote-exec-ansible"
-  depends_on = [module.pi_sharefs_instance]
-  count      = var.pi_sharefs_instance.enable ? 1 : 0
 
-  bastion_host               = var.pi_instance_init_linux.bastion_host_ip
-  host                       = module.pi_sharefs_instance[0].pi_instance_primary_ip
-  ssh_private_key            = var.pi_instance_init_linux.ssh_private_key
-  src_script_template_name   = "ansible_exec.sh.tftpl"
-  dst_script_file_name       = "configure_nfs_server.sh"
-  src_playbook_template_name = "playbook-configure-network-services.yml.tftpl"
-  dst_playbook_file_name     = "playbook-configure-nfs-server.yml"
-  playbook_template_content  = { server_config = jsonencode(local.pi_sharefs_instance_nfs_server_config), client_config = jsonencode({}) }
+  source             = "../ansible"
+  depends_on         = [module.pi_sharefs_instance]
+  count              = var.pi_sharefs_instance.enable ? 1 : 0
+  bastion_host_ip    = var.pi_instance_init_linux.bastion_host_ip
+  ansible_host_or_ip = var.pi_instance_init_linux.ansible_host_or_ip
+  ssh_private_key    = var.pi_instance_init_linux.ssh_private_key
+
+  src_script_template_name = "configure-network-services/ansible_exec.sh.tftpl"
+  dst_script_file_name     = "${local.sap_instance_names[count.index]}_configure_nfs_server.sh"
+
+  src_playbook_template_name = "configure-network-services/playbook-configure-network-services.yml.tftpl"
+  dst_playbook_file_name     = "${local.sap_instance_names[count.index]}-playbook-configure-nfs-server.yml"
+  playbook_template_vars = {
+    "server_config" : jsonencode(local.pi_sharefs_instance_nfs_server_config),
+    "client_config" : jsonencode({})
+  }
+
+  src_inventory_template_name = "pi-instance-inventory.tftpl"
+  dst_inventory_file_name     = "${local.sap_instance_names[count.index]}-instance-inventory"
+  inventory_template_vars     = { "pi_instance_management_ip" : module.pi_sharefs_instance[0].pi_instance_primary_ip }
+
 }
 
 
@@ -114,7 +103,7 @@ module "pi_hana_storage_calculation" {
 
 module "pi_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "1.1.0"
+  version = "2.0.0"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
@@ -152,7 +141,7 @@ resource "time_sleep" "wait_1_min" {
 
 module "pi_netweaver_instance" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "1.1.0"
+  version    = "2.0.0"
   count      = var.pi_netweaver_instance.instance_count
   depends_on = [time_sleep.wait_1_min]
 
@@ -184,42 +173,59 @@ locals {
 
 module "ansible_netweaver_sapmnt_mount" {
 
-  source     = "../remote-exec-ansible"
-  depends_on = [module.ansible_sharefs_instance_exportfs, module.pi_netweaver_instance]
-  count      = var.pi_sharefs_instance.enable && local.valid_sharefs_nfs_config ? var.pi_netweaver_instance.instance_count : 0
+  source             = "../ansible"
+  depends_on         = [module.ansible_sharefs_instance_exportfs, module.pi_netweaver_instance]
+  count              = var.pi_sharefs_instance.enable && local.valid_sharefs_nfs_config ? var.pi_netweaver_instance.instance_count : 0
+  bastion_host_ip    = var.pi_instance_init_linux.bastion_host_ip
+  ansible_host_or_ip = var.pi_instance_init_linux.ansible_host_or_ip
+  ssh_private_key    = var.pi_instance_init_linux.ssh_private_key
 
-  bastion_host               = var.pi_instance_init_linux.bastion_host_ip
-  host                       = module.pi_netweaver_instance[count.index].pi_instance_primary_ip
-  ssh_private_key            = var.pi_instance_init_linux.ssh_private_key
-  src_script_template_name   = "ansible_exec.sh.tftpl"
-  dst_script_file_name       = "sapmnt_mount.sh"
-  src_playbook_template_name = "playbook-configure-network-services.yml.tftpl"
-  dst_playbook_file_name     = "playbook-configure-sapmnt.yml"
-  playbook_template_content  = { server_config = jsonencode({}), client_config = jsonencode(local.pi_netweaver_instance_sapmnt_config) }
+  src_script_template_name = "configure-network-services/ansible_exec.sh.tftpl"
+  dst_script_file_name     = "${local.sap_instance_names[count.index]}_sapmnt_mount.sh"
+
+  src_playbook_template_name = "configure-network-services/playbook-configure-network-services.yml.tftpl"
+  dst_playbook_file_name     = "${local.sap_instance_names[count.index]}-playbook-configure-sapmnt.yml"
+  playbook_template_vars = {
+    "server_config" : jsonencode({}),
+    "client_config" : jsonencode(local.pi_netweaver_instance_sapmnt_config)
+  }
+
+  src_inventory_template_name = "pi-instance-inventory.tftpl"
+  dst_inventory_file_name     = "${local.sap_instance_names[count.index]}-instance-inventory"
+  inventory_template_vars     = { "pi_instance_management_ip" : module.pi_netweaver_instance[count.index].pi_instance_primary_ip }
+
 }
 
-
 #####################################################
-# Prepare OS for SAP
+# Configure OS for SAP
 #####################################################
 
 locals {
-  target_server_ips = concat([module.pi_hana_instance.pi_instance_primary_ip], module.pi_netweaver_instance[*].pi_instance_primary_ip)
-  sap_solutions     = concat(["HANA"], [for ip in module.pi_netweaver_instance[*].pi_instance_primary_ip : "NETWEAVER"])
+  target_server_ips  = concat([module.pi_hana_instance.pi_instance_primary_ip], module.pi_netweaver_instance[*].pi_instance_primary_ip)
+  sap_solutions      = concat(["HANA"], [for ip in module.pi_netweaver_instance[*].pi_instance_primary_ip : "NETWEAVER"])
+  sap_instance_names = concat([local.pi_hana_instance_name], module.pi_netweaver_instance[*].pi_instance_name)
 }
 
 module "ansible_sap_instance_init" {
 
-  source     = "../remote-exec-ansible"
-  depends_on = [module.pi_hana_instance, module.pi_netweaver_instance, module.ansible_netweaver_sapmnt_mount]
-  count      = length(local.target_server_ips)
+  source             = "../ansible"
+  depends_on         = [module.pi_hana_instance, module.pi_netweaver_instance, module.ansible_netweaver_sapmnt_mount]
+  count              = length(local.target_server_ips)
+  bastion_host_ip    = var.pi_instance_init_linux.bastion_host_ip
+  ansible_host_or_ip = var.pi_instance_init_linux.ansible_host_or_ip
+  ssh_private_key    = var.pi_instance_init_linux.ssh_private_key
 
-  bastion_host               = var.pi_instance_init_linux.bastion_host_ip
-  host                       = local.target_server_ips[count.index]
-  ssh_private_key            = var.pi_instance_init_linux.ssh_private_key
-  src_script_template_name   = "ansible_exec.sh.tftpl"
-  dst_script_file_name       = "configure_os_for_sap.sh"
-  src_playbook_template_name = "playbook-configure-os-for-sap.yml.tftpl"
-  dst_playbook_file_name     = "playbook-configure-os-for-sap.yml"
-  playbook_template_content  = { sap_solution = local.sap_solutions[count.index], sap_domain = var.sap_domain }
+  src_script_template_name = "configure-os-for-sap/ansible_exec.sh.tftpl"
+  dst_script_file_name     = "${local.sap_instance_names[count.index]}_configure_os_for_sap.sh"
+
+  src_playbook_template_name = "configure-os-for-sap/playbook-configure-os-for-sap.yml.tftpl"
+  dst_playbook_file_name     = "${local.sap_instance_names[count.index]}-playbook-configure-os-for-sap.yml"
+  playbook_template_vars = {
+    "sap_solution" : local.sap_solutions[count.index],
+    "sap_domain" : var.sap_domain
+  }
+
+  src_inventory_template_name = "pi-instance-inventory.tftpl"
+  dst_inventory_file_name     = "${local.sap_instance_names[count.index]}-instance-inventory"
+  inventory_template_vars     = { "pi_instance_management_ip" : local.target_server_ips[count.index] }
 }
