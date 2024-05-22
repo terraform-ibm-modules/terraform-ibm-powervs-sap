@@ -1,8 +1,5 @@
-<!-- BEGIN MODULE HOOK -->
-
 # IBM Power Virtual Server for SAP HANA Solutions
 
-<!-- UPDATE BADGE: Update the link for the badge below-->
 [![Graduated (Supported)](https://img.shields.io/badge/status-Graduated%20(Supported)-brightgreen?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
@@ -11,6 +8,7 @@
 
 ## Summary
 This repository contains deployable architecture solutions that help in deploying Power Virtual Server for SAP HANA solutions. The solutions are available in the IBM Cloud Catalog and can also be deployed without the catalog, except for a few solutions.
+
 
 ### IBM catalog solutions that require a Schematics workspace ID of [Power Virtual Server with VPC landing zone](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global)
 1. [IBM catalog PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-ready-to-go)
@@ -71,8 +69,13 @@ You need the following permissions to run this module.
         - **Direct Link** service
             - `Editor` platform access
 
-<!-- END MODULE HOOK -->
-
+<!-- BEGIN OVERVIEW HOOK -->
+## Overview
+* [terraform-ibm-powervs-sap](#terraform-ibm-powervs-sap)
+* [Submodules](./modules)
+    * [pi-sap-system-type1](./modules/pi-sap-system-type1)
+* [Contributing](#contributing)
+<!-- END OVERVIEW HOOK -->
 
 <!-- BEGIN CONTRIBUTING HOOK -->
 ## Contributing
