@@ -2,13 +2,13 @@
 
 copyright:
   years: 2024
-lastupdated: "2024-05-21"
+lastupdated: "2024-05-26"
 keywords:
 subcollection: deployable-reference-architectures
 authors:
   - name: Arnold Beilmann
   - name: Suraj Bharadwaj
-production: false
+production: true
 deployment-url: https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-sap-9aa6135e-75d5-467e-9f4a-ac2a21c069b8-global
 docs: https://cloud.ibm.com/docs/sap-powervs
 image_source: https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg
