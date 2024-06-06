@@ -69,14 +69,15 @@ S4HANA_2023
 
 5. The **'ibmcloud_cos_configuration'** variable must be set correctly based on the folder structure created.
 
-   "cos_region": region of IBM Cloud Object Storage instance bucket. Example: **eu-gb**
+   `cos_region`: region of IBM Cloud Object Storage instance bucket. Example: **eu-gb**
 
-"cos_bucket_name": cos bucket name
+   `cos_bucket_name`: cos bucket name
 
-"cos_hana_software_path": folder path to HANA db binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/HANA_DB"**
+   `cos_hana_software_path`: folder path to HANA db binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/HANA_DB"**
 
-"cos_solution_software_path": folder path to S/4HANA binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/S4HANA_2023"**
-   `"cos_swpm_mp_stack_file_name":` Stack XML file name. Value must be set to empty `''` if not available. If value is provided, then this file **must be present** in the same path as `'cos_solution_software_path'`.
+   `cos_solution_software_path`: folder path to S/4HANA binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/S4HANA_2023"**
+
+   `cos_swpm_mp_stack_file_name`: Stack XML file name. Value must be set to empty `''` if not available. If value is provided, then this file **must be present** in the same path as `'cos_solution_software_path'`.
 
 
 ## Post Deployment
