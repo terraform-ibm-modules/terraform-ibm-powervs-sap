@@ -535,6 +535,10 @@
                             "required": true,
                             "options": [
                                 {
+                                    "displayname": "S/4HANA 2023",
+                                    "value": "s4hana-2023"
+                                },
+                                {
                                     "displayname": "S/4HANA 2022",
                                     "value": "s4hana-2022"
                                 },

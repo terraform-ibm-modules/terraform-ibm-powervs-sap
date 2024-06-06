@@ -27,7 +27,7 @@
 - Connects all created PowerVS instances to a proxy server specified by IP address or hostname.
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
-- Supports installation of **S/4HANA2022, S/4HANA2021, S/4HANA2020, BW/4HANA2021**.
+- Supports installation of **S/4HANA2023, S/4HANA2022, S/4HANA2021, S/4HANA2020, BW/4HANA2021**.
 - Supports installation using **Maintenance Planner** as well.
 
 
@@ -51,21 +51,21 @@
 
 ### 2. SAP binaries required for installation and folder structure in IBM Cloud Object Storage bucket
 1. All binaries for HANA database and SAP solution (S/4HANA or BW/4HANA) must be uploaded to the IBM Cloud Object Storage Instance bucket in IBM Cloud before starting this deployment.
-2. For example the binaries required for S/4HANA 2022 and BW/4HANA 2021 are listed [here](./docs/s4hana22_bw4hana21_binaries.md).
+2. For example the binaries required for S/4HANA 2023 and BW/4HANA 2021 are listed [here](./docs/s4hana23_bw4hana21_binaries.md).
 3. Example folder structure :
 ```
-s4hana2022
+S4HANA_2023
 |
 |_HANA_DB
 | |_all IMDB* Files and SAPCAR files (all files similar to listed in point 2 above example file)
 |
-|_S4HANA_2022
+|_S4HANA_2023
   |_all files similar to listed in point 2 above example file
   |maintenance planner stack xml file (optional)
 ```
 **Do not mix the HANA DB binaries with the S/4HANA or BW/4HANA solution binaries otherwise the ansible playbook execution will fail.**
 
-4. If you have a **maintenance planner stack XML** file, place it under the **same folder as S4HANA_2022** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in **'cos_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack XML file.
+4. If you have a **maintenance planner stack XML** file, place it under the **same folder as S4HANA_2023** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in **'cos_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack XML file.
 
 5. The **'ibmcloud_cos_configuration'** variable must be set correctly based on the folder structure created.
 
@@ -73,9 +73,9 @@ s4hana2022
 
 "cos_bucket_name": cos bucket name
 
-"cos_hana_software_path": folder path to HANA db binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2022/HANA_DB"**
+"cos_hana_software_path": folder path to HANA db binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/HANA_DB"**
 
-"cos_solution_software_path": folder path to S/4HANA binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2022/S4HANA_2022"**
+"cos_solution_software_path": folder path to S/4HANA binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/S4HANA_2023"**
    `"cos_swpm_mp_stack_file_name":` Stack XML file name. Value must be set to empty `''` if not available. If value is provided, then this file **must be present** in the same path as `'cos_solution_software_path'`.
 
 
