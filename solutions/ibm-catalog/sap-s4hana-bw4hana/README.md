@@ -117,9 +117,8 @@ S4HANA_2023
 
 
 ## Ansible roles used
-1. **[RHEL System Roles](https://access.redhat.com/articles/4488731):** `sap_hana_install, sap_general_preconfigure, sap_hana_preconfigure, sap_netweaver_preconfigure`
-2. **[Community role](https://galaxy.ansible.com/ui/repo/published/community/sap_install/):**  `sap_install.sap_swpm, sap_install.sap_install_media_detect `
-4. **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
+1. **[RHEL System Roles](https://access.redhat.com/articles/4488731):** `sap_hana_install, sap_swpm, sap_general_preconfigure, sap_hana_preconfigure, sap_netweaver_preconfigure`
+2. **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
 
 
 
