@@ -54,7 +54,10 @@
                             "flavors": [
                                 "powervs-workspace",
                                 "powervs-import-workspace",
-                                "powervs-quickstart"
+                                "powervs-quickstart",
+                                "standard",
+                                "standard-extend",
+                                "import"
                             ],
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
@@ -370,7 +373,10 @@
                             "flavors": [
                                 "powervs-workspace",
                                 "powervs-import-workspace",
-                                "powervs-quickstart"
+                                "powervs-quickstart",
+                                "standard",
+                                "standard-extend",
+                                "import"
                             ],
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
