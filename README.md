@@ -20,7 +20,7 @@ This repository contains deployable architecture solutions that help in deployin
     - Optionally configures OS network management services (NTP, NFS, and DNS services) using Ansible Galaxy Collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap`
     - Tunes the instances according to SAP's best practices.
     - Downloads user-provided preloaded SAP Installation binaries from IBM Cloud Object Storage Bucket.
-    - Installs and configures **SAP applications** (SAP HANA DB, SAP S4/HANA, SAP BW4/HANA) using [RHEL System Roles](https://access.redhat.com/articles/4488731): `sap_hana_install`, `sap_general_preconfigure`, `sap_hana_preconfigure`, `sap_netweaver_preconfigure` and [Community role](https://galaxy.ansible.com/ui/repo/published/community/sap_install/): `sap_install.sap_swpm`, `sap_install.sap_install_media_detect`
+    - Installs and configures **SAP applications** (SAP HANA DB, SAP S4/HANA, SAP BW4/HANA) using [RHEL System Roles](https://access.redhat.com/articles/4488731): `sap_hana_install`, `sap_swpm`,`sap_general_preconfigure`, `sap_hana_preconfigure`, `sap_netweaver_preconfigure`
 
 
 ### Solutions independent of IBM Cloud prerequisite Schematics workspace ID:
@@ -69,15 +69,6 @@ You need the following permissions to run this module.
         - **Direct Link** service
             - `Editor` platform access
 
-<!-- BEGIN OVERVIEW HOOK -->
-## Overview
-* [terraform-ibm-powervs-sap](#terraform-ibm-powervs-sap)
-* [Submodules](./modules)
-    * [pi-sap-system-type1](./modules/pi-sap-system-type1)
-* [Contributing](#contributing)
-<!-- END OVERVIEW HOOK -->
-
-<!-- BEGIN CONTRIBUTING HOOK -->
 ## Contributing
 
 You can report issues and request features for this module in GitHub issues in the module repository. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).

@@ -71,7 +71,7 @@ variable "ibmcloud_cos_service_credentials" {
 }
 
 variable "ibmcloud_cos_configuration" {
-  description = "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path' and 'cos_solution_software_path'."
+  description = "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path' and 'cos_solution_software_path'."
   type = object({
     cos_region                  = string
     cos_bucket_name             = string
@@ -82,8 +82,8 @@ variable "ibmcloud_cos_configuration" {
   default = {
     "cos_region" : "eu-geo",
     "cos_bucket_name" : "powervs-automation",
-    "cos_hana_software_path" : "HANA_DB/rev66",
-    "cos_solution_software_path" : "S4HANA_2022",
+    "cos_hana_software_path" : "HANA_DB/rev78",
+    "cos_solution_software_path" : "S4HANA_2023",
     "cos_swpm_mp_stack_file_name" : ""
   }
 }
@@ -92,8 +92,8 @@ variable "sap_solution" {
   description = "SAP Solution to be installed on Power Virtual Server."
   type        = string
   validation {
-    condition     = contains(["s4hana-2022", "s4hana-2021", "s4hana-2020", "bw4hana-2021"], var.sap_solution) ? true : false
-    error_message = "Solution value has to be one of 's4hana-2022', 's4hana-2021', 's4hana-2020', 'bw4hana-2021'"
+    condition     = contains(["s4hana-2023", "s4hana-2022", "s4hana-2021", "s4hana-2020", "bw4hana-2021"], var.sap_solution) ? true : false
+    error_message = "Solution value has to be one of 's4hana-2023', 's4hana-2022', 's4hana-2021', 's4hana-2020', 'bw4hana-2021'"
   }
 }
 

@@ -5,9 +5,9 @@
 # Transit Gateway, CCs, PowerVS catalog images
 #######################################################
 
-module "fullstack" {
+module "powervs_infra" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "5.1.4"
+  version = "5.2.0"
 
   providers = { ibm.ibm-is = ibm.ibm-is, ibm.ibm-pi = ibm.ibm-pi, ibm.ibm-sm = ibm.ibm-sm }
 
@@ -36,28 +36,28 @@ resource "time_sleep" "wait_10_mins" {
 #######################################################
 
 locals {
-  powervs_networks           = [module.fullstack.powervs_management_subnet, module.fullstack.powervs_backup_subnet]
+  powervs_networks           = [module.powervs_infra.powervs_management_subnet, module.powervs_infra.powervs_backup_subnet]
   powervs_sharefs_os_image   = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_nw_image : var.powervs_default_sap_images.rhel_nw_image
   powervs_hana_os_image      = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_hana_image : var.powervs_default_sap_images.rhel_hana_image
   powervs_netweaver_os_image = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_nw_image : var.powervs_default_sap_images.rhel_nw_image
 
-  powervs_sharefs_instance   = merge(var.powervs_sharefs_instance, { enable = var.powervs_create_separate_sharefs_instance, image_id = lookup(module.fullstack.powervs_images, local.powervs_sharefs_os_image, null) })
-  powervs_hana_instance      = merge(var.powervs_hana_instance, { image_id = lookup(module.fullstack.powervs_images, local.powervs_hana_os_image, null) })
-  powervs_netweaver_instance = merge(var.powervs_netweaver_instance, { image_id = lookup(module.fullstack.powervs_images, local.powervs_netweaver_os_image, null) })
+  powervs_sharefs_instance   = merge(var.powervs_sharefs_instance, { enable = var.powervs_create_separate_sharefs_instance, image_id = lookup(module.powervs_infra.powervs_images, local.powervs_sharefs_os_image, null) })
+  powervs_hana_instance      = merge(var.powervs_hana_instance, { image_id = lookup(module.powervs_infra.powervs_images, local.powervs_hana_os_image, null) })
+  powervs_netweaver_instance = merge(var.powervs_netweaver_instance, { image_id = lookup(module.powervs_infra.powervs_images, local.powervs_netweaver_os_image, null) })
 
   powervs_instance_init_linux = {
     enable             = true
-    bastion_host_ip    = module.fullstack.access_host_or_ip
-    ansible_host_or_ip = module.fullstack.ansible_host_or_ip
+    bastion_host_ip    = module.powervs_infra.access_host_or_ip
+    ansible_host_or_ip = module.powervs_infra.ansible_host_or_ip
     ssh_private_key    = var.ssh_private_key
   }
 
   sap_network_services_config = {
-    squid = { enable = true, squid_server_ip_port = module.fullstack.proxy_host_or_ip_port
+    squid = { enable = true, squid_server_ip_port = module.powervs_infra.proxy_host_or_ip_port
     no_proxy_hosts = "161.0.0.0/8,10.0.0.0/8" }
-    nfs = { enable = var.configure_nfs_server, nfs_server_path = module.fullstack.nfs_host_or_ip_path, nfs_client_path = "/nfs", opts = module.fullstack.network_services_config.nfs.opts, fstype = module.fullstack.network_services_config.nfs.fstype }
-    dns = { enable = var.configure_dns_forwarder, dns_server_ip = module.fullstack.dns_host_or_ip }
-    ntp = { enable = var.configure_ntp_forwarder, ntp_server_ip = module.fullstack.ntp_host_or_ip }
+    nfs = { enable = var.configure_nfs_server, nfs_server_path = module.powervs_infra.nfs_host_or_ip_path, nfs_client_path = "/nfs", opts = module.powervs_infra.network_services_config.nfs.opts, fstype = module.powervs_infra.network_services_config.nfs.fstype }
+    dns = { enable = var.configure_dns_forwarder, dns_server_ip = module.powervs_infra.dns_host_or_ip }
+    ntp = { enable = var.configure_ntp_forwarder, ntp_server_ip = module.powervs_infra.ntp_host_or_ip }
   }
 }
 
@@ -67,8 +67,8 @@ module "sap_system" {
   providers  = { ibm = ibm.ibm-pi }
 
   prefix                                 = var.prefix
-  pi_workspace_guid                      = module.fullstack.powervs_workspace_guid
-  pi_ssh_public_key_name                 = module.fullstack.powervs_ssh_public_key.name
+  pi_workspace_guid                      = module.powervs_infra.powervs_workspace_guid
+  pi_ssh_public_key_name                 = module.powervs_infra.powervs_ssh_public_key.name
   pi_networks                            = local.powervs_networks
   pi_sap_network_cidr                    = var.powervs_sap_network_cidr
   pi_sharefs_instance                    = local.powervs_sharefs_instance
