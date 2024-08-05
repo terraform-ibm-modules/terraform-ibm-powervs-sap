@@ -838,9 +838,60 @@
               "custom_config": {}
             },
             {
-              "key": "prefix",
+              "key": "powervs_resource_group_name",
               "required": true,
-              "default_value": ""
+              "default_value": "",
+              "custom_config": {
+                "config_constraints": {
+                  "identifier": "rg_name"
+                },
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "resource_group"
+              }
+            },
+            {
+              "key": "power_infrastructure_prefix",
+              "required": true
+            },
+            {
+              "key": "external_access_ip",
+              "default_value": "__NULL__",
+              "required": true
+            },
+            {
+              "key": "client_to_site_vpn",
+              "required": true
+            },
+            {
+              "key": "ssh_public_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "ssh_private_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "powervs_image_names",
+              "required": true
+            },
+            {
+              "key": "sap_system_prefix",
+              "required": true
             },
             {
               "key": "powervs_sap_network_cidr",
@@ -892,17 +943,6 @@
             {
               "key": "powervs_netweaver_memory_size",
               "required": true
-            },
-            {
-              "key": "ssh_private_key",
-              "type": "multiline_secure_value",
-              "display_name": "Multiline secure value",
-              "required": true,
-              "custom_config": {
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "type": "multiline_secure_value"
-              }
             },
             {
               "key": "ibmcloud_api_key",
