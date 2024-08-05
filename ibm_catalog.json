@@ -741,16 +741,209 @@
           "install_type": "fullstack",
           "working_directory": "solutions/ibm-catalog/stack/sap-ready-to-go",
           "compliance": {},
-          "dependencies": [
-            {
-              "flavors": ["powervs-workspace", "powervs-import-workspace"],
-              "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
-              "name": "deploy-arch-ibm-pvs-inf",
-              "install_type": "fullstack",
-              "version": ">=3.0.0"
-            }
-          ],
           "configuration": [
+            {
+              "key": "prerequisite_workspace_id",
+              "required": true,
+              "custom_config": {
+                "config_constraints": {
+                  "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
+                  "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
+                  "versionConstraint": ">=5.0.0"
+                },
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "schematics_workspace"
+              }
+            },
+            {
+              "key": "powervs_zone",
+              "type": "string",
+              "default_value": "",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Dallas (dallas)",
+                  "value": "us-south"
+                },
+                {
+                  "displayname": "Dallas 10 (dal10)",
+                  "value": "dal10"
+                },
+                {
+                  "displayname": "Dallas 12 (dal12)",
+                  "value": "dal12"
+                },
+                {
+                  "displayname": "Frankfurt 1 (eu-de-1)",
+                  "value": "eu-de-1"
+                },
+                {
+                  "displayname": "Frankfurt 2 (eu-de-2)",
+                  "value": "eu-de-2"
+                },
+                {
+                  "displayname": "London 04 (lon04) Non-PER",
+                  "value": "lon04"
+                },
+                {
+                  "displayname": "London 06 (lon06)",
+                  "value": "lon06"
+                },
+                {
+                  "displayname": "Montreal 01 (mon01) Non-PER",
+                  "value": "mon01"
+                },
+                {
+                  "displayname": "Osaka 21 (osa21)",
+                  "value": "osa21"
+                },
+                {
+                  "displayname": "Sao Paulo 01 (sao01)",
+                  "value": "sao01"
+                },
+                {
+                  "displayname": "Sao Paulo 04 (sao04)",
+                  "value": "sao04"
+                },
+                {
+                  "displayname": "Sydney 04 (syd04)",
+                  "value": "syd04"
+                },
+                {
+                  "displayname": "Sydney 05 (syd05)",
+                  "value": "syd05"
+                },
+                {
+                  "displayname": "Tokyo 04 (tok04)",
+                  "value": "tok04"
+                },
+                {
+                  "displayname": "Toronto 01 (tor01)",
+                  "value": "tor01"
+                },
+                {
+                  "displayname": "Washington DC (us-east)",
+                  "value": "us-east"
+                },
+                {
+                  "displayname": "Washington DC 06 (wdc06)",
+                  "value": "wdc06"
+                },
+                {
+                  "displayname": "Washington DC 07 (wdc07)",
+                  "value": "wdc07"
+                }
+              ],
+              "custom_config": {}
+            },
+            {
+              "key": "powervs_resource_group_name",
+              "required": true,
+              "default_value": "",
+              "custom_config": {
+                "config_constraints": {
+                  "identifier": "rg_name"
+                },
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "resource_group"
+              }
+            },
+            {
+              "key": "power_infrastructure_prefix",
+              "required": true
+            },
+            {
+              "key": "external_access_ip",
+              "default_value": "__NULL__",
+              "required": true
+            },
+            {
+              "key": "client_to_site_vpn",
+              "required": true
+            },
+            {
+              "key": "ssh_public_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "ssh_private_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "powervs_image_names",
+              "required": true
+            },
+            {
+              "key": "sap_system_prefix",
+              "required": true
+            },
+            {
+              "key": "powervs_sap_network_cidr",
+              "required": true,
+              "default_value": "10.53.0.0/24"
+            },
+            {
+              "key": "os_image_distro",
+              "type": "string",
+              "default_value": "",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "RHEL",
+                  "value": "RHEL"
+                },
+                {
+                  "displayname": "SLES",
+                  "value": "SLES"
+                }
+              ],
+              "custom_config": {}
+            },
+            {
+              "key": "powervs_create_separate_sharefs_instance",
+              "required": true,
+              "default_value": false
+            },
+            {
+              "key": "powervs_hana_instance_name",
+              "required": true
+            },
+            {
+              "key": "powervs_hana_instance_sap_profile_id",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_instance_count",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_instance_name",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_cpu_number",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_memory_size",
+              "required": true
+            },
             {
               "key": "ibmcloud_api_key",
               "type": "multiline_secure_value",
@@ -763,269 +956,74 @@
               }
             },
             {
-              "key": "powervs_zone",
-              "type": "string",
-              "description": "IBM Cloud data center location where IBM PowerVS infrastructure will be created.",
-              "required": true,
-              "default_value": "",
-              "options": [
-                {
-                  "displayname": "Dallas (dallas)",
-                  "value": "us-south"
-                },
-                {
-                  "displayname": "Dallas 10 (dal10) PER",
-                  "value": "dal10"
-                },
-                {
-                  "displayname": "Dallas 12 (dal12) PER",
-                  "value": "dal12"
-                },
-                {
-                  "displayname": "Frankfurt 1 (eu-de-1) PER",
-                  "value": "eu-de-1"
-                },
-                {
-                  "displayname": "Frankfurt 2 (eu-de-2) PER",
-                  "value": "eu-de-2"
-                },
-                {
-                  "displayname": "London 04 (lon04)",
-                  "value": "lon04"
-                },
-                {
-                  "displayname": "London 06 (lon06) PER",
-                  "value": "lon06"
-                },
-                {
-                  "displayname": "Montreal 01 (mon01)",
-                  "value": "mon01"
-                },
-                {
-                  "displayname": "Osaka 21 (osa21) PER",
-                  "value": "osa21"
-                },
-                {
-                  "displayname": "Sao Paulo 01 (sao01) PER",
-                  "value": "sao01"
-                },
-                {
-                  "displayname": "Sao Paulo 04 (sao04) PER",
-                  "value": "sao04"
-                },
-                {
-                  "displayname": "Sydney 04 (syd04) PER",
-                  "value": "syd04"
-                },
-                {
-                  "displayname": "Sydney 05 (syd05) PER",
-                  "value": "syd05"
-                },
-                {
-                  "displayname": "Tokyo 04 (tok04) PER",
-                  "value": "tok04"
-                },
-                {
-                  "displayname": "Toronto 01 (tor01)",
-                  "value": "tor01"
-                },
-                {
-                  "displayname": "Washington DC (us-east)",
-                  "value": "us-east"
-                },
-                {
-                  "displayname": "Washington DC 06 (wdc06) PER",
-                  "value": "wdc06"
-                },
-                {
-                  "displayname": "Washington DC 07 (wdc07) PER",
-                  "value": "wdc07"
-                }
-              ],
-              "custom_config": {}
-            },
-            {
-              "key": "powervs_resource_group_name",
-              "type": "string",
-              "description": "Existing IBM Cloud resource group name.",
-              "required": true
-            },
-            {
-              "key": "power_infrastructure_prefix",
-              "type": "string",
-              "description": "A unique identifier for power infrastructure resources. Must begin with a lowercase letter and end with a lowercase letter or number. This prefix will be prepended to any resources provisioned by this template. Prefixes must be 16 or fewer characters.",
-              "required": true
-            },
-            {
-              "key": "sap_system_prefix",
-              "type": "string",
-              "description": "Unique prefix for sap system resources to be created (e.g., SAP system name). Max length must be less than or equal to 6.",
-              "required": true
-            },
-            {
-              "key": "external_access_ip",
-              "type": "string",
-              "description": "Specify the source IP address or CIDR for login through SSH to the environment after deployment. Access to the environment will be allowed only from this IP address.",
-              "required": true
-            },
-            {
-              "key": "ssh_public_key",
-              "type": "string",
-              "description": "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region.",
-              "required": true
-            },
-            {
-              "key": "ssh_private_key",
-              "type": "password",
-              "display_name": "Multiline secure value",
-              "description": "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to public SSH key referenced by 'ssh_public_key'. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys).",
-              "required": true,
-              "custom_config": {
-                "type": "multiline_secure_value",
-                "grouping": "deployment",
-                "original_grouping": "deployment"
-              }
-            },
-            {
-              "key": "landing_zone_configuration",
-              "type": "string",
-              "description": "VPC landing zone configuration.",
-              "required": true
-            },
-            {
-              "key": "powervs_image_names",
-              "type": "array",
-              "description": "List of Images to be imported into cloud account from catalog images. Supported values can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/solutions/full-stack/docs/catalog_image_names.md).",
-              "required": true
-            },
-            {
-              "key": "powervs_sap_network_cidr",
-              "type": "string",
-              "description": "Network range for dedicated SAP network. Used for communication between SAP Application servers with SAP HANA Database. E.g., '10.53.0.0/24'",
-              "required": true
-            },
-            {
-              "key": "os_image_distro",
-              "type": "string",
-              "description": "Image distribution to use for all instances(Shared, HANA, NetWeaver). OS release versions may be specified in 'powervs_sap_default_images' optional parameters below.",
-              "required": true
-            },
-            {
-              "key": "powervs_create_separate_sharefs_instance",
-              "type": "boolean",
-              "description": "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on SAP NetWeaver PowerVS instances if enabled. Optional parameter 'powervs_share_fs_instance' can be configured if enabled.",
-              "required": true
-            },
-            {
-              "key": "powervs_hana_instance_name",
-              "type": "string",
-              "description": "PowerVS SAP HANA instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_hana_instance_name>. Max length of final hostname must be <= 13 characters.",
-              "required": true
-            },
-            {
-              "key": "powervs_hana_instance_sap_profile_id",
-              "type": "string",
-              "description": "PowerVS SAP HANA instance profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional parameter 'powervs_hana_instance_custom_storage_config'.",
-              "required": true
-            },
-            {
-              "key": "powervs_netweaver_instance_count",
-              "type": "number",
-              "description": "Number of PowerVS SAP NetWeaver instances that should be created.",
-              "required": true,
-              "default": 1
-            },
-            {
-              "key": "powervs_netweaver_instance_name",
-              "type": "string",
-              "description": "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters.",
-              "required": true,
-              "default": "nw"
-            },
-            {
-              "key": "powervs_netweaver_cpu_number",
-              "type": "string",
-              "description": "Number of CPUs for each PowerVS SAP NetWeaver instance.",
-              "required": true,
-              "default": "3"
-            },
-            {
-              "key": "powervs_netweaver_memory_size",
-              "type": "string",
-              "description": "Memory size for each PowerVS SAP NetWeaver instance.",
-              "required": true,
-              "default": "32"
-            },
-            {
               "key": "sap_domain",
-              "type": "string",
-              "description": "SAP network domain name.",
-              "required": true,
-              "default": "sap.com"
+              "required": true
             },
             {
               "key": "powervs_hana_instance_custom_storage_config",
-              "default": {
-                "name": "",
-                "size": "",
-                "count": "",
-                "tier": "",
-                "mount": ""
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
               }
             },
             {
               "key": "powervs_hana_instance_additional_storage_config",
-              "default": {
-                "name": "usrsap",
-                "size": "50",
-                "count": "1",
-                "tier": "tier3",
-                "mount": "/usr/sap"
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
               }
             },
             {
               "key": "powervs_netweaver_instance_storage_config",
-              "default": {
-                "name": "usrsap",
-                "size": "50",
-                "count": "1",
-                "tier": "tier3",
-                "mount": "/usr/sap"
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
               }
             },
             {
               "key": "powervs_sharefs_instance",
-              "default": {
-                "name": "share",
-                "processors": "0.5",
-                "memory": "2",
-                "proc_type": "shared",
-                "storage_config": [
-                  {
-                    "name": "sapmnt",
-                    "size": "300",
-                    "count": "1",
-                    "tier": "tier3",
-                    "mount": "/sapmnt"
-                  },
-                  {
-                    "name": "trans",
-                    "size": "50",
-                    "count": "1",
-                    "tier": "tier3",
-                    "mount": "/usr/trans"
-                  }
-                ]
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
               }
             },
             {
               "key": "powervs_default_sap_images",
-              "default": {
-                "sles_hana_image": "SLES15-SP4-SAP",
-                "rhel_hana_image": "RHEL8-SP6-SAP",
-                "sles_nw_image": "SLES15-SP4-SAP-NETWEAVER",
-                "rhel_nw_image": "RHEL8-SP6-SAP-NETWEAVER"
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
               }
+            }
+          ],
+          "outputs": [
+            {
+              "key": "infrastructure_data"
+            },
+            {
+              "key": "access_host_or_ip"
+            },
+            {
+              "key": "powervs_hana_instance_ips"
+            },
+            {
+              "key": "powervs_hana_instance_management_ip"
+            },
+            {
+              "key": "powervs_netweaver_instance_ips"
+            },
+            {
+              "key": "powervs_netweaver_instance_management_ips"
+            },
+            {
+              "key": "powervs_sharefs_instance_ips"
+            },
+            {
+              "key": "powervs_lpars_data"
             }
           ],
           "iam_permissions": [
@@ -1068,7 +1066,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "'SAP ready PowerVS Stack' variation of 'Power Virtual Server for SAP HANA' creates an end-to-end SAP system landscape built on the foundation of the 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
+                "description": "'SAP ready PowerVS' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of the 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
               }
             ]
           }
