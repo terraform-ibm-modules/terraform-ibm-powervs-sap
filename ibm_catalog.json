@@ -752,6 +752,17 @@
           ],
           "configuration": [
             {
+              "key": "ibmcloud_api_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
               "key": "powervs_zone",
               "type": "string",
               "description": "IBM Cloud data center location where IBM PowerVS infrastructure will be created.",
