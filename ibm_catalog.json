@@ -1,757 +1,1037 @@
 {
-    "products": [
+  "products": [
+    {
+      "name": "deploy-arch-ibm-pvs-sap",
+      "label": "Power Virtual Server for SAP HANA",
+      "product_kind": "solution",
+      "tags": [
+        "virtualservers",
+        "ibm_created",
+        "target_terraform",
+        "terraform",
+        "reference_architecture",
+        "solution",
+        "support_ibm"
+      ],
+      "keywords": [
+        "power",
+        "sap",
+        "sap hana",
+        "sap infrastructure",
+        "sap certified",
+        "power solution",
+        "power infrastructure",
+        "sap on power",
+        "powervs",
+        "power framework",
+        "sap netweaver",
+        "automation",
+        "secure",
+        "server",
+        "networking",
+        "workspace",
+        "hana"
+      ],
+      "short_description": "Deploy SAP systems on Power Virtual Server with VPC landing zone",
+      "long_description": "This deployable architecture is designed to assist you in deploying SAP ERP software landscapes into IBM Cloud on the IBM Power Virtual Server infrastructure. This is the second step in the deployment process for creating a full environment. Before starting this step, you should first deploy 'Power Virtual Server with VPC landing zone'. Once this is completed, you are prepared to start this step.\n\nSAP on Power Virtual Server creates and prepares Power Virtual Server instances for SAP HANA and SAP NetWeaver workloads. After deployment completes, you may (depending on the framework you chose) begin installing SAP on the configured instances or login to your newly created SAP instances directly.",
+      "offering_docs_url": "https://cloud.ibm.com/docs/sap-powervs?topic=sap-powervs-automation-solution-overview",
+      "offering_icon_url": "data:image/svg+xml;base64,PHN2ZyBpZD0iU0FQb25Qb3dlciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iMCAwIDMyIDMyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9IjB3cG82d2txd2EiIHgxPSItMTg1NS4yMDgiIHkxPSItMjUwMi41NjMiIHgyPSItMTg1NS4yMDgiIHkyPSItMjUyMi4xNzkiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMS4wNiAwIDAgLS40OTEgMTk3My42NzYgLTEyMjcuMjkzKSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIvPjxzdG9wIG9mZnNldD0iLjgiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJwODB2MGMwMnZiIiB4MT0iMzI4LjUwMiIgeTE9Ii02NzY1LjY0NyIgeDI9IjMyOC41MDIiIHkyPSItNjc4NS4yNjMiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMS4wNiAwIDAgLjUxNSAtMzM5Ljk2NyAzNTEzLjI1KSIgeGxpbms6aHJlZj0iIzB3cG82d2txd2EiLz48bGluZWFyR3JhZGllbnQgaWQ9ImRrMDJ3NXQweWMiIHgxPSItOTUzLjI2NiIgeTE9Ii0yODI4LjY1OSIgeDI9Ii05NTMuMjY2IiB5Mj0iLTI4MzguNTMzIiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEuMDYgMCAwIC0uNjY5IDEwMzcuMjE4IC0xODc2LjQzOSkiIHhsaW5rOmhyZWY9IiMwd3BvNndrcXdhIi8+PGxpbmVhckdyYWRpZW50IGlkPSJvbjF6NG9xNmVkIiB4MT0iLTE5MjMuMjUiIHkxPSItMjYyMC4yOSIgeDI9Ii0xOTIzLjI1IiB5Mj0iLTI2MjcuODg1IiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEuMDYgMCAwIC42NjkgMjA0OC4wOTEgMTc4Mi4zNjQpIiB4bGluazpocmVmPSIjMHdwbzZ3a3F3YSIvPjxsaW5lYXJHcmFkaWVudCBpZD0iZGw0OXc5YXdnZSIgeDE9Ii0xOTE1LjgwMiIgeTE9Ii0zMTkxLjI5NSIgeDI9Ii0xOTE1LjgwMiIgeTI9Ii0zMTk4Ljg4OSIgZ3JhZGllbnRUcmFuc2Zvcm09Im1hdHJpeCgxLjA2IDAgMCAuNjY5IDIwNDMuNDggMjE0MS4xMjgpIiB4bGluazpocmVmPSIjMHdwbzZ3a3F3YSIvPjxsaW5lYXJHcmFkaWVudCBpZD0iemI2Y3VlbnRsZyIgeDE9IjAiIHkxPSIzMiIgeDI9IjMyIiB5Mj0iMCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iLjEiIHN0b3AtY29sb3I9IiMwOGJkYmEiLz48c3RvcCBvZmZzZXQ9Ii45IiBzdG9wLWNvbG9yPSIjMGY2MmZlIi8+PC9saW5lYXJHcmFkaWVudD48bWFzayBpZD0iOG5zZ3FxYnBjZiIgeD0iMCIgeT0iMCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMTUuOTgyIDMwYy03LjcyIDAtMTQtNi4yOC0xNC0xNHM2LjI4MS0xNCAxNC0xNCAxNCA2LjI4IDE0IDE0LTYuMjggMTQtMTQgMTR6bTAtMjZjLTYuNjE3IDAtMTIgNS4zODMtMTIgMTJzNS4zODMgMTIgMTIgMTIgMTItNS4zODMgMTItMTItNS4zODMtMTItMTItMTJ6IiBzdHlsZT0iZmlsbDojZmZmIi8+PHBhdGggZD0iTTMwLjY5MSAzMC43MDhIMTEuNzI5bDMtOC43MDggMTAuNDY1LjAxMSA1LjU3Ny0uMDIxLS4wOCA4LjcxOHpNNi45ODIgMjBsLTYgNS40OTRWNi44MDdsNiA1LjAxNVYyMHpNMTYuMDAzIDFoMTQuOTk5djEzLjAzMkgxNi4wMDN6Ii8+PHBhdGggdHJhbnNmb3JtPSJyb3RhdGUoLTEzNSA3Ljk0MyA2Ljc4NykiIHN0eWxlPSJmaWxsOnVybCgjMHdwbzZ3a3F3YSkiIGQ9Ik00Ljc2NCAxLjk3aDYuMzU3djkuNjM1SDQuNzY0eiIvPjxwYXRoIHRyYW5zZm9ybT0icm90YXRlKDEzNSA4LjEwNiAyNS4zNDQpIiBzdHlsZT0iZmlsbDp1cmwoI3A4MHYwYzAydmIpIiBkPSJNNC45MjggMjAuMjk1aDYuMzU3djEwLjA5OEg0LjkyOHoiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgxODAgMjcuMTYxIDE4Ljg2MykiIHN0eWxlPSJmaWxsOnVybCgjZGswMnc1dDB5YykiIGQ9Ik0yMy45ODIgMTUuNTYxaDYuMzU3djYuNjA0aC02LjM1N3oiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgtNzAuNzkgMTAuMjYyIDI3LjE5NSkiIHN0eWxlPSJmaWxsOnVybCgjb24xejRvcTZlZCkiIGQ9Ik03LjA4NCAyNC42NTVoNi4zNTd2NS4wOEg3LjA4NHoiLz48cGF0aCBkPSJNOC45ODIgMjAuOThoLTZjLTEuMTAzIDAtMi0uODk3LTItMnYtNmMwLTEuMTAzLjg5Ny0yIDItMmg2YzEuMTAzIDAgMiAuODk3IDIgMnY2YzAgMS4xMDMtLjg5NyAyLTIgMnptLTYtOHY2aDYuMDAxdi02SDIuOTgyek0yOS4wMDIgMzFoLTEzYy0xLjEwMyAwLTItLjg5Ny0yLTJ2LTRjMC0xLjEwMy44OTctMiAyLTJoMTNjMS4xMDMgMCAyIC44OTcgMiAydjRjMCAxLjEwMy0uODk3IDItMiAyem0tMTMtNnY0aDEzLjAwMXYtNEgxNi4wMDJ6IiBzdHlsZT0iZmlsbDojZmZmIi8+PGNpcmNsZSBjeD0iMTkuMDAyIiBjeT0iMjciIHI9IjEiIHN0eWxlPSJmaWxsOiNmZmYiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgMTMuNTQzIDQuMDMyKSIgc3R5bGU9ImZpbGw6dXJsKCNkbDQ5dzlhd2dlKSIgZD0iTTEwLjM2NCAxLjQ5Mmg2LjM1N3Y1LjA4aC02LjM1N3oiLz48L21hc2s+PC9kZWZzPjxnIHN0eWxlPSJtYXNrOnVybCgjOG5zZ3FxYnBjZikiPjxwYXRoIHN0eWxlPSJmaWxsOnVybCgjemI2Y3VlbnRsZykiIGQ9Ik0wIDBoMzJ2MzJIMHoiLz48L2c+PHBhdGggZD0iTTI1LjQ2MiAxMkgxOWExIDEgMCAwIDEtMS0xVjQuMDM1YTEgMSAwIDAgMSAuOTk3LTFsMTItLjAzNUgzMWExIDEgMCAwIDEgLjc4NCAxLjYyMWwtNS41MzggN2EuOTk4Ljk5OCAwIDAgMS0uNzg0LjM3OXpNMjAgMTBoNC45NzhsMy45NTEtNC45OTRMMjAgNS4wMzJWMTB6IiBzdHlsZT0iZmlsbDojMDAxZDZjIi8+PC9zdmc+",
+      "features": [
         {
-            "name": "deploy-arch-ibm-pvs-sap",
-            "label": "Power Virtual Server for SAP HANA",
-            "product_kind": "solution",
-            "tags": [
-                "virtualservers",
-                "ibm_created",
-                "target_terraform",
-                "terraform",
-                "reference_architecture",
-                "solution",
-                "support_ibm"
-            ],
-            "keywords": [
-                "power",
-                "sap",
-                "sap hana",
-                "sap infrastructure",
-                "sap certified",
-                "power solution",
-                "power infrastructure",
-                "sap on power",
-                "powervs",
-                "power framework",
-                "sap netweaver",
-                "automation",
-                "secure",
-                "server",
-                "networking",
-                "workspace",
-                "hana"
-            ],
-            "short_description": "Deploy SAP systems on Power Virtual Server with VPC landing zone",
-            "long_description": "This deployable architecture is designed to assist you in deploying SAP ERP software landscapes into IBM Cloud on the IBM Power Virtual Server infrastructure. This is the second step in the deployment process for creating a full environment. Before starting this step, you should first deploy 'Power Virtual Server with VPC landing zone'. Once this is completed, you are prepared to start this step.\n\nSAP on Power Virtual Server creates and prepares Power Virtual Server instances for SAP HANA and SAP NetWeaver workloads. After deployment completes, you may (depending on the framework you chose) begin installing SAP on the configured instances or login to your newly created SAP instances directly.",
-            "offering_docs_url": "https://cloud.ibm.com/docs/sap-powervs?topic=sap-powervs-automation-solution-overview",
-            "offering_icon_url": "data:image/svg+xml;base64,PHN2ZyBpZD0iU0FQb25Qb3dlciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iMCAwIDMyIDMyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9IjB3cG82d2txd2EiIHgxPSItMTg1NS4yMDgiIHkxPSItMjUwMi41NjMiIHgyPSItMTg1NS4yMDgiIHkyPSItMjUyMi4xNzkiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMS4wNiAwIDAgLS40OTEgMTk3My42NzYgLTEyMjcuMjkzKSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIvPjxzdG9wIG9mZnNldD0iLjgiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJwODB2MGMwMnZiIiB4MT0iMzI4LjUwMiIgeTE9Ii02NzY1LjY0NyIgeDI9IjMyOC41MDIiIHkyPSItNjc4NS4yNjMiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMS4wNiAwIDAgLjUxNSAtMzM5Ljk2NyAzNTEzLjI1KSIgeGxpbms6aHJlZj0iIzB3cG82d2txd2EiLz48bGluZWFyR3JhZGllbnQgaWQ9ImRrMDJ3NXQweWMiIHgxPSItOTUzLjI2NiIgeTE9Ii0yODI4LjY1OSIgeDI9Ii05NTMuMjY2IiB5Mj0iLTI4MzguNTMzIiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEuMDYgMCAwIC0uNjY5IDEwMzcuMjE4IC0xODc2LjQzOSkiIHhsaW5rOmhyZWY9IiMwd3BvNndrcXdhIi8+PGxpbmVhckdyYWRpZW50IGlkPSJvbjF6NG9xNmVkIiB4MT0iLTE5MjMuMjUiIHkxPSItMjYyMC4yOSIgeDI9Ii0xOTIzLjI1IiB5Mj0iLTI2MjcuODg1IiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEuMDYgMCAwIC42NjkgMjA0OC4wOTEgMTc4Mi4zNjQpIiB4bGluazpocmVmPSIjMHdwbzZ3a3F3YSIvPjxsaW5lYXJHcmFkaWVudCBpZD0iZGw0OXc5YXdnZSIgeDE9Ii0xOTE1LjgwMiIgeTE9Ii0zMTkxLjI5NSIgeDI9Ii0xOTE1LjgwMiIgeTI9Ii0zMTk4Ljg4OSIgZ3JhZGllbnRUcmFuc2Zvcm09Im1hdHJpeCgxLjA2IDAgMCAuNjY5IDIwNDMuNDggMjE0MS4xMjgpIiB4bGluazpocmVmPSIjMHdwbzZ3a3F3YSIvPjxsaW5lYXJHcmFkaWVudCBpZD0iemI2Y3VlbnRsZyIgeDE9IjAiIHkxPSIzMiIgeDI9IjMyIiB5Mj0iMCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iLjEiIHN0b3AtY29sb3I9IiMwOGJkYmEiLz48c3RvcCBvZmZzZXQ9Ii45IiBzdG9wLWNvbG9yPSIjMGY2MmZlIi8+PC9saW5lYXJHcmFkaWVudD48bWFzayBpZD0iOG5zZ3FxYnBjZiIgeD0iMCIgeT0iMCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMTUuOTgyIDMwYy03LjcyIDAtMTQtNi4yOC0xNC0xNHM2LjI4MS0xNCAxNC0xNCAxNCA2LjI4IDE0IDE0LTYuMjggMTQtMTQgMTR6bTAtMjZjLTYuNjE3IDAtMTIgNS4zODMtMTIgMTJzNS4zODMgMTIgMTIgMTIgMTItNS4zODMgMTItMTItNS4zODMtMTItMTItMTJ6IiBzdHlsZT0iZmlsbDojZmZmIi8+PHBhdGggZD0iTTMwLjY5MSAzMC43MDhIMTEuNzI5bDMtOC43MDggMTAuNDY1LjAxMSA1LjU3Ny0uMDIxLS4wOCA4LjcxOHpNNi45ODIgMjBsLTYgNS40OTRWNi44MDdsNiA1LjAxNVYyMHpNMTYuMDAzIDFoMTQuOTk5djEzLjAzMkgxNi4wMDN6Ii8+PHBhdGggdHJhbnNmb3JtPSJyb3RhdGUoLTEzNSA3Ljk0MyA2Ljc4NykiIHN0eWxlPSJmaWxsOnVybCgjMHdwbzZ3a3F3YSkiIGQ9Ik00Ljc2NCAxLjk3aDYuMzU3djkuNjM1SDQuNzY0eiIvPjxwYXRoIHRyYW5zZm9ybT0icm90YXRlKDEzNSA4LjEwNiAyNS4zNDQpIiBzdHlsZT0iZmlsbDp1cmwoI3A4MHYwYzAydmIpIiBkPSJNNC45MjggMjAuMjk1aDYuMzU3djEwLjA5OEg0LjkyOHoiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgxODAgMjcuMTYxIDE4Ljg2MykiIHN0eWxlPSJmaWxsOnVybCgjZGswMnc1dDB5YykiIGQ9Ik0yMy45ODIgMTUuNTYxaDYuMzU3djYuNjA0aC02LjM1N3oiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgtNzAuNzkgMTAuMjYyIDI3LjE5NSkiIHN0eWxlPSJmaWxsOnVybCgjb24xejRvcTZlZCkiIGQ9Ik03LjA4NCAyNC42NTVoNi4zNTd2NS4wOEg3LjA4NHoiLz48cGF0aCBkPSJNOC45ODIgMjAuOThoLTZjLTEuMTAzIDAtMi0uODk3LTItMnYtNmMwLTEuMTAzLjg5Ny0yIDItMmg2YzEuMTAzIDAgMiAuODk3IDIgMnY2YzAgMS4xMDMtLjg5NyAyLTIgMnptLTYtOHY2aDYuMDAxdi02SDIuOTgyek0yOS4wMDIgMzFoLTEzYy0xLjEwMyAwLTItLjg5Ny0yLTJ2LTRjMC0xLjEwMy44OTctMiAyLTJoMTNjMS4xMDMgMCAyIC44OTcgMiAydjRjMCAxLjEwMy0uODk3IDItMiAyem0tMTMtNnY0aDEzLjAwMXYtNEgxNi4wMDJ6IiBzdHlsZT0iZmlsbDojZmZmIi8+PGNpcmNsZSBjeD0iMTkuMDAyIiBjeT0iMjciIHI9IjEiIHN0eWxlPSJmaWxsOiNmZmYiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgMTMuNTQzIDQuMDMyKSIgc3R5bGU9ImZpbGw6dXJsKCNkbDQ5dzlhd2dlKSIgZD0iTTEwLjM2NCAxLjQ5Mmg2LjM1N3Y1LjA4aC02LjM1N3oiLz48L21hc2s+PC9kZWZzPjxnIHN0eWxlPSJtYXNrOnVybCgjOG5zZ3FxYnBjZikiPjxwYXRoIHN0eWxlPSJmaWxsOnVybCgjemI2Y3VlbnRsZykiIGQ9Ik0wIDBoMzJ2MzJIMHoiLz48L2c+PHBhdGggZD0iTTI1LjQ2MiAxMkgxOWExIDEgMCAwIDEtMS0xVjQuMDM1YTEgMSAwIDAgMSAuOTk3LTFsMTItLjAzNUgzMWExIDEgMCAwIDEgLjc4NCAxLjYyMWwtNS41MzggN2EuOTk4Ljk5OCAwIDAgMS0uNzg0LjM3OXpNMjAgMTBoNC45NzhsMy45NTEtNC45OTRMMjAgNS4wMzJWMTB6IiBzdHlsZT0iZmlsbDojMDAxZDZjIi8+PC9zdmc+",
-            "features": [
+          "description": "Power Virtual Server instances are created for you, containing prepared instances for SAP HANA and SAP NetWeaver.",
+          "title": "Create Power Virtual Server instances"
+        }
+      ],
+      "flavors": [
+        {
+          "label": "SAP ready PowerVS",
+          "name": "sap-ready-to-go",
+          "install_type": "extension",
+          "working_directory": "solutions/ibm-catalog/sap-ready-to-go",
+          "compliance": {},
+          "dependencies": [
+            {
+              "flavors": [
+                "powervs-workspace",
+                "powervs-import-workspace",
+                "powervs-quickstart",
+                "standard",
+                "standard-extend",
+                "import"
+              ],
+              "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
+              "name": "deploy-arch-ibm-pvs-inf",
+              "install_type": "fullstack",
+              "version": ">=5.0.0"
+            }
+          ],
+          "configuration": [
+            {
+              "key": "prerequisite_workspace_id",
+              "required": true,
+              "custom_config": {
+                "config_constraints": {
+                  "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
+                  "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
+                  "versionConstraint": ">=5.0.0"
+                },
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "schematics_workspace"
+              }
+            },
+            {
+              "key": "powervs_zone",
+              "type": "string",
+              "default_value": "",
+              "required": true,
+              "options": [
                 {
-                    "description": "Power Virtual Server instances are created for you, containing prepared instances for SAP HANA and SAP NetWeaver.",
-                    "title": "Create Power Virtual Server instances"
-                }
-            ],
-            "flavors": [
-                {
-                    "label": "SAP ready PowerVS",
-                    "name": "sap-ready-to-go",
-                    "install_type": "extension",
-                    "working_directory": "solutions/ibm-catalog/sap-ready-to-go",
-                    "compliance": {},
-                    "dependencies": [
-                        {
-                            "flavors": [
-                                "powervs-workspace",
-                                "powervs-import-workspace",
-                                "powervs-quickstart",
-                                "standard",
-                                "standard-extend",
-                                "import"
-                            ],
-                            "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
-                            "name": "deploy-arch-ibm-pvs-inf",
-                            "install_type": "fullstack",
-                            "version": ">=5.0.0"
-                        }
-                    ],
-                    "configuration": [
-                        {
-                            "key": "prerequisite_workspace_id",
-                            "required": true,
-                            "custom_config": {
-                                "config_constraints": {
-                                    "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
-                                    "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
-                                    "versionConstraint": ">=5.0.0"
-                                },
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "schematics_workspace"
-                            }
-                        },
-                        {
-                            "key": "powervs_zone",
-                            "type": "string",
-                            "default_value": "",
-                            "required": true,
-                            "options": [
-                                {
-                                    "displayname": "Dallas (dallas)",
-                                    "value": "us-south"
-                                },
-                                {
-                                    "displayname": "Dallas 10 (dal10)",
-                                    "value": "dal10"
-                                },
-                                {
-                                    "displayname": "Dallas 12 (dal12)",
-                                    "value": "dal12"
-                                },
-                                {
-                                    "displayname": "Frankfurt 1 (eu-de-1)",
-                                    "value": "eu-de-1"
-                                },
-                                {
-                                    "displayname": "Frankfurt 2 (eu-de-2)",
-                                    "value": "eu-de-2"
-                                },
-                                {
-                                    "displayname": "London 04 (lon04) Non-PER",
-                                    "value": "lon04"
-                                },
-                                {
-                                    "displayname": "London 06 (lon06)",
-                                    "value": "lon06"
-                                },
-                                {
-                                    "displayname": "Montreal 01 (mon01) Non-PER",
-                                    "value": "mon01"
-                                },
-                                {
-                                    "displayname": "Osaka 21 (osa21)",
-                                    "value": "osa21"
-                                },
-                                {
-                                    "displayname": "Sao Paulo 01 (sao01)",
-                                    "value": "sao01"
-                                },
-                                {
-                                    "displayname": "Sao Paulo 04 (sao04)",
-                                    "value": "sao04"
-                                },
-                                {
-                                    "displayname": "Sydney 04 (syd04)",
-                                    "value": "syd04"
-                                },
-                                {
-                                    "displayname": "Sydney 05 (syd05)",
-                                    "value": "syd05"
-                                },
-                                {
-                                    "displayname": "Tokyo 04 (tok04)",
-                                    "value": "tok04"
-                                },
-                                {
-                                    "displayname": "Toronto 01 (tor01)",
-                                    "value": "tor01"
-                                },
-                                {
-                                    "displayname": "Washington DC (us-east)",
-                                    "value": "us-east"
-                                },
-                                {
-                                    "displayname": "Washington DC 06 (wdc06)",
-                                    "value": "wdc06"
-                                },
-                                {
-                                    "displayname": "Washington DC 07 (wdc07)",
-                                    "value": "wdc07"
-                                }
-                            ],
-                            "custom_config": {}
-                        },
-                        {
-                            "key": "prefix",
-                            "required": true,
-                            "default_value": ""
-                        },
-                        {
-                            "key": "powervs_sap_network_cidr",
-                            "required": true
-                        },
-                        {
-                            "key": "os_image_distro",
-                            "type": "string",
-                            "default_value": "",
-                            "required": true,
-                            "options": [
-                                {
-                                    "displayname": "RHEL",
-                                    "value": "RHEL"
-                                },
-                                {
-                                    "displayname": "SLES",
-                                    "value": "SLES"
-                                }
-                            ],
-                            "custom_config": {}
-                        },
-                        {
-                            "key": "powervs_create_separate_sharefs_instance",
-                            "required": true,
-                            "default_value": ""
-                        },
-                        {
-                            "key": "powervs_hana_instance_name",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_hana_instance_sap_profile_id",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_netweaver_instance_count",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_netweaver_instance_name",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_netweaver_cpu_number",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_netweaver_memory_size",
-                            "required": true
-                        },
-                        {
-                            "key": "ssh_private_key",
-                            "type": "multiline_secure_value",
-                            "display_name": "Multiline secure value",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "multiline_secure_value"
-                            }
-                        },
-                        {
-                            "key": "ibmcloud_api_key",
-                            "type": "multiline_secure_value",
-                            "display_name": "Multiline secure value",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "multiline_secure_value"
-                            }
-                        },
-                        {
-                            "key": "sap_domain",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_hana_instance_custom_storage_config",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        },
-                        {
-                            "key": "powervs_hana_instance_additional_storage_config",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        },
-                        {
-                            "key": "powervs_netweaver_instance_storage_config",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        },
-                        {
-                            "key": "powervs_sharefs_instance",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        },
-                        {
-                            "key": "powervs_default_sap_images",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        }
-                    ],
-                    "outputs": [
-                        {
-                            "key": "infrastructure_data"
-                        },
-                        {
-                            "key": "access_host_or_ip"
-                        },
-                        {
-                            "key": "powervs_hana_instance_ips"
-                        },
-                        {
-                            "key": "powervs_hana_instance_management_ip"
-                        },
-                        {
-                            "key": "powervs_netweaver_instance_ips"
-                        },
-                        {
-                            "key": "powervs_netweaver_instance_management_ips"
-                        },
-                        {
-                            "key": "powervs_sharefs_instance_ips"
-                        },
-                        {
-                            "key": "powervs_lpars_data"
-                        }
-                    ],
-                    "iam_permissions": [
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "is.vpc"
-                        },
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "transit.gateway"
-                        },
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "directlink.connect"
-                        },
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-                            ],
-                            "service_name": "power-iaas"
-                        }
-                    ],
-                    "architecture": {
-                        "features": [
-                            {
-                                "title": "SAP solution",
-                                "description": "Not installed"
-                            },
-                            {
-                                "title": "PowerVS instances",
-                                "description": "SAP HANA Instance: 1\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1"
-                            },
-                            {
-                                "title": "Power Virtual Server with VPC landing zone",
-                                "description": "Available"
-                            }
-                        ],
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "Full SAP environment provisioned on a 'Power Virtual Server with VPC landing zone'",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "'SAP ready PowerVS' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of the 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
-                            }
-                        ]
-                    }
+                  "displayname": "Dallas (dallas)",
+                  "value": "us-south"
                 },
                 {
-                    "label": "SAP S/4HANA or BW/4HANA",
-                    "name": "sap-s4hana-bw4hana",
-                    "install_type": "extension",
-                    "working_directory": "solutions/ibm-catalog/sap-s4hana-bw4hana",
-                    "compliance": {},
-                    "dependencies": [
-                        {
-                            "flavors": [
-                                "powervs-workspace",
-                                "powervs-import-workspace",
-                                "powervs-quickstart",
-                                "standard",
-                                "standard-extend",
-                                "import"
-                            ],
-                            "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
-                            "name": "deploy-arch-ibm-pvs-inf",
-                            "install_type": "fullstack",
-                            "version": ">=5.0.0"
-                        }
-                    ],
-                    "configuration": [
-                        {
-                            "key": "prerequisite_workspace_id",
-                            "required": true,
-                            "custom_config": {
-                                "config_constraints": {
-                                    "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
-                                    "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
-                                    "versionConstraint": ">=5.0.0"
-                                },
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "schematics_workspace"
-                            }
-                        },
-                        {
-                            "key": "powervs_zone",
-                            "type": "string",
-                            "default_value": "",
-                            "required": true,
-                            "options": [
-                                {
-                                    "displayname": "Dallas (dallas)",
-                                    "value": "us-south"
-                                },
-                                {
-                                    "displayname": "Dallas 10 (dal10)",
-                                    "value": "dal10"
-                                },
-                                {
-                                    "displayname": "Dallas 12 (dal12)",
-                                    "value": "dal12"
-                                },
-                                {
-                                    "displayname": "Frankfurt 1 (eu-de-1)",
-                                    "value": "eu-de-1"
-                                },
-                                {
-                                    "displayname": "Frankfurt 2 (eu-de-2)",
-                                    "value": "eu-de-2"
-                                },
-                                {
-                                    "displayname": "London 04 (lon04) Non-PER",
-                                    "value": "lon04"
-                                },
-                                {
-                                    "displayname": "London 06 (lon06)",
-                                    "value": "lon06"
-                                },
-                                {
-                                    "displayname": "Montreal 01 (mon01) Non-PER",
-                                    "value": "mon01"
-                                },
-                                {
-                                    "displayname": "Osaka 21 (osa21)",
-                                    "value": "osa21"
-                                },
-                                {
-                                    "displayname": "Sao Paulo 01 (sao01)",
-                                    "value": "sao01"
-                                },
-                                {
-                                    "displayname": "Sao Paulo 04 (sao04)",
-                                    "value": "sao04"
-                                },
-                                {
-                                    "displayname": "Sydney 04 (syd04)",
-                                    "value": "syd04"
-                                },
-                                {
-                                    "displayname": "Sydney 05 (syd05)",
-                                    "value": "syd05"
-                                },
-                                {
-                                    "displayname": "Tokyo 04 (tok04)",
-                                    "value": "tok04"
-                                },
-                                {
-                                    "displayname": "Toronto 01 (tor01)",
-                                    "value": "tor01"
-                                },
-                                {
-                                    "displayname": "Washington DC (us-east)",
-                                    "value": "us-east"
-                                },
-                                {
-                                    "displayname": "Washington DC 06 (wdc06)",
-                                    "value": "wdc06"
-                                },
-                                {
-                                    "displayname": "Washington DC 07 (wdc07)",
-                                    "value": "wdc07"
-                                }
-                            ],
-                            "custom_config": {}
-                        },
-                        {
-                            "key": "prefix",
-                            "required": true,
-                            "default_value": ""
-                        },
-                        {
-                            "key": "powervs_sap_network_cidr",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_create_separate_sharefs_instance",
-                            "required": true,
-                            "default_value": ""
-                        },
-                        {
-                            "key": "powervs_hana_instance_name",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_hana_instance_sap_profile_id",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_netweaver_instance_name",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_netweaver_cpu_number",
-                            "required": true
-                        },
-                        {
-                            "key": "powervs_netweaver_memory_size",
-                            "required": true
-                        },
-                        {
-                            "key": "ibmcloud_cos_service_credentials",
-                            "type": "multiline_secure_value",
-                            "display_name": "Multiline secure value",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "multiline_secure_value"
-                            }
-                        },
-                        {
-                            "key": "ibmcloud_cos_configuration",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        },
-                        {
-                            "key": "sap_solution",
-                            "type": "string",
-                            "default_value": "",
-                            "required": true,
-                            "options": [
-                                {
-                                    "displayname": "S/4HANA 2023",
-                                    "value": "s4hana-2023"
-                                },
-                                {
-                                    "displayname": "S/4HANA 2022",
-                                    "value": "s4hana-2022"
-                                },
-                                {
-                                    "displayname": "S/4HANA 2021",
-                                    "value": "s4hana-2021"
-                                },
-                                {
-                                    "displayname": "S/4HANA 2020",
-                                    "value": "s4hana-2020"
-                                },
-                                {
-                                    "displayname": "BW/4HANA 2021",
-                                    "value": "bw4hana-2021"
-                                }
-                            ],
-                            "custom_config": {}
-                        },
-                        {
-                            "key": "sap_hana_master_password",
-                            "type": "multiline_secure_value",
-                            "display_name": "Multiline secure value",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "multiline_secure_value"
-                            }
-                        },
-                        {
-                            "key": "sap_hana_vars",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        },
-                        {
-                            "key": "sap_swpm_master_password",
-                            "type": "multiline_secure_value",
-                            "display_name": "Multiline secure value",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "multiline_secure_value"
-                            }
-                        },
-                        {
-                            "key": "sap_solution_vars",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        },
-                        {
-                            "key": "sap_domain",
-                            "required": true
-                        },
-                        {
-                            "key": "ansible_vault_password",
-                            "type": "multiline_secure_value",
-                            "display_name": "Multiline secure value",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "multiline_secure_value"
-                            }
-                        },
-                        {
-                            "key": "ssh_private_key",
-                            "type": "multiline_secure_value",
-                            "display_name": "Multiline secure value",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "multiline_secure_value"
-                            }
-                        },
-                        {
-                            "key": "ibmcloud_api_key",
-                            "type": "multiline_secure_value",
-                            "display_name": "Multiline secure value",
-                            "required": true,
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "multiline_secure_value"
-                            }
-                        },
-                        {
-                            "key": "powervs_hana_instance_custom_storage_config"
-                        },
-                        {
-                            "key": "powervs_hana_instance_additional_storage_config"
-                        },
-                        {
-                            "key": "powervs_netweaver_instance_storage_config"
-                        },
-                        {
-                            "key": "powervs_sharefs_instance",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        },
-                        {
-                            "key": "powervs_default_sap_images",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "json_editor"
-                            }
-                        }
-                    ],
-                    "outputs": [
-                        {
-                            "key": "infrastructure_data"
-                        },
-                        {
-                            "key": "access_host_or_ip"
-                        },
-                        {
-                            "key": "powervs_hana_instance_ips"
-                        },
-                        {
-                            "key": "powervs_hana_instance_management_ip"
-                        },
-                        {
-                            "key": "powervs_netweaver_instance_ips"
-                        },
-                        {
-                            "key": "powervs_netweaver_instance_management_ip"
-                        },
-                        {
-                            "key": "powervs_sharefs_instance_ips"
-                        },
-                        {
-                            "key": "powervs_lpars_data"
-                        },
-                        {
-                            "key": "sap_hana_vars"
-                        },
-                        {
-                            "key": "sap_solution_vars"
-                        }
-                    ],
-                    "iam_permissions": [
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "is.vpc"
-                        },
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "transit.gateway"
-                        },
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "directlink.connect"
-                        },
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-                            ],
-                            "service_name": "power-iaas"
-                        }
-                    ],
-                    "architecture": {
-                        "features": [
-                            {
-                                "title": "SAP solution",
-                                "description": "Installed: SAP S/4HANA or BW/4HANA "
-                            },
-                            {
-                                "title": "PowerVS instances",
-                                "description": "SAP HANA Instance: 1\n\nSAP NetWeaver Instances: 1\n\nShared SAP Instance: 0 or 1"
-                            },
-                            {
-                                "title": "Power Virtual Server with VPC landing zone",
-                                "description": "Available"
-                            }
-                        ],
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "Full SAP S/4HANA or BW/4HANA environment provisioned on a 'Power Virtual Server with VPC landing zone'",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-s4hana-bw4hana/deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation. S/4HANA or BW/4HANA solution is installed based on selected version. \n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration provided by the 'Power Virtual Server with VPC landing zone'."
-                            }
-                        ]
-                    }
+                  "displayname": "Dallas 10 (dal10)",
+                  "value": "dal10"
+                },
+                {
+                  "displayname": "Dallas 12 (dal12)",
+                  "value": "dal12"
+                },
+                {
+                  "displayname": "Frankfurt 1 (eu-de-1)",
+                  "value": "eu-de-1"
+                },
+                {
+                  "displayname": "Frankfurt 2 (eu-de-2)",
+                  "value": "eu-de-2"
+                },
+                {
+                  "displayname": "London 04 (lon04) Non-PER",
+                  "value": "lon04"
+                },
+                {
+                  "displayname": "London 06 (lon06)",
+                  "value": "lon06"
+                },
+                {
+                  "displayname": "Montreal 01 (mon01) Non-PER",
+                  "value": "mon01"
+                },
+                {
+                  "displayname": "Osaka 21 (osa21)",
+                  "value": "osa21"
+                },
+                {
+                  "displayname": "Sao Paulo 01 (sao01)",
+                  "value": "sao01"
+                },
+                {
+                  "displayname": "Sao Paulo 04 (sao04)",
+                  "value": "sao04"
+                },
+                {
+                  "displayname": "Sydney 04 (syd04)",
+                  "value": "syd04"
+                },
+                {
+                  "displayname": "Sydney 05 (syd05)",
+                  "value": "syd05"
+                },
+                {
+                  "displayname": "Tokyo 04 (tok04)",
+                  "value": "tok04"
+                },
+                {
+                  "displayname": "Toronto 01 (tor01)",
+                  "value": "tor01"
+                },
+                {
+                  "displayname": "Washington DC (us-east)",
+                  "value": "us-east"
+                },
+                {
+                  "displayname": "Washington DC 06 (wdc06)",
+                  "value": "wdc06"
+                },
+                {
+                  "displayname": "Washington DC 07 (wdc07)",
+                  "value": "wdc07"
                 }
+              ],
+              "custom_config": {}
+            },
+            {
+              "key": "prefix",
+              "required": true,
+              "default_value": ""
+            },
+            {
+              "key": "powervs_sap_network_cidr",
+              "required": true
+            },
+            {
+              "key": "os_image_distro",
+              "type": "string",
+              "default_value": "",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "RHEL",
+                  "value": "RHEL"
+                },
+                {
+                  "displayname": "SLES",
+                  "value": "SLES"
+                }
+              ],
+              "custom_config": {}
+            },
+            {
+              "key": "powervs_create_separate_sharefs_instance",
+              "required": true,
+              "default_value": ""
+            },
+            {
+              "key": "powervs_hana_instance_name",
+              "required": true
+            },
+            {
+              "key": "powervs_hana_instance_sap_profile_id",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_instance_count",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_instance_name",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_cpu_number",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_memory_size",
+              "required": true
+            },
+            {
+              "key": "ssh_private_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "ibmcloud_api_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "sap_domain",
+              "required": true
+            },
+            {
+              "key": "powervs_hana_instance_custom_storage_config",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "powervs_hana_instance_additional_storage_config",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "powervs_netweaver_instance_storage_config",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "powervs_sharefs_instance",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "powervs_default_sap_images",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "key": "infrastructure_data"
+            },
+            {
+              "key": "access_host_or_ip"
+            },
+            {
+              "key": "powervs_hana_instance_ips"
+            },
+            {
+              "key": "powervs_hana_instance_management_ip"
+            },
+            {
+              "key": "powervs_netweaver_instance_ips"
+            },
+            {
+              "key": "powervs_netweaver_instance_management_ips"
+            },
+            {
+              "key": "powervs_sharefs_instance_ips"
+            },
+            {
+              "key": "powervs_lpars_data"
+            }
+          ],
+          "iam_permissions": [
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
+              "service_name": "is.vpc"
+            },
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
+              "service_name": "transit.gateway"
+            },
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
+              "service_name": "directlink.connect"
+            },
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::serviceRole:Manager"],
+              "service_name": "power-iaas"
+            }
+          ],
+          "architecture": {
+            "features": [
+              {
+                "title": "SAP solution",
+                "description": "Not installed"
+              },
+              {
+                "title": "PowerVS instances",
+                "description": "SAP HANA Instance: 1\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1"
+              },
+              {
+                "title": "Power Virtual Server with VPC landing zone",
+                "description": "Available"
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "Full SAP environment provisioned on a 'Power Virtual Server with VPC landing zone'",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "'SAP ready PowerVS' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of the 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
+              }
             ]
+          }
+        },
+        {
+          "label": "SAP S/4HANA or BW/4HANA",
+          "name": "sap-s4hana-bw4hana",
+          "install_type": "extension",
+          "working_directory": "solutions/ibm-catalog/sap-s4hana-bw4hana",
+          "compliance": {},
+          "dependencies": [
+            {
+              "flavors": [
+                "powervs-workspace",
+                "powervs-import-workspace",
+                "powervs-quickstart",
+                "standard",
+                "standard-extend",
+                "import"
+              ],
+              "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
+              "name": "deploy-arch-ibm-pvs-inf",
+              "install_type": "fullstack",
+              "version": ">=5.0.0"
+            }
+          ],
+          "configuration": [
+            {
+              "key": "prerequisite_workspace_id",
+              "required": true,
+              "custom_config": {
+                "config_constraints": {
+                  "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
+                  "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
+                  "versionConstraint": ">=5.0.0"
+                },
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "schematics_workspace"
+              }
+            },
+            {
+              "key": "powervs_zone",
+              "type": "string",
+              "default_value": "",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Dallas (dallas)",
+                  "value": "us-south"
+                },
+                {
+                  "displayname": "Dallas 10 (dal10)",
+                  "value": "dal10"
+                },
+                {
+                  "displayname": "Dallas 12 (dal12)",
+                  "value": "dal12"
+                },
+                {
+                  "displayname": "Frankfurt 1 (eu-de-1)",
+                  "value": "eu-de-1"
+                },
+                {
+                  "displayname": "Frankfurt 2 (eu-de-2)",
+                  "value": "eu-de-2"
+                },
+                {
+                  "displayname": "London 04 (lon04) Non-PER",
+                  "value": "lon04"
+                },
+                {
+                  "displayname": "London 06 (lon06)",
+                  "value": "lon06"
+                },
+                {
+                  "displayname": "Montreal 01 (mon01) Non-PER",
+                  "value": "mon01"
+                },
+                {
+                  "displayname": "Osaka 21 (osa21)",
+                  "value": "osa21"
+                },
+                {
+                  "displayname": "Sao Paulo 01 (sao01)",
+                  "value": "sao01"
+                },
+                {
+                  "displayname": "Sao Paulo 04 (sao04)",
+                  "value": "sao04"
+                },
+                {
+                  "displayname": "Sydney 04 (syd04)",
+                  "value": "syd04"
+                },
+                {
+                  "displayname": "Sydney 05 (syd05)",
+                  "value": "syd05"
+                },
+                {
+                  "displayname": "Tokyo 04 (tok04)",
+                  "value": "tok04"
+                },
+                {
+                  "displayname": "Toronto 01 (tor01)",
+                  "value": "tor01"
+                },
+                {
+                  "displayname": "Washington DC (us-east)",
+                  "value": "us-east"
+                },
+                {
+                  "displayname": "Washington DC 06 (wdc06)",
+                  "value": "wdc06"
+                },
+                {
+                  "displayname": "Washington DC 07 (wdc07)",
+                  "value": "wdc07"
+                }
+              ],
+              "custom_config": {}
+            },
+            {
+              "key": "prefix",
+              "required": true,
+              "default_value": ""
+            },
+            {
+              "key": "powervs_sap_network_cidr",
+              "required": true
+            },
+            {
+              "key": "powervs_create_separate_sharefs_instance",
+              "required": true,
+              "default_value": ""
+            },
+            {
+              "key": "powervs_hana_instance_name",
+              "required": true
+            },
+            {
+              "key": "powervs_hana_instance_sap_profile_id",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_instance_name",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_cpu_number",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_memory_size",
+              "required": true
+            },
+            {
+              "key": "ibmcloud_cos_service_credentials",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "ibmcloud_cos_configuration",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "sap_solution",
+              "type": "string",
+              "default_value": "",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "S/4HANA 2023",
+                  "value": "s4hana-2023"
+                },
+                {
+                  "displayname": "S/4HANA 2022",
+                  "value": "s4hana-2022"
+                },
+                {
+                  "displayname": "S/4HANA 2021",
+                  "value": "s4hana-2021"
+                },
+                {
+                  "displayname": "S/4HANA 2020",
+                  "value": "s4hana-2020"
+                },
+                {
+                  "displayname": "BW/4HANA 2021",
+                  "value": "bw4hana-2021"
+                }
+              ],
+              "custom_config": {}
+            },
+            {
+              "key": "sap_hana_master_password",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "sap_hana_vars",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "sap_swpm_master_password",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "sap_solution_vars",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "sap_domain",
+              "required": true
+            },
+            {
+              "key": "ansible_vault_password",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "ssh_private_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "ibmcloud_api_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "powervs_hana_instance_custom_storage_config"
+            },
+            {
+              "key": "powervs_hana_instance_additional_storage_config"
+            },
+            {
+              "key": "powervs_netweaver_instance_storage_config"
+            },
+            {
+              "key": "powervs_sharefs_instance",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "powervs_default_sap_images",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "key": "infrastructure_data"
+            },
+            {
+              "key": "access_host_or_ip"
+            },
+            {
+              "key": "powervs_hana_instance_ips"
+            },
+            {
+              "key": "powervs_hana_instance_management_ip"
+            },
+            {
+              "key": "powervs_netweaver_instance_ips"
+            },
+            {
+              "key": "powervs_netweaver_instance_management_ip"
+            },
+            {
+              "key": "powervs_sharefs_instance_ips"
+            },
+            {
+              "key": "powervs_lpars_data"
+            },
+            {
+              "key": "sap_hana_vars"
+            },
+            {
+              "key": "sap_solution_vars"
+            }
+          ],
+          "iam_permissions": [
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
+              "service_name": "is.vpc"
+            },
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
+              "service_name": "transit.gateway"
+            },
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
+              "service_name": "directlink.connect"
+            },
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::serviceRole:Manager"],
+              "service_name": "power-iaas"
+            }
+          ],
+          "architecture": {
+            "features": [
+              {
+                "title": "SAP solution",
+                "description": "Installed: SAP S/4HANA or BW/4HANA "
+              },
+              {
+                "title": "PowerVS instances",
+                "description": "SAP HANA Instance: 1\n\nSAP NetWeaver Instances: 1\n\nShared SAP Instance: 0 or 1"
+              },
+              {
+                "title": "Power Virtual Server with VPC landing zone",
+                "description": "Available"
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "Full SAP S/4HANA or BW/4HANA environment provisioned on a 'Power Virtual Server with VPC landing zone'",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-s4hana-bw4hana/deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation. S/4HANA or BW/4HANA solution is installed based on selected version. \n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration provided by the 'Power Virtual Server with VPC landing zone'."
+              }
+            ]
+          }
+        },
+        {
+          "label": "SAP ready PowerVS Stack",
+          "name": "sap-ready-to-go-stack",
+          "install_type": "fullstack",
+          "working_directory": "solutions/ibm-catalog/stack/sap-ready-to-go",
+          "compliance": {},
+          "configuration": [
+            {
+              "key": "prerequisite_workspace_id",
+              "required": true,
+              "custom_config": {
+                "config_constraints": {
+                  "catalogID": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc",
+                  "offeringID": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
+                  "versionConstraint": ">=5.0.0"
+                },
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "schematics_workspace"
+              }
+            },
+            {
+              "key": "powervs_zone",
+              "type": "string",
+              "default_value": "",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Dallas (dallas)",
+                  "value": "us-south"
+                },
+                {
+                  "displayname": "Dallas 10 (dal10)",
+                  "value": "dal10"
+                },
+                {
+                  "displayname": "Dallas 12 (dal12)",
+                  "value": "dal12"
+                },
+                {
+                  "displayname": "Frankfurt 1 (eu-de-1)",
+                  "value": "eu-de-1"
+                },
+                {
+                  "displayname": "Frankfurt 2 (eu-de-2)",
+                  "value": "eu-de-2"
+                },
+                {
+                  "displayname": "London 04 (lon04) Non-PER",
+                  "value": "lon04"
+                },
+                {
+                  "displayname": "London 06 (lon06)",
+                  "value": "lon06"
+                },
+                {
+                  "displayname": "Montreal 01 (mon01) Non-PER",
+                  "value": "mon01"
+                },
+                {
+                  "displayname": "Osaka 21 (osa21)",
+                  "value": "osa21"
+                },
+                {
+                  "displayname": "Sao Paulo 01 (sao01)",
+                  "value": "sao01"
+                },
+                {
+                  "displayname": "Sao Paulo 04 (sao04)",
+                  "value": "sao04"
+                },
+                {
+                  "displayname": "Sydney 04 (syd04)",
+                  "value": "syd04"
+                },
+                {
+                  "displayname": "Sydney 05 (syd05)",
+                  "value": "syd05"
+                },
+                {
+                  "displayname": "Tokyo 04 (tok04)",
+                  "value": "tok04"
+                },
+                {
+                  "displayname": "Toronto 01 (tor01)",
+                  "value": "tor01"
+                },
+                {
+                  "displayname": "Washington DC (us-east)",
+                  "value": "us-east"
+                },
+                {
+                  "displayname": "Washington DC 06 (wdc06)",
+                  "value": "wdc06"
+                },
+                {
+                  "displayname": "Washington DC 07 (wdc07)",
+                  "value": "wdc07"
+                }
+              ],
+              "custom_config": {}
+            },
+            {
+              "key": "prefix",
+              "required": true,
+              "default_value": ""
+            },
+            {
+              "key": "powervs_sap_network_cidr",
+              "required": true,
+              "default_value": "10.53.0.0/24"
+            },
+            {
+              "key": "os_image_distro",
+              "type": "string",
+              "default_value": "",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "RHEL",
+                  "value": "RHEL"
+                },
+                {
+                  "displayname": "SLES",
+                  "value": "SLES"
+                }
+              ],
+              "custom_config": {}
+            },
+            {
+              "key": "powervs_create_separate_sharefs_instance",
+              "required": true,
+              "default_value": false
+            },
+            {
+              "key": "powervs_hana_instance_name",
+              "required": true
+            },
+            {
+              "key": "powervs_hana_instance_sap_profile_id",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_instance_count",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_instance_name",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_cpu_number",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_memory_size",
+              "required": true
+            },
+            {
+              "key": "ssh_private_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "ibmcloud_api_key",
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "sap_domain",
+              "required": true
+            },
+            {
+              "key": "powervs_hana_instance_custom_storage_config",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "powervs_hana_instance_additional_storage_config",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "powervs_netweaver_instance_storage_config",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "powervs_sharefs_instance",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            },
+            {
+              "key": "powervs_default_sap_images",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "key": "infrastructure_data"
+            },
+            {
+              "key": "access_host_or_ip"
+            },
+            {
+              "key": "powervs_hana_instance_ips"
+            },
+            {
+              "key": "powervs_hana_instance_management_ip"
+            },
+            {
+              "key": "powervs_netweaver_instance_ips"
+            },
+            {
+              "key": "powervs_netweaver_instance_management_ips"
+            },
+            {
+              "key": "powervs_sharefs_instance_ips"
+            },
+            {
+              "key": "powervs_lpars_data"
+            }
+          ],
+          "iam_permissions": [
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
+              "service_name": "is.vpc"
+            },
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
+              "service_name": "transit.gateway"
+            },
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
+              "service_name": "directlink.connect"
+            },
+            {
+              "role_crns": ["crn:v1:bluemix:public:iam::::serviceRole:Manager"],
+              "service_name": "power-iaas"
+            }
+          ],
+          "architecture": {
+            "features": [
+              {
+                "title": "SAP solution",
+                "description": "Not installed"
+              },
+              {
+                "title": "PowerVS instances",
+                "description": "SAP HANA Instance: 1\n\nSAP NetWeaver Instances: 0,1..N\n\nShared SAP Instance: 0 or 1"
+              },
+              {
+                "title": "Power Virtual Server with VPC landing zone",
+                "description": "Available"
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "Full SAP environment provisioned on a 'Power Virtual Server with VPC landing zone'",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "'SAP ready PowerVS' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of the 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration provided by 'Power Virtual Server with VPC landing zone'."
+              }
+            ]
+          }
         }
-    ]
+      ]
+    }
+  ]
 }
