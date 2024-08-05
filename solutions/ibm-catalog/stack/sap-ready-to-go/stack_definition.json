@@ -429,10 +429,6 @@
         {
           "name": "sm_service_plan",
           "value": "ref:../../inputs/sm_service_plan"
-        },
-        {
-          "name": "",
-          "value": "ref:../../inputs/"
         }
       ],
       "name": "Power Virtual Server with VPC landing zone",
