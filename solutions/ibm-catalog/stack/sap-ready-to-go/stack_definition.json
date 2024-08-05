@@ -1,6 +1,12 @@
 {
   "inputs": [
     {
+      "name": "ibmcloud_api_key",
+      "required": true,
+      "type": "password",
+      "hidden": false
+    },
+    {
       "name": "powervs_zone",
       "required": true,
       "type": "string",
@@ -287,6 +293,10 @@
     {
       "inputs": [
         {
+          "name": "ibmcloud_api_key",
+          "value": "ref:../../inputs/ibmcloud_api_key"
+        },
+        {
           "name": "prerequisite_workspace_id",
           "value": "ref:../Power%20Virtual%20Server%20with%20VPC%20landing%20zone/outputs/schematics_workspace_id"
         },
@@ -372,6 +382,10 @@
     },
     {
       "inputs": [
+        {
+          "name": "ibmcloud_api_key",
+          "value": "ref:../../inputs/ibmcloud_api_key"
+        },
         {
           "name": "powervs_zone",
           "value": "ref:../../inputs/powervs_zone"
