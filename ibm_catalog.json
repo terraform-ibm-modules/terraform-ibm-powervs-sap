@@ -984,6 +984,18 @@
                 "original_grouping": "deployment",
                 "type": "json_editor"
               }
+            },
+            {
+              "key": "powervs_management_network"
+            },
+            {
+              "key": "powervs_backup_network"
+            },
+            {
+              "key": "tags"
+            },
+            {
+              "key": "sm_service_plan"
             }
           ],
           "outputs": [

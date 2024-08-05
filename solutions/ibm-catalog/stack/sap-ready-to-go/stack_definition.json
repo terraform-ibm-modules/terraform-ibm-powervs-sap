@@ -206,14 +206,6 @@
       "custom_config": {}
     },
     {
-      "name": "nfs_directory",
-      "required": true,
-      "type": "string",
-      "hidden": false,
-      "default": "/nfs",
-      "custom_config": {}
-    },
-    {
       "name": "powervs_hana_instance_custom_storage_config",
       "type": "object",
       "hidden": false,
