@@ -931,17 +931,6 @@
               "required": true
             },
             {
-              "key": "ibmcloud_api_key",
-              "type": "multiline_secure_value",
-              "display_name": "Multiline secure value",
-              "required": true,
-              "custom_config": {
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "type": "multiline_secure_value"
-              }
-            },
-            {
               "key": "sap_domain",
               "required": true
             },
