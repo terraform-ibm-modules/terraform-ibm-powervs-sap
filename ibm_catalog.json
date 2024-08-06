@@ -975,6 +975,9 @@
               }
             },
             {
+              "key": "nfs_directory"
+            },
+            {
               "key": "powervs_management_network"
             },
             {
