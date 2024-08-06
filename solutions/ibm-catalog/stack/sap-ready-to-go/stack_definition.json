@@ -83,7 +83,6 @@
       "type": "array",
       "hidden": false,
       "default": [
-        "IBMi-75-03-2924-1",
         "IBMi-74-09-2984-1",
         "7300-02-01",
         "7200-05-07",
@@ -201,40 +200,46 @@
     },
     {
       "name": "powervs_hana_instance_custom_storage_config",
-      "type": "object",
+      "type": "array",
       "hidden": false,
-      "default": {
-        "name": "",
-        "size": "",
-        "count": "",
-        "tier": "",
-        "mount": ""
-      },
+      "default": [
+        {
+          "name": "",
+          "size": "",
+          "count": "",
+          "tier": "",
+          "mount": ""
+        }
+      ],
       "custom_config": {}
     },
     {
       "name": "powervs_hana_instance_additional_storage_config",
-      "type": "object",
+      "type": "array",
       "hidden": false,
-      "default": {
-        "name": "usrsap",
-        "size": "50",
-        "count": "1",
-        "tier": "tier3",
-        "mount": "/usr/sap"
-      }
+      "default": [
+        {
+          "name": "usrsap",
+          "size": "50",
+          "count": "1",
+          "tier": "tier3",
+          "mount": "/usr/sap"
+        }
+      ]
     },
     {
       "name": "powervs_netweaver_instance_storage_config",
-      "type": "object",
+      "type": "array",
       "hidden": false,
-      "default": {
-        "name": "usrsap",
-        "size": "50",
-        "count": "1",
-        "tier": "tier3",
-        "mount": "/usr/sap"
-      }
+      "default": [
+        {
+          "name": "usrsap",
+          "size": "50",
+          "count": "1",
+          "tier": "tier3",
+          "mount": "/usr/sap"
+        }
+      ]
     },
     {
       "name": "powervs_sharefs_instance",
@@ -273,6 +278,14 @@
         "sles_nw_image": "SLES15-SP4-SAP-NETWEAVER",
         "rhel_nw_image": "RHEL8-SP6-SAP-NETWEAVER"
       }
+    },
+    {
+      "name": "nfs_directory",
+      "required": false,
+      "type": "string",
+      "hidden": false,
+      "default": "/nfs",
+      "custom_config": {}
     }
   ],
   "members": [
