@@ -865,7 +865,8 @@
                 "grouping": "deployment",
                 "original_grouping": "deployment",
                 "type": "multiline_secure_value"
-              }
+              },
+              "description": "Private SSH key (RSA format) to login to Intel VSIs to configure network management services (SQUID, NTP, NFS, DNS and ansible). Should match to public SSH key referenced by 'ssh_public_key'. The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
             },
             {
               "key": "powervs_image_names",
@@ -1067,7 +1068,7 @@
             {
               "key": "powervs_zone",
               "type": "string",
-              "description": "IBM Cloud data center location where IBM PowerVS infrastructure will be created.",
+              "description": "IBM Cloud data center location corresponding to the location used in 'Power Virtual Server with VPC landing zone' pre-requisite deployment.",
               "default_value": "",
               "required": true,
               "options": [
@@ -1148,6 +1149,7 @@
             },
             {
               "key": "powervs_resource_group_name",
+              "description": "Existing IBM Cloud resource group name.",
               "required": true,
               "default_value": "",
               "custom_config": {
@@ -1174,10 +1176,12 @@
             },
             {
               "key": "client_to_site_vpn",
+              "description": "VPN configuration - the client ip pool and list of users email ids to access the environment. If enabled, then a Secret Manager instance is also provisioned with certificates generated. See optional parameters to reuse existing certificate from secrets manager instance.",
               "required": true
             },
             {
               "key": "ssh_public_key",
+              "description": "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region.",
               "type": "multiline_secure_value",
               "display_name": "Multiline secure value",
               "required": true,
@@ -1208,7 +1212,7 @@
             {
               "key": "sap_system_prefix",
               "type": "string",
-              "description": "Unique prefix for sap system resources to be created (e.g., SAP system name). Max length must be less than or equal to 6.",
+              "description": "Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6.",
               "required": true
             },
             {
@@ -1264,7 +1268,7 @@
             },
             {
               "key": "ibmcloud_cos_configuration",
-              "description": "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path' and 'cos_solution_software_path'.",
+              "description": "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path' and 'cos_solution_software_path'.",
               "required": true,
               "custom_config": {
                 "grouping": "deployment",
@@ -1361,6 +1365,7 @@
             },
             {
               "key": "powervs_hana_instance_custom_storage_config",
+              "description": "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
               "default": {
                 "name": "",
                 "size": "",
@@ -1371,6 +1376,7 @@
             },
             {
               "key": "powervs_hana_instance_additional_storage_config",
+              "description": "Additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
               "default": {
                 "name": "usrsap",
                 "size": "50",
@@ -1381,6 +1387,7 @@
             },
             {
               "key": "powervs_netweaver_instance_storage_config",
+              "description": "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance.",
               "default": {
                 "name": "usrsap",
                 "size": "50",
@@ -1391,6 +1398,7 @@
             },
             {
               "key": "powervs_sharefs_instance",
+              "description": "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
               "default": {
                 "name": "share",
                 "processors": "0.5",
@@ -1416,25 +1424,31 @@
             },
             {
               "key": "powervs_default_sap_images",
+              "description": "Default Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances.",
               "default": {
                 "rhel_hana_image": "RHEL8-SP6-SAP",
                 "rhel_nw_image": "RHEL8-SP6-SAP-NETWEAVER"
               }
             },
             {
-              "key": "nfs_directory"
+              "key": "nfs_directory",
+              "description": "Target directory on which the file storage share from VPC will be mounted."
             },
             {
-              "key": "powervs_management_network"
+              "key": "powervs_management_network",
+              "description": "Name of the IBM Cloud PowerVS management subnet and CIDR to create."
             },
             {
-              "key": "powervs_backup_network"
+              "key": "powervs_backup_network",
+              "description": "Name of the IBM Cloud PowerVS backup network and CIDR to create."
             },
             {
-              "key": "tags"
+              "key": "tags",
+              "description": "List of tag names for the IBM Cloud PowerVS workspace."
             },
             {
-              "key": "sm_service_plan"
+              "key": "sm_service_plan",
+              "description": "The service/pricing plan to use when provisioning a new Secrets Manager instance. Allowed values: `standard` and `trial`. Only used if `existing_sm_instance_guid` is set to null."
             }
           ],
           "iam_permissions": [
