@@ -1148,9 +1148,16 @@
             },
             {
               "key": "powervs_resource_group_name",
-              "type": "string",
-              "description": "Existing IBM Cloud resource group name.",
-              "required": true
+              "required": true,
+              "default_value": "",
+              "custom_config": {
+                "config_constraints": {
+                  "identifier": "rg_name"
+                },
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "resource_group"
+              }
             },
             {
               "key": "power_infrastructure_prefix",
@@ -1171,9 +1178,14 @@
             },
             {
               "key": "ssh_public_key",
-              "type": "string",
-              "description": "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region.",
-              "required": true
+              "type": "multiline_secure_value",
+              "display_name": "Multiline secure value",
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "multiline_secure_value"
+              }
             },
             {
               "key": "ssh_private_key",
