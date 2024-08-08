@@ -344,6 +344,14 @@
         "sles_nw_image": "SLES15-SP4-SAP-NETWEAVER",
         "rhel_nw_image": "RHEL8-SP6-SAP-NETWEAVER"
       }
+    },
+    {
+      "name": "nfs_directory",
+      "required": false,
+      "type": "string",
+      "hidden": false,
+      "default": "/nfs",
+      "custom_config": {}
     }
   ],
   "members": [
@@ -428,6 +436,10 @@
         {
           "name": "ansible_vault_password",
           "value": "ref:../../inputs/ansible_vault_password"
+        },
+        {
+          "name": "nfs_directory",
+          "value": "ref:../../inputs/nfs_directory"
         },
         {
           "name": "software_download_directory",
