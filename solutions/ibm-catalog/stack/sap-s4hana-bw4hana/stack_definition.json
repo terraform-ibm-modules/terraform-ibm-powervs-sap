@@ -239,7 +239,6 @@
       },
       "custom_config": {}
     },
-
     {
       "name": "sap_domain",
       "required": true,
@@ -248,20 +247,11 @@
       "default": "sap.com",
       "custom_config": {}
     },
-
     {
       "name": "ansible_vault_password",
       "required": true,
       "type": "password",
       "hidden": false,
-      "custom_config": {}
-    },
-    {
-      "name": "software_download_directory",
-      "required": true,
-      "type": "string",
-      "hidden": false,
-      "default": "/software",
       "custom_config": {}
     },
     {
@@ -440,10 +430,6 @@
         {
           "name": "nfs_directory",
           "value": "ref:../../inputs/nfs_directory"
-        },
-        {
-          "name": "software_download_directory",
-          "value": "ref:../../inputs/software_download_directory"
         },
         {
           "name": "powervs_hana_instance_custom_storage_config",
