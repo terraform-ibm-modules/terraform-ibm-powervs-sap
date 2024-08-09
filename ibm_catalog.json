@@ -746,6 +746,7 @@
               "key": "powervs_zone",
               "type": "string",
               "default_value": "",
+              "description": "IBM Cloud data center location corresponding to the location used in 'Power Virtual Server with VPC landing zone' pre-requisite deployment.",
               "required": true,
               "options": [
                 {
@@ -825,8 +826,9 @@
             },
             {
               "key": "powervs_resource_group_name",
-              "required": true,
               "default_value": "",
+              "description": "Existing IBM Cloud resource group name.",
+              "required": true,
               "custom_config": {
                 "config_constraints": {
                   "identifier": "rg_name"
@@ -838,16 +840,19 @@
             },
             {
               "key": "power_infrastructure_prefix",
+              "description": "A unique identifier for power infrastructure resources. Must begin with a lowercase letter and end with a lowercase letter or number. This prefix will be prepended to any resources provisioned by this template. Prefixes must be 16 or fewer characters.",
               "required": true
             },
             {
               "key": "external_access_ip",
               "default_value": "__NULL__",
+              "description": "Specify the source IP address or CIDR for login through SSH to the environment after deployment. Access to the environment will be allowed only from this IP address.",
               "required": true
             },
             {
               "key": "ssh_public_key",
               "type": "multiline_secure_value",
+              "description": "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region.",
               "display_name": "Multiline secure value",
               "required": true,
               "custom_config": {
@@ -859,32 +864,36 @@
             {
               "key": "ssh_private_key",
               "type": "multiline_secure_value",
+              "description": "Private SSH key (RSA format) to login to Intel VSIs to configure network management services (SQUID, NTP, NFS, DNS and ansible). Should match to public SSH key referenced by 'ssh_public_key'. The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys).",
               "display_name": "Multiline secure value",
               "required": true,
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
                 "type": "multiline_secure_value"
-              },
-              "description": "Private SSH key (RSA format) to login to Intel VSIs to configure network management services (SQUID, NTP, NFS, DNS and ansible). Should match to public SSH key referenced by 'ssh_public_key'. The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
+              }
             },
             {
               "key": "powervs_image_names",
+              "description": "List of Images to be imported into cloud account from catalog images. Supported values can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/solutions/full-stack/docs/catalog_image_names.md).",
               "required": true
             },
             {
               "key": "sap_system_prefix",
+              "description": "Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6.",
               "required": true
             },
             {
               "key": "powervs_sap_network_cidr",
-              "required": true,
-              "default_value": "10.53.0.0/24"
+              "default_value": "10.53.0.0/24",
+              "description": "Network range for dedicated SAP network. Used for communication between SAP Application servers with SAP HANA Database. E.g., '10.53.0.0/24'",
+              "required": true
             },
             {
               "key": "os_image_distro",
               "type": "string",
               "default_value": "",
+              "description": "Image distribution to use for all instances(Shared, HANA, NetWeaver). OS release versions may be specified in 'powervs_sap_default_images' optional parameters below.",
               "required": true,
               "options": [
                 {
@@ -900,39 +909,48 @@
             },
             {
               "key": "powervs_create_separate_sharefs_instance",
-              "required": true,
-              "default_value": false
+              "default_value": false,
+              "description": "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on SAP NetWeaver PowerVS instances if enabled. Optional parameter 'powervs_share_fs_instance' can be configured if enabled.",
+              "required": true
             },
             {
               "key": "powervs_hana_instance_name",
+              "description": "PowerVS SAP HANA instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_hana_instance_name>. Max length of final hostname must be <= 13 characters.",
               "required": true
             },
             {
               "key": "powervs_hana_instance_sap_profile_id",
+              "description": "PowerVS SAP HANA instance profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional parameter 'powervs_hana_instance_custom_storage_config'.",
               "required": true
             },
             {
               "key": "powervs_netweaver_instance_count",
+              "description": "Number of PowerVS SAP NetWeaver instances that should be created.",
               "required": true
             },
             {
               "key": "powervs_netweaver_instance_name",
+              "description": "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters.",
               "required": true
             },
             {
               "key": "powervs_netweaver_cpu_number",
+              "description": "Number of CPUs for each PowerVS SAP NetWeaver instance.",
               "required": true
             },
             {
               "key": "powervs_netweaver_memory_size",
+              "description": "Memory size for each PowerVS SAP NetWeaver instance.",
               "required": true
             },
             {
               "key": "sap_domain",
+              "description": "SAP network domain name.",
               "required": true
             },
             {
               "key": "powervs_hana_instance_custom_storage_config",
+              "description": "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
@@ -941,6 +959,7 @@
             },
             {
               "key": "powervs_hana_instance_additional_storage_config",
+              "description": "Additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
@@ -949,6 +968,7 @@
             },
             {
               "key": "powervs_netweaver_instance_storage_config",
+              "description": "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance.",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
@@ -957,6 +977,7 @@
             },
             {
               "key": "powervs_sharefs_instance",
+              "description": "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
@@ -965,6 +986,7 @@
             },
             {
               "key": "powervs_default_sap_images",
+              "description": "Default Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances.",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
@@ -972,19 +994,24 @@
               }
             },
             {
-              "key": "nfs_directory"
+              "key": "nfs_directory",
+              "description": "Target directory on which the file storage share from VPC will be mounted."
             },
             {
-              "key": "powervs_management_network"
+              "key": "powervs_management_network",
+              "description": "Name of the IBM Cloud PowerVS management subnet and CIDR to create."
             },
             {
-              "key": "powervs_backup_network"
+              "key": "powervs_backup_network",
+              "description": "Name of the IBM Cloud PowerVS backup network and CIDR to create."
             },
             {
-              "key": "tags"
+              "key": "tags",
+              "description": "List of tag names for the IBM Cloud PowerVS workspace."
             },
             {
-              "key": "sm_service_plan"
+              "key": "sm_service_plan",
+              "description": "The service/pricing plan to use when provisioning a new Secrets Manager instance. Allowed values: `standard` and `trial`. Only used if `existing_sm_instance_guid` is set to null."
             }
           ],
           "outputs": [
@@ -1068,8 +1095,8 @@
             {
               "key": "powervs_zone",
               "type": "string",
-              "description": "IBM Cloud data center location corresponding to the location used in 'Power Virtual Server with VPC landing zone' pre-requisite deployment.",
               "default_value": "",
+              "description": "IBM Cloud data center location corresponding to the location used in 'Power Virtual Server with VPC landing zone' pre-requisite deployment.",
               "required": true,
               "options": [
                 {
@@ -1149,9 +1176,9 @@
             },
             {
               "key": "powervs_resource_group_name",
-              "description": "Existing IBM Cloud resource group name.",
               "required": true,
               "default_value": "",
+              "description": "Existing IBM Cloud resource group name.",
               "custom_config": {
                 "config_constraints": {
                   "identifier": "rg_name"
@@ -1181,8 +1208,8 @@
             },
             {
               "key": "ssh_public_key",
-              "description": "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region.",
               "type": "multiline_secure_value",
+              "description": "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region.",
               "display_name": "Multiline secure value",
               "required": true,
               "custom_config": {
@@ -1194,8 +1221,8 @@
             {
               "key": "ssh_private_key",
               "type": "password",
-              "display_name": "Multiline secure value",
               "description": "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to public SSH key referenced by 'ssh_public_key'. Entered data must be in [heredoc strings format](https://www.terraform.io/language/expressions/strings#heredoc-strings). The key is not uploaded or stored. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys).",
+              "display_name": "Multiline secure value",
               "required": true,
               "custom_config": {
                 "type": "multiline_secure_value",
@@ -1257,8 +1284,8 @@
             {
               "key": "ibmcloud_cos_service_credentials",
               "type": "multiline_secure_value",
-              "description": "IBM Cloud Object Storage instance service credentials to access the bucket in the instance.[json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)",
               "display_name": "Multiline secure value",
+              "description": "IBM Cloud Object Storage instance service credentials to access the bucket in the instance.[json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)",
               "required": true,
               "custom_config": {
                 "grouping": "deployment",
@@ -1279,8 +1306,8 @@
             {
               "key": "sap_solution",
               "type": "string",
-              "description": "SAP Solution to be installed on Power Virtual Server.",
               "default_value": "",
+              "description": "SAP Solution to be installed on Power Virtual Server.",
               "required": true,
               "options": [
                 {
@@ -1305,8 +1332,8 @@
             {
               "key": "sap_hana_master_password",
               "type": "multiline_secure_value",
-              "description": "SAP HANA master password.",
               "display_name": "Multiline secure value",
+              "description": "SAP HANA master password.",
               "required": true,
               "custom_config": {
                 "grouping": "deployment",
@@ -1327,8 +1354,8 @@
             {
               "key": "sap_swpm_master_password",
               "type": "multiline_secure_value",
-              "description": "SAP SWPM master password.",
               "display_name": "Multiline secure value",
+              "description": "SAP SWPM master password.",
               "required": true,
               "custom_config": {
                 "grouping": "deployment",
@@ -1365,70 +1392,23 @@
             },
             {
               "key": "powervs_hana_instance_custom_storage_config",
-              "description": "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
-              "default": {
-                "name": "",
-                "size": "",
-                "count": "",
-                "tier": "",
-                "mount": ""
-              }
+              "description": "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
             },
             {
               "key": "powervs_hana_instance_additional_storage_config",
-              "description": "Additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
-              "default": {
-                "name": "usrsap",
-                "size": "50",
-                "count": "1",
-                "tier": "tier3",
-                "mount": "/usr/sap"
-              }
+              "description": "Additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
             },
             {
               "key": "powervs_netweaver_instance_storage_config",
-              "description": "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance.",
-              "default": {
-                "name": "usrsap",
-                "size": "50",
-                "count": "1",
-                "tier": "tier3",
-                "mount": "/usr/sap"
-              }
+              "description": "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance."
             },
             {
               "key": "powervs_sharefs_instance",
-              "description": "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
-              "default": {
-                "name": "share",
-                "processors": "0.5",
-                "memory": "2",
-                "proc_type": "shared",
-                "storage_config": [
-                  {
-                    "name": "sapmnt",
-                    "size": "300",
-                    "count": "1",
-                    "tier": "tier3",
-                    "mount": "/sapmnt"
-                  },
-                  {
-                    "name": "trans",
-                    "size": "50",
-                    "count": "1",
-                    "tier": "tier3",
-                    "mount": "/usr/trans"
-                  }
-                ]
-              }
+              "description": "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
             },
             {
               "key": "powervs_default_sap_images",
-              "description": "Default Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances.",
-              "default": {
-                "rhel_hana_image": "RHEL8-SP6-SAP",
-                "rhel_nw_image": "RHEL8-SP6-SAP-NETWEAVER"
-              }
+              "description": "Default Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances."
             },
             {
               "key": "nfs_directory",
@@ -1606,9 +1586,9 @@
             },
             {
               "key": "ssh_public_key",
-              "description": "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region.",
               "type": "multiline_secure_value",
               "display_name": "Multiline secure value",
+              "description": "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region.",
               "required": true,
               "custom_config": {
                 "grouping": "deployment",
