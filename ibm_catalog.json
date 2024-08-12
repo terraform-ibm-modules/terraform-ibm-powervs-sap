@@ -850,6 +850,11 @@
               "required": true
             },
             {
+              "key": "client_to_site_vpn",
+              "description": "VPN configuration - the client ip pool and list of users email ids to access the environment. If enabled, then a Secret Manager instance is also provisioned with certificates generated. See optional parameters to reuse existing certificate from secrets manager instance.",
+              "required": true
+            },
+            {
               "key": "ssh_public_key",
               "type": "multiline_secure_value",
               "description": "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region.",
