@@ -42,9 +42,9 @@ The 'SAP Ready PowerVS Stack' solution offers two [deployable architectures](htt
 - **Do not specify** a filesystem `/sapmnt` explicitly for NetWeaver instance as, it is created internally when sharefs instance is not enabled.
 - Tested with RHEL8.4,/8.6/8.8/9.2, SLES15-SP3/SP5 images.
 
-| Product                                | Variation                   | Available on IBM Catalog  | Creates VPC Landing Zone          | Performs VPC VSI OS Config        | Creates PowerVS Infrastructure    | Creates PowerVS HANA Instance     | Creates PowerVS NW Instances      | Performs PowerVS OS Config        | Performs PowerVS SAP Tuning       | Install SAP software              |
-|----------------------------------------|-----------------------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
-| **Power Virtual Server for SAP HANA**  | **SAP Ready PowerVS Stack** | yes | ✅             | ✅             | ✅             | 1              | 0 to N         | ✅             | ✅             | ❌             |
+| Variation                   | Available on IBM Catalog  | Creates VPC Landing Zone          | Performs VPC VSI OS Config        | Creates PowerVS Infrastructure    | Creates PowerVS HANA Instance     | Creates PowerVS NW Instances      | Performs PowerVS OS Config        | Performs PowerVS SAP Tuning       | Install SAP software              |
+|-----------------------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
+| **SAP Ready PowerVS Stack** | yes | ✅             | ✅             | ✅             | 1              | 0 to N         | ✅             | ✅             | ❌             |
 
 
 ## Architecture Diagram
