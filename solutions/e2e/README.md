@@ -52,21 +52,21 @@ The end-to-end solution automates the following tasks:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | = 1.67.1 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | = 0.11.2 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.68.0 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | 0.12.0 |
 
 ### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_powervs_infra"></a> [powervs\_infra](#module\_powervs\_infra) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 5.3.0 |
+| <a name="module_powervs_infra"></a> [powervs\_infra](#module\_powervs\_infra) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 6.0.0 |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../modules/pi-sap-system-type1 | n/a |
 
 ### Resources
 
 | Name | Type |
 |------|------|
-| [time_sleep.wait_10_mins](https://registry.terraform.io/providers/hashicorp/time/0.11.2/docs/resources/sleep) | resource |
+| [time_sleep.wait_10_mins](https://registry.terraform.io/providers/hashicorp/time/0.12.0/docs/resources/sleep) | resource |
 
 ### Inputs
 
