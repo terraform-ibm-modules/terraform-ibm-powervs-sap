@@ -55,7 +55,6 @@ The 'SAP S/4HANA or BW/4HANA Stack' solution offers two [deployable architecture
 - Custom storage configuration by providing custom volume size, **iops**(tier0, tier1, tier3, tier5k), counts and mount points is supported.
 - If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all NetWeaver Instances.
 - **Do not specify** a filesystem `/sapmnt` explicitly for NetWeaver instance as, it is created internally when sharefs instance is not enabled.
-- Tested with RHEL8.4,/8.6/8.8/9.2, SLES15-SP3/SP5 images.
 
 ## Prerequisites
 ### 1. IBM Cloud Object Storage service credentials

@@ -50,12 +50,9 @@ The 'SAP S/4HANA or BW/4HANA Stack' solution offers two [deployable architecture
 **It is required to have an existing IBM Cloud Object Storage (COS) instance**. Within the instance, an Object Storage Bucket containing the **SAP Software installation media files is required in the correct folder structure as defined** [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-ibm-cloud-object-storage-bucket).
 
 ## Notes
-- **Does not install any SAP software or solutions.**
 - Filesystem sizes for HANA data and HANA log are **calculated automatically** based on the **memory size**.
 - Custom storage configuration by providing custom volume size, **iops**(tier0, tier1, tier3, tier5k), counts and mount points is supported.
 - If **sharefs instance is enabled**, then all filesystems provisioned for sharefs instance will be **NFS exported and mounted** on all NetWeaver Instances.
-- **Do not specify** a filesystem `/sapmnt` explicitly for NetWeaver instance as, it is created internally when sharefs instance is not enabled.
-- Tested with RHEL8.4,/8.6/8.8/9.2, SLES15-SP3/SP5 images.
 
 ## Prerequisites
 ### 1. IBM Cloud Object Storage service credentials
