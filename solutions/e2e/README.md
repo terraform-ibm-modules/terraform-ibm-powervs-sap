@@ -52,7 +52,7 @@ The end-to-end solution automates the following tasks:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.68.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.68.1 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | 0.12.0 |
 
 ### Modules
