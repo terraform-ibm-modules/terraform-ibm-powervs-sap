@@ -27,7 +27,7 @@ The 'SAP S/4HANA or BW/4HANA Stack' solution offers two [deployable architecture
 2. Power Virtual Server for SAP HANA - SAP S/4HANA or BW/4HANA variant: This architecture provisions IBM PowerVS hosts on the Power Virtual Server Infrastructure. The virtual server instances are optimized for SAP, supporting SAP HANA and NetWeaver configurations. The deployment of results adds the following components into the infrastructure deployed by the first solution:
     - Creates a new private subnet for SAP communication for the entire landscape
     - Creates and configures one PowerVS instance for SAP HANA based on best practices.
-    - Creates and configures multiple PowerVS instances for SAP NetWeaver based on best practices.
+    - Creates and configures one PowerVS instance for SAP NetWeaver based on best practices.
     - Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
     - Connects all created PowerVS instances to a proxy server specified by IP address or hostname.
     - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
@@ -40,7 +40,7 @@ The 'SAP S/4HANA or BW/4HANA Stack' solution offers two [deployable architecture
 
 | Variation                   | Available on IBM Catalog  | Creates VPC Landing Zone          | Performs VPC VSI OS Config        | Creates PowerVS Infrastructure    | Creates PowerVS HANA Instance     | Creates PowerVS NW Instances      | Performs PowerVS OS Config        | Performs PowerVS SAP Tuning       | Install SAP software              |
 |-----------------------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
-| **SAP Ready PowerVS Stack** | yes | ✅             | ✅             | ✅             | 1              | 0 to N         | ✅             | ✅             | ✅              |
+| **SAP Ready PowerVS Stack** | yes | ✅             | ✅             | ✅             | 1              | 1         | ✅             | ✅             | ✅              |
 
 
 ## Architecture Diagram
