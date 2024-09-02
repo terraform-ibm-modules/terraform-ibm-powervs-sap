@@ -55,3 +55,6 @@ Brewfile.lock.json
 
 # Ignore .vscode files
 .vscode/
+
+# Virtual environment files
+/venv

@@ -1,10 +1,10 @@
-# IBM Cloud Catalog - Power Virtual Server for SAP HANA: 'SAP S/4HANA or BW/4HANA Stack
+# IBM Cloud Catalog - Power Virtual Server for SAP HANA: 'SAP S/4HANA or BW/4HANA PowerVS with VPC'
 
-The 'SAP S/4HANA or BW/4HANA Stack' is designed to simplify the deployment of an end-to-end SAP ERP software landscape on the IBM Power Virtual Server infrastructure into IBM Cloud. It combines the deployment of two [deployable architectures](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understand-module-da#what-is-da) into one configuration and helps to deploy the SAP landscape via IBM Cloud [projects](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects).
+The 'SAP S/4HANA or BW/4HANA PowerVS with VPC' is designed to simplify the deployment of an end-to-end SAP ERP software landscape on the IBM Power Virtual Server infrastructure into IBM Cloud. It combines the deployment of two [deployable architectures](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understand-module-da#what-is-da) into one configuration and helps to deploy the SAP landscape via IBM Cloud [projects](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects).
 
 # Summary
 ## Stack Deployment Outcome:
-The 'SAP S/4HANA or BW/4HANA Stack' solution offers two [deployable architectures](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understand-module-da#what-is-da):
+The 'SAP S/4HANA or BW/4HANA PowerVS with VPC' solution offers two [deployable architectures](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understand-module-da#what-is-da):
 1. [Power Virtual Server with VPC landing zone](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?kind=terraform&format=terraform&version=7cee3b92-c691-4394-aed5-b090cbffb403-global) - Standard variant: This architecture establishes an IBM Cloud® Power Virtual Server Infrastructure (PowerVS) that adheres to IBM Cloud's best practices and requirements. The infrastructure has following components:
     - A **VPC** with the following components:
         - One VSI for one management (jump/bastion) VSI,
