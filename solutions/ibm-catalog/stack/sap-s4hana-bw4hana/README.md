@@ -44,7 +44,7 @@ The 'SAP S/4HANA or BW/4HANA PowerVS with VPC' solution offers two [deployable a
 
 
 ## Architecture Diagram
-![sap-ready-to-go](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg)
+![sap-ready-to-go](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/reference-architectures/sap-s4hana-bw4hana-stack/deploy-arch-ibm-pvs-sap-s4hana-bw4hana-stack.svg)
 
 ## Before you begin
 **It is required to have an existing IBM Cloud Object Storage (COS) instance**. Within the instance, an Object Storage Bucket containing the **SAP Software installation media files is required in the correct folder structure as defined** [here](#2-sap-binaries-required-for-installation-and-folder-structure-in-ibm-cloud-object-storage-bucket).
