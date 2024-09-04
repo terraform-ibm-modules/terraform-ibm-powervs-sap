@@ -286,6 +286,11 @@
               }
             },
             {
+              "key": "powervs_image_names",
+              "description": "List of Images to be imported into cloud account from catalog images. Supported values can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/solutions/full-stack/docs/catalog_image_names.md).",
+              "required": false
+            },
+            {
               "key": "powervs_default_sap_images",
               "description": "Default Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances.",
               "custom_config": {
@@ -314,11 +319,6 @@
             {
               "key": "transit_gateway_global",
               "description": "Connect to the networks outside the associated region."
-            },
-            {
-              "key": "powervs_image_names",
-              "description": "List of Images to be imported into cloud account from catalog images. Supported values can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/solutions/full-stack/docs/catalog_image_names.md).",
-              "required": false
             },
             {
               "key": "tags",
@@ -714,6 +714,11 @@
               "description": "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
             },
             {
+              "key": "powervs_image_names",
+              "description": "List of Images to be imported into cloud account from catalog images. Supported values can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/solutions/full-stack/docs/catalog_image_names.md).",
+              "required": false
+            },
+            {
               "key": "powervs_default_sap_images",
               "description": "Default Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances."
             },
@@ -737,11 +742,6 @@
             {
               "key": "transit_gateway_global",
               "description": "Connect to the networks outside the associated region."
-            },
-            {
-              "key": "powervs_image_names",
-              "description": "List of Images to be imported into cloud account from catalog images. Supported values can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/blob/main/solutions/full-stack/docs/catalog_image_names.md).",
-              "required": false
             },
             {
               "key": "tags",

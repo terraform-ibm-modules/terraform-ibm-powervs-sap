@@ -60,10 +60,10 @@
       "type": "array",
       "hidden": false,
       "default": [
-        "SLES15-SP4-SAP",
-        "SLES15-SP4-SAP-NETWEAVER",
-        "RHEL8-SP6-SAP",
-        "RHEL8-SP6-SAP-NETWEAVER"
+        "SLES15-SP5-SAP",
+        "SLES15-SP5-SAP-NETWEAVER",
+        "RHEL9-SP2-SAP",
+        "RHEL9-SP2-SAP-NETWEAVER"
       ],
       "custom_config": {}
     },
@@ -267,10 +267,10 @@
       "type": "object",
       "hidden": false,
       "default": {
-        "sles_hana_image": "SLES15-SP4-SAP",
-        "rhel_hana_image": "RHEL8-SP6-SAP",
-        "sles_nw_image": "SLES15-SP4-SAP-NETWEAVER",
-        "rhel_nw_image": "RHEL8-SP6-SAP-NETWEAVER"
+        "sles_hana_image": "SLES15-SP5-SAP",
+        "rhel_hana_image": "RHEL9-SP2-SAP",
+        "sles_nw_image": "SLES15-SP5-SAP-NETWEAVER",
+        "rhel_nw_image": "RHEL9-SP2-SAP-NETWEAVER"
       }
     },
     {
