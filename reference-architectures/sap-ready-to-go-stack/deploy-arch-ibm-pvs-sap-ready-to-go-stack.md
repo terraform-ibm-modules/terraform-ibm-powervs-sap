@@ -24,27 +24,25 @@ related_links:
   - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
     url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-full-stack'
     description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
-  - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-extension'
-    description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
+
 
 ---
 
 {{site.data.keyword.attribute-definition-list}}
 
-# Power Virtual Server for SAP HANA - variation 'SAP ready PowerVS'
+# Power Virtual Server for SAP HANA - variation 'SAP ready PowerVS Fullstack'
 {: #sap-ready-to-go-stack}
 {: toc-content-type="reference-architecture"}
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
 {: toc-compliance="SAPCertified"}
-{: toc-version="2.1.1"}
+{: toc-version="3.1.0"}
 
 The SAP-ready PowerVS with VPC landing zone variation of the Power Virtual Server for SAP HANA is designed to simplify the deployment of an end-to-end SAP ERP software landscape on the IBM Power Virtual Server infrastructure into IBM Cloud. This variation builds a VPC landing zone and deploys Power Virtual Servers that are tuned to be ready for SAP HANA and SAP NetWeaver. It deploys one HANA-ready instance and one or more NetWeaver-ready instances. Optionally, it also deploys an additional Power Virtual Server for shared SAP files.
 
 This variation leverages the two [deployable architectures](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understand-module-da#what-is-da) [Power Virtual Server with VPC landing zone](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?kind=terraform&format=terraform&version=7cee3b92-c691-4394-aed5-b090cbffb403-global) and [Power Virtual Server for SAP HANA - SAP Ready PowerVS variant](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-sap-9aa6135e-75d5-467e-9f4a-ac2a21c069b8-global?catalog_query=aHR0cHM6Ly9jbG91ZC5pYm0uY29tL2NhdGFsb2c%2Fc2VhcmNoPXBvd2VyI3NlYXJjaF9yZXN1bHRz&kind=terraform&format=terraform&version=6ce2294f-fcb3-4d52-80f6-414917f4876d-global).
 
-This variation does not install any SAP software or solutions. For that, use sap-s4hana-bw4hana variation [TODO].
+This variation does not install any SAP software or solutions. For that, use SAP S4/HANA or BW/4HANA variation.
 
 Services such as DNS, NTP, and NFS running in VPC and provided by Power Virtual Server with VPC landing zone are leveraged.
 
@@ -157,9 +155,9 @@ The architecture decisions are comprised of those from the two components.
 ## Compliance
 {: #sap-ready-to-go-stack-compliance}
 
-This deployable architecture is certified for SAP deployments. [TODO]
+This deployable architecture is certified for SAP deployments.
 
 ## Next steps
 {: #next-steps}
 
-Install the SAP system. [TODO]
+Install the SAP system.

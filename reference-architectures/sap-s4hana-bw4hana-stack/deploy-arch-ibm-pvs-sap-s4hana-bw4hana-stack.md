@@ -24,9 +24,6 @@ related_links:
   - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
     url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-full-stack'
     description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
-  - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-extension'
-    description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
 
 ---
 
@@ -38,7 +35,7 @@ related_links:
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
 {: toc-compliance="SAPCertified"}
-{: toc-version="2.1.1"}
+{: toc-version="3.1.0"}
 
 'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA with VPC landing zone' creates a basic and expandable SAP system landscape. PowerVS instances for SAP HANA, SAP NetWeaver, and optionally for shared SAP files are deployed and preconfigured for SAP installation. The S/4HANA or BW/4HANA solution is installed based on the selected version.
 

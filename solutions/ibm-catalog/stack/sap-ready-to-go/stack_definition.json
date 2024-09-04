@@ -15,11 +15,10 @@
       "custom_config": {}
     },
     {
-      "name": "power_infrastructure_prefix",
+      "name": "prefix",
       "required": true,
       "type": "string",
       "hidden": false,
-      "default": "infra",
       "custom_config": {}
     },
     {
@@ -27,14 +26,13 @@
       "required": true,
       "type": "string",
       "hidden": false,
-      "default": "0.0.0.0/0",
       "custom_config": {}
     },
     {
       "name": "client_to_site_vpn",
       "type": "object",
       "hidden": false,
-      "default": {
+      "default_value": {
         "enable": true,
         "client_ip_pool": "192.168.0.0/16",
         "vpn_client_access_group_users": []
@@ -53,6 +51,19 @@
       "required": true,
       "type": "password",
       "hidden": false,
+      "custom_config": {}
+    },
+    {
+      "name": "powervs_image_names",
+      "required": false,
+      "type": "array",
+      "hidden": true,
+      "default": [
+        "SLES15-SP4-SAP",
+        "SLES15-SP4-SAP-NETWEAVER",
+        "RHEL8-SP6-SAP",
+        "RHEL8-SP6-SAP-NETWEAVER"
+      ],
       "custom_config": {}
     },
     {
@@ -78,19 +89,11 @@
       "custom_config": {}
     },
     {
-      "name": "powervs_image_names",
+      "name": "transit_gateway_global",
       "required": false,
-      "type": "array",
+      "type": "boolean",
       "hidden": false,
-      "default": [
-        "IBMi-74-09-2984-1",
-        "7300-02-01",
-        "7200-05-07",
-        "SLES15-SP4-SAP",
-        "SLES15-SP4-SAP-NETWEAVER",
-        "RHEL8-SP6-SAP",
-        "RHEL8-SP6-SAP-NETWEAVER"
-      ],
+      "default": false,
       "custom_config": {}
     },
     {
@@ -109,15 +112,6 @@
       "default": "standard",
       "custom_config": {}
     },
-
-    {
-      "name": "sap_system_prefix",
-      "required": true,
-      "type": "string",
-      "hidden": false,
-      "default": "sapsys",
-      "custom_config": {}
-    },
     {
       "name": "powervs_sap_network_cidr",
       "required": true,
@@ -133,7 +127,6 @@
       "hidden": false,
       "custom_config": {}
     },
-
     {
       "name": "powervs_create_separate_sharefs_instance",
       "required": true,
@@ -301,7 +294,7 @@
         },
         {
           "name": "prefix",
-          "value": "ref:../../inputs/sap_system_prefix"
+          "value": "ref:../../inputs/prefix"
         },
         {
           "name": "powervs_sap_network_cidr",
@@ -387,7 +380,7 @@
         },
         {
           "name": "prefix",
-          "value": "ref:../../inputs/power_infrastructure_prefix"
+          "value": "ref:../../inputs/prefix"
         },
         {
           "name": "external_access_ip",
@@ -407,7 +400,7 @@
         },
         {
           "name": "transit_gateway_global",
-          "value": "true"
+          "value": "ref:../../inputs/transit_gateway_global"
         },
         {
           "name": "powervs_management_network",
