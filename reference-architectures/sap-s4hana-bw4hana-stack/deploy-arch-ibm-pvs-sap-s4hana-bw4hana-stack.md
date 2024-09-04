@@ -2,7 +2,7 @@
 
 copyright:
   years: 2024
-lastupdated: "2024-06-10"
+lastupdated: "2024-09-05"
 keywords:
 subcollection: deployable-reference-architectures
 authors:
@@ -16,7 +16,7 @@ use-case: ITServiceManagement
 industry: Technology
 compliance: SAPCertified
 content-type: reference-architecture
-version: v2.1.1
+version: v3.1.0
 related_links:
   - title: 'SAP in IBM Cloud documentation'
     url: 'https://cloud.ibm.com/docs/sap'
@@ -30,7 +30,7 @@ related_links:
 {{site.data.keyword.attribute-definition-list}}
 
 # Power Virtual Server for SAP HANA - variation 'SAP S/4HANA or BW/4HANA Create a new architecture'
-{: #sap-s4hana-bw4hana}
+{: #sap-s4hana-bw4hana-stack}
 {: toc-content-type="reference-architecture"}
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
@@ -50,18 +50,18 @@ Transit gateway connections provide the network bridge between the IBM Power inf
 The resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the VPC landing zone and the network connectivity configuration provided by Power Virtual Server with VPC landing zone.
 
 ## Architecture diagram
-{: #sap-s4hana-bw4hana-architecture-diagram}
+{: #sap-s4hana-bw4hana-stack-architecture-diagram}
 ![Architecture diagram for 'SAP on Power Virtual Server for SAP HANA' - variation 'SAP S/4HANA or BW/4HANA'.](deploy-arch-ibm-pvs-sap-s4hana-bw4hana-stack.svg "Architecture diagram"){: caption="Figure 1. Full SAP S/4HANA or BW/4HANA environment and 'Power Virtual Server with VPC landing zone'" caption-side="bottom"}{: external download="deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg"}
 
 ## Design requirements
-{: #sap-s4hana-bw4hana-design-requirements}
+{: #sap-s4hana-bw4hana-stack-design-requirements}
 
 ![Design requirements for 'Power Virtual Server for SAP HANA' - variation 'SAP S/4HANA or BW/4HANA'.](heat-map-deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg "Design requirements"){: caption="Figure 2. Scope of the solution requirements" caption-side="bottom"}
 
 IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that allows an enterprise to establish its own private IBM Power computing environment on shared public cloud infrastructure. Due to its scalability and resilience, PowerVS is the premium platform for SAP workloads in the cloud world. The reference architecture for 'Power Virtual Server for SAP HANA' - variation 'SAP S/4HANA or BW/4HANA' is designed to provide PowerVS Linux instances prepared and configured for SAP HANA and SAP NetWeaver workloads according to the best practices and requirements using IBM Cloud® deployable architectures framework. Additionally, S/4HANA or BW/4HANA solution is installed based on the selected version.
 
 ## Components
-{: ##sap-s4hana-bw4hana-components}
+{: ##sap-s4hana-bw4hana-stack-components}
 
 ### VPC architecture decisions
 {: #standard-vpc-components-arch}
@@ -121,7 +121,7 @@ IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that allows
 {: caption="Table 5. Key and passwords management architecture decisions" caption-side="bottom"}
 
 ### PowerVS networks for SAP - architecture decisions
-{: ##sap-s4hana-bw4hana-pvs-components}
+{: ##sap-s4hana-bw4hana-stack-pvs-components}
 
 | Requirement | Component | Choice | Alternative choice |
 |-------------|-----------|--------------------|--------------------|
@@ -131,7 +131,7 @@ IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that allows
 {: caption="Table 1. PowerVS networks for SAP - architecture decisions" caption-side="bottom"}
 
 ### PowerVS instances for SAP - architecture decisions
-{: ##sap-s4hana-bw4hana-instance-components}
+{: ##sap-s4hana-bw4hana-stack-instance-components}
 
 | Requirement | Component | Choice | Alternative choice |
 |-------------|-----------|--------------------|--------------------|
@@ -141,7 +141,7 @@ IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that allows
 {: caption="Table 2. PowerVS workspace architecture decisions" caption-side="bottom"}
 
 ### Key and password management architecture decisions
-{: ##sap-s4hana-bw4hana-full-key-pw}
+{: ##sap-s4hana-bw4hana-stack-full-key-pw}
 
 | Requirement | Component | Choice | Alternative choice |
 |-------------|-----------|--------------------|--------------------|
@@ -149,6 +149,6 @@ IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that allows
 {: caption="Table 3. Key and passwords management architecture decisions" caption-side="bottom"}
 
 ## Compliance
-{: #sap-s4hana-bw4hana-compliance}
+{: #sap-s4hana-bw4hana-stack-compliance}
 
 This deployable architecture is certified for SAP deployments.
