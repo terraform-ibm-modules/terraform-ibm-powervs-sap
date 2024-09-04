@@ -31,8 +31,9 @@
     {
       "name": "client_to_site_vpn",
       "type": "object",
+      "required": true,
       "hidden": false,
-      "default_value": {
+      "default": {
         "enable": true,
         "client_ip_pool": "192.168.0.0/16",
         "vpn_client_access_group_users": []
@@ -57,7 +58,7 @@
       "name": "powervs_image_names",
       "required": false,
       "type": "array",
-      "hidden": true,
+      "hidden": false,
       "default": [
         "SLES15-SP4-SAP",
         "SLES15-SP4-SAP-NETWEAVER",
@@ -114,7 +115,7 @@
     },
     {
       "name": "powervs_sap_network_cidr",
-      "required": true,
+      "required": false,
       "type": "string",
       "hidden": false,
       "default": "10.53.0.0/24",

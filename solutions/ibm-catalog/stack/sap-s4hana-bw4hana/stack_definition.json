@@ -114,7 +114,7 @@
     },
     {
       "name": "powervs_sap_network_cidr",
-      "required": true,
+      "required": false,
       "type": "string",
       "hidden": false,
       "default": "10.53.0.0/24",
