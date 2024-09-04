@@ -326,7 +326,7 @@
             },
             {
               "key": "sm_service_plan",
-              "description": "The service/pricing plan to use when provisioning a new Secrets Manager instance. Allowed values: `standard` and `trial`. Only used if `existing_sm_instance_guid` is set to null."
+              "description": "The service/pricing plan to use when provisioning a new Secrets Manager instance. Allowed values: `standard` and `trial`."
             }
           ],
           "outputs": [
@@ -699,19 +699,39 @@
             },
             {
               "key": "powervs_hana_instance_custom_storage_config",
-              "description": "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+              "description": "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
             },
             {
               "key": "powervs_hana_instance_additional_storage_config",
-              "description": "Additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+              "description": "Additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
             },
             {
               "key": "powervs_netweaver_instance_storage_config",
-              "description": "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance."
+              "description": "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance.",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
             },
             {
               "key": "powervs_sharefs_instance",
-              "description": "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+              "description": "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS.",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
             },
             {
               "key": "powervs_image_names",
@@ -720,7 +740,12 @@
             },
             {
               "key": "powervs_default_sap_images",
-              "description": "Default Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances."
+              "description": "Default Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances.",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "json_editor"
+              }
             },
             {
               "key": "nfs_directory",
@@ -749,7 +774,7 @@
             },
             {
               "key": "sm_service_plan",
-              "description": "The service/pricing plan to use when provisioning a new Secrets Manager instance. Allowed values: `standard` and `trial`. Only used if `existing_sm_instance_guid` is set to null."
+              "description": "The service/pricing plan to use when provisioning a new Secrets Manager instance. Allowed values: `standard` and `trial`."
             }
           ],
           "iam_permissions": [
