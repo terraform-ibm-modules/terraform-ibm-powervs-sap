@@ -1,6 +1,6 @@
-# IBM Cloud Catalog - Power Virtual Server for SAP HANA: 'SAP S/4HANA or BW/4HANA PowerVS Fullstack'
+# IBM Cloud Catalog - Power Virtual Server for SAP HANA: 'SAP S/4HANA or BW/4HANA PowerVS Create a new architecture'
 
-The 'SAP S/4HANA or BW/4HANA PowerVS Fullstack' is designed to simplify the deployment of an end-to-end SAP ERP software landscape on the IBM Power Virtual Server infrastructure into IBM Cloud. It combines the deployment of two [deployable architectures](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understand-module-da#what-is-da) into one configuration and helps to deploy the SAP landscape via IBM Cloud [projects](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects).
+The 'SAP S/4HANA or BW/4HANA PowerVS Create a new architecture' is designed to simplify the deployment of an end-to-end SAP ERP software landscape on the IBM Power Virtual Server infrastructure into IBM Cloud. It combines the deployment of two [deployable architectures](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understand-module-da#what-is-da) into one configuration and helps to deploy the SAP landscape via IBM Cloud [projects](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects).
 
 # Summary
 ## Stack Deployment Outcome:

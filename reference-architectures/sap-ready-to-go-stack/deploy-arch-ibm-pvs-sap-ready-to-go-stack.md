@@ -30,7 +30,7 @@ related_links:
 
 {{site.data.keyword.attribute-definition-list}}
 
-# Power Virtual Server for SAP HANA - variation 'SAP ready PowerVS Fullstack'
+# Power Virtual Server for SAP HANA - variation 'SAP Ready PowerVS Create a new architecture'
 {: #sap-ready-to-go-stack}
 {: toc-content-type="reference-architecture"}
 {: toc-industry="Technology"}

@@ -29,7 +29,7 @@ related_links:
 
 {{site.data.keyword.attribute-definition-list}}
 
-# Power Virtual Server for SAP HANA - variation 'SAP S/4HANA or BW/4HANA'
+# Power Virtual Server for SAP HANA - variation 'SAP S/4HANA or BW/4HANA Create a new architecture'
 {: #sap-s4hana-bw4hana}
 {: toc-content-type="reference-architecture"}
 {: toc-industry="Technology"}
@@ -37,7 +37,7 @@ related_links:
 {: toc-compliance="SAPCertified"}
 {: toc-version="3.1.0"}
 
-'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA with VPC landing zone' creates a basic and expandable SAP system landscape. PowerVS instances for SAP HANA, SAP NetWeaver, and optionally for shared SAP files are deployed and preconfigured for SAP installation. The S/4HANA or BW/4HANA solution is installed based on the selected version.
+'SAP S/4HANA or BW/4HANA Create a new architecture' variation of 'Power Virtual Server for SAP HANA with VPC landing zone' creates a basic and expandable SAP system landscape. PowerVS instances for SAP HANA, SAP NetWeaver, and optionally for shared SAP files are deployed and preconfigured for SAP installation. The S/4HANA or BW/4HANA solution is installed based on the selected version.
 
 This variation leverages the two [deployable architectures](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understand-module-da#what-is-da) [Power Virtual Server with VPC landing zone]() and [Power Virtual Server for SAP HANA](). [TODO add links]
 
