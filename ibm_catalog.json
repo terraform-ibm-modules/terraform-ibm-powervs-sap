@@ -52,9 +52,6 @@
                     "dependencies": [
                         {
                             "flavors": [
-                                "powervs-workspace",
-                                "powervs-import-workspace",
-                                "powervs-quickstart",
                                 "standard",
                                 "standard-extend",
                                 "import"
@@ -62,6 +59,7 @@
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
                             "install_type": "fullstack",
+                            "optional": true,
                             "version": ">=5.0.0"
                         }
                     ],
@@ -371,9 +369,6 @@
                     "dependencies": [
                         {
                             "flavors": [
-                                "powervs-workspace",
-                                "powervs-import-workspace",
-                                "powervs-quickstart",
                                 "standard",
                                 "standard-extend",
                                 "import"
@@ -381,6 +376,7 @@
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
                             "install_type": "fullstack",
+                            "optional": true,
                             "version": ">=5.0.0"
                         }
                     ],
