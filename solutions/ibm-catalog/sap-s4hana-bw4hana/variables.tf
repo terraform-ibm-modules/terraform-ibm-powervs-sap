@@ -101,6 +101,10 @@ variable "sap_hana_master_password" {
   description = "SAP HANA master password."
   type        = string
   sensitive   = true
+  validation {
+    condition     = length(var.sap_hana_master_password) >= 8 && length(var.sap_hana_master_password) <= 40 && can(regex("[A-Z]", var.sap_hana_master_password)) && can(regex("[a-z]", var.sap_hana_master_password)) && can(regex("[0-9]", var.sap_hana_master_password)) && can(regex("[!@#$%^&*()\\-=+{}\\[\\]:;<>,.?]", var.sap_hana_master_password)) && (strcontains(lower(var.sap_hana_master_password), "sap") || strcontains(var.sap_hana_master_password, " ") ? false : true)
+    error_message = "The SAP HANA master password must be 8-40 characters long, contain at least one uppercase letter, one lowercase letter, one digit, one of the following special character from !@#$%^&*()-_=+[{]};:,<.>/?, and must not contain 'sap' or spaces."
+  }
 }
 
 variable "sap_hana_vars" {
@@ -113,12 +117,20 @@ variable "sap_hana_vars" {
     "sap_hana_install_sid" : "HDB",
     "sap_hana_install_number" : "02"
   }
+  validation {
+    condition     = length(var.sap_hana_vars.sap_hana_install_sid) == 3 && var.sap_hana_vars.sap_hana_install_sid == regex("[a-zA-Z0-9]+", var.sap_hana_vars.sap_hana_install_sid) && length(var.sap_hana_vars.sap_hana_install_number) == 2 && var.sap_hana_vars.sap_hana_install_number == regex("[0-9]+", var.sap_hana_vars.sap_hana_install_number)
+    error_message = "Provided sap_hana_vars is invalid. The sap_hana_install_sid value must be a alphanumeric string of length 3. The sap_hana_install_number must be a value between 00-99. Append 0 before single digit values."
+  }
 }
 
 variable "sap_swpm_master_password" {
   description = "SAP SWPM master password."
   type        = string
   sensitive   = true
+  validation {
+    condition     = length(var.sap_swpm_master_password) >= 8 && length(var.sap_swpm_master_password) <= 40 && can(regex("[A-Z]", var.sap_swpm_master_password)) && can(regex("[a-z]", var.sap_swpm_master_password)) && can(regex("[0-9]", var.sap_swpm_master_password)) && can(regex("[!@#$%^&*()\\-=+{}\\[\\]:;<>,.?]", var.sap_swpm_master_password)) && (strcontains(lower(var.sap_swpm_master_password), "sap") || strcontains(var.sap_swpm_master_password, " ") ? false : true)
+    error_message = "The SAP Software Provisioning Manager master password must be 8-40 characters long, contain at least one uppercase letter, one lowercase letter, one digit, one of the following special character from !@#$%^&*()-_=+[{]};:,<.>/?, and must not contain 'sap' or spaces."
+  }
 }
 
 variable "sap_solution_vars" {
@@ -147,7 +159,7 @@ variable "sap_domain" {
 }
 
 variable "ansible_vault_password" {
-  description = "Vault password to encrypt SAP installation parameters in the OS."
+  description = "Vault password to encrypt SAP installation parameters in the OS. For optimal security, make the password at least 10-16 characters long and include a mix of uppercase, lowercase letters, numbers, and special characters. Do not use using non-printable characters."
   type        = string
   sensitive   = true
 }
