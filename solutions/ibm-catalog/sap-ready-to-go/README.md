@@ -1,6 +1,7 @@
 # IBM Cloud Catalog - Power Virtual Server for SAP HANA: 'SAP Ready PowerVS'
 
 # Summary
+
 ## Summary Outcome:
    SAP-tuned HANA and NetWeaver configuration to IBM PowerVS hosts
 
@@ -30,7 +31,7 @@
 
 |                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 |:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
-| [ IBM Catalog sap-ready-to-go ](./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
+| [IBM Catalog sap-ready-to-go](./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
 
 
 ## Architecture Diagram
@@ -42,8 +43,8 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.68.1 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.70.1 |
 
 ### Modules
 
@@ -55,8 +56,8 @@
 
 | Name | Type |
 |------|------|
-| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.68.1/docs/data-sources/schematics_output) | data source |
-| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.68.1/docs/data-sources/schematics_workspace) | data source |
+| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.70.1/docs/data-sources/schematics_output) | data source |
+| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.70.1/docs/data-sources/schematics_workspace) | data source |
 
 ### Inputs
 

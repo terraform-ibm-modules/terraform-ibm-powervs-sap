@@ -44,16 +44,16 @@ The end-to-end solution automates the following tasks:
 
 |                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 |:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
-|                      [ End-to-End ](./)                     |            N/A           |                N/A               |           :heavy_check_mark:          |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
+|                      [End-to-End](./)                     |            N/A           |                N/A               |           :heavy_check_mark:          |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.68.1 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | 0.12.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.70.1 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | 0.12.1 |
 
 ### Modules
 
@@ -66,7 +66,7 @@ The end-to-end solution automates the following tasks:
 
 | Name | Type |
 |------|------|
-| [time_sleep.wait_10_mins](https://registry.terraform.io/providers/hashicorp/time/0.12.0/docs/resources/sleep) | resource |
+| [time_sleep.wait_10_mins](https://registry.terraform.io/providers/hashicorp/time/0.12.1/docs/resources/sleep) | resource |
 
 ### Inputs
 
