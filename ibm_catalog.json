@@ -68,6 +68,10 @@
                 {
                   "dependency_input": "ibmcloud_api_key",
                   "version_input": "ibmcloud_api_key"
+                },
+                {
+                  "dependency_input": "ssh_private_key",
+                  "version_input": "ssh_private_key"
                 }
               ],
               "version": ">=5.0.0"
