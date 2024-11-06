@@ -74,6 +74,7 @@
                   "version_input": "ssh_private_key"
                 }
               ],
+              "dependency_version_2": true,
               "version": ">=5.0.0"
             }
           ],
