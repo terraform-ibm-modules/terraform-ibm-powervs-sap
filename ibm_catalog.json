@@ -105,16 +105,12 @@
                                     "value": "eu-de-2"
                                 },
                                 {
-                                    "displayname": "London 04 (lon04) Non-PER",
-                                    "value": "lon04"
-                                },
-                                {
                                     "displayname": "London 06 (lon06)",
                                     "value": "lon06"
                                 },
                                 {
-                                    "displayname": "Montreal 01 (mon01) Non-PER",
-                                    "value": "mon01"
+                                    "displayname": "Madrid 02 (mad02)",
+                                    "value": "mad02"
                                 },
                                 {
                                     "displayname": "Osaka 21 (osa21)",
@@ -422,16 +418,12 @@
                                     "value": "eu-de-2"
                                 },
                                 {
-                                    "displayname": "London 04 (lon04) Non-PER",
-                                    "value": "lon04"
-                                },
-                                {
                                     "displayname": "London 06 (lon06)",
                                     "value": "lon06"
                                 },
                                 {
-                                    "displayname": "Montreal 01 (mon01) Non-PER",
-                                    "value": "mon01"
+                                    "displayname": "Madrid 02 (mad02)",
+                                    "value": "mad02"
                                 },
                                 {
                                     "displayname": "Osaka 21 (osa21)",
