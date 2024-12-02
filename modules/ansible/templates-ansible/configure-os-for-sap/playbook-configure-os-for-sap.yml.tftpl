@@ -15,7 +15,7 @@
     sap_domain: ${sap_domain}
 
   roles:
-   - { role: ibm.power_linux_sap.powervs_configure_os_for_sap, when: sap_solution is defined, ignore_errors: true }
+   - { role: ibm.power_linux_sap.powervs_configure_os_for_sap, when: sap_solution is defined }
 
   tasks:
   - include_role:
