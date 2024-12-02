@@ -14,4 +14,4 @@
 
   roles:
   - role: ibm.power_linux_sap.configure_network_management_services
-    when: client_config.keys()|length > 0
+    when: client_config.keys()|length > 0 or server_config.keys()|length > 0
