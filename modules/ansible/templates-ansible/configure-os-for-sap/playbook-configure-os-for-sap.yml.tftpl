@@ -18,30 +18,6 @@
    - { role: ibm.power_linux_sap.powervs_configure_os_for_sap, when: sap_solution is defined }
 
   tasks:
-  - include_role:
-      name: redhat.sap_install.sap_general_preconfigure
-    vars:
-       sap_general_preconfigure_fail_if_reboot_required: no
-    when:
-    - ansible_distribution is match("RedHat*")
-    - sap_solution is defined
-
-  - include_role:
-     name: redhat.sap_install.sap_hana_preconfigure
-    vars:
-      sap_hana_preconfigure_fail_if_reboot_required: no
-    when:
-    - ansible_distribution is match("RedHat*")
-    - sap_solution is defined
-    - sap_solution is match("HANA")
-
-  - include_role:
-      name: redhat.sap_install.sap_netweaver_preconfigure
-    when:
-    - ansible_distribution is match("RedHat*")
-    - sap_solution is defined
-    - sap_solution is match("NETWEAVER")
-
   - name: Reboot the machine with timeout 10 mins
     ansible.builtin.reboot:
 
