@@ -119,9 +119,15 @@ variable "sap_hana_vars" {
     "sap_hana_install_number" : "02"
   }
   validation {
-    condition     = can(regex("^[A-Z][A-Z0-9]{2}$", var.sap_hana_vars.sap_hana_install_sid)) && length(var.sap_hana_vars.sap_hana_install_number) == 2 && var.sap_hana_vars.sap_hana_install_number == regex("[0-9]+", var.sap_hana_vars.sap_hana_install_number)
-    error_message = "The provided sap_hana_vars configuration is invalid. The sap_hana_install_sid value must consist of exactly three alphanumeric characters, all uppercase, and the first character must be a letter. Additionally, the sap_hana_install_number must be a numeric value between 00 and 99. For single-digit numbers, append a leading zero."
+    condition     = can(regex("^[A-Z][A-Z0-9]{2}$", var.sap_hana_vars.sap_hana_install_sid))
+    error_message = "The provided sap_hana_vars configuration is invalid. The sap_hana_install_sid value must consist of exactly three alphanumeric characters, all uppercase, and the first character must be a letter."
   }
+
+  validation {
+    condition     = can(regex("^[0-9]{2}$", var.sap_hana_vars.sap_hana_install_number))
+    error_message = "The sap_hana_install_number must be a numeric value between 00 and 99. For single-digit numbers, append a leading zero."
+  }
+
 }
 
 variable "sap_swpm_master_password" {
