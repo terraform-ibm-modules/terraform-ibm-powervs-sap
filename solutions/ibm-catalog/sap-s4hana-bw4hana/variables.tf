@@ -104,7 +104,7 @@ variable "sap_hana_master_password" {
 
   validation {
     condition     = length(var.sap_hana_master_password) >= 8 && length(var.sap_hana_master_password) <= 30 && can(regex("[A-Z]", var.sap_hana_master_password)) && can(regex("[a-z]", var.sap_hana_master_password)) && can(regex("[0-9]", var.sap_hana_master_password)) && !can(regex("[\\\\\"]", var.sap_hana_master_password))
-    error_message = "The SAP HANA master password must be 8-30 characters long, contain at least one letter (a-z, A-Z), at least one digit (0-9), and must not include a backslash (\\) or double quote (\")."
+    error_message = "The SAP HANA master password must be 8-30 characters long containing at least one lower character (a-z), one upper character (A-Z) and one digit (0-9), and must not include a backslash (\\) or double quote (\")."
   }
 }
 
@@ -130,7 +130,7 @@ variable "sap_swpm_master_password" {
   sensitive   = true
   validation {
     condition     = length(var.sap_swpm_master_password) >= 8 && length(var.sap_swpm_master_password) <= 30 && can(regex("[A-Z]", var.sap_swpm_master_password)) && can(regex("[a-z]", var.sap_swpm_master_password)) && can(regex("[0-9]", var.sap_swpm_master_password)) && !can(regex("[\\\\\"]", var.sap_swpm_master_password))
-    error_message = "The SAP Software Provisioning Manager master password must be 8-30 characters long, contains at least  one letter (a-z, A-Z), at least one digit (0-9), and must not include a backslash (\\) or double quote (\")."
+    error_message = "The SAP Software Provisioning Manager master password must be 8-30 characters long containing at least one lower character (a-z), one upper character (A-Z) and one digit (0-9), and must not include a backslash (\\) or double quote (\")."
   }
 }
 
