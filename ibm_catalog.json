@@ -49,6 +49,7 @@
                     "install_type": "extension",
                     "working_directory": "solutions/ibm-catalog/sap-ready-to-go",
                     "compliance": {},
+                    "dependency_version_2": true,
                     "dependencies": [
                         {
                             "flavors": [
@@ -362,6 +363,7 @@
                     "install_type": "extension",
                     "working_directory": "solutions/ibm-catalog/sap-s4hana-bw4hana",
                     "compliance": {},
+                    "dependency_version_2": true,
                     "dependencies": [
                         {
                             "flavors": [
