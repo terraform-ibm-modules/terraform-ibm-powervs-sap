@@ -62,12 +62,13 @@ locals {
 
 module "ansible_sharefs_instance_exportfs" {
 
-  source             = "../ansible"
-  depends_on         = [module.pi_sharefs_instance]
-  count              = var.pi_sharefs_instance.enable ? 1 : 0
-  bastion_host_ip    = var.pi_instance_init_linux.bastion_host_ip
-  ansible_host_or_ip = var.pi_instance_init_linux.ansible_host_or_ip
-  ssh_private_key    = var.pi_instance_init_linux.ssh_private_key
+  source                 = "../ansible"
+  depends_on             = [module.pi_sharefs_instance]
+  count                  = var.pi_sharefs_instance.enable ? 1 : 0
+  bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
+  ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
+  ssh_private_key        = var.pi_instance_init_linux.ssh_private_key
+  configure_ansible_host = false
 
   src_script_template_name = "configure-network-services/ansible_exec.sh.tftpl"
   dst_script_file_name     = "${local.sap_instance_names[count.index]}_configure_nfs_server.sh"
