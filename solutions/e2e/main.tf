@@ -21,11 +21,9 @@ module "powervs_infra" {
   configure_ntp_forwarder     = var.configure_ntp_forwarder
   configure_nfs_server        = var.configure_nfs_server
   powervs_image_names         = ["SLES15-SP5-SAP", "RHEL9-SP2-SAP", "SLES15-SP5-SAP-NETWEAVER", "RHEL9-SP2-SAP-NETWEAVER"]
+  client_to_site_vpn          = { enable = false, client_ip_pool = "", vpn_client_access_group_users = [] }
 }
 
-resource "time_sleep" "wait_10_mins" {
-  create_duration = "600s"
-}
 #######################################################
 # Power Virtual Server SAP ready-to-go
 # Deploy SAP system
@@ -63,7 +61,7 @@ locals {
 
 module "sap_system" {
   source     = "../../modules/pi-sap-system-type1"
-  depends_on = [time_sleep.wait_10_mins]
+  depends_on = [module.powervs_infra]
   providers  = { ibm = ibm.ibm-pi }
 
   prefix                                 = var.prefix
