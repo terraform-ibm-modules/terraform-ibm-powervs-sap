@@ -332,16 +332,13 @@ variable "sap_monitoring_solution_name" {
   type        = string
 }
 
-#variable "monitoring_instance_vars" {
-#  description = "Attributes of the IBM Cloud Monitoring Instance."
-#  type = string
-#}
+variable "ibmcloud_monitoring_instance_url" {
+  description = "URL of ibmcloud monitoring instance"
+  type        = string
+}
 
-#variable "monitoring_instance_vars" {
-#  description = "Attributes of the IBM Cloud Monitoring Instance."
-#   type = object({
-#    crn           = string
-#    guid          = string
-#    location      = string
-#  })
-#}
+variable "ibmcloud_monitoring_authorization_credentials" {
+  description = "authorization credential of ibmcloud monitoring instance"
+  type        = string
+  sensitive   = true
+}

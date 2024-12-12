@@ -216,8 +216,6 @@ module "ansible_sap_install_solution" {
 locals {
   ansible_monitoring_solution_playbook_vars = merge(
     {
-      monitoring_host_ip = local.monitoring_host_ip,
-      # monitoring_instance_vars = local.monitoring_instance_vars,
       sap_monitoring_action                         = var.sap_monitoring_action,
       config_override                               = var.config_override
       sap_monitoring_nr                             = var.sap_monitoring_nr,
@@ -233,8 +231,8 @@ locals {
       sap_ascs_ip                                   = module.sap_system.pi_hana_instance_management_ip,
       sap_ascs_http_port                            = "5${var.sap_solution_vars.sap_swpm_pas_instance_nr}13",
       sap_tools_directory                           = "${var.software_download_directory}/${var.ibmcloud_cos_configuration.cos_hana_software_path}"
-      ibmcloud_monitoring_instance_url              = "https://ingest.prws.private.eu-de.monitoring.cloud.ibm.com/prometheus/remote/write",
-      ibmcloud_monitoring_authorization_credentials = "88503312-e655-47dd-8011-ffa17eff970f" #pragma: allowlist secret
+      ibmcloud_monitoring_instance_url              = var.ibmcloud_monitoring_instance_url
+      ibmcloud_monitoring_authorization_credentials = var.ibmcloud_monitoring_authorization_credentials
     }
   )
 }
@@ -242,12 +240,10 @@ locals {
 module "ansible_monitoring_sap_install_solution" {
 
   source = "../../../modules/ansible"
-  #depends_on = [module.sap_system]
-  count = var.enable_monitoring ? 1 : 0
+  count  = var.enable_monitoring ? 1 : 0
 
-  bastion_host_ip    = local.access_host_or_ip
-  ansible_host_or_ip = local.ansible_host_or_ip
-  # monitoring_host_ip     = local.monitoring_host_ip
+  bastion_host_ip        = local.access_host_or_ip
+  ansible_host_or_ip     = local.ansible_host_or_ip
   ssh_private_key        = var.ssh_private_key
   ansible_vault_password = var.ansible_vault_password
 
