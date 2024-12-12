@@ -305,3 +305,34 @@ variable "powervs_default_sap_images" {
     "rhel_nw_image" : "RHEL9-SP2-SAP-NETWEAVER"
   }
 }
+
+variable "enable_monitoring" {
+  description = "Option to add or not to add a SAP Monitoring configuration."
+  type        = bool
+  default     = true
+}
+
+variable "monitoring_config" {
+  description = "The config information for "
+  default = {
+    config_override              = true
+    sap_monitoring_number        = ""
+    sap_monitoring_solution_name = ""
+  }
+  type = object({
+    sap_monitoring_number        = string
+    config_override              = bool
+    sap_monitoring_solution_name = string
+  })
+}
+
+variable "ibmcloud_monitoring_instance_url" {
+  description = "URL of ibmcloud monitoring instance"
+  type        = string
+}
+
+variable "ibmcloud_monitoring_authorization_credentials" {
+  description = "authorization credential of ibmcloud monitoring instance"
+  type        = string
+  sensitive   = true
+}
