@@ -312,24 +312,18 @@ variable "enable_monitoring" {
   default     = true
 }
 
-variable "sap_monitoring_action" {
-  description = "Option to add a SAP Monitoring configuration or remove a existing Monitoring configuration. Possible Values: 'add' or 'remove'."
-  type        = string
-}
-
-variable "config_override" {
-  description = "Option to overwrite existing SAP Monitoring configuration with the same sap_monitoring_nr."
-  type        = bool
-}
-
-variable "sap_monitoring_nr" {
-  description = "sap_monitoring_nr: unique identifier for each monitoring configuration. Possible values: '01' upto '99' ."
-  type        = string
-}
-
-variable "sap_monitoring_solution_name" {
-  description = "Arbritary, name of the monitoring deployment. Visible in the IBM Cloud monitoring dashboard. Can be empty."
-  type        = string
+variable "monitoring_config" {
+  description = "The config information for "
+  default = {
+    config_override              = true
+    sap_monitoring_number        = ""
+    sap_monitoring_solution_name = ""
+  }
+  type = object({
+    sap_monitoring_number        = string
+    config_override              = bool
+    sap_monitoring_solution_name = string
+  })
 }
 
 variable "ibmcloud_monitoring_instance_url" {

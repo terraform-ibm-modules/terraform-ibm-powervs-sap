@@ -216,10 +216,10 @@ module "ansible_sap_install_solution" {
 locals {
   ansible_monitoring_solution_playbook_vars = merge(
     {
-      sap_monitoring_action                         = var.sap_monitoring_action,
-      config_override                               = var.config_override
-      sap_monitoring_nr                             = var.sap_monitoring_nr,
-      sap_monitoring_solution_name                  = var.sap_monitoring_solution_name,
+      sap_monitoring_action                         = "add",
+      config_override                               = var.monitoring_config.config_override
+      sap_monitoring_nr                             = var.monitoring_config.sap_monitoring_number,
+      sap_monitoring_solution_name                  = var.monitoring_config.sap_monitoring_solution_name,
       sap_hana_ip                                   = module.sap_system.pi_hana_instance_sap_ip,
       sap_hana_instance_number                      = var.sap_hana_vars.sap_hana_install_number,
       sap_hana_sql_systemdb_port                    = "3${var.sap_hana_vars.sap_hana_install_number}13",
