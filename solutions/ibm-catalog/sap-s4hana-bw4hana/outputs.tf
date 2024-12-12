@@ -47,3 +47,13 @@ output "sap_solution_vars" {
   description = "SAP NetWeaver system details."
   value       = var.sap_solution_vars
 }
+
+output "monitoring_host_ip" {
+  description = "Monitoring Host IP from VPC."
+  value       = local.monitoring_host_ip
+}
+
+output "monitoring_instance_vars" {
+  description = "Attributes of Monitoring Instance from VPC."
+  value       = local.monitoring_instance_vars
+}

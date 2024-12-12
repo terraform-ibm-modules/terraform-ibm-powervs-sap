@@ -8,6 +8,16 @@ variable "ansible_host_or_ip" {
   type        = string
 }
 
+#variable "monitoring_host_ip" {
+#  description = "Private IP of virtual server instance running SLES OS on which monitoring will be installed and configured to act as monitoring node."
+#  type        = string
+#}
+
+#variable "enable_monitoring" {
+#  description = "Option to activate or deactivate the monitoring configuration."
+#  type        = bool
+#}
+
 variable "ssh_private_key" {
   description = "Private SSH key used to login to jump/bastion server, also the ansible host and all the hosts on which tasks will be executed. This key will be written temporarily on ansible host and deleted after execution."
   type        = string

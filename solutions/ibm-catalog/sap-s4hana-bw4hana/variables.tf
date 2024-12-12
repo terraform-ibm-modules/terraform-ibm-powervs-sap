@@ -305,3 +305,43 @@ variable "powervs_default_sap_images" {
     "rhel_nw_image" : "RHEL9-SP2-SAP-NETWEAVER"
   }
 }
+
+variable "enable_monitoring" {
+  description = "Option to add or not to add a SAP Monitoring configuration."
+  type        = bool
+  default     = true
+}
+
+variable "sap_monitoring_action" {
+  description = "Option to add a SAP Monitoring configuration or remove a existing Monitoring configuration. Possible Values: 'add' or 'remove'."
+  type        = string
+}
+
+variable "config_override" {
+  description = "Option to overwrite existing SAP Monitoring configuration with the same sap_monitoring_nr."
+  type        = bool
+}
+
+variable "sap_monitoring_nr" {
+  description = "sap_monitoring_nr: unique identifier for each monitoring configuration. Possible values: '01' upto '99' ."
+  type        = string
+}
+
+variable "sap_monitoring_solution_name" {
+  description = "Arbritary, name of the monitoring deployment. Visible in the IBM Cloud monitoring dashboard. Can be empty."
+  type        = string
+}
+
+#variable "monitoring_instance_vars" {
+#  description = "Attributes of the IBM Cloud Monitoring Instance."
+#  type = string
+#}
+
+#variable "monitoring_instance_vars" {
+#  description = "Attributes of the IBM Cloud Monitoring Instance."
+#   type = object({
+#    crn           = string
+#    guid          = string
+#    location      = string
+#  })
+#}
