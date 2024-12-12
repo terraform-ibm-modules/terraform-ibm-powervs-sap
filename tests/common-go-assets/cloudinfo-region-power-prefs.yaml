@@ -1,5 +1,5 @@
 ---
-- name: sao01
+- name: eu-de-1
   useForTest: true
   testPriority: 1
 - name: tor01
