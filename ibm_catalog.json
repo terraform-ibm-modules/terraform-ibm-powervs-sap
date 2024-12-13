@@ -105,6 +105,10 @@
                                     "value": "eu-de-2"
                                 },
                                 {
+                                    "displayname": "London 04 (lon04)",
+                                    "value": "lon04"
+                                },
+                                {
                                     "displayname": "London 06 (lon06)",
                                     "value": "lon06"
                                 },
@@ -416,6 +420,10 @@
                                 {
                                     "displayname": "Frankfurt 2 (eu-de-2)",
                                     "value": "eu-de-2"
+                                },
+                                {
+                                    "displayname": "London 04 (lon04)",
+                                    "value": "lon04"
                                 },
                                 {
                                     "displayname": "London 06 (lon06)",
