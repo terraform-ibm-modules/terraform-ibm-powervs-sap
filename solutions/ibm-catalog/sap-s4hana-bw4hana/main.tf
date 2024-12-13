@@ -142,6 +142,7 @@ module "ansible_sap_install_hana" {
   bastion_host_ip        = local.access_host_or_ip
   ansible_host_or_ip     = local.ansible_host_or_ip
   ssh_private_key        = var.ssh_private_key
+  configure_ansible_host = false
   ansible_vault_password = var.ansible_vault_password
 
   src_script_template_name = "hanadb/install_hana.sh.tftpl"
@@ -195,6 +196,7 @@ module "ansible_sap_install_solution" {
   bastion_host_ip        = local.access_host_or_ip
   ansible_host_or_ip     = local.ansible_host_or_ip
   ssh_private_key        = var.ssh_private_key
+  configure_ansible_host = false
   ansible_vault_password = var.ansible_vault_password
 
   src_script_template_name = "s4hanab4hana-solution/install_swpm.sh.tftpl"

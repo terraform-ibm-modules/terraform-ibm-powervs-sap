@@ -2,7 +2,7 @@
 
 copyright:
   years: 2024
-lastupdated: "2024-12-02"
+lastupdated: "2024-12-11"
 keywords:
 subcollection: deployable-reference-architectures
 authors:
@@ -16,7 +16,7 @@ use-case: ITServiceManagement
 industry: Technology
 compliance: SAPCertified
 content-type: reference-architecture
-version: v3.2.0
+version: v3.2.1
 related_links:
   - title: 'SAP in IBM Cloud documentation'
     url: 'https://cloud.ibm.com/docs/sap'
@@ -38,7 +38,7 @@ related_links:
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
 {: toc-compliance="SAPCertified"}
-{: toc-version="3.2.0"}
+{: toc-version="3.2.1"}
 
 The SAP-ready PowerVS variation of the Power Virtual Server for SAP HANA creates a basic and expandable SAP system landscape. The variation builds on the foundation of the VPC landing zone and Power Virtual Server with VPC landing zone. PowerVS instances for SAP HANA, SAP NetWeaver, and optionally for shared SAP files are deployed and preconfigured for SAP installation.
 

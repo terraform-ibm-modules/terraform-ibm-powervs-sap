@@ -24,6 +24,7 @@ locals {
 ##############################################################
 
 resource "terraform_data" "setup_ansible_host" {
+  count = var.configure_ansible_host ? 1 : 0
 
   connection {
     type         = "ssh"
