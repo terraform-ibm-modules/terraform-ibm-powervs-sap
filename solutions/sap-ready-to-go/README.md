@@ -37,7 +37,7 @@ The 'sap-ready-to-go' solution automates the following tasks:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.71.3 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | = 1.71.3 |
 
 ### Modules
 
