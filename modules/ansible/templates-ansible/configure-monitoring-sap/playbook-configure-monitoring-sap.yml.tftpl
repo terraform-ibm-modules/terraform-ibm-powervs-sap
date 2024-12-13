@@ -34,6 +34,17 @@
     ibmcloud_monitoring_authorization_credentials: '${ibmcloud_monitoring_authorization_credentials}'
   debug:
     var=vars
-
+  tasks:
+     # use token to get the monitoring auth cred
+    - name: Obtain IBM Cloud IAM token
+      ansible.builtin.uri:
+        url: "{{ ibmcloud_monitoring_instance_url }}"
+        method: GET
+        headers:
+          Content-Type: application/json
+          IBMInstanceID: "{{ ibmcloud_monitoring_instance_guid  }}"
+          Authorization: "Bearer {{ ibmcloud_iam_token }}"
+        return_content: yes
+      register: response
   roles:
    - { role: ibm.power_linux_sap.monitoring_sap }

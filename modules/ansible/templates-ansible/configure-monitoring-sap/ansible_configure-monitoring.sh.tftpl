@@ -6,14 +6,25 @@ ansible_log_path=${ansible_log_path}
 ansible_inventory=${ansible_inventory}
 ansible_private_key_file=${ansible_private_key_file}
 
+# shell to get the ibmcloud api token
+fetch_api_token() {
+    iam_string=$(curl -X POST 'https://iam.cloud.ibm.com/identity/token' -H 'Content-Type: application/x-www-form-urlencoded' -d "apikey=$IBMCLOUD_API_KEY&grant_type=urn:ibm:params:oauth:grant-type:apikey")
+    iam_token=$(echo "$iam_string" | jq -r '.access_token')
+    echo "IAM token: "$iam_token
+}
+
 # Create ansible.cfg file
 ansible_playbook_name=$(basename $${ansible_playbook})
 echo -e "[defaults]\nhost_key_checking=False" >ansible.cfg
 export ANSIBLE_LOG_PATH=$${ansible_log_path}/$${ansible_playbook_name}.$(date "+%Y.%m.%d-%H.%M.%S").log
 export ANSIBLE_PRIVATE_KEY_FILE=$${ansible_private_key_file}
 
+# curl command to fetch iam refresh token
+iam_token=$(fetch_api_token)
+
 #Execute ansible playbook
-unbuffer ansible-playbook -i $${ansible_inventory} $${ansible_playbook}
+# pass the token as extra vars to the playbook run
+unbuffer ansible-playbook -i $${ansible_inventory} $${ansible_playbook} --extra-vars ibmcloud_iam_token= "Bearer ${iam_token}"
 if [ $? -ne 0 ]; then
     #rm -rf $${ansible_private_key_file}
     exit 1

@@ -202,7 +202,7 @@ resource "terraform_data" "execute_playbooks_with_vault" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x ${local.dst_script_file_path}",
-      local.dst_script_file_path,
+      "export IBMCLOUD_API_KEY=${var.ibmcloud_api_key} && local.dst_script_file_path",
     ]
   }
 
