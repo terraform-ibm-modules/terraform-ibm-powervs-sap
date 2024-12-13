@@ -25,7 +25,7 @@ locals {
 
 module "pi_sharefs_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.2.1"
+  version = "2.2.3"
   count   = var.pi_sharefs_instance.enable ? 1 : 0
 
   pi_workspace_guid          = var.pi_workspace_guid
@@ -62,12 +62,13 @@ locals {
 
 module "ansible_sharefs_instance_exportfs" {
 
-  source             = "../ansible"
-  depends_on         = [module.pi_sharefs_instance]
-  count              = var.pi_sharefs_instance.enable ? 1 : 0
-  bastion_host_ip    = var.pi_instance_init_linux.bastion_host_ip
-  ansible_host_or_ip = var.pi_instance_init_linux.ansible_host_or_ip
-  ssh_private_key    = var.pi_instance_init_linux.ssh_private_key
+  source                 = "../ansible"
+  depends_on             = [module.pi_sharefs_instance]
+  count                  = var.pi_sharefs_instance.enable ? 1 : 0
+  bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
+  ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
+  ssh_private_key        = var.pi_instance_init_linux.ssh_private_key
+  configure_ansible_host = false
 
   src_script_template_name = "configure-network-services/ansible_exec.sh.tftpl"
   dst_script_file_name     = "${local.sap_instance_names[count.index]}_configure_nfs_server.sh"
@@ -103,7 +104,7 @@ module "pi_hana_storage_calculation" {
 
 module "pi_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.2.1"
+  version = "2.2.3"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
@@ -141,7 +142,7 @@ resource "time_sleep" "wait_1_min" {
 
 module "pi_netweaver_instance" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "2.2.1"
+  version    = "2.2.3"
   count      = var.pi_netweaver_instance.instance_count
   depends_on = [time_sleep.wait_1_min]
 
@@ -173,12 +174,13 @@ locals {
 
 module "ansible_netweaver_sapmnt_mount" {
 
-  source             = "../ansible"
-  depends_on         = [module.ansible_sharefs_instance_exportfs, module.pi_netweaver_instance]
-  count              = var.pi_sharefs_instance.enable && local.valid_sharefs_nfs_config ? var.pi_netweaver_instance.instance_count : 0
-  bastion_host_ip    = var.pi_instance_init_linux.bastion_host_ip
-  ansible_host_or_ip = var.pi_instance_init_linux.ansible_host_or_ip
-  ssh_private_key    = var.pi_instance_init_linux.ssh_private_key
+  source                 = "../ansible"
+  depends_on             = [module.ansible_sharefs_instance_exportfs, module.pi_netweaver_instance]
+  count                  = var.pi_sharefs_instance.enable && local.valid_sharefs_nfs_config ? var.pi_netweaver_instance.instance_count : 0
+  bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
+  ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
+  ssh_private_key        = var.pi_instance_init_linux.ssh_private_key
+  configure_ansible_host = true
 
   src_script_template_name = "configure-network-services/ansible_exec.sh.tftpl"
   dst_script_file_name     = "${local.sap_instance_names[count.index]}_sapmnt_mount.sh"
@@ -208,12 +210,13 @@ locals {
 
 module "ansible_sap_instance_init" {
 
-  source             = "../ansible"
-  depends_on         = [module.pi_hana_instance, module.pi_netweaver_instance, module.ansible_netweaver_sapmnt_mount]
-  count              = length(local.target_server_ips)
-  bastion_host_ip    = var.pi_instance_init_linux.bastion_host_ip
-  ansible_host_or_ip = var.pi_instance_init_linux.ansible_host_or_ip
-  ssh_private_key    = var.pi_instance_init_linux.ssh_private_key
+  source                 = "../ansible"
+  depends_on             = [module.pi_hana_instance, module.pi_netweaver_instance, module.ansible_netweaver_sapmnt_mount]
+  count                  = length(local.target_server_ips)
+  bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
+  ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
+  ssh_private_key        = var.pi_instance_init_linux.ssh_private_key
+  configure_ansible_host = false
 
   src_script_template_name = "configure-os-for-sap/ansible_exec.sh.tftpl"
   dst_script_file_name     = "${local.sap_instance_names[count.index]}_configure_os_for_sap.sh"
