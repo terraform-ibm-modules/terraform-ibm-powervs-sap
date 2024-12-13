@@ -97,10 +97,6 @@
                                     "value": "dal12"
                                 },
                                 {
-                                    "displayname": "Dallas 14 (dal14)",
-                                    "value": "dal14"
-                                },
-                                {
                                     "displayname": "Frankfurt 1 (eu-de-1)",
                                     "value": "eu-de-1"
                                 },
@@ -416,10 +412,6 @@
                                 {
                                     "displayname": "Dallas 12 (dal12)",
                                     "value": "dal12"
-                                },
-                                {
-                                    "displayname": "Dallas 14 (dal14)",
-                                    "value": "dal14"
                                 },
                                 {
                                     "displayname": "Frankfurt 1 (eu-de-1)",
