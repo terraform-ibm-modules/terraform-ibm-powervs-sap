@@ -73,12 +73,12 @@ variable "ibmcloud_cos_service_credentials" {
 variable "ibmcloud_cos_configuration" {
   description = "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path' and 'cos_solution_software_path'."
   type = object({
-    cos_region                  = string
-    cos_bucket_name             = string
-    cos_hana_software_path      = string
+    cos_region                   = string
+    cos_bucket_name              = string
+    cos_hana_software_path       = string
     cos_monitoring_software_path = string
-    cos_solution_software_path  = string
-    cos_swpm_mp_stack_file_name = string
+    cos_solution_software_path   = string
+    cos_swpm_mp_stack_file_name  = string
   })
   default = {
     "cos_region" : "eu-geo",
