@@ -26,14 +26,12 @@
     sap_ascs_http_port: '${sap_ascs_http_port}'
     sap_ascs_instance_nr: '${sap_ascs_instance_nr}'
     sap_pas_instance_nr: '${sap_pas_instance_nr}'
-    sap_tools_directory: '${sap_tools_directory}
+    sap_tools_directory: '${sap_tools_directory}'
 
     #sap_solution_vars  =   {"sap_swpm_sid":"S4H","sap_swpm_ascs_instance_nr":"00","sap_swpm_pas_instance_nr":"01"}
     ibmcloud_monitoring_instance_url: '${ibmcloud_monitoring_instance_url}'
-    # pragma: allowlist secret
-    ibmcloud_monitoring_authorization_credentials: '${ibmcloud_monitoring_authorization_credentials}'
-  debug:
-    var=vars
+    ibmcloud_monitoring_instance_guid: '${ibmcloud_monitoring_instance_guid}'
+
   tasks:
      # use token to get the monitoring auth cred
     - name: Obtain IBM Cloud IAM token
@@ -46,5 +44,15 @@
           Authorization: "Bearer {{ ibmcloud_iam_token }}"
         return_content: yes
       register: response
-  roles:
-   - { role: ibm.power_linux_sap.monitoring_sap }
+
+    - name: Set a custom fact
+      ansible.builtin.set_fact:
+        ibmcloud_monitoring_instance_credentials: "{{ response.json.token.key }}"
+
+    - name: Use the custom fact
+      ansible.builtin.debug:
+        var: ibmcloud_monitoring_instance_credentials
+
+    - name: Execute monitoring role
+      ansible.builtin.include_role:
+        name: ibm.power_linux_sap.monitoring_sap

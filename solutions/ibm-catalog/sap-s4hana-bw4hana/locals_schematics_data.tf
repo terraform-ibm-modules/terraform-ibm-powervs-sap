@@ -32,10 +32,10 @@ locals {
   ansible_host_or_ip       = local.powervs_infrastructure[0].ansible_host_or_ip.value
   network_services_config  = local.powervs_infrastructure[0].network_services_config.value
   monitoring_instance_vars = local.powervs_infrastructure[0].monitoring_instance.value
-  # monitoring_instance_guid     = local.powervs_infrastructure[0].monitoring_instance.value.guid
-  # monitoring_instance_crn      = local.powervs_infrastructure[0].monitoring_instance.value.crn
-  # monitoring_instance_location = local.powervs_infrastructure[0].monitoring_instance.value.location
-  monitoring_host_ip = local.powervs_infrastructure[0].monitoring_instance.value.monitoring_host_ip
+  monitoring_instance_guid = local.powervs_infrastructure[0].monitoring_instance.value.guid
+  #monitoring_instance_crn      = local.powervs_infrastructure[0].monitoring_instance.value.crn
+  monitoring_instance_location = local.powervs_infrastructure[0].monitoring_instance.value.location
+  monitoring_host_ip           = local.powervs_infrastructure[0].monitoring_instance.value.monitoring_host_ip
 }
 
 locals {

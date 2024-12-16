@@ -312,27 +312,16 @@ variable "enable_monitoring" {
   default     = true
 }
 
-variable "monitoring_config" {
+variable "sap_monitoring_vars" {
   description = "The config information for "
   default = {
     config_override              = true
-    sap_monitoring_number        = ""
+    sap_monitoring_nr            = ""
     sap_monitoring_solution_name = ""
   }
   type = object({
-    sap_monitoring_number        = string
+    sap_monitoring_nr            = string
     config_override              = bool
     sap_monitoring_solution_name = string
   })
-}
-
-variable "ibmcloud_monitoring_instance_url" {
-  description = "URL of ibmcloud monitoring instance"
-  type        = string
-}
-
-variable "ibmcloud_monitoring_authorization_credentials" {
-  description = "authorization credential of ibmcloud monitoring instance"
-  type        = string
-  sensitive   = true
 }
