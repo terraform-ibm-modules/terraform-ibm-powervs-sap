@@ -55,5 +55,5 @@ output "monitoring_host_ip" {
 
 output "monitoring_instance_vars" {
   description = "Attributes of Monitoring Instance from VPC."
-  value       = local.monitoring_instance_vars
+  value       = local.powervs_infrastructure[0].monitoring_instance.value
 }

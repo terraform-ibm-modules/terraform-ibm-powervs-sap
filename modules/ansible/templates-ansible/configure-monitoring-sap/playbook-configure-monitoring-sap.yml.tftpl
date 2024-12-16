@@ -26,14 +26,10 @@
     sap_ascs_http_port: '${sap_ascs_http_port}'
     sap_ascs_instance_nr: '${sap_ascs_instance_nr}'
     sap_pas_instance_nr: '${sap_pas_instance_nr}'
-    sap_tools_directory: '${sap_tools_directory}
-
-    #sap_solution_vars  =   {"sap_swpm_sid":"S4H","sap_swpm_ascs_instance_nr":"00","sap_swpm_pas_instance_nr":"01"}
+    sap_tools_directory: '${sap_tools_directory}'
+    sap_app_server: ${sap_app_server}
     ibmcloud_monitoring_instance_url: '${ibmcloud_monitoring_instance_url}'
-    # pragma: allowlist secret
     ibmcloud_monitoring_authorization_credentials: '${ibmcloud_monitoring_authorization_credentials}'
-  debug:
-    var=vars
 
   roles:
-   - { role: ibm.power_linux_sap.monitoring_sap }
+  - { role: ibm.power_linux_sap.monitoring_sap }

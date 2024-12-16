@@ -306,6 +306,12 @@ variable "powervs_default_sap_images" {
   }
 }
 
+variable "configure_ansible_host" {
+  description = "Option to configure the ansible host."
+  type        = bool
+  default     = true
+}
+
 variable "enable_monitoring" {
   description = "Option to add or not to add a SAP Monitoring configuration."
   type        = bool
@@ -313,22 +319,17 @@ variable "enable_monitoring" {
 }
 
 variable "monitoring_config" {
-  description = "The config information for "
+  description = "The configuration parameters for monitoring SAP."
+  type = object({
+    config_override              = bool
+    sap_monitoring_number        = string
+    sap_monitoring_solution_name = string
+  })
   default = {
     config_override              = true
     sap_monitoring_number        = ""
     sap_monitoring_solution_name = ""
   }
-  type = object({
-    sap_monitoring_number        = string
-    config_override              = bool
-    sap_monitoring_solution_name = string
-  })
-}
-
-variable "ibmcloud_monitoring_instance_url" {
-  description = "URL of ibmcloud monitoring instance"
-  type        = string
 }
 
 variable "ibmcloud_monitoring_authorization_credentials" {
