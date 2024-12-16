@@ -307,21 +307,21 @@ variable "powervs_default_sap_images" {
 }
 
 variable "enable_monitoring" {
-  description = "Option to add or not to add a SAP Monitoring configuration."
+  description = "Determines whether to add a SAP Monitoring configuration."
   type        = bool
   default     = true
 }
 
 variable "sap_monitoring_vars" {
-  description = "The config information for "
+  description = "Configuration details for SAP monitoring setup. This variable defines whether to override the default configuration, the monitoring solution name and monitoring instance number."
   default = {
     config_override              = true
     sap_monitoring_nr            = ""
     sap_monitoring_solution_name = ""
   }
   type = object({
-    sap_monitoring_nr            = string
     config_override              = bool
+    sap_monitoring_nr            = string
     sap_monitoring_solution_name = string
   })
 }
