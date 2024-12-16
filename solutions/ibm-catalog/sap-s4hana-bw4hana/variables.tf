@@ -76,6 +76,7 @@ variable "ibmcloud_cos_configuration" {
     cos_region                  = string
     cos_bucket_name             = string
     cos_hana_software_path      = string
+    cos_monitoring_software_path = string
     cos_solution_software_path  = string
     cos_swpm_mp_stack_file_name = string
   })
@@ -83,6 +84,7 @@ variable "ibmcloud_cos_configuration" {
     "cos_region" : "eu-geo",
     "cos_bucket_name" : "powervs-automation",
     "cos_hana_software_path" : "HANA_DB/rev78",
+    "cos_monitoring_software_path" = "HANA_DB/rev78/x86_64",
     "cos_solution_software_path" : "S4HANA_2023",
     "cos_swpm_mp_stack_file_name" : ""
   }
@@ -188,7 +190,6 @@ variable "ibmcloud_api_key" {
   type        = string
   sensitive   = true
 }
-
 
 ################################################################
 #
@@ -304,12 +305,6 @@ variable "powervs_default_sap_images" {
     "rhel_hana_image" : "RHEL9-SP2-SAP",
     "rhel_nw_image" : "RHEL9-SP2-SAP-NETWEAVER"
   }
-}
-
-variable "configure_ansible_host" {
-  description = "Option to configure the ansible host."
-  type        = bool
-  default     = true
 }
 
 variable "enable_monitoring" {

@@ -215,14 +215,13 @@ module "ansible_sap_install_solution" {
 # Ansible Install Monitoring SAP solution
 #####################################################
 
-locals {
-  #monitoring_instance_guid                      = local.monitoring_instance_guid
-
-  list_sap_app_server = [
-    for i in range(1) : {
-      sap_app_server_nr = "0${i + 1}"
-      ip                = module.sap_system.pi_hana_instance_management_ip
-  port = var.sap_solution_vars.sap_swpm_pas_instance_nr }]
+  locals {
+    #monitoring_instance_guid  = local.monitoring_instance_guid
+    list_sap_app_server = [{
+      sap_app_server_nr = "01"
+      ip                = module.powervs_netweaver_instance_management_ip
+      port              = var.sap_solution_vars.sap_swpm_pas_instance_nr
+    }]
   sap_app_server = jsonencode(local.list_sap_app_server)
 
   ansible_monitoring_solution_playbook_vars = merge(
@@ -241,7 +240,7 @@ locals {
       sap_pas_instance_nr                           = var.sap_solution_vars.sap_swpm_pas_instance_nr
       sap_ascs_ip                                   = module.sap_system.pi_hana_instance_management_ip
       sap_ascs_http_port                            = "5${var.sap_solution_vars.sap_swpm_ascs_instance_nr}13"
-      sap_tools_directory                           = "/nfs/${var.ibmcloud_cos_configuration.cos_hana_software_path}"
+      sap_tools_directory                           = "/nfs/${var.ibmcloud_cos_configuration.cos_monitoring_software_path}"
       sap_app_server                                = local.sap_app_server
       ibmcloud_monitoring_instance_url              = "https://ingest.prws.private.${local.monitoring_instance_location}.monitoring.cloud.ibm.com/prometheus/remote/write"
       ibmcloud_monitoring_authorization_credentials = var.ibmcloud_monitoring_authorization_credentials
@@ -252,11 +251,11 @@ module "ansible_monitoring_sap_install_solution" {
 
   source = "../../../modules/ansible"
   count  = var.enable_monitoring ? 1 : 0
-
+  # count  = var.enable_monitoring && var.cos_monitoring_software_path ? 1 : 0
   bastion_host_ip        = local.access_host_or_ip
   ansible_host_or_ip     = local.ansible_host_or_ip
   ssh_private_key        = var.ssh_private_key
-  configure_ansible_host = var.configure_ansible_host
+  configure_ansible_host = true
   ansible_vault_password = var.ansible_vault_password
 
   src_script_template_name = "configure-monitoring-sap/ansible_configure-monitoring.sh.tftpl"
