@@ -17,7 +17,7 @@ export ANSIBLE_LOG_PATH=$${ansible_log_path}/$${ansible_playbook_name}.$(date "+
 export ANSIBLE_PRIVATE_KEY_FILE=$${ansible_private_key_file}
 
 #Execute ansible playbook
-unbuffer ansible-playbook -vv -i $${ansible_inventory} $${ansible_playbook} --extra-vars ibmcloud_iam_token=$${ibmcloud_iam_token} --vault-password-file password_file
+unbuffer ansible-playbook -i $${ansible_inventory} $${ansible_playbook} --extra-vars ibmcloud_iam_token=$${ibmcloud_iam_token} --vault-password-file password_file
 if [ $? -ne 0 ]; then
     rm -rf $${ansible_private_key_file}
     exit 1
