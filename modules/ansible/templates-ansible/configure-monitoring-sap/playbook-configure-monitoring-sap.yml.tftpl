@@ -29,7 +29,25 @@
     sap_tools_directory: '${sap_tools_directory}'
     sap_app_server: ${sap_app_server}
     ibmcloud_monitoring_instance_url: '${ibmcloud_monitoring_instance_url}'
-    ibmcloud_monitoring_authorization_credentials: '${ibmcloud_monitoring_authorization_credentials}'
+    ibmcloud_monitoring_instance_guid: '${ibmcloud_monitoring_instance_guid}'
 
-  roles:
-  - { role: ibm.power_linux_sap.monitoring_sap }
+  tasks:
+  # use token to get the monitoring auth cred
+  - name: Obtain IBM Cloud IAM token
+    ansible.builtin.uri:
+      url: "{{ ibmcloud_monitoring_instance_url }}"
+      method: GET
+      headers:
+        Content-Type: application/json
+        IBMInstanceID: "{{ ibmcloud_monitoring_instance_guid  }}"
+        Authorization: "Bearer {{ ibmcloud_iam_token }}"
+      return_content: yes
+    register: response
+
+  - name: Set a custom fact
+    ansible.builtin.set_fact:
+      ibmcloud_monitoring_instance_credentials: "{{ response.json.token.key }}"
+
+  - name: Execute monitoring role
+    ansible.builtin.include_role:
+      name: ibm.power_linux_sap.monitoring_sap
