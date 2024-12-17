@@ -167,7 +167,7 @@ resource "terraform_data" "execute_playbooks_with_vault" {
   provisioner "remote-exec" {
     inline = [
       "echo ${var.ansible_vault_password} > password_file",
-      #"ansible-vault encrypt ${local.dst_playbook_file_path} --vault-password-file password_file"
+      "ansible-vault encrypt ${local.dst_playbook_file_path} --vault-password-file password_file"
     ]
   }
 
