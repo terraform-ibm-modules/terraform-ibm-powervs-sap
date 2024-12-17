@@ -29,13 +29,14 @@
     sap_tools_directory: '${sap_tools_directory}'
     sap_app_server: ${sap_app_server}
     ibmcloud_monitoring_instance_url: '${ibmcloud_monitoring_instance_url}'
+    monitoring_request_cred_url: '${ monitoring_request_cred_url }'
     ibmcloud_monitoring_instance_guid: '${ibmcloud_monitoring_instance_guid}'
 
   tasks:
   # use token to get the monitoring auth cred
   - name: Obtain IBM Cloud IAM token
     ansible.builtin.uri:
-      url: "{{ ibmcloud_monitoring_instance_url }}"
+      url: "{{ monitoring_request_cred_url }}"
       method: GET
       headers:
         Content-Type: application/json

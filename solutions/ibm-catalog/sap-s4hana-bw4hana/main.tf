@@ -243,6 +243,7 @@ locals {
       sap_tools_directory               = "/nfs/${var.ibmcloud_cos_configuration.cos_monitoring_software_path}"
       sap_app_server                    = local.sap_app_server
       ibmcloud_monitoring_instance_url  = "https://ingest.prws.private.${local.monitoring_instance_location}.monitoring.cloud.ibm.com/prometheus/remote/write"
+      monitoring_request_cred_url       = "https://${local.monitoring_instance_location}.monitoring.cloud.ibm.com/api/token"
       ibmcloud_monitoring_instance_guid = local.monitoring_instance_guid
     }
   )
