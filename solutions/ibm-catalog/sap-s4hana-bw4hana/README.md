@@ -196,8 +196,6 @@ S4HANA_2023
 |------|-------------|
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP of Provided Bastion/JumpServer Host. |
 | <a name="output_infrastructure_data"></a> [infrastructure\_data](#output\_infrastructure\_data) | PowerVS infrastructure details. |
-| <a name="output_monitoring_host_ip"></a> [monitoring\_host\_ip](#output\_monitoring\_host\_ip) | Monitoring Host IP from VPC. |
-| <a name="output_monitoring_instance_vars"></a> [monitoring\_instance\_vars](#output\_monitoring\_instance\_vars) | Attributes of Monitoring Instance from VPC. |
 | <a name="output_powervs_hana_instance_ips"></a> [powervs\_hana\_instance\_ips](#output\_powervs\_hana\_instance\_ips) | All private IPS of HANA instance. |
 | <a name="output_powervs_hana_instance_management_ip"></a> [powervs\_hana\_instance\_management\_ip](#output\_powervs\_hana\_instance\_management\_ip) | Management IP of HANA Instance. |
 | <a name="output_powervs_lpars_data"></a> [powervs\_lpars\_data](#output\_powervs\_lpars\_data) | All private IPS of PowerVS instances and Jump IP to access the host. |
@@ -205,5 +203,6 @@ S4HANA_2023
 | <a name="output_powervs_netweaver_instance_management_ip"></a> [powervs\_netweaver\_instance\_management\_ip](#output\_powervs\_netweaver\_instance\_management\_ip) | Management IP of NetWeaver instance. |
 | <a name="output_powervs_sharefs_instance_ips"></a> [powervs\_sharefs\_instance\_ips](#output\_powervs\_sharefs\_instance\_ips) | Private IPs of the Share FS instance. |
 | <a name="output_sap_hana_vars"></a> [sap\_hana\_vars](#output\_sap\_hana\_vars) | SAP HANA system details. |
+| <a name="output_sap_monitoring_vars"></a> [sap\_monitoring\_vars](#output\_sap\_monitoring\_vars) | SAP Monitoring Instance details. |
 | <a name="output_sap_solution_vars"></a> [sap\_solution\_vars](#output\_sap\_solution\_vars) | SAP NetWeaver system details. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -48,12 +48,7 @@ output "sap_solution_vars" {
   value       = var.sap_solution_vars
 }
 
-output "monitoring_host_ip" {
-  description = "Monitoring Host IP from VPC."
-  value       = local.monitoring_host_ip
-}
-
-output "monitoring_instance_vars" {
-  description = "Attributes of Monitoring Instance from VPC."
-  value       = local.powervs_infrastructure[0].monitoring_instance.value
+output "sap_monitoring_vars" {
+  description = "SAP Monitoring Instance details."
+  value       = merge(var.sap_solution_vars, local.powervs_infrastructure[0].monitoring_instance.value)
 }
