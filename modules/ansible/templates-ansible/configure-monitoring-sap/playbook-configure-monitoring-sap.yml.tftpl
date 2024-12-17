@@ -49,10 +49,6 @@
       ansible.builtin.set_fact:
         ibmcloud_monitoring_instance_credentials: "{{ response.json.token.key }}"
 
-    - name: Use the custom fact
-      ansible.builtin.debug:
-        var: ibmcloud_monitoring_instance_credentials
-
     - name: Execute monitoring role
       ansible.builtin.include_role:
         name: ibm.power_linux_sap.monitoring_sap
