@@ -1,4 +1,4 @@
-| HANA rev78 Binaries               |
+| SAP HANA rev78 Binaries           |
 |-----------------------------------|
 | IMDB_AFL20_078_0-80002045.SAR     |
 | IMDB_CLIENT20_020_23-80002095.SAR |
@@ -39,3 +39,9 @@
 | SWPM20SP15_1-80003426.SAR                                    |
 | igsexe_3-70005446.sar                                        |
 | igshelper_17-10010245.sar                                    |
+
+
+| SAP x_86 binaries for monitoring host|
+|-----------------------------------|
+| IMDB_CLIENT20_020_23-80002082.SAR |
+| SAPCAR_1300-70007716.EXE          |

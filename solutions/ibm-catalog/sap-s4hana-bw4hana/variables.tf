@@ -85,7 +85,7 @@ variable "ibmcloud_cos_configuration" {
     "cos_bucket_name" : "powervs-automation",
     "cos_hana_software_path" : "HANA_DB/rev78",
     "cos_solution_software_path" : "S4HANA_2023",
-    "cos_monitoring_software_path" = "HANA_DB/rev78/x86_64",
+    "cos_monitoring_software_path" = "HANA_CLIENT/x_86",
     "cos_swpm_mp_stack_file_name" : ""
   }
 }
