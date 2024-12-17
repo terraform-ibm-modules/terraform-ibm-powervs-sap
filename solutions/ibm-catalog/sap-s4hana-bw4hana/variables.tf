@@ -71,21 +71,21 @@ variable "ibmcloud_cos_service_credentials" {
 }
 
 variable "ibmcloud_cos_configuration" {
-  description = "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path' and 'cos_solution_software_path'."
+  description = "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. 'cos_monitoring_software_path' is optional and must contain x_86 SAPCAR and SAP HANA client binaries required for configuring monitoring instance. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path', 'cos_solution_software_path' and 'cos_monitoring_software_path'."
   type = object({
     cos_region                   = string
     cos_bucket_name              = string
     cos_hana_software_path       = string
-    cos_monitoring_software_path = string
     cos_solution_software_path   = string
+    cos_monitoring_software_path = optional(string)
     cos_swpm_mp_stack_file_name  = string
   })
   default = {
     "cos_region" : "eu-geo",
     "cos_bucket_name" : "powervs-automation",
     "cos_hana_software_path" : "HANA_DB/rev78",
-    "cos_monitoring_software_path" = "HANA_DB/rev78/x86_64",
     "cos_solution_software_path" : "S4HANA_2023",
+    "cos_monitoring_software_path" = "HANA_DB/rev78/x86_64",
     "cos_swpm_mp_stack_file_name" : ""
   }
 }
@@ -307,14 +307,8 @@ variable "powervs_default_sap_images" {
   }
 }
 
-variable "enable_monitoring" {
-  description = "Option to add or not to add a SAP Monitoring configuration."
-  type        = bool
-  default     = true
-}
-
-variable "monitoring_config" {
-  description = "Configuration details for SAP monitoring setup. This variable defines whether to override the default configuration, the monitoring solution name and monitoring instance number."
+variable "sap_monitoring_vars" {
+  description = "Configuration details for SAP monitoring dashboard. Takes effect only when a monitoring instance was deployed as part of Power Virtual Server with VPC landing zone deployment. If 'config_override' is true, an existing configuration will be overwritten, 'sap_monitoring_nr' Two-digit incremental number starting with 01 up to 99. This is not a existing SAP ID, but a pure virtual NR and 'sap_monitoring_solution_name' A virtual arbitrary short name to recognize SAP System."
   type = object({
     config_override              = bool
     sap_monitoring_nr            = string
@@ -324,5 +318,9 @@ variable "monitoring_config" {
     config_override              = true
     sap_monitoring_nr            = ""
     sap_monitoring_solution_name = ""
+  }
+  validation {
+    condition     = (length(var.sap_monitoring_vars.sap_monitoring_nr) == 2 && tonumber(var.sap_monitoring_vars.sap_monitoring_nr) >= 0 && tonumber(var.sap_monitoring_vars.sap_monitoring_nr) <= 99) || var.sap_monitoring_vars.sap_monitoring_nr == ""
+    error_message = "sap_monitoring_nr should be a 2-digit number between 00 and 99. or empty"
   }
 }

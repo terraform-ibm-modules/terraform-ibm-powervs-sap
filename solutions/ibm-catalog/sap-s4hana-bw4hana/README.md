@@ -30,6 +30,7 @@
 - Optionally configures a shared NFS directory on all created PowerVS instances.
 - Supports installation of **S/4HANA2023, S/4HANA2022, S/4HANA2021, S/4HANA2020, BW/4HANA2021**.
 - Supports installation using **Maintenance Planner** as well.
+- Optionally installs and configures SAP Monitoring host and dashboard, if monitoring instance was deployed as part of [Power Virtual Server with VPC landing zone deployment](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?catalog_query=aHR0cHM6Ly9jbG91ZC5pYm0uY29tL2NhdGFsb2c%2Fc2VhcmNoPXBvd2VyI3NlYXJjaF9yZXN1bHRz).
 
 
 ## Before you begin
@@ -52,8 +53,8 @@
 2. The 'ibmcloud_cos_service_credentials' variable requires a value in JSON format. This can be obtained using the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)
 
 ### 2. SAP binaries required for installation and folder structure in IBM Cloud Object Storage bucket
-1. All binaries for HANA database and SAP solution (S/4HANA or BW/4HANA) must be uploaded to the IBM Cloud Object Storage Instance bucket in IBM Cloud before starting this deployment.
-2. For example the binaries required for S/4HANA 2023 and BW/4HANA 2021 are listed [here](./docs/s4hana23_bw4hana21_binaries.md).
+1. All binaries for SAP HANA database and SAP Solution (S/4HANA or BW/4HANA) must be uploaded to the IBM Cloud Object Storage Instance bucket in IBM Cloud before starting this deployment.
+2. For example the binaries required for SAP S/4HANA 2023 and SAP BW/4HANA 2021 are listed [here](./docs/s4hana23_bw4hana21_binaries.md).
 3. Example folder structure :
 ```
 S4HANA_2023
@@ -62,10 +63,13 @@ S4HANA_2023
 | |_all IMDB* Files and SAPCAR files (all files similar to listed in point 2 above example file)
 |
 |_S4HANA_2023
-  |_all files similar to listed in point 2 above example file
-  |maintenance planner stack xml file (optional)
+|  |_all files similar to listed in point 2 above example file
+|  |maintenance planner stack xml file (optional)
+|_Monitoring    <---(optional)
+  |_SAPCAR_x_86
+  |_IMDB_SAP_CLIENT_x_86.SAR
 ```
-**Do not mix the HANA DB binaries with the S/4HANA or BW/4HANA solution binaries otherwise the ansible playbook execution will fail.**
+**Do not mix the SAP HANA DB binaries, the S/4HANA or BW/4HANA solution binaries and Monitoring binaries otherwise the ansible playbook execution will fail.**
 
 4. If you have a **maintenance planner stack XML** file, place it under the **same folder as S4HANA_2023** and not under the HANA DB directory. Applies to all other versions as well. Mention only the name of this file in **'cos_swpm_mp_stack_file_name'**. Leave it **empty** if you do not have this stack XML file.
 
@@ -75,9 +79,11 @@ S4HANA_2023
 
    `cos_bucket_name`: cos bucket name
 
-   `cos_hana_software_path`: folder path to HANA db binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/HANA_DB"**
+   `cos_hana_software_path`: folder path to SAP HANA db binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/HANA_DB"**
 
-   `cos_solution_software_path`: folder path to S/4HANA binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/S4HANA_2023"**
+   `cos_solution_software_path`: folder path to SAP S/4HANA binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/S4HANA_2023"**
+
+   `cos_monitoring_software_path`: folder path to **x_86** SAPCAR and IMDB_CLIENT binaries from the root of the bucket. Example from point 3, the value would be: **"s4hana2023/Monitoring"**
 
    `cos_swpm_mp_stack_file_name`: Stack XML file name. Value must be set to empty `''` if not available. If value is provided, then this file **must be present** in the same path as `'cos_solution_software_path'`.
 
@@ -124,7 +130,7 @@ S4HANA_2023
 2. **[IBM Role](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/):** `power_linux_sap`
 
 
-
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
 
 | Name | Version |
