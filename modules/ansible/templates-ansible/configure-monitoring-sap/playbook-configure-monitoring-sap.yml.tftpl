@@ -47,7 +47,7 @@
 
   - name: Set a custom fact
     ansible.builtin.set_fact:
-      ibmcloud_monitoring_instance_credentials: "{{ response.json.token.key }}"
+      ibmcloud_monitoring_authorization_credentials: "{{ response.json.token.key }}"
 
   - name: Execute monitoring role
     ansible.builtin.include_role:
