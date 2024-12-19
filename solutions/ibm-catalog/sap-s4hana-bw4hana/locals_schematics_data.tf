@@ -53,4 +53,6 @@ locals {
     dns   = { enable = local.dns_host_or_ip != "" ? true : false, dns_server_ip = local.dns_host_or_ip }
     ntp   = { enable = local.ntp_host_or_ip != "" ? true : false, ntp_server_ip = local.ntp_host_or_ip }
   }
+
+  enable_monitoring = local.monitoring_instance_guid != "" && local.monitoring_host_ip != "" && local.monitoring_instance_location != "" && var.ibmcloud_cos_configuration.cos_monitoring_software_path != ""
 }
