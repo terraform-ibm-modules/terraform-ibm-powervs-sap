@@ -41,7 +41,7 @@
 | igshelper_17-10010245.sar                                    |
 
 
-| SAP x_86 binaries for monitoring host|
+| SAP x86_64 binaries for monitoring host|
 |-----------------------------------|
 | IMDB_CLIENT20_020_23-80002082.SAR |
 | SAPCAR_1300-70007716.EXE          |
