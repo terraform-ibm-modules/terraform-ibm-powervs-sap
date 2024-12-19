@@ -600,6 +600,15 @@
                             }
                         },
                         {
+                            "key": "sap_monitoring_vars",
+                            "required": true,
+                            "custom_config": {
+                                "grouping": "deployment",
+                                "original_grouping": "deployment",
+                                "type": "json_editor"
+                            }
+                        },
+                        {
                             "key": "sap_domain",
                             "required": true
                         },
@@ -692,6 +701,9 @@
                         },
                         {
                             "key": "sap_solution_vars"
+                        },
+                        {
+                            "key": "sap_monitoring_vars"
                         }
                     ],
                     "iam_permissions": [
