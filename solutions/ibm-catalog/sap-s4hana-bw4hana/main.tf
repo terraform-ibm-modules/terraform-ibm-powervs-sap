@@ -249,7 +249,7 @@ locals {
       sap_ascs_http_port             = "5${var.sap_solution_vars.sap_swpm_ascs_instance_nr}13"
       sap_app_server = jsonencode([
         {
-          sap_app_server_nr = "01"
+          sap_app_server_nr = 01
           ip                = module.sap_system.pi_netweaver_instance_management_ips
           port              = "5${var.sap_solution_vars.sap_swpm_pas_instance_nr}13"
         }]
