@@ -9,7 +9,7 @@ locals {
   dst_playbook_file_path   = "${local.dst_files_dir}/${var.dst_playbook_file_name}"
   src_inventory_tftpl_path = "${local.src_ansible_templates_dir}/${var.src_inventory_template_name}"
   dst_inventory_file_path  = "${local.dst_files_dir}/${var.dst_inventory_file_name}"
-  ibmcloud_api_key         = var.ibmcloud_api_key == null ? "" : var.ibmcloud_api_key
+  ibmcloud_api_key         = var.ibmcloud_api_key == null ? "" : nonsensitive(var.ibmcloud_api_key)
 
 }
 

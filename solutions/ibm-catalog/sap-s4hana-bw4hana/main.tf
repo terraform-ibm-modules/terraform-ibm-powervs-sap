@@ -243,13 +243,13 @@ locals {
       sap_hana_ip                    = module.sap_system.pi_hana_instance_management_ip
       sap_hana_http_port             = "5${var.sap_hana_vars.sap_hana_install_number}13"
       sap_hana_sql_systemdb_port     = "3${var.sap_hana_vars.sap_hana_install_number}13"
-      sap_hana_sql_systemdb_user     = "systemdb"
+      sap_hana_sql_systemdb_user     = "system"
       sap_hana_sql_systemdb_password = var.sap_hana_master_password
       sap_ascs_ip                    = module.sap_system.pi_netweaver_instance_management_ips
       sap_ascs_http_port             = "5${var.sap_solution_vars.sap_swpm_ascs_instance_nr}13"
       sap_app_server = jsonencode([
         {
-          sap_app_server_nr = "01"
+          sap_app_server_nr = 01
           ip                = module.sap_system.pi_netweaver_instance_management_ips
           port              = "5${var.sap_solution_vars.sap_swpm_pas_instance_nr}13"
         }]
