@@ -34,6 +34,13 @@ variable "pi_sap_network_cidr" {
   }
 }
 
+variable "ansible_vault_password" {
+  description = "Vault password to encrypt OS registration parameters. Only required with customer provided linux subscription (pi_os_registration). For optimal security, set the vault password to 8-16 characters, including a mix of uppercase, lowercase, numbers, and special characters. Avoid non-printable characters."
+  type        = string
+  sensitive   = true
+  default     = null
+}
+
 #####################################################
 # PowerVS Shared FS Instance parameters
 #####################################################
@@ -180,6 +187,10 @@ variable "pi_instance_init_linux" {
       bastion_host_ip    = string
       ansible_host_or_ip = string
       ssh_private_key    = string
+      custom_os_registration = optional(object({
+        username = string
+        password = string
+      }))
     }
   )
 }

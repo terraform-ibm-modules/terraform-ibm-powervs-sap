@@ -230,3 +230,29 @@ variable "powervs_default_sap_images" {
     "rhel_nw_image" : "RHEL9-SP2-SAP-NETWEAVER"
   }
 }
+
+variable "ansible_vault_password" {
+  description = "Vault password to encrypt OS registration parameters. For optimal security, set the vault password to 8-16 characters, including a mix of uppercase, lowercase, numbers, and special characters. Avoid non-printable characters. Required only if you bring your own linux license."
+  type        = string
+  sensitive   = true
+  default     = null
+}
+
+variable "powervs_os_registration" {
+  description = "Specify whether IBM provided or customer provided linux subscription should be used. For IBM provided subscription set fls=true. For customer provided subscription set a username and a password inside byol. Only one can be used, fls=true + defining username and password will throw an error. Default: fls=true"
+  type = object({
+    byol = object({
+      username = string
+      password = string
+    })
+    fls = bool
+  })
+  sensitive = true
+  default = {
+    byol = {
+      username = ""
+      password = ""
+    }
+    fls = true
+  }
+}

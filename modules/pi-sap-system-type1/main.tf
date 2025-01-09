@@ -42,6 +42,7 @@ module "pi_sharefs_instance" {
   pi_storage_config          = var.pi_sharefs_instance.storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
+  ansible_vault_password     = var.ansible_vault_password
 }
 
 # Configuration for sharefs instance as NFS server
@@ -116,6 +117,7 @@ module "pi_hana_instance" {
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
+  ansible_vault_password     = var.ansible_vault_password
 }
 
 locals {
@@ -160,6 +162,7 @@ module "pi_netweaver_instance" {
   pi_storage_config          = local.pi_netweaver_instance_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
+  ansible_vault_password     = var.ansible_vault_password
 }
 
 locals {

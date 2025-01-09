@@ -39,10 +39,11 @@ locals {
   powervs_netweaver_os_image = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_nw_image : var.powervs_default_sap_images.rhel_nw_image
 
   powervs_instance_init_linux = {
-    enable             = true
-    bastion_host_ip    = local.access_host_or_ip
-    ansible_host_or_ip = local.ansible_host_or_ip
-    ssh_private_key    = var.ssh_private_key
+    enable                 = true
+    bastion_host_ip        = local.access_host_or_ip
+    ansible_host_or_ip     = local.ansible_host_or_ip
+    ssh_private_key        = var.ssh_private_key
+    custom_os_registration = var.powervs_os_registration.fls ? null : var.powervs_os_registration.byol
   }
 
   powervs_network_services_config = {

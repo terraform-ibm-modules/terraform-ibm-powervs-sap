@@ -49,5 +49,5 @@ module "sap_system" {
   pi_instance_init_linux                 = local.powervs_instance_init_linux
   sap_network_services_config            = local.powervs_network_services_config
   sap_domain                             = var.sap_domain
-
+  ansible_vault_password = var.ansible_vault_password
 }
