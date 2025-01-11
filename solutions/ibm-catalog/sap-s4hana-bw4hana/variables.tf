@@ -237,7 +237,7 @@ variable "powervs_hana_instance_additional_storage_config" {
 }
 
 variable "powervs_netweaver_instance_storage_config" {
-  description = "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance."
+  description = "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will be mounted from sharefs instance."
   type = list(object({
     name  = string
     size  = string
@@ -308,7 +308,7 @@ variable "powervs_default_sap_images" {
 }
 
 variable "sap_monitoring_vars" {
-  description = "Configuration details for SAP monitoring dashboard. Takes effect only when a monitoring instance was deployed as part of Power Virtual Server with VPC landing zone deployment. If 'config_override' is true, an existing configuration will be overwritten, 'sap_monitoring_nr' Two-digit incremental number starting with 01 up to 99. This is not a existing SAP ID, but a pure virtual NR and 'sap_monitoring_solution_name' A virtual arbitrary short name to recognize SAP System."
+  description = "Configuration details for SAP monitoring dashboard. Takes effect only when a monitoring instance was deployed as part of Power Virtual Server with VPC landing zone deployment. If 'config_override' is true, an existing configuration will be overwritten, 'sap_monitoring_nr' Two-digit incremental number starting with 01 up to 99. This is not a existing SAP ID, but a pure virtual number and 'sap_monitoring_solution_name' is a virtual arbitrary short name to recognize SAP System."
   type = object({
     config_override              = bool
     sap_monitoring_nr            = string
