@@ -2,6 +2,6 @@
 - name: syd05
   useForTest: true
   testPriority: 1
-- name: tor01
+- name: lon06
   useForTest: true
   testPriority: 2
