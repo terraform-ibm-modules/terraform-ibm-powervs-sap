@@ -44,7 +44,7 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.72.2 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.73.0 |
 
 ### Modules
 
@@ -56,8 +56,8 @@
 
 | Name | Type |
 |------|------|
-| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.72.2/docs/data-sources/schematics_output) | data source |
-| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.72.2/docs/data-sources/schematics_workspace) | data source |
+| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.73.0/docs/data-sources/schematics_output) | data source |
+| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.73.0/docs/data-sources/schematics_workspace) | data source |
 
 ### Inputs
 
@@ -68,7 +68,7 @@
 | <a name="input_nfs_directory"></a> [nfs\_directory](#input\_nfs\_directory) | Target directory on which the file storage share from VPC will be mounted. | `string` | `"/nfs"` | no |
 | <a name="input_os_image_distro"></a> [os\_image\_distro](#input\_os\_image\_distro) | Image distribution to use for all instances(Shared, HANA, NetWeaver). OS release versions may be specified in 'powervs\_sap\_default\_images' optional parameters below. | `string` | n/a | yes |
 | <a name="input_powervs_create_separate_sharefs_instance"></a> [powervs\_create\_separate\_sharefs\_instance](#input\_powervs\_create\_separate\_sharefs\_instance) | Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs\_sharefs\_instance\_storage\_config' variable will be NFS exported and mounted on SAP NetWeaver PowerVS instances if enabled. Optional parameter 'powervs\_share\_fs\_instance' can be configured if enabled. | `bool` | n/a | yes |
-| <a name="input_powervs_default_sap_images"></a> [powervs\_default\_sap\_images](#input\_powervs\_default\_sap\_images) | Default SUSE and Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances. | <pre>object({<br/>    sles_hana_image = string<br/>    sles_nw_image   = string<br/>    rhel_hana_image = string<br/>    rhel_nw_image   = string<br/>  })</pre> | <pre>{<br/>  "rhel_hana_image": "RHEL9-SP2-SAP",<br/>  "rhel_nw_image": "RHEL9-SP2-SAP-NETWEAVER",<br/>  "sles_hana_image": "SLES15-SP5-SAP",<br/>  "sles_nw_image": "SLES15-SP5-SAP-NETWEAVER"<br/>}</pre> | no |
+| <a name="input_powervs_default_sap_images"></a> [powervs\_default\_sap\_images](#input\_powervs\_default\_sap\_images) | Default SUSE and Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances. | <pre>object({<br/>    sles_hana_image = string<br/>    sles_nw_image   = string<br/>    rhel_hana_image = string<br/>    rhel_nw_image   = string<br/>  })</pre> | <pre>{<br/>  "rhel_hana_image": "RHEL9-SP4-SAP",<br/>  "rhel_nw_image": "RHEL9-SP4-SAP-NETWEAVER",<br/>  "sles_hana_image": "SLES15-SP5-SAP",<br/>  "sles_nw_image": "SLES15-SP5-SAP-NETWEAVER"<br/>}</pre> | no |
 | <a name="input_powervs_hana_instance_additional_storage_config"></a> [powervs\_hana\_instance\_additional\_storage\_config](#input\_powervs\_hana\_instance\_additional\_storage\_config) | Additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. | <pre>list(object({<br/>    name  = string<br/>    size  = string<br/>    count = string<br/>    tier  = string<br/>    mount = string<br/>  }))</pre> | <pre>[<br/>  {<br/>    "count": "1",<br/>    "mount": "/usr/sap",<br/>    "name": "usrsap",<br/>    "size": "50",<br/>    "tier": "tier3"<br/>  }<br/>]</pre> | no |
 | <a name="input_powervs_hana_instance_custom_storage_config"></a> [powervs\_hana\_instance\_custom\_storage\_config](#input\_powervs\_hana\_instance\_custom\_storage\_config) | Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. | <pre>list(object({<br/>    name  = string<br/>    size  = string<br/>    count = string<br/>    tier  = string<br/>    mount = string<br/>    pool  = optional(string)<br/>  }))</pre> | <pre>[<br/>  {<br/>    "count": "",<br/>    "mount": "",<br/>    "name": "",<br/>    "size": "",<br/>    "tier": ""<br/>  }<br/>]</pre> | no |
 | <a name="input_powervs_hana_instance_name"></a> [powervs\_hana\_instance\_name](#input\_powervs\_hana\_instance\_name) | PowerVS SAP HANA instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs\_hana\_instance\_name>. Max length of final hostname must be <= 13 characters. | `string` | `"hana"` | no |
