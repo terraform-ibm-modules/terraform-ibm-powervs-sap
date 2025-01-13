@@ -143,17 +143,19 @@ variable "sap_swpm_master_password" {
 }
 
 variable "sap_solution_vars" {
-  description = "SAP SID, ASCS and PAS instance numbers."
+  description = "SAP SID, ASCS and PAS instance numbers and service/protectedwebmethods parameters."
   type = object({
-    sap_swpm_sid              = string
-    sap_swpm_ascs_instance_nr = string
-    sap_swpm_pas_instance_nr  = string
+    sap_swpm_sid                         = string
+    sap_swpm_ascs_instance_nr            = string
+    sap_swpm_pas_instance_nr             = string
+    sap_swpm_service_protectedwebmethods = string
 
   })
   default = {
     "sap_swpm_sid" : "S4H",
     "sap_swpm_ascs_instance_nr" : "00",
-    "sap_swpm_pas_instance_nr" : "01"
+    "sap_swpm_pas_instance_nr" : "01",
+    "sap_swpm_service_protectedwebmethods" : "SDEFAULT -GetQueueStatistic -ABAPGetWPTable -EnqGetStatistic -GetProcessList -GetEnvironment -BAPGetSystemWPTable"
   }
   validation {
     condition     = var.sap_solution_vars.sap_swpm_ascs_instance_nr != var.sap_solution_vars.sap_swpm_pas_instance_nr
