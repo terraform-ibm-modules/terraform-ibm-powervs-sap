@@ -78,3 +78,20 @@
 
     - name: SAP SWPM Post Install - Enforce Connection Info in hdbuserstore
       ansible.builtin.shell: "runuser -l {{sap_swpm_sid|lower}}adm -c 'hdbuserstore SET DEFAULT {{ sap_swpm_db_host }}:3{{ sap_swpm_db_instance_nr }}15 {{ sap_swpm_db_schema_abap }} '{{ sap_swpm_db_system_password }}"
+
+    - name: Update the service/protectedwebmethods line in the file DEFAULT.PFL profile
+      ansible.builtin.lineinfile:
+        path: /usr/sap/{{ sap_swpm_sid }}/SYS/profile/DEFAULT.PFL
+        regexp: '^service/protectedwebmethods ='
+        line: 'service/protectedwebmethods = ${sap_swpm_service_protectedwebmethods}'
+        backup: yes
+
+    - name: Restart ASCS instance for service/protectedwebmethods to take effect
+      ansible.builtin.shell: "runuser -l {{sap_swpm_sid|lower}}adm -c 'sapcontrol -nr {{ sap_swpm_ascs_instance_nr }} -function RestartService'"
+
+    - name: Pause for 30 seconds
+      ansible.builtin.pause:
+        seconds: 30
+
+    - name: Restart PAS instance for service/protectedwebmethods to take effect
+      ansible.builtin.shell: "runuser -l {{sap_swpm_sid|lower}}adm -c 'sapcontrol -nr {{ sap_swpm_pas_instance_nr }} -function RestartService'"
