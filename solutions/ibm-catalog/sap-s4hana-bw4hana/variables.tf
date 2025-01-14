@@ -85,7 +85,7 @@ variable "ibmcloud_cos_configuration" {
     "cos_bucket_name" : "powervs-automation",
     "cos_hana_software_path" : "HANA_DB/rev78",
     "cos_solution_software_path" : "S4HANA_2023",
-    "cos_monitoring_software_path" = "HANA_CLIENT/x86_64",
+    "cos_monitoring_software_path" : "HANA_CLIENT/x86_64",
     "cos_swpm_mp_stack_file_name" : ""
   }
 }
@@ -317,9 +317,9 @@ variable "sap_monitoring_vars" {
     sap_monitoring_solution_name = string
   })
   default = {
-    config_override              = false
-    sap_monitoring_nr            = "01"
-    sap_monitoring_solution_name = ""
+    "config_override" : false,
+    "sap_monitoring_nr" : "01",
+    "sap_monitoring_solution_name" : ""
   }
   validation {
     condition     = (length(var.sap_monitoring_vars.sap_monitoring_nr) == 2 && tonumber(var.sap_monitoring_vars.sap_monitoring_nr) >= 0 && tonumber(var.sap_monitoring_vars.sap_monitoring_nr) <= 99) || var.sap_monitoring_vars.sap_monitoring_nr == ""
