@@ -2,7 +2,7 @@
 
 copyright:
   years: 2024
-lastupdated: "2024-12-19"
+lastupdated: "2025-01-14"
 keywords:
 subcollection: deployable-reference-architectures
 authors:

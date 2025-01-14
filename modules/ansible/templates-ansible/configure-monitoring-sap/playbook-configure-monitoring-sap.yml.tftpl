@@ -48,10 +48,10 @@
       return_content: yes
     register: response
 
-  - name: Set a custom fact
+  - name: Set fact for IBM Cloud Monitoring authorization credentials
     ansible.builtin.set_fact:
       ibmcloud_monitoring_authorization_credentials: "{{ response.json.token.key }}"
 
-  - name: Execute monitoring role
+  - name: Execute monitoring role for SAP
     ansible.builtin.include_role:
       name: ibm.power_linux_sap.monitoring_sap

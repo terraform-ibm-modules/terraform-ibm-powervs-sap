@@ -282,6 +282,6 @@ module "ansible_monitoring_sap_install_solution" {
   dst_playbook_file_name      = "${var.prefix}-playbook-configure-monitoring-sap.yml"
   playbook_template_vars      = local.ansible_monitoring_solution_playbook_vars
   src_inventory_template_name = "monitoring-inventory.tftpl"
-  dst_inventory_file_name     = "monitoring-instance-inventory"
+  dst_inventory_file_name     = "${var.prefix}-monitoring-instance-inventory"
   inventory_template_vars     = { "monitoring_host_ip" : local.monitoring_host_ip }
 }
