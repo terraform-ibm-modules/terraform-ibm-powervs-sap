@@ -239,20 +239,14 @@ variable "ansible_vault_password" {
 }
 
 variable "powervs_os_registration" {
-  description = "Specify whether IBM provided or customer provided linux subscription should be used. For IBM provided subscription set fls=true. For customer provided subscription set a username and a password inside byol. Only one can be used, fls=true + defining username and password will throw an error. Default: fls=true"
+  description = "If you're using a byol or a custom RHEL/SLES image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS)."
   type = object({
-    byol = object({
-      username = string
-      password = string
-    })
-    fls = bool
+    username = string
+    password = string
   })
   sensitive = true
   default = {
-    byol = {
-      username = ""
-      password = ""
-    }
-    fls = true
+    username = ""
+    password = ""
   }
 }
