@@ -24,6 +24,7 @@
 - Creates a new private subnet for SAP communication for the entire landscape.
 - Creates and configures one PowerVS instance for SAP HANA based on best practices for HANA database.
 - Creates and configures one PowerVS instance for SAP NetWeaver based on best practices, hosting the PAS and ASCS instances.
+- Optionally let's the user choose a byol or custom os image for the HANA and Netweaver PowerVS instances and activate it with user provided os registration credentials
 - Creates and configures one optional PowerVS instance for sharing SAP files between other system instances.
 - Connects all created PowerVS instances to a proxy server specified by IP address or hostname.
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
