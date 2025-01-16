@@ -71,19 +71,21 @@ variable "ibmcloud_cos_service_credentials" {
 }
 
 variable "ibmcloud_cos_configuration" {
-  description = "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path' and 'cos_solution_software_path'."
+  description = "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. 'cos_monitoring_software_path' is optional and must contain x86_64 SAPCAR and SAP HANA client binaries required for configuring monitoring instance. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path', 'cos_solution_software_path' and 'cos_monitoring_software_path'."
   type = object({
-    cos_region                  = string
-    cos_bucket_name             = string
-    cos_hana_software_path      = string
-    cos_solution_software_path  = string
-    cos_swpm_mp_stack_file_name = string
+    cos_region                   = string
+    cos_bucket_name              = string
+    cos_hana_software_path       = string
+    cos_solution_software_path   = string
+    cos_monitoring_software_path = optional(string)
+    cos_swpm_mp_stack_file_name  = string
   })
   default = {
     "cos_region" : "eu-geo",
     "cos_bucket_name" : "powervs-automation",
     "cos_hana_software_path" : "HANA_DB/rev78",
     "cos_solution_software_path" : "S4HANA_2023",
+    "cos_monitoring_software_path" : "HANA_CLIENT/x86_64",
     "cos_swpm_mp_stack_file_name" : ""
   }
 }
@@ -141,17 +143,19 @@ variable "sap_swpm_master_password" {
 }
 
 variable "sap_solution_vars" {
-  description = "SAP SID, ASCS and PAS instance numbers."
+  description = "SAP SID, ASCS and PAS instance numbers and service/protectedwebmethods parameters."
   type = object({
-    sap_swpm_sid              = string
-    sap_swpm_ascs_instance_nr = string
-    sap_swpm_pas_instance_nr  = string
+    sap_swpm_sid                         = string
+    sap_swpm_ascs_instance_nr            = string
+    sap_swpm_pas_instance_nr             = string
+    sap_swpm_service_protectedwebmethods = string
 
   })
   default = {
     "sap_swpm_sid" : "S4H",
     "sap_swpm_ascs_instance_nr" : "00",
-    "sap_swpm_pas_instance_nr" : "01"
+    "sap_swpm_pas_instance_nr" : "01",
+    "sap_swpm_service_protectedwebmethods" : "SDEFAULT -GetQueueStatistic -ABAPGetWPTable -EnqGetStatistic -GetProcessList -GetEnvironment -BAPGetSystemWPTable"
   }
   validation {
     condition     = var.sap_solution_vars.sap_swpm_ascs_instance_nr != var.sap_solution_vars.sap_swpm_pas_instance_nr
@@ -188,7 +192,6 @@ variable "ibmcloud_api_key" {
   type        = string
   sensitive   = true
 }
-
 
 ################################################################
 #
@@ -236,7 +239,7 @@ variable "powervs_hana_instance_additional_storage_config" {
 }
 
 variable "powervs_netweaver_instance_storage_config" {
-  description = "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will mounted from sharefs instance."
+  description = "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will be mounted from sharefs instance."
   type = list(object({
     name  = string
     size  = string
@@ -316,5 +319,23 @@ variable "powervs_os_registration" {
   default = {
     username = ""
     password = ""
+  }
+}
+
+variable "sap_monitoring_vars" {
+  description = "Configuration details for SAP monitoring dashboard. Takes effect only when a monitoring instance was deployed as part of Power Virtual Server with VPC landing zone deployment. If 'config_override' is true, an existing configuration will be overwritten, 'sap_monitoring_nr' Two-digit incremental number starting with 01 up to 99. This is not a existing SAP ID, but a pure virtual number and 'sap_monitoring_solution_name' is a virtual arbitrary short name to recognize SAP System."
+  type = object({
+    config_override              = bool
+    sap_monitoring_nr            = string
+    sap_monitoring_solution_name = string
+  })
+  default = {
+    "config_override" : false,
+    "sap_monitoring_nr" : "01",
+    "sap_monitoring_solution_name" : ""
+  }
+  validation {
+    condition     = (length(var.sap_monitoring_vars.sap_monitoring_nr) == 2 && tonumber(var.sap_monitoring_vars.sap_monitoring_nr) >= 0 && tonumber(var.sap_monitoring_vars.sap_monitoring_nr) <= 99) || var.sap_monitoring_vars.sap_monitoring_nr == ""
+    error_message = "sap_monitoring_nr should be a 2-digit number between 00 and 99. or empty"
   }
 }

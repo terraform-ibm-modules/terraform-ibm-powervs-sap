@@ -1,0 +1,57 @@
+# ------------------------------------------------------------------------
+# This playbook uses the ibm.power_linux_sap collection. This collection is
+# available on ansible galaxy
+# https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/ and can
+# be installed using 'ansible-galaxy collection install ibm.power_linux_sap'
+# ------------------------------------------------------------------------
+
+---
+- name: SAP monitoring configuration
+  hosts: all
+  become: true
+  vars:
+
+    ## variable group: monitoring meta parameters
+    sap_monitoring_action: '${sap_monitoring_action}'
+    config_override: '${config_override}'
+    sap_monitoring_nr: '${sap_monitoring_nr}'
+    sap_monitoring_solution_name: '${sap_monitoring_solution_name}'
+    sap_tools_directory: '${sap_tools_directory}'
+
+    ## variable group: hana parameters
+    sap_hana_ip: '${sap_hana_ip}'
+    sap_hana_http_port: '${sap_hana_http_port}'
+    sap_hana_sql_systemdb_port: '${sap_hana_sql_systemdb_port}'
+    sap_hana_sql_systemdb_user: '${sap_hana_sql_systemdb_user}'
+    sap_hana_sql_systemdb_password: '${sap_hana_sql_systemdb_password}'
+
+    ## variable group: application server parameters
+    sap_ascs_ip: '${sap_ascs_ip}'
+    sap_ascs_http_port: '${sap_ascs_http_port}'
+    sap_app_server: ${sap_app_server}
+
+    ## variable group: IBM cloud parameters
+    ibmcloud_monitoring_instance_url: '${ibmcloud_monitoring_instance_url}'
+    ibmcloud_monitoring_request_credential_url: '${ibmcloud_monitoring_request_credential_url}'
+    ibmcloud_monitoring_instance_guid: '${ibmcloud_monitoring_instance_guid}'
+
+  tasks:
+  # use token to get the monitoring auth cred
+  - name: Obtain IBM Cloud IAM token
+    ansible.builtin.uri:
+      url: "{{ ibmcloud_monitoring_request_credential_url }}"
+      method: GET
+      headers:
+        Content-Type: application/json
+        IBMInstanceID: "{{ ibmcloud_monitoring_instance_guid  }}"
+        Authorization: "Bearer {{ ibmcloud_iam_token }}"
+      return_content: yes
+    register: response
+
+  - name: Set fact for IBM Cloud Monitoring authorization credentials
+    ansible.builtin.set_fact:
+      ibmcloud_monitoring_authorization_credentials: "{{ response.json.token.key }}"
+
+  - name: Execute monitoring role for SAP
+    ansible.builtin.include_role:
+      name: ibm.power_linux_sap.monitoring_sap
