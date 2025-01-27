@@ -277,8 +277,7 @@
                             }
                         },
                         {
-                            "key": "powervs_os_registration_username",
-                            "type": "string"
+                            "key": "powervs_os_registration_username"
                         },
                         {
                             "key": "powervs_os_registration_password",
@@ -691,8 +690,7 @@
                             }
                         },
                         {
-                            "key": "powervs_os_registration_username",
-                            "type": "string"
+                            "key": "powervs_os_registration_username"
                         },
                         {
                             "key": "powervs_os_registration_password",

@@ -212,13 +212,13 @@ variable "powervs_default_sap_images" {
 }
 
 variable "powervs_os_registration_username" {
-  description = "If you're using a byol or a custom RHEL/SLES image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS)."
+  description = "If you're using a byol or a custom RHEL image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS)."
   type        = string
   default     = ""
 }
 
 variable "powervs_os_registration_password" {
-  description = "If you're using a byol or a custom RHEL/SLES image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS)."
+  description = "If you're using a byol or a custom RHEL image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS)."
   type        = string
   sensitive   = true
   default     = ""
