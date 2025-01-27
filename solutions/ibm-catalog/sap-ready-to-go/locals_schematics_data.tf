@@ -43,7 +43,7 @@ locals {
     bastion_host_ip        = local.access_host_or_ip
     ansible_host_or_ip     = local.ansible_host_or_ip
     ssh_private_key        = var.ssh_private_key
-    custom_os_registration = local.use_fls ? null : var.powervs_os_registration
+    custom_os_registration = local.use_fls ? null : { "username" : var.powervs_os_registration_username, "password" : var.powervs_os_registration_password }
   }
 
   powervs_network_services_config = {
@@ -80,13 +80,13 @@ locals {
 
   # validate byol credentials are provided when fls isn't used
   use_fls          = local.hana_is_fls_image && local.netweaver_is_fls_image
-  missing_byol     = local.use_fls ? false : !(length(var.powervs_os_registration.username) > 0 && length(var.powervs_os_registration.password) > 0)
+  missing_byol     = local.use_fls ? false : !(length(var.powervs_os_registration_username) > 0 && length(var.powervs_os_registration_password) > 0)
   missing_byol_msg = "Missing byol credentials for activation of linux subscription."
   # tflint-ignore: terraform_unused_declarations
   validate_byol_provided = regex("^${local.missing_byol_msg}$", (local.missing_byol ? "" : local.missing_byol_msg))
 
   # validate the user didn't specify os registration credentials for fls images
-  byol_and_fls     = local.use_fls && length(var.powervs_os_registration.username) > 0 && length(var.powervs_os_registration.password) > 0
+  byol_and_fls     = local.use_fls && length(var.powervs_os_registration_username) > 0 && length(var.powervs_os_registration_password) > 0
   byol_and_fls_msg = "FLS images and user provided linux subscription detected. Can't use both at the same time."
   # tflint-ignore: terraform_unused_declarations
   validate_byol_and_fls = regex("^${local.byol_and_fls_msg}$", (local.byol_and_fls ? "" : local.byol_and_fls_msg))
