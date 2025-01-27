@@ -48,6 +48,45 @@ variable "powervs_create_separate_sharefs_instance" {
   type        = bool
 }
 
+
+variable "powervs_sharefs_instance" {
+  description = "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  type = object({
+    name       = string
+    processors = string
+    memory     = string
+    proc_type  = string
+    storage_config = list(object({
+      name  = string
+      size  = string
+      count = string
+      tier  = string
+      mount = string
+      pool  = optional(string)
+    }))
+  })
+  default = {
+    "name" : "share",
+    "processors" : "0.5",
+    "memory" : "2",
+    "proc_type" : "shared",
+    "storage_config" : [{
+      "name" : "sapmnt",
+      "size" : "300",
+      "count" : "1",
+      "tier" : "tier3",
+      "mount" : "/sapmnt"
+      },
+      {
+        "name" : "trans",
+        "size" : "50",
+        "count" : "1",
+        "tier" : "tier3",
+        "mount" : "/usr/trans"
+    }]
+  }
+}
+
 #####################################################
 # PowerVS HANA Instance parameters
 #####################################################
@@ -63,60 +102,6 @@ variable "powervs_hana_instance_sap_profile_id" {
   type        = string
   default     = "ush1-4x256"
 }
-
-#####################################################
-# PowerVS NetWeaver Instance parameters
-#####################################################
-
-variable "powervs_netweaver_instance_count" {
-  description = "Number of PowerVS SAP NetWeaver instances that should be created."
-  type        = number
-  default     = 1
-}
-
-variable "powervs_netweaver_instance_name" {
-  description = "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters."
-  type        = string
-  default     = "nw"
-}
-
-variable "powervs_netweaver_cpu_number" {
-  description = "Number of CPUs for each PowerVS SAP NetWeaver instance."
-  type        = string
-  default     = "3"
-}
-
-variable "powervs_netweaver_memory_size" {
-  description = "Memory size for each PowerVS SAP NetWeaver instance."
-  type        = string
-  default     = "32"
-}
-
-#####################################################
-# OS parameters
-#####################################################
-
-variable "ssh_private_key" {
-  description = "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key' which was created previously. The key is temporarily stored and deleted. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
-  type        = string
-  sensitive   = true
-}
-
-variable "sap_domain" {
-  description = "SAP network domain name."
-  type        = string
-  default     = "sap.com"
-}
-
-variable "nfs_directory" {
-  description = "Target directory on which the file storage share from VPC will be mounted."
-  type        = string
-  default     = "/nfs"
-}
-
-#####################################################
-# Optional Parameters
-#####################################################
 
 variable "powervs_hana_instance_custom_storage_config" {
   description = "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
@@ -156,6 +141,34 @@ variable "powervs_hana_instance_additional_storage_config" {
   }]
 }
 
+#####################################################
+# PowerVS NetWeaver Instance parameters
+#####################################################
+
+variable "powervs_netweaver_instance_count" {
+  description = "Number of PowerVS SAP NetWeaver instances that should be created."
+  type        = number
+  default     = 1
+}
+
+variable "powervs_netweaver_instance_name" {
+  description = "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters."
+  type        = string
+  default     = "nw"
+}
+
+variable "powervs_netweaver_cpu_number" {
+  description = "Number of CPUs for each PowerVS SAP NetWeaver instance."
+  type        = string
+  default     = "3"
+}
+
+variable "powervs_netweaver_memory_size" {
+  description = "Memory size for each PowerVS SAP NetWeaver instance."
+  type        = string
+  default     = "32"
+}
+
 variable "powervs_netweaver_instance_storage_config" {
   description = "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will be mounted from sharefs instance."
   type = list(object({
@@ -177,43 +190,31 @@ variable "powervs_netweaver_instance_storage_config" {
   ]
 }
 
-variable "powervs_sharefs_instance" {
-  description = "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
-  type = object({
-    name       = string
-    processors = string
-    memory     = string
-    proc_type  = string
-    storage_config = list(object({
-      name  = string
-      size  = string
-      count = string
-      tier  = string
-      mount = string
-      pool  = optional(string)
-    }))
-  })
-  default = {
-    "name" : "share",
-    "processors" : "0.5",
-    "memory" : "2",
-    "proc_type" : "shared",
-    "storage_config" : [{
-      "name" : "sapmnt",
-      "size" : "300",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/sapmnt"
-      },
-      {
-        "name" : "trans",
-        "size" : "50",
-        "count" : "1",
-        "tier" : "tier3",
-        "mount" : "/usr/trans"
-    }]
-  }
+#####################################################
+# OS parameters
+#####################################################
+
+variable "ssh_private_key" {
+  description = "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key' which was created previously. The key is temporarily stored and deleted. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
+  type        = string
+  sensitive   = true
 }
+
+variable "sap_domain" {
+  description = "SAP network domain name."
+  type        = string
+  default     = "sap.com"
+}
+
+variable "nfs_directory" {
+  description = "Target directory on which the file storage share from VPC will be mounted."
+  type        = string
+  default     = "/nfs"
+}
+
+#####################################################
+# Parameters for Image
+#####################################################
 
 variable "powervs_default_sap_images" {
   description = "Default SUSE and Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances."
