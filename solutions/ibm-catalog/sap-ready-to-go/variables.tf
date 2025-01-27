@@ -217,7 +217,7 @@ variable "nfs_directory" {
 #####################################################
 
 variable "powervs_default_sap_images" {
-  description = "Default SUSE and Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances."
+  description = "Default SUSE and Red Hat Linux Full Linux subscription images to use for PowerVS SAP HANA and SAP NetWeaver instances. If you're using a byol or a custom RHEL/SLES image, additionally specify the optional values for 'powervs_os_registration_username', 'powervs_os_registration_password' and 'ansible_vault_password'"
   type = object({
     sles_hana_image = string
     sles_nw_image   = string

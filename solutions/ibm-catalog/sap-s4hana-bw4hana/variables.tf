@@ -200,7 +200,7 @@ variable "software_download_directory" {
 #####################################################
 
 variable "powervs_default_sap_images" {
-  description = "Default Red Hat Linux images to use for PowerVS SAP HANA and SAP NetWeaver instances."
+  description = "Default Red Hat Linux Full Linux subscription images to use for PowerVS SAP HANA and SAP NetWeaver instances. If you're using a byol or a custom RHEL image, additionally specify the optional values for 'powervs_os_registration_username', 'powervs_os_registration_password' and 'ansible_vault_password'"
   type = object({
     rhel_hana_image = string
     rhel_nw_image   = string
