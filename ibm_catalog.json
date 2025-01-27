@@ -278,14 +278,12 @@
                         },
                         {
                             "key": "powervs_os_registration_username",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "string"
-                            }
+                            "type": "string"
                         },
                         {
                             "key": "powervs_os_registration_password",
+                            "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
                             "custom_config": {
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
@@ -694,14 +692,12 @@
                         },
                         {
                             "key": "powervs_os_registration_username",
-                            "custom_config": {
-                                "grouping": "deployment",
-                                "original_grouping": "deployment",
-                                "type": "string"
-                            }
+                            "type": "string"
                         },
                         {
                             "key": "powervs_os_registration_password",
+                            "type": "multiline_secure_value",
+                            "display_name": "Multiline secure value",
                             "custom_config": {
                                 "grouping": "deployment",
                                 "original_grouping": "deployment",
