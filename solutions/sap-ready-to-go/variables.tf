@@ -201,7 +201,7 @@ variable "powervs_netweaver_instance" {
 #####################################################
 
 variable "powervs_instance_init_linux" {
-  description = "Configures a PowerVS linux instance to have internet access by setting proxy on it, updates os and create filesystems using ansible collection [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) where 'bastion_host_ip' is public IP of bastion/jump host to access the 'ansible_host_or_ip' private IP of ansible node. This ansible host must have access to the power virtual server instance and ansible host OS must be RHEL distribution."
+  description = "Configures a PowerVS linux instance to have internet access by setting proxy on it, updates os and create filesystems using ansible collection [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) where 'bastion_host_ip' is public IP of bastion/jump host to access the 'ansible_host_or_ip' private IP of ansible node. This ansible host must have access to the power virtual server instance and ansible host OS must be RHEL distribution. When using a custom image or a byol image, you need to provide os registration credentials and an ansible vault password."
   sensitive   = true
   type = object(
     {
@@ -209,8 +209,19 @@ variable "powervs_instance_init_linux" {
       bastion_host_ip    = string
       ansible_host_or_ip = string
       ssh_private_key    = string
+      custom_os_registration = optional(object({
+        username = string
+        password = string
+      }))
     }
   )
+}
+
+variable "ansible_vault_password" {
+  description = "Vault password to encrypt OS registration parameters. For optimal security, set the vault password to 8-16 characters, including a mix of uppercase, lowercase, numbers, and special characters. Avoid non-printable characters. Required only if you bring your own linux license."
+  type        = string
+  sensitive   = true
+  default     = null
 }
 
 variable "sap_network_services_config" {
