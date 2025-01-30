@@ -220,8 +220,7 @@
                             }
                         },
                         {
-                            "key": "sap_domain",
-                            "required": true
+                            "key": "sap_domain"
                         },
                         {
                             "key": "powervs_sap_network_cidr"
@@ -359,7 +358,7 @@
                                 "description": "Pre Requisite"
                             },
                             {
-                                "title": "SAP solution",
+                                "title": "SAP Solution",
                                 "description": "Not installed"
                             },
                             {
@@ -771,7 +770,7 @@
                                 "description": "Pre Requisite"
                             },
                             {
-                                "title": "SAP solution",
+                                "title": "SAP Solution",
                                 "description": "Installed: SAP S/4HANA or BW/4HANA"
                             },
                             {
