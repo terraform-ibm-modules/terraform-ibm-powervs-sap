@@ -1,9 +1,3 @@
-#####################################################
-#
-# Required Parameters
-#
-#####################################################
-
 variable "ibmcloud_api_key" {
   description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
   type        = string
@@ -50,6 +44,10 @@ variable "powervs_sap_network_cidr" {
   type        = string
 }
 
+#####################################################
+# PowerVS Shared FS Instance parameters
+#####################################################
+
 variable "powervs_create_sharefs_instance" {
   description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on SAP NetWeaver PowerVS instances if enabled. Optional parameter 'powervs_share_fs_instance' can be configured if enabled."
   type = object({
@@ -59,38 +57,8 @@ variable "powervs_create_sharefs_instance" {
 
 }
 
-variable "powervs_hana_instance_image_id" {
-  description = "Image ID to be used for PowerVS HANA instance. Run 'ibmcloud pi images' to list available images."
-  type        = string
-}
-
-variable "powervs_netweaver_instance_image_id" {
-  description = "Image ID to be used for PowerVS NetWeaver instance. Run 'ibmcloud pi images' to list available images."
-  type        = string
-}
-
-variable "powervs_instance_init_linux" {
-  description = "Configures a PowerVS linux instance to have internet access by setting proxy on it, updates os and create filesystems using ansible collection [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) where 'bastion_host_ip' is public IP of bastion/jump host to access the 'ansible_host_or_ip' private IP of ansible node. This ansible host must have access to the power virtual server instance and ansible host OS must be RHEL distribution."
-  sensitive   = true
-  type = object(
-    {
-      enable             = bool
-      bastion_host_ip    = string
-      ansible_host_or_ip = string
-      ssh_private_key    = string
-    }
-  )
-}
-
-
-#####################################################
-#
-# Optional Parameters
-#
-#####################################################
-
 variable "powervs_sharefs_instance" {
-  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on NetWeaver PowerVS instances if enabled. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  description = "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = object({
     name       = string
     processors = string
@@ -105,12 +73,13 @@ variable "powervs_sharefs_instance" {
       pool  = optional(string)
     }))
   })
+
   default = {
-    name       = "share"
-    processors = "0.5"
-    memory     = "2"
-    proc_type  = "shared"
-    storage_config = [{
+    "name" : "share",
+    "processors" : "0.5",
+    "memory" : "2",
+    "proc_type" : "shared",
+    "storage_config" : [{
       "name" : "sapmnt",
       "size" : "300",
       "count" : "1",
@@ -127,9 +96,14 @@ variable "powervs_sharefs_instance" {
   }
 }
 
-###################################
+#####################################################
 # PowerVS HANA Instance parameters
-###################################
+#####################################################
+
+variable "powervs_hana_instance_image_id" {
+  description = "Image ID to be used for PowerVS HANA instance. Run 'ibmcloud pi images' to list available images."
+  type        = string
+}
 
 variable "powervs_hana_instance" {
   description = "PowerVS SAP HANA instance hostname (non FQDN) will get the form of <var.prefix>-<var.powervs_hana_instance_name>. PowerVS SAP HANA instance profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'powervs_hana_instance_custom_storage_config' parameter. Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
@@ -145,10 +119,11 @@ variable "powervs_hana_instance" {
       pool  = optional(string)
     }))
   })
+
   default = {
-    name           = "hana"
-    sap_profile_id = "ush1-4x256"
-    additional_storage_config = [{
+    "name" : "hana",
+    "sap_profile_id" : "ush1-4x256",
+    "additional_storage_config" : [{
       "name" : "usrsap",
       "size" : "50",
       "count" : "1",
@@ -168,6 +143,7 @@ variable "powervs_hana_instance_custom_storage_config" {
     mount = string
     pool  = optional(string)
   }))
+
   default = [{
     "name" : "",
     "size" : "",
@@ -177,9 +153,14 @@ variable "powervs_hana_instance_custom_storage_config" {
   }]
 }
 
-########################################
+#####################################################
 # PowerVS NetWeaver Instance parameters
-########################################
+#####################################################
+
+variable "powervs_netweaver_instance_image_id" {
+  description = "Image ID to be used for PowerVS NetWeaver instance. Run 'ibmcloud pi images' to list available images."
+  type        = string
+}
 
 variable "powervs_netweaver_instance" {
   description = "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters.. 'instance_count' is number of PowerVS SAP NetWeaver instances that should be created. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. "
@@ -198,13 +179,14 @@ variable "powervs_netweaver_instance" {
       pool  = optional(string)
     }))
   })
+
   default = {
-    instance_count = 1
-    name           = "nw"
-    processors     = "3"
-    memory         = "32"
-    proc_type      = "shared"
-    storage_config = [{
+    "instance_count" : "1",
+    "name" : "nw",
+    "processors" : "3",
+    "memory" : "32",
+    "proc_type" : "shared",
+    "storage_config" : [{
       "name" : "usrsap",
       "size" : "50",
       "count" : "1",
@@ -214,9 +196,33 @@ variable "powervs_netweaver_instance" {
   }
 }
 
-######################################
-# PVS SAP instance Network Services
-######################################
+#####################################################
+# OS parameters
+#####################################################
+
+variable "powervs_instance_init_linux" {
+  description = "Configures a PowerVS linux instance to have internet access by setting proxy on it, updates os and create filesystems using ansible collection [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) where 'bastion_host_ip' is public IP of bastion/jump host to access the 'ansible_host_or_ip' private IP of ansible node. This ansible host must have access to the power virtual server instance and ansible host OS must be RHEL distribution. When using a custom image or a byol image, you need to provide os registration credentials and an ansible vault password."
+  sensitive   = true
+  type = object(
+    {
+      enable             = bool
+      bastion_host_ip    = string
+      ansible_host_or_ip = string
+      ssh_private_key    = string
+      custom_os_registration = optional(object({
+        username = string
+        password = string
+      }))
+    }
+  )
+}
+
+variable "ansible_vault_password" {
+  description = "Vault password to encrypt OS registration parameters. For optimal security, set the vault password to 8-16 characters, including a mix of uppercase, lowercase, numbers, and special characters. Avoid non-printable characters. Required only if you bring your own linux license."
+  type        = string
+  sensitive   = true
+  default     = null
+}
 
 variable "sap_network_services_config" {
   description = "Configures network services NTP, NFS and DNS on PowerVS instance. Requires 'pi_instance_init_linux' to be specified."
@@ -235,7 +241,6 @@ variable "sap_network_services_config" {
     dns   = { enable = false, dns_server_ip = "" }
     ntp   = { enable = false, ntp_server_ip = "" }
   }
-
 }
 
 variable "sap_domain" {

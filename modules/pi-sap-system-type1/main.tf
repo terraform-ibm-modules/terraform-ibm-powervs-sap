@@ -25,7 +25,7 @@ locals {
 
 module "pi_sharefs_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.3.0"
+  version = "2.4.0"
   count   = var.pi_sharefs_instance.enable ? 1 : 0
 
   pi_workspace_guid          = var.pi_workspace_guid
@@ -42,6 +42,7 @@ module "pi_sharefs_instance" {
   pi_storage_config          = var.pi_sharefs_instance.storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
+  ansible_vault_password     = var.ansible_vault_password
 }
 
 # Configuration for sharefs instance as NFS server
@@ -104,7 +105,7 @@ module "pi_hana_storage_calculation" {
 
 module "pi_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.3.0"
+  version = "2.4.0"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
@@ -116,6 +117,7 @@ module "pi_hana_instance" {
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
+  ansible_vault_password     = var.ansible_vault_password
 }
 
 locals {
@@ -142,7 +144,7 @@ resource "time_sleep" "wait_1_min" {
 
 module "pi_netweaver_instance" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "2.3.0"
+  version    = "2.4.0"
   count      = var.pi_netweaver_instance.instance_count
   depends_on = [time_sleep.wait_1_min]
 
@@ -160,6 +162,7 @@ module "pi_netweaver_instance" {
   pi_storage_config          = local.pi_netweaver_instance_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
+  ansible_vault_password     = var.ansible_vault_password
 }
 
 locals {

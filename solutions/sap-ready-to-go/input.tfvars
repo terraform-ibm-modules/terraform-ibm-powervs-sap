@@ -9,13 +9,17 @@ powervs_create_sharefs_instance = {
   enable   = "" #true or false
   image_id = ""
 }
-powervs_hana_instance_image_id      = ""
+powervs_hana_instance_image_id      = "" # specify powervs_instance_init_linux.custom_os_registration if using byol image
 powervs_netweaver_instance_image_id = ""
 powervs_instance_init_linux = {
   enable             = "" #true or false
   bastion_host_ip    = ""
   ansible_host_or_ip = ""
-  ssh_private_key    = <<-EOF
+  #   custom_os_registration = {
+  #     username = ""
+  #     password = ""
+  #   }
+  ssh_private_key = <<-EOF
 EOF
 }
 sap_network_services_config = {
