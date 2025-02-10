@@ -35,10 +35,11 @@ variable "pi_sap_network_cidr" {
 }
 
 variable "ansible_vault_password" {
-  description = "Vault password to encrypt ansible variable file for SAP installation. Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]_{|}~."
-  type        = string
-  sensitive   = true
-  default     = null
+  description = "Vault password to encrypt OS registration parameters. Only required with customer provided linux subscription (pi_os_registration). Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, one of the following special characters: \"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\". Avoid non-printable characters."
+
+  type      = string
+  sensitive = true
+  default   = null
 }
 
 #####################################################
