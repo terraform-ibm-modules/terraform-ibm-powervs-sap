@@ -2,6 +2,6 @@
 - name: eu-de-1
   useForTest: true
   testPriority: 1
-- name: lon06
+- name: lon04
   useForTest: true
   testPriority: 2
