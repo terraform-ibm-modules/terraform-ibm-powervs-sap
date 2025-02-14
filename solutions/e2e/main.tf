@@ -7,7 +7,7 @@
 
 module "powervs_infra" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "8.1.1"
+  version = "8.1.3"
 
   providers = { ibm.ibm-is = ibm.ibm-is, ibm.ibm-pi = ibm.ibm-pi, ibm.ibm-sm = ibm.ibm-sm }
 
@@ -16,6 +16,7 @@ module "powervs_infra" {
   external_access_ip          = var.external_access_ip
   ssh_public_key              = var.ssh_public_key
   ssh_private_key             = var.ssh_private_key
+  vpc_intel_images            = var.vpc_intel_images
   powervs_resource_group_name = var.powervs_resource_group_name
   configure_dns_forwarder     = var.configure_dns_forwarder
   configure_ntp_forwarder     = var.configure_ntp_forwarder
