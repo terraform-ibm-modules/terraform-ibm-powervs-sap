@@ -223,6 +223,11 @@
                             "key": "sap_domain"
                         },
                         {
+                            "key": "nfs_directory",
+                            "hidden": true
+
+                        },
+                        {
                             "key": "powervs_sap_network_cidr"
                         },
                         {
@@ -616,6 +621,10 @@
                         {
                             "key": "sap_domain",
                             "required": true
+                        },
+                        {
+                            "key": "software_download_directory",
+                            "hidden": true
                         },
                         {
                             "key": "ansible_vault_password",
