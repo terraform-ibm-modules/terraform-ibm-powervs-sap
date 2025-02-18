@@ -1,5 +1,5 @@
 ---
-- name: osa21
+- name: tor01
   useForTest: true
   testPriority: 1
 - name: sao01
