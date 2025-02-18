@@ -1,7 +1,7 @@
 ---
-- name: tok04
+- name: osa21
   useForTest: true
   testPriority: 1
-- name: syd04
+- name: sao01
   useForTest: true
   testPriority: 2
