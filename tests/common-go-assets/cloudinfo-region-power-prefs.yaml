@@ -2,6 +2,6 @@
 - name: tor01
   useForTest: true
   testPriority: 1
-- name: sao01
+- name: tok04
   useForTest: true
   testPriority: 2
