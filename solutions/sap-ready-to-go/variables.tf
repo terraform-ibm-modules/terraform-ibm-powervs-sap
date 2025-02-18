@@ -218,7 +218,7 @@ variable "powervs_instance_init_linux" {
 }
 
 variable "ansible_vault_password" {
-  description = "Vault password to encrypt OS registration parameters. For optimal security, set the vault password to 8-16 characters, including a mix of uppercase, lowercase, numbers, and special characters. Avoid non-printable characters. Required only if you bring your own linux license."
+  description = "Vault password to encrypt OS registration parameters. Required only if you bring your own linux license. Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]_{|}~."
   type        = string
   sensitive   = true
   default     = null
