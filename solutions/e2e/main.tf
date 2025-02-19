@@ -16,6 +16,7 @@ module "powervs_infra" {
   external_access_ip          = var.external_access_ip
   ssh_public_key              = var.ssh_public_key
   ssh_private_key             = var.ssh_private_key
+  vpc_intel_images            = var.vpc_intel_images
   powervs_resource_group_name = var.powervs_resource_group_name
   configure_dns_forwarder     = var.configure_dns_forwarder
   configure_ntp_forwarder     = var.configure_ntp_forwarder

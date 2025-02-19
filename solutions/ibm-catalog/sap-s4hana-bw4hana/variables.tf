@@ -328,7 +328,7 @@ variable "sap_solution_vars" {
 }
 
 variable "ansible_vault_password" {
-  description = "Vault password to encrypt SAP installation parameters in the OS. For optimal security, set the vault password to 8-16 characters, including a mix of uppercase, lowercase, numbers, and special characters. Avoid non-printable characters."
+  description = "Vault password to encrypt SAP installation parameters in the OS. Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]_{|}~."
   type        = string
   sensitive   = true
 }
