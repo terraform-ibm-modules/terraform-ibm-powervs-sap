@@ -50,14 +50,9 @@ locals {
   valid_sharefs_nfs_config = var.pi_sharefs_instance.enable && var.pi_sharefs_instance.storage_config != null ? var.pi_sharefs_instance.storage_config[0].name != "" ? true : false : false
   pi_sharefs_instance_nfs_server_config = {
     nfs = {
-      enable = local.valid_sharefs_nfs_config ? true : false,
-      nfs_file_system = local.valid_sharefs_nfs_config ? [
-        for volume in var.pi_sharefs_instance.storage_config :
-        { name       = volume.name,
-          mount_path = volume.mount,
-          size       = volume.size
-        }
-    ] : [] }
+      enable      = local.valid_sharefs_nfs_config ? true : false,
+      directories = local.valid_sharefs_nfs_config ? [for volume in var.pi_sharefs_instance.storage_config : volume.mount] : []
+    }
   }
 }
 
@@ -170,7 +165,9 @@ locals {
     nfs = {
       enable          = local.valid_sharefs_nfs_config ? true : false,
       nfs_server_path = local.valid_sharefs_nfs_config ? join(";", [for volume in var.pi_sharefs_instance.storage_config : "${module.pi_sharefs_instance[0].pi_instance_primary_ip}:${volume.mount}"]) : "",
-      nfs_client_path = local.valid_sharefs_nfs_config ? join(";", [for volume in var.pi_sharefs_instance.storage_config : volume.mount]) : ""
+      nfs_client_path = local.valid_sharefs_nfs_config ? join(";", [for volume in var.pi_sharefs_instance.storage_config : volume.mount]) : "",
+      opts            = "sec=sys,nfsvers=4.1,nofail",
+      fstype          = "nfs4"
     }
   }
 }
