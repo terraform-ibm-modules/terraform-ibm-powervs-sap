@@ -34,10 +34,10 @@ The Power Virtual Server for SAP module automates the following tasks:
 | <a name="module_ansible_netweaver_sapmnt_mount"></a> [ansible\_netweaver\_sapmnt\_mount](#module\_ansible\_netweaver\_sapmnt\_mount) | ../ansible | n/a |
 | <a name="module_ansible_sap_instance_init"></a> [ansible\_sap\_instance\_init](#module\_ansible\_sap\_instance\_init) | ../ansible | n/a |
 | <a name="module_ansible_sharefs_instance_exportfs"></a> [ansible\_sharefs\_instance\_exportfs](#module\_ansible\_sharefs\_instance\_exportfs) | ../ansible | n/a |
-| <a name="module_pi_hana_instance"></a> [pi\_hana\_instance](#module\_pi\_hana\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.4.1 |
+| <a name="module_pi_hana_instance"></a> [pi\_hana\_instance](#module\_pi\_hana\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.4.2 |
 | <a name="module_pi_hana_storage_calculation"></a> [pi\_hana\_storage\_calculation](#module\_pi\_hana\_storage\_calculation) | ../pi-hana-storage-config | n/a |
-| <a name="module_pi_netweaver_instance"></a> [pi\_netweaver\_instance](#module\_pi\_netweaver\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.4.1 |
-| <a name="module_pi_sharefs_instance"></a> [pi\_sharefs\_instance](#module\_pi\_sharefs\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.4.1 |
+| <a name="module_pi_netweaver_instance"></a> [pi\_netweaver\_instance](#module\_pi\_netweaver\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.4.2 |
+| <a name="module_pi_sharefs_instance"></a> [pi\_sharefs\_instance](#module\_pi\_sharefs\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.4.2 |
 
 ### Resources
 

@@ -25,7 +25,7 @@ locals {
 
 module "pi_sharefs_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.4.1"
+  version = "2.4.2"
   count   = var.pi_sharefs_instance.enable ? 1 : 0
 
   pi_workspace_guid          = var.pi_workspace_guid
@@ -105,7 +105,7 @@ module "pi_hana_storage_calculation" {
 
 module "pi_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.4.1"
+  version = "2.4.2"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
@@ -144,7 +144,7 @@ resource "time_sleep" "wait_1_min" {
 
 module "pi_netweaver_instance" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "2.4.1"
+  version    = "2.4.2"
   count      = var.pi_netweaver_instance.instance_count
   depends_on = [time_sleep.wait_1_min]
 
