@@ -2,7 +2,7 @@
 
 copyright:
   years: 2024, 2025
-lastupdated: "2025-02-18"
+lastupdated: "2025-02-27"
 keywords:
 subcollection: deployable-reference-architectures
 authors:
@@ -16,7 +16,7 @@ use-case: ITServiceManagement
 industry: Technology
 compliance: SAPCertified
 content-type: reference-architecture
-version: v3.5.1
+version: v3.5.2
 related_links:
   - title: 'SAP in IBM Cloud documentation'
     url: 'https://cloud.ibm.com/docs/sap'
@@ -38,7 +38,7 @@ related_links:
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
 {: toc-compliance="SAPCertified"}
-{: toc-version="3.5.1"}
+{: toc-version="3.5.2"}
 
 'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape built on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA, SAP NetWeaver, and optionally for shared SAP files are deployed and preconfigured for SAP installation. The S/4HANA or BW/4HANA solution is installed based on the selected version.
 
