@@ -33,6 +33,7 @@ locals {
   monitoring_instance_guid     = local.powervs_infrastructure[0].monitoring_instance.value.guid
   monitoring_instance_location = local.powervs_infrastructure[0].monitoring_instance.value.location
   monitoring_host_ip           = local.powervs_infrastructure[0].monitoring_instance.value.monitoring_host_ip
+  scc_wp_instance              = local.powervs_infrastructure[0].scc_wp_instance
 }
 
 locals {
@@ -96,3 +97,17 @@ locals {
   validate_byol_and_fls = regex("^${local.byol_and_fls_msg}$", (local.byol_and_fls ? "" : local.byol_and_fls_msg))
 
 }
+
+# ########################################################################
+# # SCC Workload Protection locals
+# ########################################################################
+
+# locals {
+#   scc_wp_playbook_template_vars = {
+#     SCC_WP_GUID : local.scc_wp_instance != null ? local.scc_wp_instance.value.guid : null,
+#     # resource key doesn't support private endpoint, so prefix with private. to use private endpoint
+#     COLLECTOR_ENDPOINT : local.scc_wp_instance != null ? replace(local.scc_wp_instance.value.ingestion_endpoint, "ingest.", "ingest.private.") : null,
+#     API_ENDPOINT : local.scc_wp_instance != null ? replace(local.scc_wp_instance.value.api_endpoint, "https://", "https://private.") : null,
+#     ACCESS_KEY : local.scc_wp_instance != null ? local.scc_wp_instance.value.access_key : null
+#   }
+# }

@@ -34,6 +34,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 | <a name="module_ansible_netweaver_sapmnt_mount"></a> [ansible\_netweaver\_sapmnt\_mount](#module\_ansible\_netweaver\_sapmnt\_mount) | ../ansible | n/a |
 | <a name="module_ansible_sap_instance_init"></a> [ansible\_sap\_instance\_init](#module\_ansible\_sap\_instance\_init) | ../ansible | n/a |
 | <a name="module_ansible_sharefs_instance_exportfs"></a> [ansible\_sharefs\_instance\_exportfs](#module\_ansible\_sharefs\_instance\_exportfs) | ../ansible | n/a |
+| <a name="module_configure_scc_wp_agent"></a> [configure\_scc\_wp\_agent](#module\_configure\_scc\_wp\_agent) | ..//ansible | n/a |
 | <a name="module_pi_hana_instance"></a> [pi\_hana\_instance](#module\_pi\_hana\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.4.1 |
 | <a name="module_pi_hana_storage_calculation"></a> [pi\_hana\_storage\_calculation](#module\_pi\_hana\_storage\_calculation) | ../pi-hana-storage-config | n/a |
 | <a name="module_pi_netweaver_instance"></a> [pi\_netweaver\_instance](#module\_pi\_netweaver\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.4.1 |
@@ -63,6 +64,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Unique prefix for resources to be created (e.g., SAP system name). | `string` | n/a | yes |
 | <a name="input_sap_domain"></a> [sap\_domain](#input\_sap\_domain) | SAP network domain name. | `string` | `"sap.com"` | no |
 | <a name="input_sap_network_services_config"></a> [sap\_network\_services\_config](#input\_sap\_network\_services\_config) | Configures network services NTP, NFS and DNS on PowerVS instance. Requires 'pi\_instance\_init\_linux' to be specified. | <pre>object(<br/>    {<br/>      squid = object({ enable = bool, squid_server_ip_port = string, no_proxy_hosts = string })<br/>      nfs   = object({ enable = bool, nfs_server_path = string, nfs_client_path = string, opts = string, fstype = string })<br/>      dns   = object({ enable = bool, dns_server_ip = string })<br/>      ntp   = object({ enable = bool, ntp_server_ip = string })<br/>    }<br/>  )</pre> | <pre>{<br/>  "dns": {<br/>    "dns_server_ip": "",<br/>    "enable": false<br/>  },<br/>  "nfs": {<br/>    "enable": false,<br/>    "fstype": "",<br/>    "nfs_client_path": "",<br/>    "nfs_server_path": "",<br/>    "opts": ""<br/>  },<br/>  "ntp": {<br/>    "enable": false,<br/>    "ntp_server_ip": ""<br/>  },<br/>  "squid": {<br/>    "enable": false,<br/>    "no_proxy_hosts": "",<br/>    "squid_server_ip_port": ""<br/>  }<br/>}</pre> | no |
+| <a name="input_scc_wp_instance"></a> [scc\_wp\_instance](#input\_scc\_wp\_instance) | SCC Workload Protection instance to connect to. Leave empty to not use it. | `any` | `null` | no |
 
 ### Outputs
 
