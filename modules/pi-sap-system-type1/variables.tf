@@ -224,6 +224,14 @@ variable "sap_domain" {
 
 variable "scc_wp_instance" {
   description = "SCC Workload Protection instance to connect to. Leave empty to not use it."
-  type        = any
-  default     = null
+  type = object({
+    guid               = string,
+    access_key         = string,
+    api_endpoint       = string,
+    ingestion_endpoint = string,
+    crn                = optional(string),
+    id                 = optional(string),
+    name               = optional(string)
+  })
+  default = null
 }

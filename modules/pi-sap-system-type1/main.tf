@@ -239,11 +239,11 @@ module "ansible_sap_instance_init" {
 
 locals {
   scc_wp_playbook_template_vars = {
-    SCC_WP_GUID : var.scc_wp_instance != null ? var.scc_wp_instance.value.guid : null,
+    SCC_WP_GUID : var.scc_wp_instance != null ? var.scc_wp_instance.guid : null,
     # resource key doesn't support private endpoint, so prefix with private. to use private endpoint
-    COLLECTOR_ENDPOINT : var.scc_wp_instance != null ? replace(var.scc_wp_instance.value.ingestion_endpoint, "ingest.", "ingest.private.") : null,
-    API_ENDPOINT : var.scc_wp_instance != null ? replace(var.scc_wp_instance.value.api_endpoint, "https://", "https://private.") : null,
-    ACCESS_KEY : var.scc_wp_instance != null ? var.scc_wp_instance.value.access_key : null
+    COLLECTOR_ENDPOINT : var.scc_wp_instance != null ? replace(var.scc_wp_instance.ingestion_endpoint, "ingest.", "ingest.private.") : null,
+    API_ENDPOINT : var.scc_wp_instance != null ? replace(var.scc_wp_instance.api_endpoint, "https://", "https://private.") : null,
+    ACCESS_KEY : var.scc_wp_instance != null ? var.scc_wp_instance.access_key : null
   }
 }
 module "configure_scc_wp_agent" {

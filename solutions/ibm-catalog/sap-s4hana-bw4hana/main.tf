@@ -286,30 +286,3 @@ module "ansible_monitoring_sap_install_solution" {
   dst_inventory_file_name     = "${var.prefix}-monitoring-instance-inventory"
   inventory_template_vars     = { "monitoring_host_ip" : local.monitoring_host_ip }
 }
-
-# #######################################################################
-# # Ansible Install Sysdig agent and connect to SCC Workload Protection
-# #######################################################################
-
-# module "configure_scc_wp_agent" {
-
-#   source     = "../../../modules/ansible"
-#   depends_on = [module.ibmcloud_cos_download_monitoring_binaries, module.ansible_sap_install_hana, module.ansible_sap_install_solution, module.ansible_monitoring_sap_install_solution]
-#   count      = local.scc_wp_instance != null ? 1 : 0
-
-#   bastion_host_ip        = local.access_host_or_ip
-#   ansible_host_or_ip     = local.ansible_host_or_ip
-#   ssh_private_key        = var.ssh_private_key
-#   ansible_vault_password = var.ansible_vault_password
-#   configure_ansible_host = false
-
-#   src_script_template_name = "configure-scc-wp-agent/ansible_configure_scc_wp_agent.sh.tftpl"
-#   dst_script_file_name     = "${var.prefix}-configure_scc_wp_agent.sh"
-
-#   src_playbook_template_name  = "configure-scc-wp-agent/playbook-configure-scc-wp-agent.yml.tftpl"
-#   dst_playbook_file_name      = "${var.prefix}-playbook-configure-scc-wp-agent.yml"
-#   playbook_template_vars      = local.scc_wp_playbook_template_vars
-#   src_inventory_template_name = "pi-instance-inventory.tftpl"
-#   dst_inventory_file_name     = "${var.prefix}-scc-wp-inventory"
-#   inventory_template_vars     = { "pi_instance_management_ip" : join("\n", [module.sap_system.pi_hana_instance_management_ip, module.sap_system.pi_netweaver_instance_management_ips, module.sap_system.pi_sharefs_instance_ips]) }
-# }
