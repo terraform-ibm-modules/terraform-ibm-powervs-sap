@@ -255,10 +255,12 @@ variable "scc_wp_instance" {
     guid               = string,
     access_key         = string,
     api_endpoint       = string,
-    ingestion_endpoint = string,
-    crn                = optional(string),
-    id                 = optional(string),
-    name               = optional(string)
+    ingestion_endpoint = string
   })
-  default = null
+  default = {
+    guid               = "",
+    access_key         = "",
+    api_endpoint       = "",
+    ingestion_endpoint = ""
+  }
 }

@@ -238,19 +238,20 @@ module "ansible_sap_instance_init" {
 #######################################################################
 
 locals {
+  enable_scc_wp = var.scc_wp_instance.guid != "" && var.scc_wp_instance.ingestion_endpoint != "" && var.scc_wp_instance.api_endpoint != "" && var.scc_wp_instance.access_key != ""
   scc_wp_playbook_template_vars = {
-    SCC_WP_GUID : var.scc_wp_instance != null ? var.scc_wp_instance.guid : null,
+    SCC_WP_GUID : var.scc_wp_instance.guid,
     # resource key doesn't support private endpoint, so prefix with private. to use private endpoint
-    COLLECTOR_ENDPOINT : var.scc_wp_instance != null ? replace(var.scc_wp_instance.ingestion_endpoint, "ingest.", "ingest.private.") : null,
-    API_ENDPOINT : var.scc_wp_instance != null ? replace(var.scc_wp_instance.api_endpoint, "https://", "https://private.") : null,
-    ACCESS_KEY : var.scc_wp_instance != null ? var.scc_wp_instance.access_key : null
+    COLLECTOR_ENDPOINT : var.scc_wp_instance.ingestion_endpoint,
+    API_ENDPOINT : var.scc_wp_instance.api_endpoint,
+    ACCESS_KEY : var.scc_wp_instance.access_key
   }
 }
 module "configure_scc_wp_agent" {
 
   source     = "..//ansible"
   depends_on = [module.pi_hana_instance, module.pi_netweaver_instance, module.ansible_netweaver_sapmnt_mount, module.ansible_sap_instance_init]
-  count      = var.scc_wp_instance != null ? 1 : 0
+  count      = local.enable_scc_wp ? 1 : 0
 
   bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
   ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
