@@ -28,3 +28,10 @@ sap_network_services_config = {
   dns   = { enable = false, dns_server_ip = "10.30.40.4" }
   ntp   = { enable = false, ntp_server_ip = "10.30.40.4" }
 }
+
+scc_wp_instance = null #{
+#     guid               = "",
+#     access_key         = "",
+#     api_endpoint       = "",
+#     ingestion_endpoint = "",
+# }
