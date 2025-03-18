@@ -241,7 +241,6 @@ locals {
   enable_scc_wp = var.scc_wp_instance.guid != "" && var.scc_wp_instance.ingestion_endpoint != "" && var.scc_wp_instance.api_endpoint != "" && var.scc_wp_instance.access_key != ""
   scc_wp_playbook_template_vars = {
     SCC_WP_GUID : var.scc_wp_instance.guid,
-    # resource key doesn't support private endpoint, so prefix with private. to use private endpoint
     COLLECTOR_ENDPOINT : var.scc_wp_instance.ingestion_endpoint,
     API_ENDPOINT : var.scc_wp_instance.api_endpoint,
     ACCESS_KEY : var.scc_wp_instance.access_key
