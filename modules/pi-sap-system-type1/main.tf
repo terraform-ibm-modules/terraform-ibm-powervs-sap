@@ -50,14 +50,9 @@ locals {
   valid_sharefs_nfs_config = var.pi_sharefs_instance.enable && var.pi_sharefs_instance.storage_config != null ? var.pi_sharefs_instance.storage_config[0].name != "" ? true : false : false
   pi_sharefs_instance_nfs_server_config = {
     nfs = {
-      enable = local.valid_sharefs_nfs_config ? true : false,
-      nfs_file_system = local.valid_sharefs_nfs_config ? [
-        for volume in var.pi_sharefs_instance.storage_config :
-        { name       = volume.name,
-          mount_path = volume.mount,
-          size       = volume.size
-        }
-    ] : [] }
+      enable      = local.valid_sharefs_nfs_config ? true : false,
+      directories = local.valid_sharefs_nfs_config ? [for volume in var.pi_sharefs_instance.storage_config : volume.mount] : []
+    }
   }
 }
 
@@ -170,7 +165,9 @@ locals {
     nfs = {
       enable          = local.valid_sharefs_nfs_config ? true : false,
       nfs_server_path = local.valid_sharefs_nfs_config ? join(";", [for volume in var.pi_sharefs_instance.storage_config : "${module.pi_sharefs_instance[0].pi_instance_primary_ip}:${volume.mount}"]) : "",
-      nfs_client_path = local.valid_sharefs_nfs_config ? join(";", [for volume in var.pi_sharefs_instance.storage_config : volume.mount]) : ""
+      nfs_client_path = local.valid_sharefs_nfs_config ? join(";", [for volume in var.pi_sharefs_instance.storage_config : volume.mount]) : "",
+      opts            = "sec=sys,nfsvers=4.1,nofail",
+      fstype          = "nfs4"
     }
   }
 }
@@ -234,4 +231,40 @@ module "ansible_sap_instance_init" {
   src_inventory_template_name = "pi-instance-inventory.tftpl"
   dst_inventory_file_name     = "${local.sap_instance_names[count.index]}-instance-inventory"
   inventory_template_vars     = { "pi_instance_management_ip" : local.target_server_ips[count.index] }
+}
+
+#######################################################################
+# Ansible Install Sysdig agent and connect to SCC Workload Protection
+#######################################################################
+
+locals {
+  enable_scc_wp = var.scc_wp_instance.guid != "" && var.scc_wp_instance.ingestion_endpoint != "" && var.scc_wp_instance.api_endpoint != "" && var.scc_wp_instance.access_key != ""
+  scc_wp_playbook_template_vars = {
+    SCC_WP_GUID : var.scc_wp_instance.guid,
+    COLLECTOR_ENDPOINT : var.scc_wp_instance.ingestion_endpoint,
+    API_ENDPOINT : var.scc_wp_instance.api_endpoint,
+    ACCESS_KEY : var.scc_wp_instance.access_key
+  }
+}
+module "configure_scc_wp_agent" {
+
+  source     = "..//ansible"
+  depends_on = [module.pi_hana_instance, module.pi_netweaver_instance, module.ansible_netweaver_sapmnt_mount, module.ansible_sap_instance_init]
+  count      = local.enable_scc_wp ? 1 : 0
+
+  bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
+  ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
+  ssh_private_key        = var.pi_instance_init_linux.ssh_private_key
+  ansible_vault_password = var.ansible_vault_password
+  configure_ansible_host = false
+
+  src_script_template_name = "configure-scc-wp-agent/ansible_configure_scc_wp_agent.sh.tftpl"
+  dst_script_file_name     = "${var.prefix}-configure_scc_wp_agent.sh"
+
+  src_playbook_template_name  = "configure-scc-wp-agent/playbook-configure-scc-wp-agent.yml.tftpl"
+  dst_playbook_file_name      = "${var.prefix}-playbook-configure-scc-wp-agent.yml"
+  playbook_template_vars      = local.scc_wp_playbook_template_vars
+  src_inventory_template_name = "pi-instance-inventory.tftpl"
+  dst_inventory_file_name     = "${var.prefix}-scc-wp-inventory"
+  inventory_template_vars     = { "pi_instance_management_ip" : join("\n", [module.pi_hana_instance.pi_instance_primary_ip], var.pi_netweaver_instance.instance_count >= 1 ? module.pi_netweaver_instance[*].pi_instance_primary_ip : [], var.pi_sharefs_instance.enable ? [module.pi_sharefs_instance[0].pi_instance_primary_ip] : []) }
 }

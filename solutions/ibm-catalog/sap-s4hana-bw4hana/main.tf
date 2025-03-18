@@ -50,6 +50,7 @@ module "sap_system" {
   sap_network_services_config            = local.powervs_network_services_config
   sap_domain                             = var.sap_domain
   ansible_vault_password                 = var.ansible_vault_password
+  scc_wp_instance                        = local.scc_wp_instance
 }
 
 

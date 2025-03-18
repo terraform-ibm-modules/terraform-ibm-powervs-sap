@@ -33,6 +33,7 @@ locals {
   monitoring_instance_guid     = local.powervs_infrastructure[0].monitoring_instance.value.guid
   monitoring_instance_location = local.powervs_infrastructure[0].monitoring_instance.value.location
   monitoring_host_ip           = local.powervs_infrastructure[0].monitoring_instance.value.monitoring_host_ip
+  scc_wp_instance              = local.powervs_infrastructure[0].scc_wp_instance.value
 }
 
 locals {

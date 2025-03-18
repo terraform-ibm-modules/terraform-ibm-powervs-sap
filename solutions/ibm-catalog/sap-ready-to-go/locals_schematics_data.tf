@@ -31,6 +31,7 @@ locals {
   nfs_host_or_ip_path     = local.powervs_infrastructure[0].nfs_host_or_ip_path.value
   ansible_host_or_ip      = local.powervs_infrastructure[0].ansible_host_or_ip.value
   network_services_config = local.powervs_infrastructure[0].network_services_config.value
+  scc_wp_instance         = local.powervs_infrastructure[0].scc_wp_instance.value
 }
 
 locals {
