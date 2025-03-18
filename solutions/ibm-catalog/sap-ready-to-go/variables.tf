@@ -233,7 +233,7 @@ variable "powervs_default_sap_images" {
 }
 
 variable "ansible_vault_password" {
-  description = "Vault password to encrypt OS registration parameters. Only required with customer provided linux subscription (pi_os_registration). Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]_{|}~."
+  description = "Vault password to encrypt ansible playbooks that contain sensitive information. Required with customer provided linux subscription (pi_os_registration) or when SCC workload protection instance is enabled. Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]_{|}~."
   type        = string
   sensitive   = true
   default     = null
