@@ -29,4 +29,5 @@ module "sap_system" {
   sap_domain                             = var.sap_domain
   ansible_vault_password                 = var.ansible_vault_password
   scc_wp_instance                        = var.scc_wp_instance
+  os_image_distro                        = var.os_image_distro
 }

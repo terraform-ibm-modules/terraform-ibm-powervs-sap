@@ -242,3 +242,9 @@ variable "scc_wp_instance" {
     error_message = "Ansible vault password must not be empty or null when SCC workload instance is enabled. Value must be set for ansible_vault_password variable."
   }
 }
+
+variable "os_image_distro" {
+  description = "Image distribution that's used for all instances(Shared, HANA, NetWeaver). Only required for hotfix of networks getting attached in random order. Will be removed in future releases."
+  type        = string
+  default     = ""
+}
