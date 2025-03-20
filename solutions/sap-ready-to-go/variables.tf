@@ -264,3 +264,13 @@ variable "scc_wp_instance" {
     ingestion_endpoint = ""
   }
 }
+
+variable "os_image_distro" {
+  description = "Image distribution that's used for all instances(Shared, HANA, NetWeaver). Only required for hotfix of networks getting attached in random order. Will be removed in future releases. Possible values: RHEL or SLES."
+  type        = string
+
+  validation {
+    condition     = (upper(var.os_image_distro) == "RHEL" || upper(var.os_image_distro) == "SLES")
+    error_message = "Supported values are 'RHEL' or 'SLES' only."
+  }
+}

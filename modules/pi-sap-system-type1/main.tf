@@ -15,6 +15,21 @@ locals {
   pi_networks    = concat(var.pi_networks, [local.pi_sap_network])
 }
 
+#####################################################
+# Networks getting attached in random order hotfix
+#####################################################
+
+locals {
+  cloud_init   = <<EOT
+#cloud-config
+
+runcmd:
+  - echo net.ipv4.conf.all.rp_filter=2 >> /etc/sysctl.conf
+  - sysctl -w net.ipv4.conf.all.rp_filter=2
+EOT
+  pi_user_data = var.os_image_distro == "RHEL" ? local.cloud_init : null
+}
+
 ##########################################################################################################
 # Deploy sharefs instance
 ##########################################################################################################
@@ -25,7 +40,7 @@ locals {
 
 module "pi_sharefs_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.4.2"
+  version = "2.5.1"
   count   = var.pi_sharefs_instance.enable ? 1 : 0
 
   pi_workspace_guid          = var.pi_workspace_guid
@@ -42,6 +57,7 @@ module "pi_sharefs_instance" {
   pi_storage_config          = var.pi_sharefs_instance.storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
+  pi_user_data               = local.pi_user_data
   ansible_vault_password     = var.ansible_vault_password
 }
 
@@ -100,7 +116,7 @@ module "pi_hana_storage_calculation" {
 
 module "pi_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.4.2"
+  version = "2.5.1"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
@@ -112,6 +128,7 @@ module "pi_hana_instance" {
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
+  pi_user_data               = local.pi_user_data
   ansible_vault_password     = var.ansible_vault_password
 }
 
@@ -139,7 +156,7 @@ resource "time_sleep" "wait_1_min" {
 
 module "pi_netweaver_instance" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "2.4.2"
+  version    = "2.5.1"
   count      = var.pi_netweaver_instance.instance_count
   depends_on = [time_sleep.wait_1_min]
 
@@ -157,6 +174,7 @@ module "pi_netweaver_instance" {
   pi_storage_config          = local.pi_netweaver_instance_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
+  pi_user_data               = local.pi_user_data
   ansible_vault_password     = var.ansible_vault_password
 }
 
