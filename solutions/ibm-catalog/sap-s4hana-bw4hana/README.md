@@ -139,7 +139,7 @@ S4HANA_2023
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.76.1 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.76.2 |
 
 ### Modules
 
@@ -157,10 +157,10 @@ S4HANA_2023
 
 | Name | Type |
 |------|------|
-| [ibm_pi_image.powervs_hana_os_image](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.76.1/docs/data-sources/pi_image) | data source |
-| [ibm_pi_image.powervs_netweaver_os_image](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.76.1/docs/data-sources/pi_image) | data source |
-| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.76.1/docs/data-sources/schematics_output) | data source |
-| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.76.1/docs/data-sources/schematics_workspace) | data source |
+| [ibm_pi_image.powervs_hana_os_image](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.76.2/docs/data-sources/pi_image) | data source |
+| [ibm_pi_image.powervs_netweaver_os_image](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.76.2/docs/data-sources/pi_image) | data source |
+| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.76.2/docs/data-sources/schematics_output) | data source |
+| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.76.2/docs/data-sources/schematics_workspace) | data source |
 
 ### Inputs
 
