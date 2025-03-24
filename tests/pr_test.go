@@ -56,10 +56,12 @@ func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.
 	return options
 }
 
+// IMPORTANT: Keep the prefix length unchanged; it appends to an auto-generated string.
+
 func TestRunBranchExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "sb", "tor01")
+	options := setupOptions(t, "b", "tor01")
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -68,7 +70,7 @@ func TestRunBranchExample(t *testing.T) {
 
 func TestRunMainExample(t *testing.T) {
 	t.Parallel()
-	options := setupOptions(t, "sm", "tok04")
+	options := setupOptions(t, "m", "tok04")
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
