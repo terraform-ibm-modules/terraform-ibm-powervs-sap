@@ -34,34 +34,17 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
+func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.TestOptions {
 
 	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
-		Testing:            t,
-		TerraformDir:       defaultExampleTerraformDir,
-		Prefix:             prefix,
-		ResourceGroup:      resourceGroup,
-		Region:             "eu-de-2", // specify default region to skip best choice query
-		DefaultRegion:      "eu-de-2",
-		BestRegionYAMLPath: "./common-go-assets/cloudinfo-region-power-prefs.yaml", // specific to powervs zones
-		// temporary workaround for BSS backend issue
-		ImplicitDestroy: []string{
-			"module.fullstack.module.landing_zone.module.landing_zone.ibm_resource_group.resource_groups",
-		},
+		Testing:       t,
+		TerraformDir:  defaultExampleTerraformDir,
+		Prefix:        prefix,
+		ResourceGroup: resourceGroup,
+		Region:        powervs_zone,
 	})
 
-	// query for best zone to deploy powervs example, based on current connection count
-	// NOTE: this is why we do not want to run multiple tests in parallel.
-	options.Region, _ = testhelper.GetBestPowerSystemsRegionO(options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], options.BestRegionYAMLPath, options.DefaultRegion,
-		testhelper.TesthelperTerraformOptions{CloudInfoService: sharedInfoSvc})
-	// if for any reason the region is empty at this point, such as error, use default
-	if len(options.Region) == 0 {
-		options.Region = options.DefaultRegion
-	}
-
 	options.TerraformVars = map[string]interface{}{
-		// locking into syd04 due to other data center issues
-		//"powervs_zone": "syd04",
 		"powervs_zone":                options.Region,
 		"prefix":                      options.Prefix,
 		"powervs_resource_group_name": options.ResourceGroup,
@@ -73,10 +56,12 @@ func setupOptions(t *testing.T, prefix string) *testhelper.TestOptions {
 	return options
 }
 
+// IMPORTANT: Keep the prefix length unchanged; it appends to an auto-generated string.
+
 func TestRunBranchExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "s")
+	options := setupOptions(t, "b", "tor01")
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -85,7 +70,7 @@ func TestRunBranchExample(t *testing.T) {
 
 func TestRunMainExample(t *testing.T) {
 	t.Parallel()
-	options := setupOptions(t, "s")
+	options := setupOptions(t, "m", "tok04")
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
