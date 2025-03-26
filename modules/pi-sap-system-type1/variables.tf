@@ -92,7 +92,7 @@ variable "pi_sharefs_instance" {
 #####################################################
 
 variable "pi_hana_instance" {
-  description = "PowerVS SAP HANA instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_hana_instance_name>. Max length of final hostname must be <= 13 characters.'sap_profile_id' Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'pi_hana_instance_custom_storage_config' parameter. 'additional_storage_config' additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  description = "PowerVS SAP HANA instance hostname (non FQDN). Will get the form of <var.prefix>-<var.pi_hana_instance.name>. Max length of final hostname must be <= 13 characters.'sap_profile_id' Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'pi_hana_instance_custom_storage_config' parameter. 'additional_storage_config' additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = object({
     name           = string
     image_id       = string
@@ -116,6 +116,10 @@ variable "pi_hana_instance" {
       "tier" : "tier3",
       "mount" : "/usr/sap"
     }]
+  }
+  validation {
+    condition     = length("${var.prefix}-${var.pi_hana_instance.name}") <= 13
+    error_message = "Hostname of PowerVS SAP HANA instance  must be <= 13 characters. It's comprised of <var.prefix>-<var.pi_hana_instance.name> and everything together cannot exceed 13 characters (including the -)."
   }
 }
 
