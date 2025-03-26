@@ -21,7 +21,7 @@ module "powervs_infra" {
   configure_dns_forwarder     = var.configure_dns_forwarder
   configure_ntp_forwarder     = var.configure_ntp_forwarder
   configure_nfs_server        = var.configure_nfs_server
-  powervs_image_names         = ["SLES15-SP5-SAP", "RHEL9-SP4-SAP", "SLES15-SP5-SAP-NETWEAVER", "RHEL9-SP4-SAP-NETWEAVER"]
+  powervs_image_names         = ["SLES15-SP6-SAP", "RHEL9-SP4-SAP", "SLES15-SP6-SAP-NETWEAVER", "RHEL9-SP4-SAP-NETWEAVER"]
   client_to_site_vpn          = { enable = false, client_ip_pool = "", vpn_client_access_group_users = [] }
 }
 
