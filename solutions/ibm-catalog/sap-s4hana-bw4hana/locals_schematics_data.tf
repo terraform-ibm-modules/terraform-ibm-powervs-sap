@@ -37,7 +37,6 @@ locals {
 }
 
 locals {
-  powervs_sharefs_os_image   = var.powervs_default_sap_images.rhel_nw_image
   powervs_hana_os_image      = var.powervs_default_sap_images.rhel_hana_image
   powervs_netweaver_os_image = var.powervs_default_sap_images.rhel_nw_image
 

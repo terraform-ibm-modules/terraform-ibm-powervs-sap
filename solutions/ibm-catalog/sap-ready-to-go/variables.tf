@@ -30,60 +30,12 @@ variable "powervs_sap_network_cidr" {
 }
 
 variable "os_image_distro" {
-  description = "Image distribution to use for all instances(Shared, HANA, NetWeaver). OS release versions may be specified in 'powervs_sap_default_images' optional parameters below."
+  description = "Image distribution to use for all instances(HANA, NetWeaver). OS release versions may be specified in 'powervs_sap_default_images' optional parameters below."
   type        = string
 
   validation {
     condition     = (upper(var.os_image_distro) == "RHEL" || upper(var.os_image_distro) == "SLES")
     error_message = "Supported values are 'RHEL' or 'SLES' only."
-  }
-}
-
-#####################################################
-# PowerVS Shared FS Instance parameters
-#####################################################
-
-variable "powervs_create_separate_sharefs_instance" {
-  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on SAP NetWeaver PowerVS instances if enabled. Optional parameter 'powervs_share_fs_instance' can be configured if enabled."
-  type        = bool
-}
-
-
-variable "powervs_sharefs_instance" {
-  description = "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
-  type = object({
-    name       = string
-    processors = string
-    memory     = string
-    proc_type  = string
-    storage_config = list(object({
-      name  = string
-      size  = string
-      count = string
-      tier  = string
-      mount = string
-      pool  = optional(string)
-    }))
-  })
-  default = {
-    "name" : "share",
-    "processors" : "0.5",
-    "memory" : "2",
-    "proc_type" : "shared",
-    "storage_config" : [{
-      "name" : "sapmnt",
-      "size" : "300",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/sapmnt"
-      },
-      {
-        "name" : "trans",
-        "size" : "50",
-        "count" : "1",
-        "tier" : "tier3",
-        "mount" : "/usr/trans"
-    }]
   }
 }
 
@@ -170,7 +122,7 @@ variable "powervs_netweaver_memory_size" {
 }
 
 variable "powervs_netweaver_instance_storage_config" {
-  description = "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. Do not specify volume for 'sapmnt' as this will be created internally if 'powervs_create_separate_sharefs_instance' is false, else 'sapmnt' will be mounted from sharefs instance."
+  description = "File systems to be created and attached to PowerVS SAP NetWeaver instance. 'size' is in GB. 'count' specifies over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
   type = list(object({
     name  = string
     size  = string

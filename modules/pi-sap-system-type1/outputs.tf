@@ -28,11 +28,6 @@ output "pi_netweaver_instance_management_ips" {
   value       = var.pi_netweaver_instance.instance_count >= 1 ? join(",", module.pi_netweaver_instance[*].pi_instance_primary_ip) : ""
 }
 
-output "pi_sharefs_instance_ips" {
-  description = "Private IPs of the Share FS instance."
-  value       = var.pi_sharefs_instance.enable ? module.pi_sharefs_instance[0].pi_instance_private_ips : ""
-}
-
 output "pi_lpars_data" {
   description = "All private IPS of PowerVS instances and Jump IP to access the host."
   value = {
@@ -41,6 +36,5 @@ output "pi_lpars_data" {
     "pi_hana_instance_ips"                 = module.pi_hana_instance.pi_instance_private_ips
     "pi_netweaver_instances_management_ip" = var.pi_netweaver_instance.instance_count >= 1 ? join(",", module.pi_netweaver_instance[*].pi_instance_primary_ip) : ""
     "pi_netweaver_instance_ips"            = var.pi_netweaver_instance.instance_count >= 1 ? module.pi_netweaver_instance[*].pi_instance_private_ips : [""]
-    "pi_sharefs_instance_ips"              = var.pi_sharefs_instance.enable ? module.pi_sharefs_instance[0].pi_instance_private_ips : ""
   }
 }

@@ -44,57 +44,6 @@ variable "powervs_sap_network_cidr" {
   type        = string
 }
 
-#####################################################
-# PowerVS Shared FS Instance parameters
-#####################################################
-
-variable "powervs_create_sharefs_instance" {
-  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'powervs_sharefs_instance_storage_config' variable will be NFS exported and mounted on SAP NetWeaver PowerVS instances if enabled. Optional parameter 'powervs_share_fs_instance' can be configured if enabled."
-  type = object({
-    enable   = bool
-    image_id = string
-  })
-
-}
-
-variable "powervs_sharefs_instance" {
-  description = "Share fs instance. This parameter is effective if 'powervs_create_separate_sharefs_instance' is set to true. size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
-  type = object({
-    name       = string
-    processors = string
-    memory     = string
-    proc_type  = string
-    storage_config = list(object({
-      name  = string
-      size  = string
-      count = string
-      tier  = string
-      mount = string
-      pool  = optional(string)
-    }))
-  })
-
-  default = {
-    "name" : "share",
-    "processors" : "0.5",
-    "memory" : "2",
-    "proc_type" : "shared",
-    "storage_config" : [{
-      "name" : "sapmnt",
-      "size" : "300",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/sapmnt"
-      },
-      {
-        "name" : "trans",
-        "size" : "50",
-        "count" : "1",
-        "tier" : "tier3",
-        "mount" : "/usr/trans"
-    }]
-  }
-}
 
 #####################################################
 # PowerVS HANA Instance parameters
@@ -266,7 +215,7 @@ variable "scc_wp_instance" {
 }
 
 variable "os_image_distro" {
-  description = "Image distribution that's used for all instances(Shared, HANA, NetWeaver). Only required for hotfix of networks getting attached in random order. Will be removed in future releases. Possible values: RHEL or SLES."
+  description = "Image distribution that's used for all instances(HANA, NetWeaver). Only required for hotfix of networks getting attached in random order. Will be removed in future releases. Possible values: RHEL or SLES."
   type        = string
 
   validation {

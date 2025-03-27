@@ -42,50 +42,6 @@ variable "ansible_vault_password" {
   default   = null
 }
 
-#####################################################
-# PowerVS Shared FS Instance parameters
-#####################################################
-
-variable "pi_sharefs_instance" {
-  description = "Deploy separate IBM PowerVS instance as central file system share. All filesystems defined in 'pi_sharefs_instance_storage_config' variable will be NFS exported and mounted on NetWeaver PowerVS instances if enabled. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
-  type = object({
-    enable     = bool
-    name       = string
-    image_id   = string
-    processors = string
-    memory     = string
-    proc_type  = string
-    storage_config = list(object({
-      name  = string
-      size  = string
-      count = string
-      tier  = string
-      mount = string
-    }))
-  })
-  default = {
-    enable     = false
-    name       = "share"
-    image_id   = "insert_value_here"
-    processors = "0.5"
-    memory     = "2"
-    proc_type  = "shared"
-    storage_config = [{
-      "name" : "sapmnt",
-      "size" : "300",
-      "count" : "1",
-      "tier" : "tier3",
-      "mount" : "/sapmnt"
-      },
-      {
-        "name" : "trans",
-        "size" : "50",
-        "count" : "1",
-        "tier" : "tier3",
-        "mount" : "/usr/trans"
-    }]
-  }
-}
 
 #####################################################
 # PowerVS HANA Instance parameters
@@ -248,7 +204,7 @@ variable "scc_wp_instance" {
 }
 
 variable "os_image_distro" {
-  description = "Image distribution that's used for all instances(Shared, HANA, NetWeaver). Only required for hotfix of networks getting attached in random order. Will be removed in future releases."
+  description = "Image distribution that's used for all instances(HANA, NetWeaver). Only required for hotfix of networks getting attached in random order. Will be removed in future releases."
   type        = string
   default     = ""
 }

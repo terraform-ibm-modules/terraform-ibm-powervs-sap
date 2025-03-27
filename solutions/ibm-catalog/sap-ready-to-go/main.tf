@@ -2,20 +2,9 @@
 # Deploy SAP system
 # 1 HANA instance
 # 0:N NetWeaver Instance
-# 1 Optional Sharefs instance
 #####################################################
 
 locals {
-  powervs_sharefs_instance = {
-    enable         = var.powervs_create_separate_sharefs_instance
-    name           = var.powervs_sharefs_instance.name
-    image_id       = lookup(local.powervs_images, local.powervs_sharefs_os_image, null)
-    processors     = var.powervs_sharefs_instance.processors
-    memory         = var.powervs_sharefs_instance.memory
-    proc_type      = var.powervs_sharefs_instance.proc_type
-    storage_config = var.powervs_sharefs_instance.storage_config
-  }
-
   powervs_hana_instance = {
     name                      = var.powervs_hana_instance_name
     image_id                  = lookup(local.powervs_images, local.powervs_hana_os_image, null)
@@ -42,7 +31,6 @@ module "sap_system" {
   pi_ssh_public_key_name                 = local.powervs_sshkey_name
   pi_networks                            = local.powervs_networks
   pi_sap_network_cidr                    = var.powervs_sap_network_cidr
-  pi_sharefs_instance                    = local.powervs_sharefs_instance
   pi_hana_instance                       = local.powervs_hana_instance
   pi_hana_instance_custom_storage_config = var.powervs_hana_instance_custom_storage_config
   pi_netweaver_instance                  = local.powervs_netweaver_instance
