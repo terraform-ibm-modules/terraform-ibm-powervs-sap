@@ -80,8 +80,8 @@ locals {
   pi_netweaver_primary_instance_storage_config = concat(var.pi_netweaver_instance.storage_config, local.pi_netweaver_instance_sapmnt_storage)
   pi_netweaver_primary_instance_nfs_server_config = {
     nfs = {
-      enable      = var.pi_netweaver_instance.instance_count > 0,
-      directories = var.pi_netweaver_instance.instance_count > 0 ? [local.pi_netweaver_instance_sapmnt_storage[0].mount] : []
+      enable      = var.pi_netweaver_instance.instance_count > 1,
+      directories = var.pi_netweaver_instance.instance_count > 1 ? [local.pi_netweaver_instance_sapmnt_storage[0].mount] : []
     }
   }
 }
@@ -119,7 +119,7 @@ module "ansible_pi_netweaver_primary_instance_exportfs" {
 
   source                 = "../ansible"
   depends_on             = [module.pi_netweaver_primary_instance]
-  count                  = var.pi_netweaver_instance.instance_count > 0 ? 1 : 0
+  count                  = var.pi_netweaver_instance.instance_count > 1 ? 1 : 0
   bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
   ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
   ssh_private_key        = var.pi_instance_init_linux.ssh_private_key
@@ -143,7 +143,7 @@ module "ansible_pi_netweaver_primary_instance_exportfs" {
 module "pi_netweaver_secondary_instances" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
   version    = "2.5.2"
-  count      = var.pi_netweaver_instance.instance_count > 0 ? var.pi_netweaver_instance.instance_count - 1 : 0
+  count      = var.pi_netweaver_instance.instance_count > 1 ? var.pi_netweaver_instance.instance_count - 1 : 0
   depends_on = [time_sleep.wait_1_min]
 
   pi_workspace_guid          = var.pi_workspace_guid
@@ -167,9 +167,9 @@ module "pi_netweaver_secondary_instances" {
 locals {
   pi_netweaver_instance_sapmnt_config = {
     nfs = {
-      enable          = var.pi_netweaver_instance.instance_count > 0 ? true : false,
-      nfs_server_path = var.pi_netweaver_instance.instance_count > 0 ? "${module.pi_netweaver_primary_instance[0].pi_instance_primary_ip}:${local.pi_netweaver_instance_sapmnt_storage[0].mount}" : "",
-      nfs_client_path = var.pi_netweaver_instance.instance_count > 0 ? local.pi_netweaver_instance_sapmnt_storage[0].mount : "",
+      enable          = var.pi_netweaver_instance.instance_count > 1 ? true : false,
+      nfs_server_path = var.pi_netweaver_instance.instance_count > 1 ? "${module.pi_netweaver_primary_instance[0].pi_instance_primary_ip}:${local.pi_netweaver_instance_sapmnt_storage[0].mount}" : "",
+      nfs_client_path = var.pi_netweaver_instance.instance_count > 1 ? local.pi_netweaver_instance_sapmnt_storage[0].mount : "",
       opts            = "sec=sys,nfsvers=4.1,nofail",
       fstype          = "nfs4"
     }
@@ -180,7 +180,7 @@ module "ansible_pi_netweaver_secondary_instances_sapmnt_mount" {
 
   source                 = "../ansible"
   depends_on             = [module.pi_netweaver_primary_instance, module.ansible_pi_netweaver_primary_instance_exportfs, module.pi_netweaver_secondary_instances]
-  count                  = var.pi_netweaver_instance.instance_count > 0 ? 1 : 0
+  count                  = var.pi_netweaver_instance.instance_count > 1 ? 1 : 0
   bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
   ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
   ssh_private_key        = var.pi_instance_init_linux.ssh_private_key
@@ -269,5 +269,5 @@ module "configure_scc_wp_agent" {
   playbook_template_vars      = local.scc_wp_playbook_template_vars
   src_inventory_template_name = "pi-instance-inventory.tftpl"
   dst_inventory_file_name     = "${var.prefix}-scc-wp-inventory"
-  inventory_template_vars     = { "pi_instance_management_ip" : join("\n", [module.pi_hana_instance.pi_instance_primary_ip], var.pi_netweaver_instance.instance_count >= 1 ? module.pi_netweaver_primary_instance[*].pi_instance_primary_ip : []) }
+  inventory_template_vars     = { "pi_instance_management_ip" : join("\n", [module.pi_hana_instance.pi_instance_primary_ip], var.pi_netweaver_instance.instance_count > 0 ? module.pi_netweaver_primary_instance[*].pi_instance_primary_ip : [], var.pi_netweaver_instance.instance_count > 1 ? module.pi_netweaver_secondary_instances[*].pi_instance_primary_ip : []) }
 }
