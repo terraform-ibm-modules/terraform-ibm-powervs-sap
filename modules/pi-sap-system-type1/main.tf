@@ -187,10 +187,10 @@ module "ansible_pi_netweaver_secondary_instances_sapmnt_mount" {
   configure_ansible_host = false
 
   src_script_template_name = "configure-network-services/ansible_exec.sh.tftpl"
-  dst_script_file_name     = "${local.sap_instance_names[count.index]}_sapmnt_mount.sh"
+  dst_script_file_name     = "pi-netweaver-secondary-instances_sapmnt_mount.sh"
 
   src_playbook_template_name = "configure-network-services/playbook-configure-network-services.yml.tftpl"
-  dst_playbook_file_name     = "${local.sap_instance_names[count.index]}-playbook-configure-sapmnt.yml"
+  dst_playbook_file_name     = "pi-netweaver-secondary-instances-playbook-configure-sapmnt.yml"
   playbook_template_vars = {
     "server_config" : jsonencode({}),
     "client_config" : jsonencode(local.pi_netweaver_instance_sapmnt_config)
