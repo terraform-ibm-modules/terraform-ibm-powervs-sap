@@ -102,7 +102,7 @@ variable "pi_hana_instance_custom_storage_config" {
 #####################################################
 
 variable "pi_netweaver_instance" {
-  description = "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters. 'instance_count' is number of SAP NetWeaver instances that should be created. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. "
+  description = "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters. 'instance_count' is number of SAP NetWeaver instances that should be created. 'instance_count' cannot exceed 10. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. "
   type = object({
     instance_count = number
     name           = string
@@ -132,6 +132,11 @@ variable "pi_netweaver_instance" {
       "tier" : "tier3",
       "mount" : "/usr/sap"
     }]
+  }
+
+  validation {
+    condition     = var.pi_netweaver_instance.instance_count <= 10
+    error_message = "Cannot create more than 10 netweaver instances, adjust pi_netweaver_instance accordingly."
   }
 }
 

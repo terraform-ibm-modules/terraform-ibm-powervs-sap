@@ -98,7 +98,7 @@ variable "powervs_hana_instance_additional_storage_config" {
 #####################################################
 
 variable "powervs_netweaver_instance_count" {
-  description = "Number of PowerVS SAP NetWeaver instances that should be created."
+  description = "Number of PowerVS SAP NetWeaver instances that should be created. 'powervs_netweaver_instance_count' cannot exceed 10."
   type        = number
   default     = 1
 }
