@@ -214,7 +214,7 @@ locals {
 module "ansible_sap_instance_init" {
 
   source                 = "../ansible"
-  depends_on             = [module.pi_hana_instance, module.pi_netweaver_primary_instance]
+  depends_on             = [module.pi_hana_instance, module.ansible_pi_netweaver_primary_instance_exportfs, module.ansible_pi_netweaver_secondary_instances_sapmnt_mount]
   count                  = length(local.target_server_ips)
   bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
   ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
@@ -252,7 +252,7 @@ locals {
 module "configure_scc_wp_agent" {
 
   source     = "../ansible"
-  depends_on = [module.pi_hana_instance, module.pi_netweaver_primary_instance, module.ansible_sap_instance_init]
+  depends_on = [module.ansible_sap_instance_init]
   count      = local.enable_scc_wp ? 1 : 0
 
   bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
