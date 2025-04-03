@@ -9,7 +9,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances.
 - Post-instance provisioning, Ansible Galaxy collection roles from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed: `power_linux_sap`.
-- Tested with RHEL8.4,/8.6/8.8/9.2, SLES15-SP3/SP5 images.
+- Tested with RHEL8.4,/8.6/8.8/9.2/9.4, SLES15-SP3/SP5/SP6 images.
 
 ## Notes:
 - **Does not install any SAP softwares or solutions.**
