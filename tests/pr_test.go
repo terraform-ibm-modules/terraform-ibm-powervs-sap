@@ -50,7 +50,6 @@ func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.
 		"powervs_resource_group_name": options.ResourceGroup,
 		"external_access_ip":          "0.0.0.0/0",
 		"os_image_distro":             "RHEL",
-		"powervs_create_separate_sharefs_instance": false,
 	}
 
 	return options

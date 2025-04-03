@@ -36,17 +36,14 @@ resource "time_sleep" "wait_15_mins" {
 # Deploy SAP system
 # 1 HANA instance
 # 0:N NetWeaver Instance
-# 1 Optional Sharefs instance
 # SAP instance Init
 #######################################################
 
 locals {
   powervs_networks           = [module.powervs_infra.powervs_management_subnet, module.powervs_infra.powervs_backup_subnet]
-  powervs_sharefs_os_image   = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_nw_image : var.powervs_default_sap_images.rhel_nw_image
   powervs_hana_os_image      = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_hana_image : var.powervs_default_sap_images.rhel_hana_image
   powervs_netweaver_os_image = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_nw_image : var.powervs_default_sap_images.rhel_nw_image
 
-  powervs_sharefs_instance   = merge(var.powervs_sharefs_instance, { enable = var.powervs_create_separate_sharefs_instance, image_id = lookup(module.powervs_infra.powervs_images, local.powervs_sharefs_os_image, null) })
   powervs_hana_instance      = merge(var.powervs_hana_instance, { image_id = lookup(module.powervs_infra.powervs_images, local.powervs_hana_os_image, null) })
   powervs_netweaver_instance = merge(var.powervs_netweaver_instance, { image_id = lookup(module.powervs_infra.powervs_images, local.powervs_netweaver_os_image, null) })
 
@@ -76,7 +73,6 @@ module "sap_system" {
   pi_ssh_public_key_name                 = module.powervs_infra.powervs_ssh_public_key.name
   pi_networks                            = local.powervs_networks
   pi_sap_network_cidr                    = var.powervs_sap_network_cidr
-  pi_sharefs_instance                    = local.powervs_sharefs_instance
   pi_hana_instance                       = local.powervs_hana_instance
   pi_hana_instance_custom_storage_config = var.powervs_hana_instance_custom_storage_config
   pi_netweaver_instance                  = local.powervs_netweaver_instance
