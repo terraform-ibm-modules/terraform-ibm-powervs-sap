@@ -227,7 +227,6 @@
                         {
                             "key": "nfs_directory",
                             "hidden": true
-
                         },
                         {
                             "key": "powervs_sap_network_cidr"
