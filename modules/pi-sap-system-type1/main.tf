@@ -16,6 +16,14 @@ locals {
 }
 
 #####################################################
+# Set server type based on region
+#####################################################
+locals {
+  p10_unsupported_regions = ["che01", "lon04", "lon06", "mon01", "syd04", "syd05", "tor01", "us-east", "us-south"] # datacenters that don't support P10 yet
+  server_type             = contains(local.p10_unsupported_regions, var.pi_region) ? "s922" : "s1022"
+}
+
+#####################################################
 # Networks getting attached in random order hotfix
 #####################################################
 
@@ -106,7 +114,7 @@ module "pi_netweaver_primary_instance" {
   pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_netweaver_instance.processors
   pi_memory_size             = var.pi_netweaver_instance.memory
-  pi_server_type             = "s922"
+  pi_server_type             = local.server_type
   pi_cpu_proc_type           = var.pi_netweaver_instance.proc_type
   pi_storage_config          = local.pi_netweaver_primary_instance_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
@@ -155,7 +163,7 @@ module "pi_netweaver_secondary_instances" {
   pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_netweaver_instance.processors
   pi_memory_size             = var.pi_netweaver_instance.memory
-  pi_server_type             = "s922"
+  pi_server_type             = local.server_type
   pi_cpu_proc_type           = var.pi_netweaver_instance.proc_type
   pi_storage_config          = var.pi_netweaver_instance.storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
