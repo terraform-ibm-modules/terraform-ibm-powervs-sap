@@ -56,7 +56,7 @@ module "pi_hana_storage_calculation" {
 
 module "pi_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.6.0"
+  version = "2.6.1"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
@@ -101,7 +101,7 @@ resource "time_sleep" "wait_1_min" {
 
 module "pi_netweaver_primary_instance" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "2.6.0"
+  version    = "2.6.1"
   count      = var.pi_netweaver_instance.instance_count > 0 ? 1 : 0
   depends_on = [time_sleep.wait_1_min]
 
@@ -150,7 +150,7 @@ module "ansible_pi_netweaver_primary_instance_exportfs" {
 
 module "pi_netweaver_secondary_instances" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "2.6.0"
+  version    = "2.6.1"
   count      = var.pi_netweaver_instance.instance_count > 1 ? var.pi_netweaver_instance.instance_count - 1 : 0
   depends_on = [time_sleep.wait_1_min]
 
