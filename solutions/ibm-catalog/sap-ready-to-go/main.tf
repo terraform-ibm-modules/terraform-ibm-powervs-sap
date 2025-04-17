@@ -28,6 +28,7 @@ module "sap_system" {
 
   prefix                                 = var.prefix
   pi_workspace_guid                      = local.powervs_workspace_guid
+  pi_region                              = var.powervs_zone
   pi_ssh_public_key_name                 = local.powervs_sshkey_name
   pi_networks                            = local.powervs_networks
   pi_sap_network_cidr                    = var.powervs_sap_network_cidr

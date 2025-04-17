@@ -64,7 +64,7 @@ func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.
 func TestRunBranchExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "b", "tor01")
+	options := setupOptions(t, "b", "tok04")
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -73,7 +73,7 @@ func TestRunBranchExample(t *testing.T) {
 
 func TestRunMainExample(t *testing.T) {
 	t.Parallel()
-	options := setupOptions(t, "m", "tok04")
+	options := setupOptions(t, "m", "mad02")
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {

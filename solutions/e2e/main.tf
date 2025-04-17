@@ -7,7 +7,7 @@
 
 module "powervs_infra" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "8.2.2"
+  version = "8.3.0"
 
   providers = { ibm.ibm-is = ibm.ibm-is, ibm.ibm-pi = ibm.ibm-pi, ibm.ibm-sm = ibm.ibm-sm }
 
@@ -70,6 +70,7 @@ module "sap_system" {
 
   prefix                                 = var.prefix
   pi_workspace_guid                      = module.powervs_infra.powervs_workspace_guid
+  pi_region                              = var.powervs_zone
   pi_ssh_public_key_name                 = module.powervs_infra.powervs_ssh_public_key.name
   pi_networks                            = local.powervs_networks
   pi_sap_network_cidr                    = var.powervs_sap_network_cidr
