@@ -7,7 +7,7 @@
 
 module "powervs_infra" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "8.3.0"
+  version = "8.4.0"
 
   providers = { ibm.ibm-is = ibm.ibm-is, ibm.ibm-pi = ibm.ibm-pi, ibm.ibm-sm = ibm.ibm-sm }
 
@@ -21,7 +21,6 @@ module "powervs_infra" {
   configure_dns_forwarder     = var.configure_dns_forwarder
   configure_ntp_forwarder     = var.configure_ntp_forwarder
   configure_nfs_server        = var.configure_nfs_server
-  powervs_image_names         = ["SLES15-SP6-SAP", "RHEL9-SP4-SAP", "SLES15-SP6-SAP-NETWEAVER", "RHEL9-SP4-SAP-NETWEAVER"]
   client_to_site_vpn          = { enable = false, client_ip_pool = "", vpn_client_access_group_users = [] }
 }
 

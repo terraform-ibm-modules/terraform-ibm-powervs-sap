@@ -1,7 +1,3 @@
-############################################################
-# Get Values from PowerVS with VPC Landing Zone Workspace
-############################################################
-
 data "ibm_pi_image" "powervs_hana_os_image" {
   pi_image_name        = var.powervs_hana_instance_image_id
   pi_cloud_instance_id = var.powervs_workspace_guid

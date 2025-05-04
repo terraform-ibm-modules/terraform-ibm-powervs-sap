@@ -227,7 +227,6 @@
                         {
                             "key": "nfs_directory",
                             "hidden": true
-
                         },
                         {
                             "key": "powervs_sap_network_cidr"
@@ -329,12 +328,6 @@
                                 "crn:v1:bluemix:public:iam::::role:Editor"
                             ],
                             "service_name": "transit.gateway"
-                        },
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "directlink.connect"
                         },
                         {
                             "role_crns": [
@@ -730,12 +723,6 @@
                                 "crn:v1:bluemix:public:iam::::role:Editor"
                             ],
                             "service_name": "transit.gateway"
-                        },
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "directlink.connect"
                         },
                         {
                             "role_crns": [

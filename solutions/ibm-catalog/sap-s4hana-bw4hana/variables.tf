@@ -43,7 +43,7 @@ variable "powervs_hana_instance_name" {
 variable "powervs_hana_instance_sap_profile_id" {
   description = "PowerVS SAP HANA instance profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional parameter 'powervs_hana_instance_custom_storage_config'."
   type        = string
-  default     = "ush1-4x256"
+  default     = "sh2-4x256"
 }
 
 variable "powervs_hana_instance_custom_storage_config" {
@@ -160,8 +160,8 @@ variable "powervs_default_sap_images" {
     rhel_nw_image   = string
   })
   default = {
-    "rhel_hana_image" : "RHEL9-SP4-SAP",
-    "rhel_nw_image" : "RHEL9-SP4-SAP-NETWEAVER"
+    "rhel_hana_image" : "RHEL8-SP6-SAP",
+    "rhel_nw_image" : "RHEL8-SP6-SAP-NETWEAVER"
   }
 }
 

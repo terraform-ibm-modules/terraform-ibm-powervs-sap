@@ -20,7 +20,6 @@ The end-to-end solution automates the following tasks:
     - Creates two private networks: a management network and a backup network.
     - Attaches the PowerVS workspace to transit gateway.
     - Creates an SSH key.
-    - Imports catalog stock images.
 
 - Finally, interconnects both VPC and PowerVS infrastructure.
 
@@ -50,14 +49,14 @@ The end-to-end solution automates the following tasks:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.77.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.78.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | 0.13.0 |
 
 ### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_powervs_infra"></a> [powervs\_infra](#module\_powervs\_infra) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.3.0 |
+| <a name="module_powervs_infra"></a> [powervs\_infra](#module\_powervs\_infra) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.4.0 |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../modules/pi-sap-system-type1 | n/a |
 
 ### Resources

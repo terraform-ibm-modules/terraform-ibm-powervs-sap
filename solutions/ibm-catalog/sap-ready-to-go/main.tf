@@ -3,11 +3,10 @@
 # 1 HANA instance
 # 0:N NetWeaver Instance
 #####################################################
-
 locals {
   powervs_hana_instance = {
     name                      = var.powervs_hana_instance_name
-    image_id                  = lookup(local.powervs_images, local.powervs_hana_os_image, null)
+    image_id                  = local.hana_image_id
     sap_profile_id            = var.powervs_hana_instance_sap_profile_id
     additional_storage_config = var.powervs_hana_instance_additional_storage_config
   }
@@ -15,7 +14,7 @@ locals {
   powervs_netweaver_instance = {
     instance_count = var.powervs_netweaver_instance_count
     name           = var.powervs_netweaver_instance_name
-    image_id       = lookup(local.powervs_images, local.powervs_netweaver_os_image, null)
+    image_id       = local.netweaver_image_id
     processors     = var.powervs_netweaver_cpu_number
     memory         = var.powervs_netweaver_memory_size
     proc_type      = "shared"
