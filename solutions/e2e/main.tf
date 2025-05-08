@@ -21,6 +21,8 @@ module "standard" {
   configure_dns_forwarder     = var.configure_dns_forwarder
   configure_ntp_forwarder     = var.configure_ntp_forwarder
   configure_nfs_server        = var.configure_nfs_server
+  enable_monitoring           = false
+  enable_scc_wp               = false
   client_to_site_vpn          = { enable = false, client_ip_pool = "", vpn_client_access_group_users = [] }
 }
 
@@ -39,7 +41,7 @@ resource "time_sleep" "wait_15_mins" {
 #######################################################
 
 data "ibm_pi_catalog_images" "catalog_images_ds" {
-
+  provider             = ibm.ibm-pi
   pi_cloud_instance_id = module.standard.powervs_workspace_guid
   sap                  = true
 }
