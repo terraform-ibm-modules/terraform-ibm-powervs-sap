@@ -111,7 +111,7 @@ module "ibmcloud_cos_download_netweaver_binaries" {
 module "ibmcloud_cos_download_monitoring_binaries" {
   source     = "../../../modules/ibmcloud-cos"
   depends_on = [module.ibmcloud_cos_download_netweaver_binaries]
-  count      = local.enable_monitoring ? 1 : 0
+  count      = local.monitoring_instance.enable ? 1 : 0
 
   access_host_or_ip          = local.access_host_or_ip
   target_server_ip           = local.ansible_host_or_ip
@@ -245,9 +245,9 @@ locals {
           port              = "5${var.sap_solution_vars.sap_swpm_pas_instance_nr}13"
         }]
       )
-      ibmcloud_monitoring_instance_url           = "https://ingest.prws.private.${local.monitoring_instance_location}.monitoring.cloud.ibm.com/prometheus/remote/write"
-      ibmcloud_monitoring_request_credential_url = "https://${local.monitoring_instance_location}.monitoring.cloud.ibm.com/api/token"
-      ibmcloud_monitoring_instance_guid          = local.monitoring_instance_guid
+      ibmcloud_monitoring_instance_url           = "https://ingest.prws.private.${local.monitoring_instance.location}.monitoring.cloud.ibm.com/prometheus/remote/write"
+      ibmcloud_monitoring_request_credential_url = "https://${local.monitoring_instance.location}.monitoring.cloud.ibm.com/api/token"
+      ibmcloud_monitoring_instance_guid          = local.monitoring_instance.guid
     }
   )
 }
@@ -257,7 +257,7 @@ module "ansible_monitoring_sap_install_solution" {
 
   source     = "../../../modules/ansible"
   depends_on = [module.ibmcloud_cos_download_monitoring_binaries, module.ansible_sap_install_hana, module.ansible_sap_install_solution]
-  count      = local.enable_monitoring ? 1 : 0
+  count      = local.monitoring_instance.enable ? 1 : 0
 
   bastion_host_ip        = local.access_host_or_ip
   ansible_host_or_ip     = local.ansible_host_or_ip
@@ -274,5 +274,5 @@ module "ansible_monitoring_sap_install_solution" {
   playbook_template_vars      = local.ansible_monitoring_solution_playbook_vars
   src_inventory_template_name = "monitoring-inventory.tftpl"
   dst_inventory_file_name     = "${var.prefix}-monitoring-instance-inventory"
-  inventory_template_vars     = { "monitoring_host_ip" : local.monitoring_host_ip }
+  inventory_template_vars     = { "monitoring_host_ip" : local.monitoring_instance.monitoring_host_ip }
 }

@@ -56,14 +56,15 @@ The end-to-end solution automates the following tasks:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_powervs_infra"></a> [powervs\_infra](#module\_powervs\_infra) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.4.0 |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../modules/pi-sap-system-type1 | n/a |
+| <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.4.0 |
 
 ### Resources
 
 | Name | Type |
 |------|------|
 | [time_sleep.wait_15_mins](https://registry.terraform.io/providers/hashicorp/time/0.13.0/docs/resources/sleep) | resource |
+| [ibm_pi_catalog_images.catalog_images_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.0/docs/data-sources/pi_catalog_images) | data source |
 
 ### Inputs
 

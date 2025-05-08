@@ -247,21 +247,11 @@ module "ansible_sap_instance_init" {
 #######################################################################
 # Ansible Install Sysdig agent and connect to SCC Workload Protection
 #######################################################################
-
-locals {
-  enable_scc_wp = var.scc_wp_instance.guid != "" && var.scc_wp_instance.ingestion_endpoint != "" && var.scc_wp_instance.api_endpoint != "" && var.scc_wp_instance.access_key != ""
-  scc_wp_playbook_template_vars = {
-    SCC_WP_GUID : var.scc_wp_instance.guid,
-    COLLECTOR_ENDPOINT : var.scc_wp_instance.ingestion_endpoint,
-    API_ENDPOINT : var.scc_wp_instance.api_endpoint,
-    ACCESS_KEY : var.scc_wp_instance.access_key
-  }
-}
 module "configure_scc_wp_agent" {
 
   source     = "../ansible"
   depends_on = [module.ansible_sap_instance_init]
-  count      = local.enable_scc_wp ? 1 : 0
+  count      = var.scc_wp_instance.enable ? 1 : 0
 
   bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
   ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
@@ -272,9 +262,14 @@ module "configure_scc_wp_agent" {
   src_script_template_name = "configure-scc-wp-agent/ansible_configure_scc_wp_agent.sh.tftpl"
   dst_script_file_name     = "${var.prefix}-configure_scc_wp_agent.sh"
 
-  src_playbook_template_name  = "configure-scc-wp-agent/playbook-configure-scc-wp-agent.yml.tftpl"
-  dst_playbook_file_name      = "${var.prefix}-playbook-configure-scc-wp-agent.yml"
-  playbook_template_vars      = local.scc_wp_playbook_template_vars
+  src_playbook_template_name = "configure-scc-wp-agent/playbook-configure-scc-wp-agent.yml.tftpl"
+  dst_playbook_file_name     = "${var.prefix}-playbook-configure-scc-wp-agent.yml"
+  playbook_template_vars = {
+    SCC_WP_GUID : var.scc_wp_instance.guid,
+    COLLECTOR_ENDPOINT : var.scc_wp_instance.ingestion_endpoint,
+    API_ENDPOINT : var.scc_wp_instance.api_endpoint,
+    ACCESS_KEY : var.scc_wp_instance.access_key
+  }
   src_inventory_template_name = "pi-instance-inventory.tftpl"
   dst_inventory_file_name     = "${var.prefix}-scc-wp-inventory"
   inventory_template_vars     = { "pi_instance_management_ip" : join("\n", [module.pi_hana_instance.pi_instance_primary_ip], var.pi_netweaver_instance.instance_count > 0 ? module.pi_netweaver_primary_instance[*].pi_instance_primary_ip : [], var.pi_netweaver_instance.instance_count > 1 ? module.pi_netweaver_secondary_instances[*].pi_instance_primary_ip : []) }

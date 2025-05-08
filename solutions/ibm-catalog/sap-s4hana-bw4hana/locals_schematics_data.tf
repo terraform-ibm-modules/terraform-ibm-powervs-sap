@@ -18,22 +18,20 @@ data "ibm_schematics_output" "schematics_output" {
 }
 
 locals {
-  powervs_infrastructure       = jsondecode(data.ibm_schematics_output.schematics_output.output_json)
-  powervs_workspace_guid       = local.powervs_infrastructure[0].powervs_workspace_guid.value
-  powervs_sshkey_name          = local.powervs_infrastructure[0].powervs_ssh_public_key.value.name
-  powervs_custom_images        = local.powervs_infrastructure[0].powervs_images.value
-  powervs_networks             = [local.powervs_infrastructure[0].powervs_management_subnet.value, local.powervs_infrastructure[0].powervs_backup_subnet.value]
-  access_host_or_ip            = local.powervs_infrastructure[0].access_host_or_ip.value
-  proxy_host_or_ip_port        = local.powervs_infrastructure[0].proxy_host_or_ip_port.value
-  dns_host_or_ip               = local.powervs_infrastructure[0].dns_host_or_ip.value
-  ntp_host_or_ip               = local.powervs_infrastructure[0].ntp_host_or_ip.value
-  nfs_host_or_ip_path          = local.powervs_infrastructure[0].nfs_host_or_ip_path.value
-  ansible_host_or_ip           = local.powervs_infrastructure[0].ansible_host_or_ip.value
-  network_services_config      = local.powervs_infrastructure[0].network_services_config.value
-  monitoring_instance_guid     = local.powervs_infrastructure[0].monitoring_instance.value.guid
-  monitoring_instance_location = local.powervs_infrastructure[0].monitoring_instance.value.location
-  monitoring_host_ip           = local.powervs_infrastructure[0].monitoring_instance.value.monitoring_host_ip
-  scc_wp_instance              = local.powervs_infrastructure[0].scc_wp_instance.value
+  powervs_infrastructure  = jsondecode(data.ibm_schematics_output.schematics_output.output_json)
+  powervs_workspace_guid  = local.powervs_infrastructure[0].powervs_workspace_guid.value
+  powervs_sshkey_name     = local.powervs_infrastructure[0].powervs_ssh_public_key.value.name
+  powervs_custom_images   = local.powervs_infrastructure[0].powervs_images.value
+  powervs_networks        = [local.powervs_infrastructure[0].powervs_management_subnet.value, local.powervs_infrastructure[0].powervs_backup_subnet.value]
+  access_host_or_ip       = local.powervs_infrastructure[0].access_host_or_ip.value
+  proxy_host_or_ip_port   = local.powervs_infrastructure[0].proxy_host_or_ip_port.value
+  dns_host_or_ip          = local.powervs_infrastructure[0].dns_host_or_ip.value
+  ntp_host_or_ip          = local.powervs_infrastructure[0].ntp_host_or_ip.value
+  nfs_host_or_ip_path     = local.powervs_infrastructure[0].nfs_host_or_ip_path.value
+  ansible_host_or_ip      = local.powervs_infrastructure[0].ansible_host_or_ip.value
+  network_services_config = local.powervs_infrastructure[0].network_services_config.value
+  monitoring_instance     = local.powervs_infrastructure[0].monitoring_instance.value
+  scc_wp_instance         = local.powervs_infrastructure[0].scc_wp_instance.value
 }
 
 ############################################################
@@ -43,7 +41,15 @@ locals {
   selected_hana_image      = var.powervs_default_sap_images.rhel_hana_image
   selected_netweaver_image = var.powervs_default_sap_images.rhel_nw_image
   fls_image_types          = ["stock-sap-fls", "stock-sap-netweaver-fls"]
-  use_custom_images        = length(local.powervs_custom_images) > 0
+  use_custom_images = (
+    length(local.powervs_custom_images) > 0 &&
+    alltrue([
+      for name in [local.selected_hana_image, local.selected_netweaver_image] : (
+        contains(keys(local.powervs_custom_images), name) ?
+        local.powervs_custom_images[name].image_vendor == "SAP" : false
+      )
+    ])
+  )
 
 }
 
@@ -123,6 +129,4 @@ locals {
     dns   = { enable = local.dns_host_or_ip != "" ? true : false, dns_server_ip = local.dns_host_or_ip }
     ntp   = { enable = local.ntp_host_or_ip != "" ? true : false, ntp_server_ip = local.ntp_host_or_ip }
   }
-
-  enable_monitoring = local.monitoring_instance_guid != "" && local.monitoring_host_ip != "" && local.monitoring_instance_location != "" && var.ibmcloud_cos_configuration.cos_monitoring_software_path != ""
 }

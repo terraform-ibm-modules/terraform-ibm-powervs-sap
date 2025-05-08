@@ -43,8 +43,17 @@ locals {
   selected_hana_image      = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_hana_image : var.powervs_default_sap_images.rhel_hana_image
   selected_netweaver_image = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_nw_image : var.powervs_default_sap_images.rhel_nw_image
 
-  fls_image_types   = ["stock-sap-fls", "stock-sap-netweaver-fls"]
-  use_custom_images = length(local.powervs_custom_images) > 0
+  fls_image_types = ["stock-sap-fls", "stock-sap-netweaver-fls"]
+  use_custom_images = (
+    length(local.powervs_custom_images) > 0 &&
+    alltrue([
+      for name in [local.selected_hana_image, local.selected_netweaver_image] : (
+        contains(keys(local.powervs_custom_images), name) ?
+        local.powervs_custom_images[name].image_vendor == "SAP" : false
+      )
+    ])
+  )
+
 }
 
 # Stock image data (only if not using custom)
