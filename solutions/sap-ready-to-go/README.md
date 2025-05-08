@@ -46,10 +46,7 @@ The 'sap-ready-to-go' solution automates the following tasks:
 
 ### Resources
 
-| Name | Type |
-|------|------|
-| [ibm_pi_image.powervs_hana_os_image](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.0/docs/data-sources/pi_image) | data source |
-| [ibm_pi_image.powervs_netweaver_os_image](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.0/docs/data-sources/pi_image) | data source |
+No resources.
 
 ### Inputs
 
