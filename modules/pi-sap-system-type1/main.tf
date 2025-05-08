@@ -23,22 +23,6 @@ locals {
   server_type             = contains(local.p10_unsupported_regions, var.pi_region) ? "s922" : "s1022"
 }
 
-#####################################################
-# Networks getting attached in random order hotfix
-#####################################################
-
-locals {
-  cloud_init   = <<EOT
-#cloud-config
-
-runcmd:
-  - echo net.ipv4.conf.all.rp_filter=2 >> /etc/sysctl.conf
-  - sysctl -w net.ipv4.conf.all.rp_filter=2
-EOT
-  pi_user_data = var.os_image_distro == "RHEL" ? local.cloud_init : null
-}
-
-
 ##########################################################################################################
 # Deploy SAP HANA Instance
 ##########################################################################################################
@@ -68,7 +52,6 @@ module "pi_hana_instance" {
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
-  pi_user_data               = local.pi_user_data
   ansible_vault_password     = var.ansible_vault_password
 }
 
@@ -119,7 +102,6 @@ module "pi_netweaver_primary_instance" {
   pi_storage_config          = local.pi_netweaver_primary_instance_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
-  pi_user_data               = local.pi_user_data
   ansible_vault_password     = var.ansible_vault_password
 }
 
@@ -168,7 +150,6 @@ module "pi_netweaver_secondary_instances" {
   pi_storage_config          = var.pi_netweaver_instance.storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
-  pi_user_data               = local.pi_user_data
   ansible_vault_password     = var.ansible_vault_password
 }
 
@@ -265,7 +246,6 @@ module "configure_scc_wp_agent" {
   src_playbook_template_name = "configure-scc-wp-agent/playbook-configure-scc-wp-agent.yml.tftpl"
   dst_playbook_file_name     = "${var.prefix}-playbook-configure-scc-wp-agent.yml"
   playbook_template_vars = {
-    SCC_WP_GUID : var.scc_wp_instance.guid,
     COLLECTOR_ENDPOINT : var.scc_wp_instance.ingestion_endpoint,
     API_ENDPOINT : var.scc_wp_instance.api_endpoint,
     ACCESS_KEY : var.scc_wp_instance.access_key
