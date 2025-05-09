@@ -84,12 +84,12 @@ locals {
     img.image_type if img.name == local.selected_netweaver_image
   ])
 
-  hana_image_id = local.use_custom_images ? lookup(local.powervs_custom_images, local.selected_hana_image, null) : one([
+  hana_image_id = local.use_custom_images ? lookup(local.powervs_custom_images, local.selected_hana_image, null).image_id : one([
     for img in data.ibm_pi_catalog_images.catalog_images_ds[0].images :
     img.image_id if img.name == local.selected_hana_image
   ])
 
-  netweaver_image_id = local.use_custom_images ? lookup(local.powervs_custom_images, local.selected_netweaver_image, null) : one([
+  netweaver_image_id = local.use_custom_images ? lookup(local.powervs_custom_images, local.selected_netweaver_image, null).image_id : one([
     for img in data.ibm_pi_catalog_images.catalog_images_ds[0].images :
     img.image_id if img.name == local.selected_netweaver_image
   ])
