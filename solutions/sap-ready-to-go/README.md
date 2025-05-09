@@ -36,7 +36,7 @@ The 'sap-ready-to-go' solution automates the following tasks:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.77.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.78.0 |
 
 ### Modules
 
@@ -46,10 +46,7 @@ The 'sap-ready-to-go' solution automates the following tasks:
 
 ### Resources
 
-| Name | Type |
-|------|------|
-| [ibm_pi_image.powervs_hana_os_image](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.0/docs/data-sources/pi_image) | data source |
-| [ibm_pi_image.powervs_netweaver_os_image](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.0/docs/data-sources/pi_image) | data source |
+No resources.
 
 ### Inputs
 
@@ -57,7 +54,6 @@ The 'sap-ready-to-go' solution automates the following tasks:
 |------|-------------|------|---------|:--------:|
 | <a name="input_ansible_vault_password"></a> [ansible\_vault\_password](#input\_ansible\_vault\_password) | Vault password to encrypt OS registration parameters. Required only if you bring your own linux license. Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]\_{\|}~. | `string` | `null` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM enabled resources. | `string` | n/a | yes |
-| <a name="input_os_image_distro"></a> [os\_image\_distro](#input\_os\_image\_distro) | Image distribution that's used for all instances(HANA, NetWeaver). Only required for hotfix of networks getting attached in random order. Will be removed in future releases. Possible values: RHEL or SLES. | `string` | n/a | yes |
 | <a name="input_powervs_hana_instance"></a> [powervs\_hana\_instance](#input\_powervs\_hana\_instance) | PowerVS SAP HANA instance hostname (non FQDN) will get the form of <var.prefix>-<var.powervs\_hana\_instance\_name>. PowerVS SAP HANA instance profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'powervs\_hana\_instance\_custom\_storage\_config' parameter. Additional File systems to be created and attached to PowerVS instance for SAP HANA. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. | <pre>object({<br/>    name           = string<br/>    sap_profile_id = string<br/>    additional_storage_config = list(object({<br/>      name  = string<br/>      size  = string<br/>      count = string<br/>      tier  = string<br/>      mount = string<br/>      pool  = optional(string)<br/>    }))<br/>  })</pre> | <pre>{<br/>  "additional_storage_config": [<br/>    {<br/>      "count": "1",<br/>      "mount": "/usr/sap",<br/>      "name": "usrsap",<br/>      "size": "50",<br/>      "tier": "tier3"<br/>    }<br/>  ],<br/>  "name": "hana",<br/>  "sap_profile_id": "ush1-4x256"<br/>}</pre> | no |
 | <a name="input_powervs_hana_instance_custom_storage_config"></a> [powervs\_hana\_instance\_custom\_storage\_config](#input\_powervs\_hana\_instance\_custom\_storage\_config) | Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. | <pre>list(object({<br/>    name  = string<br/>    size  = string<br/>    count = string<br/>    tier  = string<br/>    mount = string<br/>    pool  = optional(string)<br/>  }))</pre> | <pre>[<br/>  {<br/>    "count": "",<br/>    "mount": "",<br/>    "name": "",<br/>    "size": "",<br/>    "tier": ""<br/>  }<br/>]</pre> | no |
 | <a name="input_powervs_hana_instance_image_id"></a> [powervs\_hana\_instance\_image\_id](#input\_powervs\_hana\_instance\_image\_id) | Image ID to be used for PowerVS HANA instance. Run 'ibmcloud pi images' to list available images. | `string` | n/a | yes |
@@ -72,7 +68,7 @@ The 'sap-ready-to-go' solution automates the following tasks:
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6. | `string` | n/a | yes |
 | <a name="input_sap_domain"></a> [sap\_domain](#input\_sap\_domain) | SAP network domain name. | `string` | `"sap.com"` | no |
 | <a name="input_sap_network_services_config"></a> [sap\_network\_services\_config](#input\_sap\_network\_services\_config) | Configures network services NTP, NFS and DNS on PowerVS instance. Requires 'pi\_instance\_init\_linux' to be specified. | <pre>object(<br/>    {<br/>      squid = object({ enable = bool, squid_server_ip_port = string, no_proxy_hosts = string })<br/>      nfs   = object({ enable = bool, nfs_server_path = string, nfs_client_path = string, opts = string, fstype = string })<br/>      dns   = object({ enable = bool, dns_server_ip = string })<br/>      ntp   = object({ enable = bool, ntp_server_ip = string })<br/>    }<br/>  )</pre> | <pre>{<br/>  "dns": {<br/>    "dns_server_ip": "",<br/>    "enable": false<br/>  },<br/>  "nfs": {<br/>    "enable": false,<br/>    "fstype": "",<br/>    "nfs_client_path": "",<br/>    "nfs_server_path": "",<br/>    "opts": ""<br/>  },<br/>  "ntp": {<br/>    "enable": false,<br/>    "ntp_server_ip": ""<br/>  },<br/>  "squid": {<br/>    "enable": false,<br/>    "no_proxy_hosts": "",<br/>    "squid_server_ip_port": ""<br/>  }<br/>}</pre> | no |
-| <a name="input_scc_wp_instance"></a> [scc\_wp\_instance](#input\_scc\_wp\_instance) | SCC Workload Protection instance to connect to. Leave empty to not use it. | <pre>object({<br/>    guid               = string,<br/>    access_key         = string,<br/>    api_endpoint       = string,<br/>    ingestion_endpoint = string<br/>  })</pre> | <pre>{<br/>  "access_key": "",<br/>  "api_endpoint": "",<br/>  "guid": "",<br/>  "ingestion_endpoint": ""<br/>}</pre> | no |
+| <a name="input_scc_wp_instance"></a> [scc\_wp\_instance](#input\_scc\_wp\_instance) | SCC Workload Protection instance to connect to. Set enable to false to not use it. | <pre>object({<br/>    enable             = bool<br/>    guid               = string,<br/>    access_key         = string,<br/>    api_endpoint       = string,<br/>    ingestion_endpoint = string<br/>  })</pre> | <pre>{<br/>  "access_key": "",<br/>  "api_endpoint": "",<br/>  "enable": false,<br/>  "guid": "",<br/>  "ingestion_endpoint": ""<br/>}</pre> | no |
 
 ### Outputs
 

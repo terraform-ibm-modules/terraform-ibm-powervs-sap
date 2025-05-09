@@ -23,22 +23,6 @@ locals {
   server_type             = contains(local.p10_unsupported_regions, var.pi_region) ? "s922" : "s1022"
 }
 
-#####################################################
-# Networks getting attached in random order hotfix
-#####################################################
-
-locals {
-  cloud_init   = <<EOT
-#cloud-config
-
-runcmd:
-  - echo net.ipv4.conf.all.rp_filter=2 >> /etc/sysctl.conf
-  - sysctl -w net.ipv4.conf.all.rp_filter=2
-EOT
-  pi_user_data = var.os_image_distro == "RHEL" ? local.cloud_init : null
-}
-
-
 ##########################################################################################################
 # Deploy SAP HANA Instance
 ##########################################################################################################
@@ -68,7 +52,6 @@ module "pi_hana_instance" {
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
-  pi_user_data               = local.pi_user_data
   ansible_vault_password     = var.ansible_vault_password
 }
 
@@ -119,7 +102,6 @@ module "pi_netweaver_primary_instance" {
   pi_storage_config          = local.pi_netweaver_primary_instance_storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
-  pi_user_data               = local.pi_user_data
   ansible_vault_password     = var.ansible_vault_password
 }
 
@@ -168,7 +150,6 @@ module "pi_netweaver_secondary_instances" {
   pi_storage_config          = var.pi_netweaver_instance.storage_config
   pi_instance_init_linux     = var.pi_instance_init_linux
   pi_network_services_config = var.sap_network_services_config
-  pi_user_data               = local.pi_user_data
   ansible_vault_password     = var.ansible_vault_password
 }
 
@@ -247,21 +228,11 @@ module "ansible_sap_instance_init" {
 #######################################################################
 # Ansible Install Sysdig agent and connect to SCC Workload Protection
 #######################################################################
-
-locals {
-  enable_scc_wp = var.scc_wp_instance.guid != "" && var.scc_wp_instance.ingestion_endpoint != "" && var.scc_wp_instance.api_endpoint != "" && var.scc_wp_instance.access_key != ""
-  scc_wp_playbook_template_vars = {
-    SCC_WP_GUID : var.scc_wp_instance.guid,
-    COLLECTOR_ENDPOINT : var.scc_wp_instance.ingestion_endpoint,
-    API_ENDPOINT : var.scc_wp_instance.api_endpoint,
-    ACCESS_KEY : var.scc_wp_instance.access_key
-  }
-}
 module "configure_scc_wp_agent" {
 
   source     = "../ansible"
   depends_on = [module.ansible_sap_instance_init]
-  count      = local.enable_scc_wp ? 1 : 0
+  count      = var.scc_wp_instance.enable ? 1 : 0
 
   bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
   ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
@@ -272,9 +243,13 @@ module "configure_scc_wp_agent" {
   src_script_template_name = "configure-scc-wp-agent/ansible_configure_scc_wp_agent.sh.tftpl"
   dst_script_file_name     = "${var.prefix}-configure_scc_wp_agent.sh"
 
-  src_playbook_template_name  = "configure-scc-wp-agent/playbook-configure-scc-wp-agent.yml.tftpl"
-  dst_playbook_file_name      = "${var.prefix}-playbook-configure-scc-wp-agent.yml"
-  playbook_template_vars      = local.scc_wp_playbook_template_vars
+  src_playbook_template_name = "configure-scc-wp-agent/playbook-configure-scc-wp-agent.yml.tftpl"
+  dst_playbook_file_name     = "${var.prefix}-playbook-configure-scc-wp-agent.yml"
+  playbook_template_vars = {
+    COLLECTOR_ENDPOINT : var.scc_wp_instance.ingestion_endpoint,
+    API_ENDPOINT : var.scc_wp_instance.api_endpoint,
+    ACCESS_KEY : var.scc_wp_instance.access_key
+  }
   src_inventory_template_name = "pi-instance-inventory.tftpl"
   dst_inventory_file_name     = "${var.prefix}-scc-wp-inventory"
   inventory_template_vars     = { "pi_instance_management_ip" : join("\n", [module.pi_hana_instance.pi_instance_primary_ip], var.pi_netweaver_instance.instance_count > 0 ? module.pi_netweaver_primary_instance[*].pi_instance_primary_ip : [], var.pi_netweaver_instance.instance_count > 1 ? module.pi_netweaver_secondary_instances[*].pi_instance_primary_ip : []) }

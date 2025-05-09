@@ -55,8 +55,7 @@
                         {
                             "flavors": [
                                 "standard",
-                                "standard-extend",
-                                "import"
+                                "standard-extend"
                             ],
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
@@ -227,7 +226,6 @@
                         {
                             "key": "nfs_directory",
                             "hidden": true
-
                         },
                         {
                             "key": "powervs_sap_network_cidr"
@@ -332,12 +330,6 @@
                         },
                         {
                             "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "directlink.connect"
-                        },
-                        {
-                            "role_crns": [
                                 "crn:v1:bluemix:public:iam::::serviceRole:Manager"
                             ],
                             "service_name": "power-iaas"
@@ -384,8 +376,7 @@
                         {
                             "flavors": [
                                 "standard",
-                                "standard-extend",
-                                "import"
+                                "standard-extend"
                             ],
                             "id": "2dd486c7-b317-4aaa-907b-42671485ad96-global",
                             "name": "deploy-arch-ibm-pvs-inf",
@@ -730,12 +721,6 @@
                                 "crn:v1:bluemix:public:iam::::role:Editor"
                             ],
                             "service_name": "transit.gateway"
-                        },
-                        {
-                            "role_crns": [
-                                "crn:v1:bluemix:public:iam::::role:Editor"
-                            ],
-                            "service_name": "directlink.connect"
                         },
                         {
                             "role_crns": [

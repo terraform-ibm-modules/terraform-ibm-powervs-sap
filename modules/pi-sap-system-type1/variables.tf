@@ -193,14 +193,16 @@ variable "sap_domain" {
 }
 
 variable "scc_wp_instance" {
-  description = "SCC Workload Protection instance to connect to. Leave empty to not use it."
+  description = "SCC Workload Protection instance to connect to. Set enable to false to not use it."
   type = object({
+    enable             = bool
     guid               = string,
     access_key         = string,
     api_endpoint       = string,
     ingestion_endpoint = string
   })
   default = {
+    enable             = false
     guid               = "",
     access_key         = "",
     api_endpoint       = "",
@@ -211,10 +213,4 @@ variable "scc_wp_instance" {
     condition     = var.scc_wp_instance.guid == "" || (var.ansible_vault_password != "" && var.ansible_vault_password != null)
     error_message = "Ansible vault password must not be empty or null when SCC workload instance is enabled. Value must be set for ansible_vault_password variable."
   }
-}
-
-variable "os_image_distro" {
-  description = "Image distribution that's used for all instances(HANA, NetWeaver). Only required for hotfix of networks getting attached in random order. Will be removed in future releases."
-  type        = string
-  default     = ""
 }

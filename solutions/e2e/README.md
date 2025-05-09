@@ -5,9 +5,6 @@ The end-to-end solution automates the following tasks:
 - A **VPC Infrastructure** with the following components:
     - One VSI for one management (jump/bastion) VSI,
     - One VSI for network-services configured as squid proxy, NTP and DNS servers(using Ansible Galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/). This VSI also acts as central ansible execution node.
-    - [Client to site VPN server](https://cloud.ibm.com/docs/vpc?topic=vpc-vpn-client-to-site-overview)
-    - [File storage share](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=ui)
-    - [Application load balancer](https://cloud.ibm.com/docs/vpc?topic=vpc-load-balancers&interface=ui)
     - IBM Cloud Object storage(COS) Virtual Private endpoint gateway(VPE)
     - IBM Cloud Object storage(COS) Instance and buckets
     - VPC flow logs
@@ -20,7 +17,6 @@ The end-to-end solution automates the following tasks:
     - Creates two private networks: a management network and a backup network.
     - Attaches the PowerVS workspace to transit gateway.
     - Creates an SSH key.
-    - Imports catalog stock images.
 
 - Finally, interconnects both VPC and PowerVS infrastructure.
 
@@ -28,10 +24,8 @@ The end-to-end solution automates the following tasks:
     - Creates a new private subnet for SAP communication for the entire landscape.
     - Creates and configures one PowerVS instance for SAP HANA based on best practices.
     - Creates and configures multiple PowerVS instances for SAP NetWeaver based on best practices.
-    - Creates and configures one optional PowerVS instance for sharing SAP files between other system instances.
     - Connects all created PowerVS instances to a proxy server specified by IP address or hostname.
     - Optionally connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
-    - Optionally configures a shared NFS directory on all created PowerVS instances.
     - Post-instance provisioning, Ansible Galaxy collection roles from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed: `power_linux_sap`.
     - Tested with RHEL8.4,/8.6/8.8/9.2/9.4, SLES15-SP3/SP5/SP6 images.
 
@@ -50,21 +44,22 @@ The end-to-end solution automates the following tasks:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.77.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.78.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | 0.13.0 |
 
 ### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_powervs_infra"></a> [powervs\_infra](#module\_powervs\_infra) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.3.0 |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../modules/pi-sap-system-type1 | n/a |
+| <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.4.0 |
 
 ### Resources
 
 | Name | Type |
 |------|------|
 | [time_sleep.wait_15_mins](https://registry.terraform.io/providers/hashicorp/time/0.13.0/docs/resources/sleep) | resource |
+| [ibm_pi_catalog_images.catalog_images_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.0/docs/data-sources/pi_catalog_images) | data source |
 
 ### Inputs
 

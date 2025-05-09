@@ -46,6 +46,11 @@ func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.
 		Prefix:        prefix,
 		ResourceGroup: resourceGroup,
 		Region:        powervs_zone,
+		ImplicitDestroy: []string{
+			"module.standard.module.powervs_workspace.ibm_resource_instance.pi_workspace",
+			"module.standard.module.powervs_workspace.ibm_pi_network.private_subnet_1[0]",
+			"module.standard.module.powervs_workspace.ibm_pi_network.private_subnet_2[0]",
+		},
 	})
 
 	options.TerraformVars = map[string]interface{}{
@@ -53,7 +58,8 @@ func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.
 		"prefix":                      options.Prefix,
 		"powervs_resource_group_name": options.ResourceGroup,
 		"external_access_ip":          "0.0.0.0/0",
-		"os_image_distro":             "RHEL",
+		"os_image_distro":             "SLES",
+		"configure_nfs_server":        false,
 	}
 
 	return options
@@ -64,7 +70,7 @@ func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.
 func TestRunBranchExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "b", "tok04")
+	options := setupOptions(t, "b", "sao04")
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -73,7 +79,7 @@ func TestRunBranchExample(t *testing.T) {
 
 func TestRunMainExample(t *testing.T) {
 	t.Parallel()
-	options := setupOptions(t, "m", "mad02")
+	options := setupOptions(t, "m", "mad04")
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {

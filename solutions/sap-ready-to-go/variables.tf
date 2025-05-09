@@ -199,27 +199,19 @@ variable "sap_domain" {
 }
 
 variable "scc_wp_instance" {
-  description = "SCC Workload Protection instance to connect to. Leave empty to not use it."
+  description = "SCC Workload Protection instance to connect to. Set enable to false to not use it."
   type = object({
+    enable             = bool
     guid               = string,
     access_key         = string,
     api_endpoint       = string,
     ingestion_endpoint = string
   })
   default = {
+    enable             = false
     guid               = "",
     access_key         = "",
     api_endpoint       = "",
     ingestion_endpoint = ""
-  }
-}
-
-variable "os_image_distro" {
-  description = "Image distribution that's used for all instances(HANA, NetWeaver). Only required for hotfix of networks getting attached in random order. Will be removed in future releases. Possible values: RHEL or SLES."
-  type        = string
-
-  validation {
-    condition     = (upper(var.os_image_distro) == "RHEL" || upper(var.os_image_distro) == "SLES")
-    error_message = "Supported values are 'RHEL' or 'SLES' only."
   }
 }
