@@ -50,7 +50,10 @@
                     "name": "sap-ready-to-go",
                     "install_type": "extension",
                     "working_directory": "solutions/ibm-catalog/sap-ready-to-go",
-                    "compliance": {},
+                    "compliance": {
+                        "authority": "",
+                        "profiles": []
+                    },
                     "dependencies": [
                         {
                             "flavors": [
@@ -371,7 +374,10 @@
                     "name": "sap-s4hana-bw4hana",
                     "install_type": "extension",
                     "working_directory": "solutions/ibm-catalog/sap-s4hana-bw4hana",
-                    "compliance": {},
+                    "compliance": {
+                        "authority": "",
+                        "profiles": []
+                    },
                     "dependencies": [
                         {
                             "flavors": [
