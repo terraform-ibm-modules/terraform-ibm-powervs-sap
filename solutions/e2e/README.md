@@ -44,8 +44,8 @@ The end-to-end solution automates the following tasks:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.78.0 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | 0.13.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.78.1 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | 0.13.1 |
 
 ### Modules
 
@@ -58,8 +58,8 @@ The end-to-end solution automates the following tasks:
 
 | Name | Type |
 |------|------|
-| [time_sleep.wait_15_mins](https://registry.terraform.io/providers/hashicorp/time/0.13.0/docs/resources/sleep) | resource |
-| [ibm_pi_catalog_images.catalog_images_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.0/docs/data-sources/pi_catalog_images) | data source |
+| [time_sleep.wait_15_mins](https://registry.terraform.io/providers/hashicorp/time/0.13.1/docs/resources/sleep) | resource |
+| [ibm_pi_catalog_images.catalog_images_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.1/docs/data-sources/pi_catalog_images) | data source |
 
 ### Inputs
 
