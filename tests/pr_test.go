@@ -75,7 +75,7 @@ func TestRunBranchExample(t *testing.T) {
 
 func TestRunMainExample(t *testing.T) {
 	t.Parallel()
-	options := setupOptions(t, "m", "wdc06")
+	options := setupOptions(t, "m", "wdc07")
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
