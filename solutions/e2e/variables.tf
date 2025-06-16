@@ -85,7 +85,7 @@ variable "vpc_intel_images" {
     sles_image = string
   })
   default = {
-    "rhel_image" : "ibm-redhat-9-4-amd64-sap-applications-3"
+    "rhel_image" : "ibm-redhat-9-4-amd64-sap-applications-5"
     "sles_image" : "ibm-sles-15-5-amd64-sap-applications-4"
   }
 }
@@ -132,7 +132,7 @@ variable "powervs_hana_instance" {
   })
   default = {
     name           = "hana"
-    sap_profile_id = "ush1-4x256"
+    sap_profile_id = "sh2-4x256"
     additional_storage_config = [{
       "name" : "usrsap",
       "size" : "50",
