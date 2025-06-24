@@ -53,7 +53,7 @@ The end-to-end solution automates the following tasks:
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../modules/pi-sap-system-type1 | n/a |
-| <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.5.4 |
+| <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.5.5 |
 
 ### Resources
 
