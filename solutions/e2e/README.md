@@ -45,7 +45,7 @@ The end-to-end solution automates the following tasks:
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.79.2 |
-| <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | 1.20.0 |
+| <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | 2.0.1 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | 0.13.1 |
 
 ### Modules
@@ -53,7 +53,7 @@ The end-to-end solution automates the following tasks:
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../modules/pi-sap-system-type1 | n/a |
-| <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.5.4 |
+| <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 8.5.5 |
 
 ### Resources
 
