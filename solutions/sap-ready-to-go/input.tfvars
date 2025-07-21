@@ -26,6 +26,7 @@ sap_network_services_config = {
 }
 
 scc_wp_instance = {
+  enable             = false
   guid               = "",
   access_key         = "",
   api_endpoint       = "",
