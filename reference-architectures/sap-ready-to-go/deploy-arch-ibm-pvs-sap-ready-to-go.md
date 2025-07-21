@@ -2,7 +2,7 @@
 
 copyright:
   years: 2024, 2025
-lastupdated: "2025-05-07"
+lastupdated: "2025-07-21"
 keywords:
 subcollection: deployable-reference-architectures
 authors:
@@ -17,7 +17,7 @@ use-case: ITServiceManagement
 industry: Technology
 compliance: SAPCertified
 content-type: reference-architecture
-version: v4.2.0
+version: v4.2.1
 related_links:
   - title: 'SAP in IBM Cloud documentation'
     url: 'https://cloud.ibm.com/docs/sap'
