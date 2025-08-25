@@ -245,7 +245,7 @@
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
-                "type": "json_editor"
+                "type": "code_editor"
               }
             },
             {
