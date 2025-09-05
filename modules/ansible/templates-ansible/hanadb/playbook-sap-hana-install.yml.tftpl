@@ -17,10 +17,11 @@
     sap_hana_install_sid: "${sap_hana_install_sid}"
     sap_hana_install_number: "${sap_hana_install_number}"
     sap_hana_install_master_password: "${sap_hana_install_master_password}"
+    sap_hana_install_components: "server"
 
   tasks:
     - name: Install en_US locale
-      ansible.builtin.command: "yum install -y glibc-langpack-en"
+      ansible.builtin.command: "yum install -y glibc-langpack-en compat-sap-c++-13"
 
     - name: Include SAP HANA install role
       include_role:
