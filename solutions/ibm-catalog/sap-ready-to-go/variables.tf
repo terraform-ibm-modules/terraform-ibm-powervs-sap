@@ -9,12 +9,17 @@ variable "powervs_zone" {
   type        = string
 }
 
+variable "powervs_resource_group_name" {
+  description = "Existing IBM Cloud resource group name."
+  type        = string
+}
+
 variable "prefix" {
-  description = "Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6."
+  description = "Unique prefix for resources to be created. Max length must be less than or equal to 8."
   type        = string
   validation {
-    condition     = length(var.prefix) <= 6 && can(regex("^[A-Za-z0-9]+$", var.prefix))
-    error_message = "Prefix must be an alphanumeric string with maximum length of 6 characters."
+    condition     = length(var.prefix) <= 8 && can(regex("^[A-Za-z0-9]+$", var.prefix))
+    error_message = "Prefix must be an alphanumeric string with maximum length of 8 characters."
   }
 }
 
@@ -39,21 +44,10 @@ variable "external_access_ip" {
   type        = string
 }
 
-variable "ssh_public_key" {
-  description = "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region."
-  type        = string
-}
-
 
 #####################################################
 # PowerVS HANA Instance parameters
 #####################################################
-
-variable "powervs_hana_instance_name" {
-  description = "PowerVS SAP HANA instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_hana_instance_name>. Max length of final hostname must be <= 13 characters."
-  type        = string
-  default     = "hana"
-}
 
 variable "powervs_hana_instance_sap_profile_id" {
   description = "PowerVS SAP HANA instance profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional parameter 'powervs_hana_instance_custom_storage_config'."
@@ -109,12 +103,6 @@ variable "powervs_netweaver_instance_count" {
   default     = 1
 }
 
-variable "powervs_netweaver_instance_name" {
-  description = "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters."
-  type        = string
-  default     = "nw"
-}
-
 variable "powervs_netweaver_cpu_number" {
   description = "Number of CPUs for each PowerVS SAP NetWeaver instance."
   type        = string
@@ -152,6 +140,11 @@ variable "powervs_netweaver_instance_storage_config" {
 # OS parameters
 #####################################################
 
+variable "ssh_public_key" {
+  description = "Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region."
+  type        = string
+}
+
 variable "ssh_private_key" {
   description = "Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh_public_key' which was created previously. The key is temporarily stored and deleted. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)."
   type        = string
@@ -164,15 +157,35 @@ variable "sap_domain" {
   default     = "sap.com"
 }
 
-variable "nfs_directory" {
-  description = "Target directory on which the file storage share from VPC will be mounted."
-  type        = string
-  default     = "/nfs"
+variable "nfs_server_config" {
+  description = "Configuration for the NFS server. 'size' is in GB, 'iops' is maximum input/output operation performance bandwidth per second, 'mount_path' defines the target mount point on os. Set 'configure_nfs_server' to false to ignore creating file storage share."
+  type = object({
+    size       = number
+    iops       = number
+    mount_path = string
+  })
+
+  default = {
+    "size" : 200,
+    "iops" : 600,
+    "mount_path" : "/nfs"
+  }
 }
 
 #####################################################
 # Parameters for Image
 #####################################################
+variable "vpc_intel_images" {
+  description = "Stock OS image names for creating VPC landing zone VSI instances: RHEL (management and network services) and SLES (monitoring)."
+  type = object({
+    rhel_image = string
+    sles_image = string
+  })
+  default = {
+    "rhel_image" : "ibm-redhat-9-4-amd64-sap-applications-5"
+    "sles_image" : "ibm-sles-15-5-amd64-sap-applications-4"
+  }
+}
 
 variable "powervs_default_sap_images" {
   description = "Default SUSE and Red Hat Linux Full Linux subscription images to use for PowerVS SAP HANA and SAP NetWeaver instances. If you're using a byol or a custom RHEL/SLES image, additionally specify the optional values for 'powervs_os_registration_username', 'powervs_os_registration_password' and 'ansible_vault_password'"
@@ -201,38 +214,6 @@ variable "powervs_os_registration_password" {
   type        = string
   sensitive   = true
   default     = ""
-}
-
-variable "dns_forwarder_config" {
-  description = "Configuration for the DNS forwarder to a DNS service that is not reachable directly from PowerVS."
-  type = object({
-    dns_servers = string
-  })
-  default = {
-    "dns_servers" : "161.26.0.7; 161.26.0.8; 9.9.9.9;"
-  }
-}
-
-variable "nfs_server_config" {
-  description = "Configuration for the NFS server. 'size' is in GB, 'iops' is maximum input/output operation performance bandwidth per second, 'mount_path' defines the target mount point on os. Set 'configure_nfs_server' to false to ignore creating file storage share."
-  type = object({
-    size       = number
-    iops       = number
-    mount_path = string
-  })
-
-  default = {
-    "size" : 200,
-    "iops" : 600,
-    "mount_path" : "/nfs"
-  }
-}
-
-
-variable "tags" {
-  description = "List of tag names for the IBM Cloud PowerVS workspace"
-  type        = list(string)
-  default     = []
 }
 
 variable "powervs_custom_images" {
@@ -279,7 +260,6 @@ variable "powervs_custom_images" {
   }
 }
 
-
 variable "powervs_custom_image_cos_configuration" {
   description = "Cloud Object Storage bucket containing custom PowerVS images. bucket_name: string, name of the COS bucket. bucket_access: string, possible values: public, private (private requires powervs_custom_image_cos_service_credentials). bucket_region: string, COS bucket region"
   type = object({
@@ -301,6 +281,11 @@ variable "powervs_custom_image_cos_service_credentials" {
   default     = null
 }
 
+
+#####################################################
+# Optional Parameters VPN and Secrets Manager
+#####################################################
+
 variable "client_to_site_vpn" {
   description = "VPN configuration - the client ip pool and list of users email ids to access the environment. If enabled, then a Secret Manager instance is also provisioned with certificates generated. See optional parameters to reuse an existing Secrets manager instance."
   type = object({
@@ -310,7 +295,7 @@ variable "client_to_site_vpn" {
   })
 
   default = {
-    "enable" : false,
+    "enable" : true,
     "client_ip_pool" : "192.168.0.0/16",
     "vpn_client_access_group_users" : []
   }
@@ -336,13 +321,12 @@ variable "existing_sm_instance_region" {
 }
 
 #####################################################
-# Optional Parameters Monitoring
+# Parameters Monitoring
 #####################################################
 
 variable "enable_monitoring" {
   description = "Specify whether Monitoring will be enabled. This includes the creation of an IBM Cloud Monitoring Instance and an Intel Monitoring Instance to host the services. If you already have an existing monitoring instance then specify in optional parameter 'existing_monitoring_instance_crn'."
   type        = bool
-  default     = false
 }
 
 variable "existing_monitoring_instance_crn" {
@@ -352,41 +336,30 @@ variable "existing_monitoring_instance_crn" {
 }
 
 #################################################
-# Optional Parameters SCC Workload Protection
+# Parameters SCC Workload Protection
 #################################################
 
 variable "enable_scc_wp" {
   description = "Set to true to enable SCC Workload Protection and install and configure the SCC Workload Protection agent on all VSIs and PowerVS instances in this deployment."
   type        = bool
-  default     = false
 }
 
 variable "ansible_vault_password" {
   description = "Vault password to encrypt ansible playbooks that contain sensitive information. Required when SCC workload Protection is enabled. Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]_{|}~."
   type        = string
   sensitive   = true
+  default     = "null"
+}
+
+variable "tags" {
+  description = "List of tag names for the IBM Cloud PowerVS workspace"
+  type        = list(string)
+  default     = []
 }
 
 #####################################################
-# Optional Parameter VPC VSIs
+# TODO remove below block later
 #####################################################
-
-variable "vpc_intel_images" {
-  description = "Stock OS image names for creating VPC landing zone VSI instances: RHEL (management and network services) and SLES (monitoring)."
-  type = object({
-    rhel_image = string
-    sles_image = string
-  })
-  default = {
-    "rhel_image" : "ibm-redhat-9-4-amd64-sap-applications-5"
-    "sles_image" : "ibm-sles-15-5-amd64-sap-applications-4"
-  }
-}
-
-variable "powervs_resource_group_name" {
-  description = "Existing IBM Cloud resource group name."
-  type        = string
-}
 
 variable "powervs_management_network" {
   description = "Name of the IBM Cloud PowerVS management subnet and CIDR to create."
