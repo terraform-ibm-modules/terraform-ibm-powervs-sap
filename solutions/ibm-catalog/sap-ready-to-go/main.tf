@@ -1,35 +1,67 @@
-#####################################################
+#######################################################
+# Power Virtual Server with VPC landing zone module
+# VPC landing zone
+# PowerVS Workspace
+#######################################################
+
+module "standard" {
+  source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
+  version = "9.0.1"
+
+  providers = {
+    ibm.ibm-is = ibm.ibm-is
+    ibm.ibm-pi = ibm.ibm-pi
+    ibm.ibm-sm = ibm.ibm-sm
+  }
+
+  powervs_zone                                 = var.powervs_zone
+  powervs_resource_group_name                  = var.powervs_resource_group_name
+  prefix                                       = var.prefix
+  external_access_ip                           = var.external_access_ip
+  vpc_intel_images                             = var.vpc_intel_images
+  ssh_public_key                               = var.ssh_public_key
+  ssh_private_key                              = var.ssh_private_key
+  powervs_management_network                   = var.powervs_management_network
+  powervs_backup_network                       = var.powervs_backup_network
+  configure_dns_forwarder                      = true
+  configure_ntp_forwarder                      = true
+  configure_nfs_server                         = true
+  nfs_server_config                            = var.nfs_server_config
+  dns_forwarder_config                         = var.dns_forwarder_config
+  tags                                         = var.tags
+  powervs_custom_images                        = var.powervs_custom_images
+  powervs_custom_image_cos_configuration       = var.powervs_custom_image_cos_configuration
+  powervs_custom_image_cos_service_credentials = var.powervs_custom_image_cos_service_credentials
+  client_to_site_vpn                           = var.client_to_site_vpn
+  sm_service_plan                              = var.sm_service_plan
+  existing_sm_instance_guid                    = var.existing_sm_instance_guid
+  existing_sm_instance_region                  = var.existing_sm_instance_region
+  enable_monitoring                            = var.enable_monitoring
+  existing_monitoring_instance_crn             = var.existing_monitoring_instance_crn
+  enable_scc_wp                                = var.enable_scc_wp
+  ansible_vault_password                       = var.ansible_vault_password
+
+}
+
+
+#######################################################
+# Power Virtual Server SAP ready-to-go
 # Deploy SAP system
 # 1 HANA instance
 # 0:N NetWeaver Instance
-#####################################################
-locals {
-  powervs_hana_instance = {
-    name                      = var.powervs_hana_instance_name
-    image_id                  = local.hana_image_id
-    sap_profile_id            = var.powervs_hana_instance_sap_profile_id
-    additional_storage_config = var.powervs_hana_instance_additional_storage_config
-  }
+# SAP instance Init
+#######################################################
 
-  powervs_netweaver_instance = {
-    instance_count = var.powervs_netweaver_instance_count
-    name           = var.powervs_netweaver_instance_name
-    image_id       = local.netweaver_image_id
-    processors     = var.powervs_netweaver_cpu_number
-    memory         = var.powervs_netweaver_memory_size
-    proc_type      = "shared"
-    storage_config = var.powervs_netweaver_instance_storage_config
-  }
-}
 
 module "sap_system" {
-  source = "../../../modules/pi-sap-system-type1"
+  source    = "../../../modules/pi-sap-system-type1"
+  providers = { ibm = ibm.ibm-pi }
 
   prefix                                 = var.prefix
   pi_workspace_guid                      = local.powervs_workspace_guid
   pi_region                              = var.powervs_zone
-  pi_ssh_public_key_name                 = local.powervs_sshkey_name
-  pi_networks                            = local.powervs_networks
+  pi_ssh_public_key_name                 = module.standard.powervs_ssh_public_key.name
+  pi_networks                            = [module.standard.powervs_management_subnet, module.standard.powervs_backup_subnet]
   pi_sap_network_cidr                    = var.powervs_sap_network_cidr
   pi_hana_instance                       = local.powervs_hana_instance
   pi_hana_instance_custom_storage_config = var.powervs_hana_instance_custom_storage_config

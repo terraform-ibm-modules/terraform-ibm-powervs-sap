@@ -1,6 +1,6 @@
 output "infrastructure_data" {
   description = "PowerVS infrastructure details."
-  value       = { for k, v in local.powervs_infrastructure[0] : k => v.value }
+  value       = { for k, v in module.standard : k => v }
 }
 
 output "access_host_or_ip" {
