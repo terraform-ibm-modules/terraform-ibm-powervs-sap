@@ -334,7 +334,6 @@
             {
               "key": "powervs_custom_image_cos_service_credentials",
               "type": "multiline_secure_value",
-              "display_name": "ansible_vault_password",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
