@@ -44,7 +44,7 @@ variable "ansible_vault_password" {
 
   type      = string
   sensitive = true
-  default   = null
+  default   = ""
 }
 
 

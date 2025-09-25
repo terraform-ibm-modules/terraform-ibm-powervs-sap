@@ -40,7 +40,6 @@ module "standard" {
   existing_monitoring_instance_crn             = var.existing_monitoring_instance_crn
   enable_scc_wp                                = var.enable_scc_wp
   ansible_vault_password                       = var.ansible_vault_password
-
 }
 
 
@@ -52,7 +51,6 @@ module "standard" {
 # SAP instance Init
 #######################################################
 
-
 module "sap_system" {
   source    = "../../../modules/pi-sap-system-type1"
   providers = { ibm = ibm.ibm-pi }
@@ -61,7 +59,7 @@ module "sap_system" {
   pi_workspace_guid                      = module.standard.powervs_workspace_guid
   pi_region                              = var.powervs_zone
   pi_ssh_public_key_name                 = module.standard.powervs_ssh_public_key.name
-  pi_networks                            = [module.standard.powervs_management_subnet, module.standard.powervs_backup_subnet]
+  pi_networks                            = []
   pi_sap_network_cidr                    = var.powervs_sap_network_cidr
   pi_hana_instance                       = local.powervs_hana_instance
   pi_hana_instance_custom_storage_config = var.powervs_hana_instance_custom_storage_config
