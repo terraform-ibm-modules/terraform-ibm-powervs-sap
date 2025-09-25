@@ -1,21 +1,3 @@
-locals {
-  powervs_custom_images    = module.standard.powervs_images
-  selected_hana_image      = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_hana_image : var.powervs_default_sap_images.rhel_hana_image
-  selected_netweaver_image = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_nw_image : var.powervs_default_sap_images.rhel_nw_image
-
-  fls_image_types = ["stock-sap-fls", "stock-sap-netweaver-fls"]
-
-  use_custom_images = (
-    length(local.powervs_custom_images) > 0 &&
-    alltrue([
-      for name in [local.selected_hana_image, local.selected_netweaver_image] : (
-        contains(keys(local.powervs_custom_images), name) ?
-        local.powervs_custom_images[name].image_vendor == "SAP" : false
-      )
-    ])
-  )
-}
-
 # Stock image data (only if not using custom)
 data "ibm_pi_catalog_images" "catalog_images_ds" {
   count                = local.use_custom_images ? 0 : 1
@@ -30,6 +12,27 @@ data "ibm_pi_image" "custom_images" {
   provider             = ibm.ibm-pi
   pi_image_name        = element([local.selected_hana_image, local.selected_netweaver_image], count.index)
   pi_cloud_instance_id = module.standard.powervs_workspace_guid
+}
+
+locals {
+  powervs_custom_images = module.standard.powervs_images
+}
+
+locals {
+  selected_hana_image      = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_hana_image : var.powervs_default_sap_images.rhel_hana_image
+  selected_netweaver_image = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_nw_image : var.powervs_default_sap_images.rhel_nw_image
+
+  fls_image_types = ["stock-sap-fls", "stock-sap-netweaver-fls"]
+
+  use_custom_images = (
+    length(local.powervs_custom_images) > 0 &&
+    alltrue([
+      for name in [local.selected_hana_image, local.selected_netweaver_image] : (
+        contains(keys(local.powervs_custom_images), name) ?
+        local.powervs_custom_images[name].image_vendor == "SAP" : false
+      )
+    ])
+  )
 }
 
 locals {
@@ -61,17 +64,12 @@ locals {
   byol_and_fls       = local.use_fls && local.has_byol_creds
   missing_byol_creds = !local.use_fls && !local.has_byol_creds
 
-  # Validation messages
-  images_mixed_msg = "You've selected an fls image and a byol image for hana and netweaver. Using byol on one and fls on another is currently not supported."
-
-  # tflint-ignore: terraform_unused_declarations
+  images_mixed_msg      = "You've selected an fls image and a byol image for hana and netweaver. Using byol on one and fls on another is currently not supported."
   validate_images_mixed = regex("^${local.images_mixed_msg}$", (local.images_mixed ? "" : local.images_mixed_msg))
 
-  missing_byol_msg = "Missing byol credentials for activation of linux subscription."
-  # tflint-ignore: terraform_unused_declarations
+  missing_byol_msg       = "Missing byol credentials for activation of linux subscription."
   validate_byol_provided = regex("^${local.missing_byol_msg}$", (local.missing_byol_creds ? "" : local.missing_byol_msg))
 
-  byol_and_fls_msg = "FLS images and user provided linux subscription detected. Can't use both at the same time."
-  # tflint-ignore: terraform_unused_declarations
+  byol_and_fls_msg      = "FLS images and user provided linux subscription detected. Can't use both at the same time."
   validate_byol_and_fls = regex("^${local.byol_and_fls_msg}$", (local.byol_and_fls ? "" : local.byol_and_fls_msg))
 }

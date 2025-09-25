@@ -27,7 +27,7 @@ module "standard" {
   configure_ntp_forwarder                      = true
   configure_nfs_server                         = true
   nfs_server_config                            = var.nfs_server_config
-  dns_forwarder_config                         = { "dns_servers" : "161.26.0.7; 161.26.0.8; 9.9.9.9;" }
+  dns_forwarder_config                         = var.dns_forwarder_config
   tags                                         = var.tags
   powervs_custom_images                        = var.powervs_custom_images
   powervs_custom_image_cos_configuration       = var.powervs_custom_image_cos_configuration
