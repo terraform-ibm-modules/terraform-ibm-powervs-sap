@@ -5,7 +5,7 @@ output "infrastructure_data" {
 
 output "access_host_or_ip" {
   description = "Public IP of Provided Bastion/JumpServer Host."
-  value       = local.access_host_or_ip
+  value       = module.standard.access_host_or_ip
 }
 
 output "powervs_hana_instance_ips" {

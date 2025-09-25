@@ -1,9 +1,8 @@
 # Stock image data (only if not using custom)
 data "ibm_pi_catalog_images" "catalog_images_ds" {
-  count = local.use_custom_images ? 0 : 1
-
+  count                = local.use_custom_images ? 0 : 1
   provider             = ibm.ibm-pi
-  pi_cloud_instance_id = local.powervs_workspace_guid
+  pi_cloud_instance_id = module.standard.powervs_workspace_guid
   sap                  = true
 }
 
@@ -12,7 +11,11 @@ data "ibm_pi_image" "custom_images" {
   count                = local.use_custom_images ? 2 : 0
   provider             = ibm.ibm-pi
   pi_image_name        = element([local.selected_hana_image, local.selected_netweaver_image], count.index)
-  pi_cloud_instance_id = local.powervs_workspace_guid
+  pi_cloud_instance_id = module.standard.powervs_workspace_guid
+}
+
+locals {
+  powervs_custom_images = module.standard.powervs_images
 }
 
 locals {
@@ -61,12 +64,12 @@ locals {
   byol_and_fls       = local.use_fls && local.has_byol_creds
   missing_byol_creds = !local.use_fls && !local.has_byol_creds
 
-  #images_mixed_msg = "You've selected an fls image and a byol image for hana and netweaver. Using byol on one and fls on another is currently not supported."
-  #validate_images_mixed = regex("^${local.images_mixed_msg}$", (local.images_mixed ? "" : local.images_mixed_msg))
+  images_mixed_msg      = "You've selected an fls image and a byol image for hana and netweaver. Using byol on one and fls on another is currently not supported."
+  validate_images_mixed = regex("^${local.images_mixed_msg}$", (local.images_mixed ? "" : local.images_mixed_msg))
 
-  #missing_byol_msg = "Missing byol credentials for activation of linux subscription."
-  #validate_byol_provided = regex("^${local.missing_byol_msg}$", (local.missing_byol_creds ? "" : local.missing_byol_msg))
+  missing_byol_msg       = "Missing byol credentials for activation of linux subscription."
+  validate_byol_provided = regex("^${local.missing_byol_msg}$", (local.missing_byol_creds ? "" : local.missing_byol_msg))
 
-  #byol_and_fls_msg      = "FLS images and user provided linux subscription detected. Can't use both at the same time."
-  #validate_byol_and_fls = regex("^${local.byol_and_fls_msg}$", (local.byol_and_fls ? "" : local.byol_and_fls_msg))
+  byol_and_fls_msg      = "FLS images and user provided linux subscription detected. Can't use both at the same time."
+  validate_byol_and_fls = regex("^${local.byol_and_fls_msg}$", (local.byol_and_fls ? "" : local.byol_and_fls_msg))
 }
