@@ -67,7 +67,7 @@ resource "terraform_data" "trigger_ansible_vars" {
 
 resource "terraform_data" "execute_playbooks" {
   depends_on = [terraform_data.setup_ansible_host]
-  count      = var.ansible_vault_password != null ? 0 : 1
+  count      = var.ansible_vault_password != "" ? 0 : 1
 
   connection {
     type         = "ssh"
@@ -138,7 +138,7 @@ resource "terraform_data" "execute_playbooks" {
 
 resource "terraform_data" "execute_playbooks_with_vault" {
   depends_on = [terraform_data.setup_ansible_host]
-  count      = var.ansible_vault_password != null ? 1 : 0
+  count      = var.ansible_vault_password != "" ? 1 : 0
 
   connection {
     type         = "ssh"
