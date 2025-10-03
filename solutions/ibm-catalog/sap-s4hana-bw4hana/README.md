@@ -128,7 +128,7 @@ S4HANA_2023
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.82.1 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.83.1 |
 
 ### Modules
 
@@ -146,10 +146,10 @@ S4HANA_2023
 
 | Name | Type |
 |------|------|
-| [ibm_pi_catalog_images.catalog_images_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.82.1/docs/data-sources/pi_catalog_images) | data source |
-| [ibm_pi_image.custom_images](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.82.1/docs/data-sources/pi_image) | data source |
-| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.82.1/docs/data-sources/schematics_output) | data source |
-| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.82.1/docs/data-sources/schematics_workspace) | data source |
+| [ibm_pi_catalog_images.catalog_images_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.83.1/docs/data-sources/pi_catalog_images) | data source |
+| [ibm_pi_image.custom_images](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.83.1/docs/data-sources/pi_image) | data source |
+| [ibm_schematics_output.schematics_output](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.83.1/docs/data-sources/schematics_output) | data source |
+| [ibm_schematics_workspace.schematics_workspace](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.83.1/docs/data-sources/schematics_workspace) | data source |
 
 ### Inputs
 
