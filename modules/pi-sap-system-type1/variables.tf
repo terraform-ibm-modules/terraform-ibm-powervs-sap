@@ -44,7 +44,7 @@ variable "ansible_vault_password" {
 
   type      = string
   sensitive = true
-  default   = null
+  default   = ""
 }
 
 
@@ -210,7 +210,7 @@ variable "scc_wp_instance" {
   }
 
   validation {
-    condition     = var.scc_wp_instance.guid == "" || (var.ansible_vault_password != "" && var.ansible_vault_password != null)
-    error_message = "Ansible vault password must not be empty or null when SCC workload instance is enabled. Value must be set for ansible_vault_password variable."
+    condition     = var.scc_wp_instance.enable ? len(var.ansible_vault_password) > 0 : true
+    error_message = "Ansible vault password must be defined when SCC workload instance is enabled."
   }
 }
