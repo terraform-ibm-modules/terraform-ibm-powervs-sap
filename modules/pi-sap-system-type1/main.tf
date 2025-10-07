@@ -32,7 +32,7 @@ module "pi_hana_instance" {
   pi_instance_name           = local.pi_hana_instance_name
   pi_ssh_public_key_name     = var.pi_ssh_public_key_name
   pi_image_id                = var.pi_hana_instance.image_id
-  pi_networks                = local.pi_network
+  pi_networks                = local.pi_networks
   pi_sap_profile_id          = var.pi_hana_instance.sap_profile_id
   pi_boot_image_storage_tier = "tier3"
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
