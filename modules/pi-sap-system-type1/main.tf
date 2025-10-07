@@ -1,5 +1,5 @@
 locals {
-  pi_network = [{ "name" = "${var.prefix}-sap-net", "cidr" = var.pi_networks[0].cidr, "id" = var.pi_networks[0].id }]
+  pi_networks = [{ "name" = "${var.prefix}-sap-net", "cidr" = var.pi_networks[0].cidr, "id" = var.pi_networks[0].id }]
 }
 #####################################################
 # Set server type based on region
