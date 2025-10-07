@@ -356,33 +356,3 @@ variable "tags" {
   type        = list(string)
   default     = []
 }
-
-#####################################################
-# TODO remove below block later
-#####################################################
-
-variable "powervs_management_network" {
-  description = "Name of the IBM Cloud PowerVS management subnet and CIDR to create."
-  type = object({
-    name = string
-    cidr = string
-  })
-
-  default = {
-    "name" : "mgmt_net",
-    "cidr" : "10.51.0.0/24"
-  }
-}
-
-variable "powervs_backup_network" {
-  description = "Name of the IBM Cloud PowerVS backup network and CIDR to create."
-  type = object({
-    name = string
-    cidr = string
-  })
-
-  default = {
-    "name" : "bkp_net",
-    "cidr" : "10.52.0.0/24"
-  }
-}

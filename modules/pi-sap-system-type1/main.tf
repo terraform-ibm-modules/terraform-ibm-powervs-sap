@@ -1,20 +1,7 @@
-#####################################################
-# Create SAP network for the SAP System
-#####################################################
-
-resource "ibm_pi_network" "sap_network" {
-  pi_cloud_instance_id = var.pi_workspace_guid
-  pi_network_name      = "${var.prefix}-sap-net"
-  pi_cidr              = var.pi_sap_network_cidr
-  pi_network_type      = "vlan"
-  pi_network_mtu       = 9000
-}
-
 locals {
-  pi_sap_network = { "name" = "${var.prefix}-net", "cidr" = var.pi_sap_network_cidr, "id" = ibm_pi_network.sap_network.network_id }
-  pi_networks    = concat(var.pi_networks, [local.pi_sap_network])
+  pi_network = [{ "name" = "${var.prefix}-sap-net", "cidr" = var.pi_networks[0].cidr, "id" = var.pi_networks[0].id }]
+  #pi_networks    = concat(var.pi_networks, [local.pi_sap_network])
 }
-
 #####################################################
 # Set server type based on region
 #####################################################
@@ -40,13 +27,13 @@ module "pi_hana_storage_calculation" {
 
 module "pi_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.8.0"
+  version = "2.8.2"
 
   pi_workspace_guid          = var.pi_workspace_guid
   pi_instance_name           = local.pi_hana_instance_name
   pi_ssh_public_key_name     = var.pi_ssh_public_key_name
   pi_image_id                = var.pi_hana_instance.image_id
-  pi_networks                = local.pi_networks
+  pi_networks                = local.pi_network
   pi_sap_profile_id          = var.pi_hana_instance.sap_profile_id
   pi_boot_image_storage_tier = "tier3"
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
@@ -54,12 +41,6 @@ module "pi_hana_instance" {
   pi_network_services_config = var.sap_network_services_config
   ansible_vault_password     = var.ansible_vault_password
 }
-
-locals {
-  pi_hana_instance_ips    = split(", ", module.pi_hana_instance.pi_instance_private_ips)
-  pi_hana_instance_sap_ip = local.pi_hana_instance_ips[index([for ip in local.pi_hana_instance_ips : alltrue([for i, v in split(".", ip) : tonumber(split(".", cidrhost(var.pi_sap_network_cidr, 0))[i]) <= tonumber(v) && tonumber(v) <= tonumber(split(".", cidrhost(var.pi_sap_network_cidr, -1))[i])])], true)]
-}
-
 
 ##########################################################################################################
 # Deploy SAP NetWeaver Instances
@@ -78,13 +59,13 @@ locals {
 }
 
 resource "time_sleep" "wait_1_min" {
-  depends_on      = [ibm_pi_network.sap_network]
+  depends_on      = [var.pi_networks]
   create_duration = "60s"
 }
 
 module "pi_netweaver_primary_instance" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "2.8.0"
+  version    = "2.8.2"
   count      = var.pi_netweaver_instance.instance_count > 0 ? 1 : 0
   depends_on = [time_sleep.wait_1_min]
 
@@ -92,7 +73,7 @@ module "pi_netweaver_primary_instance" {
   pi_instance_name           = "${local.pi_netweaver_instance_name}-${count.index + 1}"
   pi_ssh_public_key_name     = var.pi_ssh_public_key_name
   pi_image_id                = var.pi_netweaver_instance.image_id
-  pi_networks                = local.pi_networks
+  pi_networks                = local.pi_network
   pi_sap_profile_id          = null
   pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_netweaver_instance.processors
@@ -132,7 +113,7 @@ module "ansible_pi_netweaver_primary_instance_exportfs" {
 
 module "pi_netweaver_secondary_instances" {
   source     = "terraform-ibm-modules/powervs-instance/ibm"
-  version    = "2.8.0"
+  version    = "2.8.2"
   count      = var.pi_netweaver_instance.instance_count > 1 ? var.pi_netweaver_instance.instance_count - 1 : 0
   depends_on = [time_sleep.wait_1_min]
 
@@ -140,7 +121,7 @@ module "pi_netweaver_secondary_instances" {
   pi_instance_name           = "${local.pi_netweaver_instance_name}-${count.index + 2}"
   pi_ssh_public_key_name     = var.pi_ssh_public_key_name
   pi_image_id                = var.pi_netweaver_instance.image_id
-  pi_networks                = local.pi_networks
+  pi_networks                = local.pi_network
   pi_sap_profile_id          = null
   pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_netweaver_instance.processors

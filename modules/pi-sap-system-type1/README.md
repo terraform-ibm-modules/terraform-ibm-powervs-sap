@@ -32,16 +32,15 @@ The Power Virtual Server for SAP module automates the following tasks:
 | <a name="module_ansible_pi_netweaver_secondary_instances_sapmnt_mount"></a> [ansible\_pi\_netweaver\_secondary\_instances\_sapmnt\_mount](#module\_ansible\_pi\_netweaver\_secondary\_instances\_sapmnt\_mount) | ../ansible | n/a |
 | <a name="module_ansible_sap_instance_init"></a> [ansible\_sap\_instance\_init](#module\_ansible\_sap\_instance\_init) | ../ansible | n/a |
 | <a name="module_configure_scc_wp_agent"></a> [configure\_scc\_wp\_agent](#module\_configure\_scc\_wp\_agent) | ../ansible | n/a |
-| <a name="module_pi_hana_instance"></a> [pi\_hana\_instance](#module\_pi\_hana\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.8.0 |
+| <a name="module_pi_hana_instance"></a> [pi\_hana\_instance](#module\_pi\_hana\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.8.2 |
 | <a name="module_pi_hana_storage_calculation"></a> [pi\_hana\_storage\_calculation](#module\_pi\_hana\_storage\_calculation) | ../pi-hana-storage-config | n/a |
-| <a name="module_pi_netweaver_primary_instance"></a> [pi\_netweaver\_primary\_instance](#module\_pi\_netweaver\_primary\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.8.0 |
-| <a name="module_pi_netweaver_secondary_instances"></a> [pi\_netweaver\_secondary\_instances](#module\_pi\_netweaver\_secondary\_instances) | terraform-ibm-modules/powervs-instance/ibm | 2.8.0 |
+| <a name="module_pi_netweaver_primary_instance"></a> [pi\_netweaver\_primary\_instance](#module\_pi\_netweaver\_primary\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.8.2 |
+| <a name="module_pi_netweaver_secondary_instances"></a> [pi\_netweaver\_secondary\_instances](#module\_pi\_netweaver\_secondary\_instances) | terraform-ibm-modules/powervs-instance/ibm | 2.8.2 |
 
 ### Resources
 
 | Name | Type |
 |------|------|
-| [ibm_pi_network.sap_network](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/pi_network) | resource |
 | [time_sleep.wait_1_min](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 
 ### Inputs
@@ -70,7 +69,6 @@ The Power Virtual Server for SAP module automates the following tasks:
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP of Provided Bastion/JumpServer Host |
 | <a name="output_pi_hana_instance_ips"></a> [pi\_hana\_instance\_ips](#output\_pi\_hana\_instance\_ips) | All private IPS of HANA instance |
 | <a name="output_pi_hana_instance_management_ip"></a> [pi\_hana\_instance\_management\_ip](#output\_pi\_hana\_instance\_management\_ip) | Management IP of HANA Instance |
-| <a name="output_pi_hana_instance_sap_ip"></a> [pi\_hana\_instance\_sap\_ip](#output\_pi\_hana\_instance\_sap\_ip) | SAP IP of PowerVS HANA Instance |
 | <a name="output_pi_lpars_data"></a> [pi\_lpars\_data](#output\_pi\_lpars\_data) | All private IPS of PowerVS instances and Jump IP to access the host. |
 | <a name="output_pi_netweaver_instance_ips"></a> [pi\_netweaver\_instance\_ips](#output\_pi\_netweaver\_instance\_ips) | All private IPS of NetWeaver instances |
 | <a name="output_pi_netweaver_instance_management_ips"></a> [pi\_netweaver\_instance\_management\_ips](#output\_pi\_netweaver\_instance\_management\_ips) | Management IPS of NetWeaver instances |
