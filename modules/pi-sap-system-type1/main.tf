@@ -119,7 +119,7 @@ module "pi_netweaver_secondary_instances" {
   pi_instance_name           = "${local.pi_netweaver_instance_name}-${count.index + 2}"
   pi_ssh_public_key_name     = var.pi_ssh_public_key_name
   pi_image_id                = var.pi_netweaver_instance.image_id
-  pi_networks                = local.pi_network
+  pi_networks                = local.pi_networks
   pi_sap_profile_id          = null
   pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_netweaver_instance.processors
