@@ -14,7 +14,7 @@ import (
 
 // Use existing resource group
 const resourceGroup = "geretain-test-resources"
-const defaultExampleTerraformDir = "solutions/e2e"
+const defaultExampleTerraformDir = "solutions/ibm-catalog/sap-ready-to-go"
 
 var sharedInfoSvc *cloudinfo.CloudInfoService
 
@@ -50,12 +50,15 @@ func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.
 	})
 
 	options.TerraformVars = map[string]interface{}{
-		"powervs_zone":                options.Region,
+
 		"prefix":                      options.Prefix,
+		"powervs_zone":                options.Region,
 		"powervs_resource_group_name": options.ResourceGroup,
 		"external_access_ip":          "0.0.0.0/0",
 		"os_image_distro":             "SLES",
-		"configure_nfs_server":        false,
+		"enable_monitoring":           false,
+		"enable_scc_wp":               true,
+		"ansible_vault_password":      "SecurePassw0rd!",
 	}
 
 	return options

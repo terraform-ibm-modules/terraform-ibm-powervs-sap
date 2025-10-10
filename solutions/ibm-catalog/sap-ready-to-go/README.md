@@ -3,11 +3,35 @@
 # Summary
 
 ## Summary Outcome:
-   SAP-tuned HANA and NetWeaver configuration to IBM PowerVS hosts
+   Creates a Power Virtual Server environment with a VPC landing zone — a solution that simultaneously provisions a secure PowerVS workspace and deploys SAP HANA and NetWeaver configurations.
 
 ## Summary Tasks
 
-- Creates a new private subnet for SAP communication for the entire landscape.
+- A **VPC Infrastructure** with the following components:
+    - One VSI for management (jump/bastion)
+    - One VSI for network-services configured as squid proxy, NTP and DNS servers(using Ansible Galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/). This VSI also acts as central ansible execution node.
+    - Optional VSI for Monitoring host
+    - Optional [Client to site VPN server](https://cloud.ibm.com/docs/vpc?topic=vpc-vpn-client-to-site-overview)
+    - Optional [File storage share](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=ui)
+    - Optional [Network load balancer](https://cloud.ibm.com/docs/vpc?group=network-load-balancer)
+    - Optional [IBM Cloud Security and Compliance Center Workload Protection](https://cloud.ibm.com/docs/workload-protection) and SCC Workload Protection agent configuration on the VSIs in the deployment
+    - IBM Cloud Object storage(COS) Virtual Private endpoint gateway(VPE)
+    - IBM Cloud Object storage(COS) Instance and buckets
+    - VPC flow logs
+    - KMS keys
+    - Activity tracker
+    - Optional Secrets Manager Instance Instance with private certificate.
+
+- A local or global **transit gateway**
+- An optional IBM Cloud Monitoring Instance
+
+- A **Power Virtual Server** workspace with the following network topology:
+    - Creates a new private subnet for SAP communication for the entire landscape.
+    - Attaches the PowerVS workspace to transit gateway.
+    - Creates an SSH key.
+    - Optionally imports up to three custom images from Cloud Object Storage.
+
+
 - Creates and configures one PowerVS instance for SAP HANA based on best practices.
 - Creates and configures multiple PowerVS instances for SAP NetWeaver based on best practices.
 - Optionally let's the user choose a byol or custom os image for the HANA and Netweaver PowerVS instances and activate it with user provided os registration credentials.
@@ -19,9 +43,6 @@
 - Post-instance provisioning, Ansible Galaxy collection roles from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed: `power_linux_sap`.
 - Tested with RHEL8.4,/8.6/8.8/9.2, SLES15-SP3/SP5 images.
 
-## Before you begin
-- **This solution requires a schematics workspace ID as input.**
-- If you do not have a [Power Virtual Server with VPC landing zone deployment](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?catalog_query=aHR0cHM6Ly9jbG91ZC5pYm0uY29tL2NhdGFsb2c%2Fc2VhcmNoPXBvd2VyI3NlYXJjaF9yZXN1bHRz) that is the full stack solution for a PowerVS Workspace with Secure Landing Zone, create it first.
 
 ## Notes
 - **Does not install any SAP software or solutions.**
@@ -29,9 +50,9 @@
 - Custom storage configuration by providing custom volume size, **iops**(tier0, tier1, tier3, tier5k), counts and mount points is supported.
 
 
-|                                  Variation                                  | Available on IBM Catalog | Requires Schematics Workspace ID | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
-|:---------------------------------------------------------------------------:|:------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
-| [IBM Catalog sap-ready-to-go](./) |    :heavy_check_mark:    |        :heavy_check_mark:        |                  N/A                  |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
+|                                  Variation                                  | Available on IBM Catalog | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
+|:---------------------------------------------------------------------------:|:--------------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
+| [IBM Catalog sap-ready-to-go](./) |    :heavy_check_mark:    |    :heavy_check_mark:    |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
 
 
 ## Architecture Diagram
@@ -52,7 +73,7 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../../modules/pi-sap-system-type1 | n/a |
-| <a name="module_standard"></a> [standard](#module\_standard) | git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git//modules/powervs-vpc-landing-zone | main |
+| <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 10.0.0 |
 
 ### Resources
 
@@ -91,7 +112,7 @@
 | <a name="input_powervs_os_registration_password"></a> [powervs\_os\_registration\_password](#input\_powervs\_os\_registration\_password) | If you're using a byol or a custom RHEL/SLES image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS). | `string` | `""` | no |
 | <a name="input_powervs_os_registration_username"></a> [powervs\_os\_registration\_username](#input\_powervs\_os\_registration\_username) | If you're using a byol or a custom RHEL/SLES image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS). | `string` | `""` | no |
 | <a name="input_powervs_resource_group_name"></a> [powervs\_resource\_group\_name](#input\_powervs\_resource\_group\_name) | Existing IBM Cloud resource group name. | `string` | n/a | yes |
-| <a name="input_powervs_sap_network_cidr"></a> [powervs\_sap\_network\_cidr](#input\_powervs\_sap\_network\_cidr) | Network range for dedicated SAP network. Used for communication between SAP Application servers with SAP HANA Database. E.g., '10.53.0.0/24' | `string` | `"10.53.0.0/24"` | no |
+| <a name="input_powervs_sap_network_cidr"></a> [powervs\_sap\_network\_cidr](#input\_powervs\_sap\_network\_cidr) | Network range for dedicated SAP network. Used for communication between SAP Application servers with SAP HANA Database. E.g., '10.51.0.0/24' | `string` | `"10.51.0.0/24"` | no |
 | <a name="input_powervs_zone"></a> [powervs\_zone](#input\_powervs\_zone) | IBM Cloud data center location corresponding to the location used in 'Power Virtual Server with VPC landing zone' pre-requisite deployment. | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Unique prefix for resources to be created. Max length must be less than or equal to 8. | `string` | n/a | yes |
 | <a name="input_sap_domain"></a> [sap\_domain](#input\_sap\_domain) | SAP network domain name. | `string` | `"sap.com"` | no |

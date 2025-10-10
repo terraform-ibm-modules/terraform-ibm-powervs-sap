@@ -1,0 +1,13 @@
+{
+  "prefix": "sap",
+  "powervs_zone": "us-south",
+  "powervs_resource_group_name": "Default",
+  "external_access_ip": "0.0.0.0/0",
+  "os_image_distro": "RHEL",
+  "ssh_public_key": $SSH_PUB_KEY,
+  "ssh_private_key": $SSH_PRV_KEY,
+  "ibmcloud_api_key": $VALIDATION_APIKEY,
+  "enable_monitoring": false,
+  "enable_scc_wp": true,
+  "ansible_vault_password" : "SecurePassw0rd!"
+}

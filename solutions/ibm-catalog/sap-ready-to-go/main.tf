@@ -23,11 +23,8 @@ locals {
 }
 
 module "standard" {
-  #source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  #version = "9.0.1"
-
-  # Remove this line in final commit (for testing only)
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure.git//modules/powervs-vpc-landing-zone?ref=main"
+  source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
+  version = "10.0.0"
 
   providers = {
     ibm.ibm-is = ibm.ibm-is

@@ -28,16 +28,16 @@ variable "pi_networks" {
     })
   )
 }
-
-variable "pi_sap_network_cidr" {
-  description = "Additional private subnet for SAP communication which will be created. CIDR for SAP network. E.g., '10.53.0.0/24'"
-  type        = string
-  default     = "10.53.0.0/24"
-  validation {
-    condition     = anytrue([can(regex("^10\\.((([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))\\.){2}(([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))", var.pi_sap_network_cidr)), can(regex("^192\\.168\\.((([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))\\.)(([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))", var.pi_sap_network_cidr)), can(regex("^172\\.(([1][6-9])|([2][0-9])|([3][0-1]))\\.((([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))\\.)(([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))", var.pi_sap_network_cidr))])
-    error_message = "Must be a valid private IPv4 CIDR block address."
-  }
-}
+#TP_CODE (need to delete)
+# variable "pi_sap_network_cidr" {
+#   description = "Additional private subnet for SAP communication which will be created. CIDR for SAP network. E.g., '10.53.0.0/24'"
+#   type        = string
+#   default     = "10.53.0.0/24"
+#   validation {
+#     condition     = anytrue([can(regex("^10\\.((([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))\\.){2}(([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))", var.pi_sap_network_cidr)), can(regex("^192\\.168\\.((([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))\\.)(([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))", var.pi_sap_network_cidr)), can(regex("^172\\.(([1][6-9])|([2][0-9])|([3][0-1]))\\.((([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))\\.)(([2][0-5]{2})|([0-1]{0,1}[0-9]{1,2}))", var.pi_sap_network_cidr))])
+#     error_message = "Must be a valid private IPv4 CIDR block address."
+#   }
+# }
 
 variable "ansible_vault_password" {
   description = "Vault password to encrypt OS registration parameters. Only required with customer provided linux subscription (pi_os_registration). Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]_{|}~."

@@ -24,9 +24,9 @@ variable "prefix" {
 }
 
 variable "powervs_sap_network_cidr" {
-  description = "Network range for dedicated SAP network. Used for communication between SAP Application servers with SAP HANA Database. E.g., '10.53.0.0/24'"
+  description = "Network range for dedicated SAP network. Used for communication between SAP Application servers with SAP HANA Database. E.g., '10.51.0.0/24'"
   type        = string
-  default     = "10.53.0.0/24"
+  default     = "10.51.0.0/24"
 }
 
 variable "os_image_distro" {
