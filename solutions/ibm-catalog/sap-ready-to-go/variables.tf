@@ -15,7 +15,7 @@ variable "powervs_resource_group_name" {
 }
 
 variable "prefix" {
-  description = "Unique prefix for resources to be created. Max length must be less than or equal to 8."
+  description = "Unique prefix for resources to be created (e.g., SAP system name). Must be an alphanumeric string with maximum length of 6 characters."
   type        = string
   validation {
     condition     = length(var.prefix) <= 8 && can(regex("^[A-Za-z0-9]+$", var.prefix))
