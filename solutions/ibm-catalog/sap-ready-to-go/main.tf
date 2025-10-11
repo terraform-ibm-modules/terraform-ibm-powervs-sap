@@ -24,7 +24,7 @@ locals {
 
 module "standard" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "10.0.0"
+  version = "10.0.1"
 
   providers = {
     ibm.ibm-is = ibm.ibm-is
