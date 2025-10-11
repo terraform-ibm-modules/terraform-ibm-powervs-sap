@@ -70,8 +70,9 @@ module "standard" {
 #######################################################
 
 module "sap_system" {
-  source    = "../../../modules/pi-sap-system-type1"
-  providers = { ibm = ibm.ibm-pi }
+  source     = "../../../modules/pi-sap-system-type1"
+  providers  = { ibm = ibm.ibm-pi }
+  depends_on = [module.standard]
 
   prefix                                 = var.prefix
   pi_workspace_guid                      = module.standard.powervs_workspace_guid
