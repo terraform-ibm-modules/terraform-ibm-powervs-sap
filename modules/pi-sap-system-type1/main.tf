@@ -171,7 +171,7 @@ module "ansible_pi_netweaver_secondary_instances_sapmnt_mount" {
 #####################################################
 
 locals {
-  target_server_ips  = concat([module.pi_hana_instance.pi_instance_primary_ip], module.pi_netweaver_primary_instance[*].pi_instance_primary_ip)
+  target_server_ips  = concat([module.pi_hana_instance.pi_instance_primary_ip], module.pi_netweaver_primary_instance[*].pi_instance_primary_ip, module.pi_netweaver_secondary_instances[*].pi_instance_primary_ip)
   sap_solutions      = concat(["HANA"], [for ip in module.pi_netweaver_primary_instance[*].pi_instance_primary_ip : "NETWEAVER"])
   sap_instance_names = concat([local.pi_hana_instance_name], module.pi_netweaver_primary_instance[*].pi_instance_name, module.pi_netweaver_secondary_instances[*].pi_instance_name)
 }
