@@ -69,7 +69,7 @@ func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.
 func TestRunBranchExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "b", "sao04")
+	options := setupOptions(t, "b", "wdc06")
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
