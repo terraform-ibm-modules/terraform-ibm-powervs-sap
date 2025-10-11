@@ -15,11 +15,16 @@ variable "powervs_resource_group_name" {
 }
 
 variable "prefix" {
-  description = "Unique prefix for resources to be created (e.g., SAP system name). Must be an alphanumeric string with maximum length of 6 characters."
+  description = "Unique prefix for resources to be created (e.g., SAP system name). Must be an alphanumeric string with maximum length of 8 characters."
   type        = string
   validation {
-    condition     = length(var.prefix) <= 8 && can(regex("^[A-Za-z0-9]+$", var.prefix))
-    error_message = "Prefix must be an alphanumeric string with maximum length of 8 characters."
+    condition = (
+      var.prefix != null &&
+      var.prefix != "" &&
+      length(var.prefix) <= 8 &&
+      can(regex("^[A-Za-z0-9-]+$", var.prefix))
+    )
+    error_message = "Prefix must be up to 8 characters long and may include letters, numbers, and hyphens only."
   }
 }
 
