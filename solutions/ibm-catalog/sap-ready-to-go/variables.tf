@@ -5,7 +5,7 @@ variable "ibmcloud_api_key" {
 }
 
 variable "powervs_zone" {
-  description = "IBM Cloud data center location corresponding to the location used in 'Power Virtual Server with VPC landing zone' pre-requisite deployment."
+  description = "IBM Cloud data center location where IBM PowerVS infrastructure will be created."
   type        = string
 }
 
