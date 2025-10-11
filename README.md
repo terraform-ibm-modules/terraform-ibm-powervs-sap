@@ -7,10 +7,11 @@
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
 ## Summary
-This repository contains deployable architecture solutions that help in deploying VPC landing zones, Power Virtual Server workspaces, and SAP HANA solutions. The solutions are available in the IBM Cloud Catalog and can also be deployed without the catalog, except for a few solutions.
+This repository contains deployable architecture solutions that help in deploying VPC landing zones, Power Virtual Server workspaces, and SAP HANA solutions. The solutions are available in the IBM Cloud Catalog and can also be deployed without the catalog.
 
 
-### IBM catalog solutions that require a Schematics workspace ID of [Power Virtual Server with VPC landing zone](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global)
+### Solutions
+
 1. [IBM catalog PowerVS SAP Ready variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-ready-to-go)
     - Creates a VPC and Power Virtual Server workspace, interconnects them, and configures OS network management services (SQUID proxy, NTP, NFS, and DNS) using Ansible Galaxy collection roles from the ibm.power_linux_sap collection.
     - Creates and configures **one HANA instance and zero to several NetWeaver instances** with **RHEL or SLES OS** distribution. Creates a private subnet for SAP communication for the entire landscape.

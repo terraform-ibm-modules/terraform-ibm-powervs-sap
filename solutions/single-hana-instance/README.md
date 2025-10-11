@@ -13,9 +13,6 @@ It provisions the following components in IBM Cloud:
 * Supports bring-your-own-license (BYOL) for RHEL/SLES images.
 * Does **not** install SAP HANA.
 
----
-
-Would you like me to **combine both SAP Application Server and HANA** into a single doc (with separate sections), or keep them as two standalone docs?
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
