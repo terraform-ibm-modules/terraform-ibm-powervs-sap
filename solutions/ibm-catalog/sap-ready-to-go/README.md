@@ -41,7 +41,7 @@
 - Optionally configures a shared NFS directory on all created PowerVS instances.
 - Optionally installs Sysdig agent and configures connection to [IBM Cloud Security and Compliance Center Workload Protection](https://cloud.ibm.com/docs/workload-protection)
 - Post-instance provisioning, Ansible Galaxy collection roles from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/) are executed: `power_linux_sap`.
-- Tested with RHEL8.4,/8.6/8.8/9.2, SLES15-SP3/SP5 images.
+- Tested with RHEL8.4,/8.6/8.8/9.2/9.4, SLES15-SP3/SP5/SP6 images.
 
 
 ## Notes
