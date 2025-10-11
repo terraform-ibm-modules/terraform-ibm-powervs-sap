@@ -1,6 +1,3 @@
-locals {
-  pi_networks = [{ "name" = "${var.prefix}-sap-net", "cidr" = var.pi_networks[0].cidr, "id" = var.pi_networks[0].id }]
-}
 #####################################################
 # Set server type based on region
 #####################################################
@@ -32,7 +29,7 @@ module "pi_hana_instance" {
   pi_instance_name           = local.pi_hana_instance_name
   pi_ssh_public_key_name     = var.pi_ssh_public_key_name
   pi_image_id                = var.pi_hana_instance.image_id
-  pi_networks                = local.pi_networks
+  pi_networks                = var.pi_networks
   pi_sap_profile_id          = var.pi_hana_instance.sap_profile_id
   pi_boot_image_storage_tier = "tier3"
   pi_storage_config          = module.pi_hana_storage_calculation.pi_hana_storage_config
@@ -71,7 +68,7 @@ module "pi_netweaver_primary_instance" {
   pi_instance_name           = "${local.pi_netweaver_instance_name}-${count.index + 1}"
   pi_ssh_public_key_name     = var.pi_ssh_public_key_name
   pi_image_id                = var.pi_netweaver_instance.image_id
-  pi_networks                = local.pi_networks
+  pi_networks                = var.pi_networks
   pi_sap_profile_id          = null
   pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_netweaver_instance.processors
@@ -85,10 +82,10 @@ module "pi_netweaver_primary_instance" {
 }
 
 module "ansible_pi_netweaver_primary_instance_exportfs" {
+  source     = "../ansible"
+  depends_on = [module.pi_netweaver_primary_instance]
+  count      = var.pi_netweaver_instance.instance_count > 1 ? 1 : 0
 
-  source                 = "../ansible"
-  depends_on             = [module.pi_netweaver_primary_instance]
-  count                  = var.pi_netweaver_instance.instance_count > 1 ? 1 : 0
   bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
   ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
   ssh_private_key        = var.pi_instance_init_linux.ssh_private_key
@@ -119,7 +116,7 @@ module "pi_netweaver_secondary_instances" {
   pi_instance_name           = "${local.pi_netweaver_instance_name}-${count.index + 2}"
   pi_ssh_public_key_name     = var.pi_ssh_public_key_name
   pi_image_id                = var.pi_netweaver_instance.image_id
-  pi_networks                = local.pi_networks
+  pi_networks                = var.pi_networks
   pi_sap_profile_id          = null
   pi_boot_image_storage_tier = "tier3"
   pi_number_of_processors    = var.pi_netweaver_instance.processors
@@ -176,14 +173,14 @@ module "ansible_pi_netweaver_secondary_instances_sapmnt_mount" {
 locals {
   target_server_ips  = concat([module.pi_hana_instance.pi_instance_primary_ip], module.pi_netweaver_primary_instance[*].pi_instance_primary_ip)
   sap_solutions      = concat(["HANA"], [for ip in module.pi_netweaver_primary_instance[*].pi_instance_primary_ip : "NETWEAVER"])
-  sap_instance_names = concat([local.pi_hana_instance_name], module.pi_netweaver_primary_instance[*].pi_instance_name)
+  sap_instance_names = concat([local.pi_hana_instance_name], module.pi_netweaver_primary_instance[*].pi_instance_name, module.pi_netweaver_secondary_instances[*].pi_instance_name)
 }
 
 module "ansible_sap_instance_init" {
+  source     = "../ansible"
+  depends_on = [module.pi_hana_instance, module.ansible_pi_netweaver_primary_instance_exportfs, module.ansible_pi_netweaver_secondary_instances_sapmnt_mount]
+  count      = length(local.target_server_ips)
 
-  source                 = "../ansible"
-  depends_on             = [module.pi_hana_instance, module.ansible_pi_netweaver_primary_instance_exportfs, module.ansible_pi_netweaver_secondary_instances_sapmnt_mount]
-  count                  = length(local.target_server_ips)
   bastion_host_ip        = var.pi_instance_init_linux.bastion_host_ip
   ansible_host_or_ip     = var.pi_instance_init_linux.ansible_host_or_ip
   ssh_private_key        = var.pi_instance_init_linux.ssh_private_key
@@ -208,7 +205,6 @@ module "ansible_sap_instance_init" {
 # Ansible Install Sysdig agent and connect to SCC Workload Protection
 #######################################################################
 module "configure_scc_wp_agent" {
-
   source     = "../ansible"
   depends_on = [module.ansible_sap_instance_init]
   count      = var.scc_wp_instance.enable ? 1 : 0

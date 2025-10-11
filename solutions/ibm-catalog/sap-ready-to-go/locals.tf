@@ -1,6 +1,6 @@
 locals {
   powervs_hana_instance = {
-    name                      = "${var.prefix}-hana"
+    name                      = "hana"
     image_id                  = local.hana_image_id
     sap_profile_id            = var.powervs_hana_instance_sap_profile_id
     additional_storage_config = var.powervs_hana_instance_additional_storage_config
@@ -8,7 +8,7 @@ locals {
 
   powervs_netweaver_instance = {
     instance_count = var.powervs_netweaver_instance_count
-    name           = "${var.prefix}-hnw"
+    name           = "nw"
     image_id       = local.netweaver_image_id
     processors     = var.powervs_netweaver_cpu_number
     memory         = var.powervs_netweaver_memory_size
