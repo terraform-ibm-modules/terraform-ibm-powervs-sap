@@ -1,11 +1,11 @@
 output "infrastructure_data" {
   description = "PowerVS infrastructure details."
-  value       = { for k, v in local.powervs_infrastructure[0] : k => v.value }
+  value       = { for k, v in module.standard : k => v }
 }
 
 output "access_host_or_ip" {
   description = "Public IP of Provided Bastion/JumpServer Host."
-  value       = local.access_host_or_ip
+  value       = module.standard.access_host_or_ip
 }
 
 output "powervs_hana_instance_ips" {
