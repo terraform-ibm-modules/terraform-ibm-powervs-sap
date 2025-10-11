@@ -15,3 +15,4 @@ CRA_TARGETS:
       TF_VAR_ssh_private_key: "some_key"
       TF_VAR_enable_monitoring: false
       TF_VAR_enable_scc_wp: true
+      TF_VAR_ansible_vault_password: "SecurePassword123!"
