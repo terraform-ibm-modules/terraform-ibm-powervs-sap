@@ -22,7 +22,7 @@ variable "prefix" {
       var.prefix != null &&
       var.prefix != "" &&
       length(var.prefix) <= 8 &&
-      can(regex("^a-z0-9-]+$", var.prefix))
+      can(regex("^[a-z0-9-]+$", var.prefix))
     )
     error_message = "Prefix must be up to 8 characters long and may include lowercase letters, numbers, and hyphens only."
   }
