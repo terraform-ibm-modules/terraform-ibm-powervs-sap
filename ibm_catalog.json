@@ -404,6 +404,14 @@
                 }
               ],
               "custom_config": {}
+            },
+            {
+              "key": "vpc_subnet_cidrs",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "code_editor"
+              }
             }
           ],
           "iam_permissions": [

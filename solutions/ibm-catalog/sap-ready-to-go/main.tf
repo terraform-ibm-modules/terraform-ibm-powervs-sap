@@ -4,27 +4,9 @@
 # PowerVS Workspace
 #######################################################
 
-locals {
-  powervs_management_network = { name = "${var.prefix}-sap-net", cidr = var.powervs_sap_network_cidr }
-  powervs_server_routes = concat(
-    [
-      {
-        route_name  = local.powervs_management_network.name
-        destination = local.powervs_management_network.cidr
-        action      = "deliver"
-      }
-    ]
-  )
-
-  client_to_site_vpn = merge(
-    var.client_to_site_vpn,
-    { powervs_server_routes = local.powervs_server_routes }
-  )
-}
-
 module "standard" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "10.0.1"
+  version = "10.1.1"
 
   providers = {
     ibm.ibm-is = ibm.ibm-is
@@ -39,7 +21,7 @@ module "standard" {
   vpc_intel_images                             = var.vpc_intel_images
   ssh_public_key                               = var.ssh_public_key
   ssh_private_key                              = var.ssh_private_key
-  powervs_management_network                   = local.powervs_management_network
+  powervs_management_network                   = { name = "${var.prefix}-sap-net", cidr = var.powervs_sap_network_cidr }
   powervs_backup_network                       = null
   configure_dns_forwarder                      = true
   configure_ntp_forwarder                      = true
@@ -50,7 +32,7 @@ module "standard" {
   powervs_custom_images                        = var.powervs_custom_images
   powervs_custom_image_cos_configuration       = var.powervs_custom_image_cos_configuration
   powervs_custom_image_cos_service_credentials = var.powervs_custom_image_cos_service_credentials
-  client_to_site_vpn                           = local.client_to_site_vpn
+  client_to_site_vpn                           = var.client_to_site_vpn
   sm_service_plan                              = var.sm_service_plan
   existing_sm_instance_guid                    = var.existing_sm_instance_guid
   existing_sm_instance_region                  = var.existing_sm_instance_region
@@ -58,6 +40,7 @@ module "standard" {
   existing_monitoring_instance_crn             = var.existing_monitoring_instance_crn
   enable_scc_wp                                = var.enable_scc_wp
   ansible_vault_password                       = var.ansible_vault_password
+  vpc_subnet_cidrs                             = var.vpc_subnet_cidrs
 }
 
 
