@@ -61,7 +61,7 @@ variable "powervs_hana_instance_sap_profile_id" {
 }
 
 variable "powervs_hana_instance_custom_storage_config" {
-  description = "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  description = "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. If not specified, volumes for '/hana/data', '/hana/log', '/hana/shared' are automatically calculated and created."
   type = list(object({
     name  = string
     size  = string
@@ -360,4 +360,24 @@ variable "tags" {
   description = "List of tag names for the IBM Cloud PowerVS workspace"
   type        = list(string)
   default     = []
+}
+
+#####################################################
+# Optional Parameters VPC subnets
+#####################################################
+
+variable "vpc_subnet_cidrs" {
+  description = "CIDR values for the VPC subnets to be created. It's customer responsibility that none of the defined networks collide, including the PowerVS subnets and VPN client pool."
+  type = object({
+    vpn  = string
+    mgmt = string
+    vpe  = string
+    edge = string
+  })
+  default = {
+    "vpn"  = "10.30.10.0/24"
+    "mgmt" = "10.30.20.0/24"
+    "vpe"  = "10.30.30.0/24"
+    "edge" = "10.30.40.0/24"
+  }
 }
