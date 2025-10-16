@@ -9,6 +9,7 @@ authors:
   - name: Arnold Beilmann
   - name: Suraj Bharadwaj
   - name: Ludwig Mueller
+  - name: Trilochan Pandey
 production: true
 deployment-url: https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-sap-9aa6135e-75d5-467e-9f4a-ac2a21c069b8-global
 docs: https://cloud.ibm.com/docs/sap-powervs

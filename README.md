@@ -19,6 +19,7 @@ This repository contains deployable architecture solutions that help in deployin
     - Additionally tunes the instances according to SAP's best practices, which are fully ready for hosting SAP applications.
 
 1. [IBM catalog PowerVS S/4HANA or BW/4HANA variation](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/solutions/ibm-catalog/sap-s4hana-bw4hana)
+    - Creates a VPC and Power Virtual Server workspace, interconnects them, and configures OS network management services (SQUID proxy, NTP, NFS, and DNS) using Ansible Galaxy collection roles from the ibm.power_linux_sap collection.
     - Creates and configures **one HANA instance and one NetWeaver instance** with **RHEL** OS distribution. Creates a private subnet for SAP communication for the entire landscape.
     - Optionally configures OS network management services (NTP, NFS, and DNS services) using Ansible Galaxy Collection from [IBM](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/): `power_linux_sap`
     - Tunes the instances according to SAP's best practices.
