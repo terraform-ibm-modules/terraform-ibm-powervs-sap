@@ -45,5 +45,5 @@ output "sap_solution_vars" {
 
 output "sap_monitoring_vars" {
   description = "SAP Monitoring Instance details."
-  value = merge(var.sap_monitoring_vars, module.standard.monitoring_instance)
+  value       = merge(var.sap_monitoring_vars, module.standard.monitoring_instance)
 }

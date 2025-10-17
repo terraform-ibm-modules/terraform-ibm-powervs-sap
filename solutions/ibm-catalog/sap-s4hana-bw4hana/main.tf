@@ -115,6 +115,7 @@ locals {
 
 module "ibmcloud_cos_download_hana_binaries" {
   source                     = "../../../modules/ibmcloud-cos"
+  depends_on                 = [module.standard]
   count                      = module.standard.network_services_config.nfs.enable ? 1 : 0
   access_host_or_ip          = module.standard.access_host_or_ip
   target_server_ip           = module.standard.ansible_host_or_ip
@@ -148,17 +149,6 @@ module "ibmcloud_cos_download_monitoring_binaries" {
   ibmcloud_cos_configuration = local.ibmcloud_cos_monitoring_configuration
 }
 
-#####################################################
-# Ansible vars validation
-#####################################################
-
-locals {
-  instance_nr_validation     = length([var.sap_hana_vars.sap_hana_install_number, var.sap_solution_vars.sap_swpm_ascs_instance_nr, var.sap_solution_vars.sap_swpm_pas_instance_nr]) == length(distinct([var.sap_hana_vars.sap_hana_install_number, var.sap_solution_vars.sap_swpm_ascs_instance_nr, var.sap_solution_vars.sap_swpm_pas_instance_nr]))
-  instance_nr_validation_msg = "HANA sap_hana_install_number , ASCS sap_swpm_ascs_instance_nr and PAS sap_swpm_pas_instance_nr instance numbers must not be same"
-  # tflint-ignore: terraform_unused_declarations
-  instance_nr_validation_chk = regex("^${local.instance_nr_validation_msg}$", (local.instance_nr_validation ? local.instance_nr_validation_msg : ""))
-}
-
 
 #####################################################
 # Ansible Install HANA DB
@@ -175,9 +165,9 @@ locals {
 
 module "ansible_sap_install_hana" {
 
-  source                 = "../../../modules/ansible"
-  depends_on             = [module.ibmcloud_cos_download_hana_binaries, module.sap_system]
- 
+  source     = "../../../modules/ansible"
+  depends_on = [module.ibmcloud_cos_download_hana_binaries, module.sap_system]
+
   bastion_host_ip        = module.standard.access_host_or_ip
   ansible_host_or_ip     = module.standard.ansible_host_or_ip
   ssh_private_key        = var.ssh_private_key
