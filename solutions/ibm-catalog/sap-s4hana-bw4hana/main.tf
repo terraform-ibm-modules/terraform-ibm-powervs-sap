@@ -127,7 +127,6 @@ module "ibmcloud_cos_download_netweaver_binaries" {
 
   depends_on = [module.ibmcloud_cos_download_hana_binaries]
 
-  count                      = local.powervs_network_services_config.nfs.enable ? 1 : 0
   access_host_or_ip          = module.standard.access_host_or_ip
   target_server_ip           = module.standard.ansible_host_or_ip
   ssh_private_key            = var.ssh_private_key
