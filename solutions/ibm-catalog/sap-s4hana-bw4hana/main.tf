@@ -230,7 +230,6 @@ module "ansible_sap_install_solution" {
 
   source     = "../../../modules/ansible"
   depends_on = [module.ibmcloud_cos_download_netweaver_binaries, module.ansible_sap_install_hana]
-  count      = local.powervs_network_services_config.nfs.enable ? 1 : 0
 
   bastion_host_ip        = module.standard.access_host_or_ip
   ansible_host_or_ip     = module.standard.ansible_host_or_ip
