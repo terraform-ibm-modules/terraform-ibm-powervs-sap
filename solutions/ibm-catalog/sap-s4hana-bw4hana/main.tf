@@ -177,7 +177,7 @@ module "ansible_sap_install_hana" {
 
   source                 = "../../../modules/ansible"
   depends_on             = [module.ibmcloud_cos_download_hana_binaries, module.sap_system]
-  count                  = local.powervs_network_services_config.nfs.enable ? 1 : 0
+ 
   bastion_host_ip        = module.standard.access_host_or_ip
   ansible_host_or_ip     = module.standard.ansible_host_or_ip
   ssh_private_key        = var.ssh_private_key
