@@ -443,7 +443,6 @@ variable "sap_solution_vars" {
 variable "enable_monitoring" {
   description = "Specify whether Monitoring will be enabled. This includes the creation of an IBM Cloud Monitoring Instance and an Intel Monitoring Instance to host the services."
   type        = bool
-  default     = true
 }
 
 variable "sap_monitoring_vars" {
