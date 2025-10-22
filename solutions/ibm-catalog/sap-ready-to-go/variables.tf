@@ -328,7 +328,6 @@ variable "existing_sm_instance_region" {
 #####################################################
 # Parameters Monitoring
 #####################################################
-
 variable "enable_monitoring" {
   description = "Specify whether Monitoring will be enabled. This creates a new IBM Cloud Monitoring Instance."
   type        = bool

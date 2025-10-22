@@ -6,7 +6,7 @@
 
 module "standard" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "10.1.1"
+  version = "10.2.0"
 
   providers = {
     ibm.ibm-is = ibm.ibm-is
@@ -37,6 +37,7 @@ module "standard" {
   existing_sm_instance_guid                    = var.existing_sm_instance_guid
   existing_sm_instance_region                  = var.existing_sm_instance_region
   enable_monitoring                            = var.enable_monitoring
+  enable_monitoring_host                       = var.enable_monitoring
   enable_scc_wp                                = var.enable_scc_wp
   ansible_vault_password                       = var.ansible_vault_password
   vpc_subnet_cidrs                             = var.vpc_subnet_cidrs

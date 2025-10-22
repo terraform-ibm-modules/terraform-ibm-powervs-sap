@@ -318,16 +318,6 @@ variable "existing_sm_instance_region" {
 
 }
 
-#####################################################
-# Parameters Monitoring
-#####################################################
-
-variable "enable_monitoring" {
-  description = "Specify whether Monitoring will be enabled. This creates a new IBM Cloud Monitoring Instance."
-  type        = bool
-  default     = true
-}
-
 #################################################
 # Parameters SCC Workload Protection
 #################################################
@@ -449,6 +439,12 @@ variable "sap_solution_vars" {
 #####################################################
 # Parameters for Monitoring
 #####################################################
+
+variable "enable_monitoring" {
+  description = "Specify whether Monitoring will be enabled. This includes the creation of an IBM Cloud Monitoring Instance and an Intel Monitoring Instance to host the services."
+  type        = bool
+  default     = true
+}
 
 variable "sap_monitoring_vars" {
   description = "Configuration details for SAP monitoring dashboard. Takes effect only when a monitoring instance was deployed as part of Power Virtual Server with VPC landing zone deployment. If 'config_override' is true, an existing configuration will be overwritten, 'sap_monitoring_nr' Two-digit incremental number starting with 01 up to 99. This is not a existing SAP ID, but a pure virtual number and 'sap_monitoring_solution_name' is a virtual arbitrary short name to recognize SAP System."
