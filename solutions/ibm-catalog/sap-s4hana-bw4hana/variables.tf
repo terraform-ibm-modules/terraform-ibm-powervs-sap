@@ -34,16 +34,6 @@ variable "powervs_sap_network_cidr" {
   default     = "10.51.0.0/24"
 }
 
-variable "os_image_distro" {
-  description = "Image distribution to use for all instances(HANA, NetWeaver). OS release versions may be specified in 'powervs_sap_default_images' optional parameters below."
-  type        = string
-
-  validation {
-    condition     = (upper(var.os_image_distro) == "RHEL" || upper(var.os_image_distro) == "SLES")
-    error_message = "Supported values are 'RHEL' or 'SLES' only."
-  }
-}
-
 variable "external_access_ip" {
   description = "Specify the IP address or CIDR to login through SSH to the environment after deployment. Access to this environment will be allowed only from this IP address."
   type        = string
@@ -197,19 +187,14 @@ variable "vpc_intel_images" {
     "sles_image" : "ibm-sles-15-7-amd64-sap-applications-1"
   }
 }
-
 variable "powervs_default_sap_images" {
-  description = "Default SUSE and Red Hat Linux Full Linux subscription images to use for PowerVS SAP HANA and SAP NetWeaver instances. If you're using a byol or a custom RHEL/SLES image, additionally specify the optional values for 'powervs_os_registration_username', 'powervs_os_registration_password' and 'ansible_vault_password'"
+  description = "Default Red Hat Linux Full Linux subscription images to use for PowerVS SAP HANA and SAP NetWeaver instances. If you're using a byol or a custom RHEL image, additionally specify the optional values for 'powervs_os_registration_username', 'powervs_os_registration_password' and 'ansible_vault_password'"
   type = object({
-    sles_hana_image = string
-    sles_nw_image   = string
     rhel_hana_image = string
     rhel_nw_image   = string
   })
   default = {
-    "sles_hana_image" : "SLES15-SP6-SAP",
     "rhel_hana_image" : "RHEL9-SP4-SAP",
-    "sles_nw_image" : "SLES15-SP6-SAP-NETWEAVER",
     "rhel_nw_image" : "RHEL9-SP4-SAP-NETWEAVER"
   }
 }
@@ -338,14 +323,9 @@ variable "existing_sm_instance_region" {
 #####################################################
 
 variable "enable_monitoring" {
-  description = "Specify whether Monitoring will be enabled. This includes the creation of an IBM Cloud Monitoring Instance and an Intel Monitoring Instance to host the services. If you already have an existing monitoring instance then specify in optional parameter 'existing_monitoring_instance_crn'."
+  description = "Specify whether Monitoring will be enabled. This creates a new IBM Cloud Monitoring Instance."
   type        = bool
-}
-
-variable "existing_monitoring_instance_crn" {
-  description = "Existing CRN of IBM Cloud Monitoring Instance. If value is null, then an IBM Cloud Monitoring Instance will not be created but an intel VSI instance will be created if 'enable_monitoring' is true. "
-  type        = string
-  default     = null
+  default     = true
 }
 
 #################################################

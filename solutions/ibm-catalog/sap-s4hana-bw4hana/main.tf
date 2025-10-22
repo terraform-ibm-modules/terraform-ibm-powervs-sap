@@ -37,7 +37,6 @@ module "standard" {
   existing_sm_instance_guid                    = var.existing_sm_instance_guid
   existing_sm_instance_region                  = var.existing_sm_instance_region
   enable_monitoring                            = var.enable_monitoring
-  existing_monitoring_instance_crn             = var.existing_monitoring_instance_crn
   enable_scc_wp                                = var.enable_scc_wp
   ansible_vault_password                       = var.ansible_vault_password
   vpc_subnet_cidrs                             = var.vpc_subnet_cidrs

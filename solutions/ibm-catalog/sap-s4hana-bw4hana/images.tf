@@ -1,7 +1,7 @@
 locals {
   powervs_custom_images    = module.standard.powervs_images
-  selected_hana_image      = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_hana_image : var.powervs_default_sap_images.rhel_hana_image
-  selected_netweaver_image = var.os_image_distro == "SLES" ? var.powervs_default_sap_images.sles_nw_image : var.powervs_default_sap_images.rhel_nw_image
+  selected_hana_image      = var.powervs_default_sap_images.rhel_hana_image
+  selected_netweaver_image = var.powervs_default_sap_images.rhel_nw_image
 
   fls_image_types = ["stock-sap-fls", "stock-sap-netweaver-fls"]
 
