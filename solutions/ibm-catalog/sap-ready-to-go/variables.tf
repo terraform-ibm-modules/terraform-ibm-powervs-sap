@@ -180,6 +180,7 @@ variable "nfs_server_config" {
 #####################################################
 # Parameters for Image
 #####################################################
+
 variable "vpc_intel_images" {
   description = "Stock OS image names for creating VPC landing zone VSI instances: RHEL (management and network services) and SLES (monitoring)."
   type = object({
@@ -350,7 +351,7 @@ variable "ansible_vault_password" {
 }
 
 variable "tags" {
-  description = "List of tag names for the IBM Cloud PowerVS workspace"
+  description = "List of tag names for the IBM Cloud resources created."
   type        = list(string)
   default     = []
 }
