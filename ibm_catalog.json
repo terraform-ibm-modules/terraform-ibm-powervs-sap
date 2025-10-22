@@ -474,6 +474,24 @@
           },
           "configuration": [
             {
+              "key": "prefix",
+              "required": true,
+              "default_value": ""
+            },
+            {
+              "key": "powervs_resource_group_name",
+              "required": true,
+              "default_value": "",
+              "custom_config": {
+                "config_constraints": {
+                  "identifier": "rg_name"
+                },
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "resource_group"
+              }
+            },
+            {
               "key": "powervs_zone",
               "type": "string",
               "default_value": "",
@@ -555,42 +573,8 @@
               "custom_config": {}
             },
             {
-              "key": "powervs_resource_group_name",
-              "required": true,
-              "default_value": "",
-              "custom_config": {
-                "config_constraints": {
-                  "identifier": "rg_name"
-                },
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "type": "resource_group"
-              }
-            },
-            {
-              "key": "prefix",
-              "required": true,
-              "default_value": ""
-            },
-            {
-              "key": "powervs_hana_instance_sap_profile_id",
-              "required": true
-            },
-            {
-              "key": "powervs_netweaver_cpu_number",
-              "required": true
-            },
-            {
-              "key": "powervs_netweaver_memory_size",
-              "required": true
-            },
-            {
               "key": "external_access_ip",
               "default_value": "__NULL__",
-              "required": true
-            },
-            {
-              "key": "powervs_sap_network_cidr",
               "required": true
             },
             {
@@ -625,6 +609,30 @@
                 "original_grouping": "deployment",
                 "type": "multiline_secure_value"
               }
+            },
+            {
+              "key": "vpc_subnet_cidrs",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "code_editor"
+              }
+            },
+            {
+              "key": "powervs_hana_instance_sap_profile_id",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_cpu_number",
+              "required": true
+            },
+            {
+              "key": "powervs_netweaver_memory_size",
+              "required": true
+            },
+            {
+              "key": "powervs_sap_network_cidr",
+              "required": true
             },
             {
               "key": "ibmcloud_cos_service_credentials",
@@ -693,14 +701,6 @@
               }
             },
             {
-              "key": "vpc_intel_images",
-              "custom_config": {
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "type": "code_editor"
-              }
-            },
-            {
               "key": "powervs_default_sap_images",
               "custom_config": {
                 "grouping": "deployment",
@@ -744,6 +744,14 @@
                 "grouping": "deployment",
                 "original_grouping": "deployment",
                 "type": "multiline_secure_value"
+              }
+            },
+            {
+              "key": "vpc_intel_images",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "code_editor"
               }
             },
             {
@@ -829,18 +837,6 @@
               "required": true
             },
             {
-              "key": "ansible_vault_password",
-              "type": "multiline_secure_value",
-              "required": true,
-              "default_value": "__NULL__",
-              "display_name": "ansible_vault_password",
-              "custom_config": {
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "type": "multiline_secure_value"
-              }
-            },
-            {
               "key": "tags",
               "custom_config": {
                 "grouping": "deployment",
@@ -903,11 +899,15 @@
               "custom_config": {}
             },
             {
-              "key": "vpc_subnet_cidrs",
+              "key": "ansible_vault_password",
+              "type": "multiline_secure_value",
+              "required": true,
+              "default_value": "__NULL__",
+              "display_name": "ansible_vault_password",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
-                "type": "code_editor"
+                "type": "multiline_secure_value"
               }
             }
           ],
