@@ -64,8 +64,13 @@
           "install_type": "fullstack",
           "working_directory": "solutions/ibm-catalog/sap-ready-to-go",
           "compliance": {
-            "authority": "",
-            "profiles": []
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "IBM Cloud Framework for Financial Services",
+                "profile_version": "1.7.0"
+              }
+            ]
           },
           "configuration": [
             {
@@ -517,8 +522,13 @@
           "install_type": "fullstack",
           "working_directory": "solutions/ibm-catalog/sap-s4hana-bw4hana",
           "compliance": {
-            "authority": "",
-            "profiles": []
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "IBM Cloud Framework for Financial Services",
+                "profile_version": "1.7.0"
+              }
+            ]
           },
           "configuration": [
             {
