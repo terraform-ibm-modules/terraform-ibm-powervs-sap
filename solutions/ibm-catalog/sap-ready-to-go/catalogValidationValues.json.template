@@ -1,6 +1,6 @@
 {
   "prefix": "sap",
-  "powervs_zone": "us-south",
+  "powervs_zone": "dal12",
   "powervs_resource_group_name": "Default",
   "external_access_ip": "0.0.0.0/0",
   "os_image_distro": "RHEL",

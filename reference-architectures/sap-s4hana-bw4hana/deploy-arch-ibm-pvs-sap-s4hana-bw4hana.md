@@ -2,7 +2,7 @@
 
 copyright:
   years: 2024, 2025
-lastupdated: "2025-09-05"
+lastupdated: "2025-10-25"
 keywords:
 subcollection: deployable-reference-architectures
 authors:
@@ -18,17 +18,11 @@ use-case: ITServiceManagement
 industry: Technology
 compliance: SAPCertified
 content-type: reference-architecture
-version: v4.2.2
+version: v5.0.0
 related_links:
   - title: 'SAP in IBM Cloud documentation'
     url: 'https://cloud.ibm.com/docs/sap'
     description: 'SAP in IBM Cloud documentation.'
-  - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-full-stack'
-    description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as full stack deployment'
-  - title: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
-    url: 'https://cloud.ibm.com/docs/deployable-reference-architectures?topic=deployable-reference-architectures-deploy-arch-ibm-pvs-inf-extension'
-    description: 'Reference architecture for "Power Virtual Server with VPC landing zone" as extension of existing deployment'
 
 ---
 
@@ -40,15 +34,15 @@ related_links:
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
 {: toc-compliance="SAPCertified"}
-{: toc-version="v4.2.2"}
+{: toc-version="v5.0.0"}
 
 'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape built on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA and SAP NetWeaver are deployed and pre-configured for SAP installation. The S/4HANA or BW/4HANA solution is installed based on the selected version.
 
-Services such as DNS, NTP, and NFS running in VPC and provided by Power Virtual Server with VPC landing zone are leveraged.
+Services such as DNS, NTP, and NFS runs in VPC.
 
 Transit gateway connections provide the network bridge between the IBM Power infrastructure and the IBM Cloud® VPC and public internet.
 
-The resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the VPC landing zone and the network connectivity configuration provided by Power Virtual Server with VPC landing zone. Additionally, it will also setup Monitoring and SCC Workload Protection if the features were enabled during the landing zone deployment.
+The resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the VPC landing zone and the network connectivity configuration. Additionally, it will also setup Monitoring and SCC Workload Protection if the features were enabled during the landing zone deployment.
 
 ## Architecture diagram
 {: #sap-s4hana-bw4hana-architecture-diagram}

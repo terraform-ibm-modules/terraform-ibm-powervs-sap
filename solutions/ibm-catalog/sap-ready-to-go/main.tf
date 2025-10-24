@@ -6,7 +6,7 @@
 
 module "standard" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "10.2.0"
+  version = "10.2.1"
 
   providers = {
     ibm.ibm-is = ibm.ibm-is
@@ -14,22 +14,27 @@ module "standard" {
     ibm.ibm-sm = ibm.ibm-sm
   }
 
-  powervs_zone                                 = var.powervs_zone
-  powervs_resource_group_name                  = var.powervs_resource_group_name
-  prefix                                       = var.prefix
-  external_access_ip                           = var.external_access_ip
-  vpc_intel_images                             = var.vpc_intel_images
-  ssh_public_key                               = var.ssh_public_key
-  ssh_private_key                              = var.ssh_private_key
-  powervs_management_network                   = { name = "${var.prefix}-sap-net", cidr = var.powervs_sap_network_cidr }
-  powervs_backup_network                       = null
-  configure_dns_forwarder                      = true
-  configure_ntp_forwarder                      = true
-  configure_nfs_server                         = true
-  nfs_server_config                            = var.nfs_server_config
-  dns_forwarder_config                         = { "dns_servers" : "161.26.0.7; 161.26.0.8; 9.9.9.9;" }
-  tags                                         = var.tags
-  powervs_custom_images                        = var.powervs_custom_images
+  powervs_zone                = var.powervs_zone
+  powervs_resource_group_name = var.powervs_resource_group_name
+  prefix                      = var.prefix
+  external_access_ip          = var.external_access_ip
+  vpc_intel_images            = var.vpc_intel_images
+  ssh_public_key              = var.ssh_public_key
+  ssh_private_key             = var.ssh_private_key
+  powervs_management_network  = { name = "${var.prefix}-sap-net", cidr = var.powervs_sap_network_cidr }
+  powervs_backup_network      = null
+  configure_dns_forwarder     = true
+  configure_ntp_forwarder     = true
+  configure_nfs_server        = true
+  nfs_server_config           = var.nfs_server_config
+  dns_forwarder_config        = { "dns_servers" : "161.26.0.7; 161.26.0.8; 9.9.9.9;" }
+  tags                        = var.tags
+  powervs_custom_images = merge(var.powervs_custom_images, { powervs_custom_image3 = {
+    image_name   = "",
+    file_name    = "",
+    storage_tier = "",
+    sap_type     = null
+  } })
   powervs_custom_image_cos_configuration       = var.powervs_custom_image_cos_configuration
   powervs_custom_image_cos_service_credentials = var.powervs_custom_image_cos_service_credentials
   client_to_site_vpn                           = var.client_to_site_vpn

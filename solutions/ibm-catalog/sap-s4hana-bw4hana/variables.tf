@@ -43,12 +43,6 @@ variable "external_access_ip" {
 # PowerVS HANA Instance parameters
 #####################################################
 
-variable "powervs_hana_instance_name" {
-  description = "PowerVS SAP HANA instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_hana_instance_name>. Max length of final hostname must be <= 13 characters."
-  type        = string
-  default     = "hana"
-}
-
 variable "powervs_hana_instance_sap_profile_id" {
   description = "PowerVS SAP HANA instance profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional parameter 'powervs_hana_instance_custom_storage_config'."
   type        = string
@@ -56,7 +50,7 @@ variable "powervs_hana_instance_sap_profile_id" {
 }
 
 variable "powervs_hana_instance_custom_storage_config" {
-  description = "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS."
+  description = "Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. If not specified, volumes for '/hana/data', '/hana/log', '/hana/shared' are automatically calculated and created."
   type = list(object({
     name  = string
     size  = string
@@ -96,12 +90,6 @@ variable "powervs_hana_instance_additional_storage_config" {
 #####################################################
 # PowerVS NetWeaver Instance parameters
 #####################################################
-
-variable "powervs_netweaver_instance_name" {
-  description = "PowerVS SAP NetWeaver instance hostname (non FQDN). Will get the form of <var.prefix>-<var.powervs_netweaver_instance_name>-<number>. Max length of final hostname must be <= 13 characters."
-  type        = string
-  default     = "nw"
-}
 
 variable "powervs_netweaver_cpu_number" {
   description = "Number of CPUs for PowerVS SAP NetWeaver instance."
@@ -151,6 +139,12 @@ variable "ssh_private_key" {
   sensitive   = true
 }
 
+variable "sap_domain" {
+  description = "SAP network domain name."
+  type        = string
+  default     = "sap.com"
+}
+
 variable "nfs_server_config" {
   description = "Configuration for the NFS server. 'size' is in GB, 'iops' is maximum input/output operation performance bandwidth per second, 'mount_path' defines the target mount point on os. Set 'configure_nfs_server' to false to ignore creating file storage share."
   type = object({
@@ -164,12 +158,6 @@ variable "nfs_server_config" {
     "iops" : 600,
     "mount_path" : "/nfs"
   }
-}
-
-variable "sap_domain" {
-  description = "SAP network domain name."
-  type        = string
-  default     = "sap.com"
 }
 
 #####################################################
@@ -187,6 +175,7 @@ variable "vpc_intel_images" {
     "sles_image" : "ibm-sles-15-7-amd64-sap-applications-1"
   }
 }
+
 variable "powervs_default_sap_images" {
   description = "Default Red Hat Linux Full Linux subscription images to use for PowerVS SAP HANA and SAP NetWeaver instances. If you're using a byol or a custom RHEL image, additionally specify the optional values for 'powervs_os_registration_username', 'powervs_os_registration_password' and 'ansible_vault_password'"
   type = object({
@@ -212,10 +201,8 @@ variable "powervs_os_registration_password" {
   default     = ""
 }
 
-
-
 variable "powervs_custom_images" {
-  description = "Optionally import up to three custom images from Cloud Object Storage into PowerVS workspace. Requires 'powervs_custom_image_cos_configuration' to be set. image_name: string, must be unique. Name of image inside PowerVS workspace. file_name: string, object key of image inside COS bucket. storage_tier: string, storage tier which image will be stored in after import. Supported values: tier0, tier1, tier3, tier5k. sap_type: optional string, Supported values: null, Hana, Netweaver, use null for non-SAP image."
+  description = "Optionally import up to three custom images from Cloud Object Storage into PowerVS workspace. Requires 'powervs_custom_image_cos_configuration' to be set. image_name: string, must be unique. Name of image inside PowerVS workspace. file_name: string, object key of image inside COS bucket. storage_tier: string, storage tier which image will be stored in after import. Supported values: tier0, tier1, tier3, tier5k. sap_type: optional string, Supported values: Hana and Netweaver"
   type = object({
     powervs_custom_image1 = object({
       image_name   = string
@@ -228,32 +215,21 @@ variable "powervs_custom_images" {
       file_name    = string
       storage_tier = string
       sap_type     = optional(string)
-    }),
-    powervs_custom_image3 = object({
-      image_name   = string
-      file_name    = string
-      storage_tier = string
-      sap_type     = optional(string)
     })
   })
+
   default = {
     "powervs_custom_image1" : {
       "image_name" : "",
       "file_name" : "",
       "storage_tier" : "",
-      "sap_type" : null
+      "sap_type" : "Hana"
     },
     "powervs_custom_image2" : {
       "image_name" : "",
       "file_name" : "",
       "storage_tier" : "",
-      "sap_type" : null
-    },
-    "powervs_custom_image3" : {
-      "image_name" : "",
-      "file_name" : "",
-      "storage_tier" : "",
-      "sap_type" : null
+      "sap_type" : "Netweaver"
     }
   }
 }
@@ -277,54 +253,6 @@ variable "powervs_custom_image_cos_service_credentials" {
   type        = string
   sensitive   = true
   default     = null
-}
-
-
-#####################################################
-# Optional Parameters VPN and Secrets Manager
-#####################################################
-
-variable "client_to_site_vpn" {
-  description = "VPN configuration - the client ip pool and list of users email ids to access the environment. If enabled, then a Secret Manager instance is also provisioned with certificates generated. See optional parameters to reuse an existing Secrets manager instance."
-  type = object({
-    enable                        = bool
-    client_ip_pool                = string
-    vpn_client_access_group_users = list(string)
-  })
-
-  default = {
-    "enable" : true,
-    "client_ip_pool" : "192.168.0.0/16",
-    "vpn_client_access_group_users" : []
-  }
-}
-
-variable "sm_service_plan" {
-  type        = string
-  description = "The service/pricing plan to use when provisioning a new Secrets Manager instance. Allowed values: `standard` and `trial`. Only used if `existing_sm_instance_guid` is set to null."
-  default     = "standard"
-}
-
-variable "existing_sm_instance_guid" {
-  type        = string
-  description = "An existing Secrets Manager GUID. If not provided a new instance will be provisioned."
-  default     = null
-}
-
-variable "existing_sm_instance_region" {
-  type        = string
-  description = "Required if value is passed into `var.existing_sm_instance_guid`."
-  default     = null
-
-}
-
-#################################################
-# Parameters SCC Workload Protection
-#################################################
-
-variable "enable_scc_wp" {
-  description = "Set to true to enable SCC Workload Protection and install and configure the SCC Workload Protection agent on all VSIs and PowerVS instances in this deployment."
-  type        = bool
 }
 
 #####################################################
@@ -405,6 +333,7 @@ variable "sap_hana_vars" {
     error_message = "HANA (sap_hana_install_number), ASCS (sap_swpm_ascs_instance_nr), and PAS (sap_swpm_pas_instance_nr) instance numbers must not be the same."
   }
 }
+
 variable "sap_swpm_master_password" {
   description = "SAP SWPM master password."
   type        = string
@@ -437,6 +366,44 @@ variable "sap_solution_vars" {
 }
 
 #####################################################
+# Optional Parameters VPN and Secrets Manager
+#####################################################
+
+variable "client_to_site_vpn" {
+  description = "VPN configuration - the client ip pool and list of users email ids to access the environment. If enabled, then a Secret Manager instance is also provisioned with certificates generated. See optional parameters to reuse an existing Secrets manager instance."
+  type = object({
+    enable                        = bool
+    client_ip_pool                = string
+    vpn_client_access_group_users = list(string)
+  })
+
+  default = {
+    "enable" : true,
+    "client_ip_pool" : "192.168.0.0/16",
+    "vpn_client_access_group_users" : []
+  }
+}
+
+variable "sm_service_plan" {
+  type        = string
+  description = "The service/pricing plan to use when provisioning a new Secrets Manager instance. Allowed values: `standard` and `trial`. Only used if `existing_sm_instance_guid` is set to null."
+  default     = "standard"
+}
+
+variable "existing_sm_instance_guid" {
+  type        = string
+  description = "An existing Secrets Manager GUID. If not provided a new instance will be provisioned."
+  default     = null
+}
+
+variable "existing_sm_instance_region" {
+  type        = string
+  description = "Required if value is passed into `var.existing_sm_instance_guid`."
+  default     = null
+
+}
+
+#####################################################
 # Parameters for Monitoring
 #####################################################
 
@@ -462,6 +429,16 @@ variable "sap_monitoring_vars" {
     error_message = "sap_monitoring_nr should be a 2-digit number between 00 and 99. or empty"
   }
 }
+
+#################################################
+# Parameters SCC Workload Protection
+#################################################
+
+variable "enable_scc_wp" {
+  description = "Set to true to enable SCC Workload Protection and install and configure the SCC Workload Protection agent on all VSIs and PowerVS instances in this deployment."
+  type        = bool
+}
+
 #####################################################
 # Other Parameters
 #####################################################
@@ -477,7 +454,7 @@ variable "ansible_vault_password" {
 }
 
 variable "tags" {
-  description = "List of tag names for the IBM Cloud PowerVS workspace"
+  description = "List of tag names for the IBM Cloud resources created."
   type        = list(string)
   default     = []
 }

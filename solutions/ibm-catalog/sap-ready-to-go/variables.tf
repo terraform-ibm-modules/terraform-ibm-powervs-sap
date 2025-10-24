@@ -180,6 +180,7 @@ variable "nfs_server_config" {
 #####################################################
 # Parameters for Image
 #####################################################
+
 variable "vpc_intel_images" {
   description = "Stock OS image names for creating VPC landing zone VSI instances: RHEL (management and network services) and SLES (monitoring)."
   type = object({
@@ -222,7 +223,7 @@ variable "powervs_os_registration_password" {
 }
 
 variable "powervs_custom_images" {
-  description = "Optionally import up to three custom images from Cloud Object Storage into PowerVS workspace. Requires 'powervs_custom_image_cos_configuration' to be set. image_name: string, must be unique. Name of image inside PowerVS workspace. file_name: string, object key of image inside COS bucket. storage_tier: string, storage tier which image will be stored in after import. Supported values: tier0, tier1, tier3, tier5k. sap_type: optional string, Supported values: null, Hana, Netweaver, use null for non-SAP image."
+  description = "Optionally import up to three custom images from Cloud Object Storage into PowerVS workspace. Requires 'powervs_custom_image_cos_configuration' to be set. image_name: string, must be unique. Name of image inside PowerVS workspace. file_name: string, object key of image inside COS bucket. storage_tier: string, storage tier which image will be stored in after import. Supported values: tier0, tier1, tier3, tier5k. sap_type: optional string, Supported values: null, Hana and Netweaver"
   type = object({
     powervs_custom_image1 = object({
       image_name   = string
@@ -235,12 +236,6 @@ variable "powervs_custom_images" {
       file_name    = string
       storage_tier = string
       sap_type     = optional(string)
-    }),
-    powervs_custom_image3 = object({
-      image_name   = string
-      file_name    = string
-      storage_tier = string
-      sap_type     = optional(string)
     })
   })
   default = {
@@ -248,19 +243,13 @@ variable "powervs_custom_images" {
       "image_name" : "",
       "file_name" : "",
       "storage_tier" : "",
-      "sap_type" : null
+      "sap_type" : "Hana"
     },
     "powervs_custom_image2" : {
       "image_name" : "",
       "file_name" : "",
       "storage_tier" : "",
-      "sap_type" : null
-    },
-    "powervs_custom_image3" : {
-      "image_name" : "",
-      "file_name" : "",
-      "storage_tier" : "",
-      "sap_type" : null
+      "sap_type" : "Netweaver"
     }
   }
 }
@@ -350,7 +339,7 @@ variable "ansible_vault_password" {
 }
 
 variable "tags" {
-  description = "List of tag names for the IBM Cloud PowerVS workspace"
+  description = "List of tag names for the IBM Cloud resources created."
   type        = list(string)
   default     = []
 }

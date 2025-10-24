@@ -6,7 +6,7 @@
 
 module "standard" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "10.2.0"
+  version = "10.2.1"
 
   providers = {
     ibm.ibm-is = ibm.ibm-is
@@ -14,22 +14,27 @@ module "standard" {
     ibm.ibm-sm = ibm.ibm-sm
   }
 
-  powervs_zone                                 = var.powervs_zone
-  powervs_resource_group_name                  = var.powervs_resource_group_name
-  prefix                                       = var.prefix
-  external_access_ip                           = var.external_access_ip
-  vpc_intel_images                             = var.vpc_intel_images
-  ssh_public_key                               = var.ssh_public_key
-  ssh_private_key                              = var.ssh_private_key
-  powervs_management_network                   = { name = "${var.prefix}-sap-net", cidr = var.powervs_sap_network_cidr }
-  powervs_backup_network                       = null
-  configure_dns_forwarder                      = true
-  configure_ntp_forwarder                      = true
-  configure_nfs_server                         = true
-  nfs_server_config                            = var.nfs_server_config
-  dns_forwarder_config                         = { "dns_servers" : "161.26.0.7; 161.26.0.8; 9.9.9.9;" }
-  tags                                         = var.tags
-  powervs_custom_images                        = var.powervs_custom_images
+  powervs_zone                = var.powervs_zone
+  powervs_resource_group_name = var.powervs_resource_group_name
+  prefix                      = var.prefix
+  external_access_ip          = var.external_access_ip
+  vpc_intel_images            = var.vpc_intel_images
+  ssh_public_key              = var.ssh_public_key
+  ssh_private_key             = var.ssh_private_key
+  powervs_management_network  = { name = "${var.prefix}-sap-net", cidr = var.powervs_sap_network_cidr }
+  powervs_backup_network      = null
+  configure_dns_forwarder     = true
+  configure_ntp_forwarder     = true
+  configure_nfs_server        = true
+  nfs_server_config           = var.nfs_server_config
+  dns_forwarder_config        = { "dns_servers" : "161.26.0.7; 161.26.0.8; 9.9.9.9;" }
+  tags                        = var.tags
+  powervs_custom_images = merge(var.powervs_custom_images, { powervs_custom_image3 = {
+    image_name   = "",
+    file_name    = "",
+    storage_tier = "",
+    sap_type     = null
+  } })
   powervs_custom_image_cos_configuration       = var.powervs_custom_image_cos_configuration
   powervs_custom_image_cos_service_credentials = var.powervs_custom_image_cos_service_credentials
   client_to_site_vpn                           = var.client_to_site_vpn
@@ -114,9 +119,9 @@ locals {
 }
 
 module "ibmcloud_cos_download_hana_binaries" {
-  source                     = "../../../modules/ibmcloud-cos"
-  depends_on                 = [module.standard]
-  count                      = module.standard.network_services_config.nfs.enable ? 1 : 0
+  source     = "../../../modules/ibmcloud-cos"
+  depends_on = [module.standard]
+
   access_host_or_ip          = module.standard.access_host_or_ip
   target_server_ip           = module.standard.ansible_host_or_ip
   ssh_private_key            = var.ssh_private_key
@@ -124,8 +129,7 @@ module "ibmcloud_cos_download_hana_binaries" {
 }
 
 module "ibmcloud_cos_download_netweaver_binaries" {
-  source = "../../../modules/ibmcloud-cos"
-
+  source     = "../../../modules/ibmcloud-cos"
   depends_on = [module.ibmcloud_cos_download_hana_binaries]
 
   access_host_or_ip          = module.standard.access_host_or_ip
@@ -175,14 +179,14 @@ module "ansible_sap_install_hana" {
   ansible_vault_password = var.ansible_vault_password
 
   src_script_template_name = "hanadb/install_hana.sh.tftpl"
-  dst_script_file_name     = "${var.prefix}-${var.powervs_hana_instance_name}_install_hana.sh"
+  dst_script_file_name     = "${var.prefix}-${local.powervs_hana_instance.name}_install_hana.sh"
 
   src_playbook_template_name = "hanadb/playbook-sap-hana-install.yml.tftpl"
-  dst_playbook_file_name     = "${var.prefix}-${var.powervs_hana_instance_name}-playbook-sap-hana-install.yml"
+  dst_playbook_file_name     = "${var.prefix}-${local.powervs_hana_instance.name}-playbook-sap-hana-install.yml"
   playbook_template_vars     = local.ansible_sap_hana_playbook_vars
 
   src_inventory_template_name = "pi-instance-inventory.tftpl"
-  dst_inventory_file_name     = "${var.prefix}-${var.powervs_hana_instance_name}-instance-inventory"
+  dst_inventory_file_name     = "${var.prefix}-${local.powervs_hana_instance.name}-instance-inventory"
   inventory_template_vars     = { "pi_instance_management_ip" : module.sap_system.pi_hana_instance_management_ip }
 }
 
@@ -205,9 +209,9 @@ locals {
       sap_install_media_detect_directory = "${var.nfs_server_config.mount_path}/${var.ibmcloud_cos_configuration.cos_solution_software_path}"
       sap_swpm_mp_stack_file_name        = var.ibmcloud_cos_configuration.cos_swpm_mp_stack_file_name
       sap_swpm_master_password           = var.sap_swpm_master_password
-      sap_swpm_ascs_instance_hostname    = "${var.prefix}-${var.powervs_netweaver_instance_name}-1"
+      sap_swpm_ascs_instance_hostname    = "${var.prefix}-${local.powervs_netweaver_instance.name}-1"
       sap_domain                         = var.sap_domain
-      sap_swpm_db_host                   = "${var.prefix}-${var.powervs_hana_instance_name}"
+      sap_swpm_db_host                   = "${var.prefix}-${local.powervs_hana_instance.name}"
       sap_swpm_db_ip                     = module.sap_system.pi_hana_instance_management_ip
       sap_swpm_db_sid                    = var.sap_hana_vars.sap_hana_install_sid
       sap_swpm_db_instance_nr            = var.sap_hana_vars.sap_hana_install_number
@@ -228,14 +232,14 @@ module "ansible_sap_install_solution" {
   ansible_vault_password = var.ansible_vault_password
 
   src_script_template_name = "s4hanab4hana-solution/install_swpm.sh.tftpl"
-  dst_script_file_name     = "${var.prefix}-${var.powervs_netweaver_instance_name}_install_swpm.sh"
+  dst_script_file_name     = "${var.prefix}-${local.powervs_netweaver_instance.name}_install_swpm.sh"
 
   src_playbook_template_name = "s4hanab4hana-solution/playbook-sap-swpm-install.yml.tftpl"
-  dst_playbook_file_name     = "${var.prefix}-${var.powervs_netweaver_instance_name}-playbook-sap-swpm-install.yml"
+  dst_playbook_file_name     = "${var.prefix}-${local.powervs_netweaver_instance.name}-playbook-sap-swpm-install.yml"
   playbook_template_vars     = local.ansible_sap_solution_playbook_vars
 
   src_inventory_template_name = "pi-instance-inventory.tftpl"
-  dst_inventory_file_name     = "${var.prefix}-${var.powervs_netweaver_instance_name}-instance-inventory"
+  dst_inventory_file_name     = "${var.prefix}-${local.powervs_netweaver_instance.name}-instance-inventory"
   inventory_template_vars     = { "pi_instance_management_ip" : module.sap_system.pi_netweaver_instance_management_ips }
 }
 
@@ -272,10 +276,9 @@ locals {
 
 
 module "ansible_monitoring_sap_install_solution" {
-
   source     = "../../../modules/ansible"
-  depends_on = [module.ibmcloud_cos_download_monitoring_binaries, module.ansible_sap_install_hana, module.ansible_sap_install_solution]
   count      = local.monitoring_instance.enable ? 1 : 0
+  depends_on = [module.ibmcloud_cos_download_monitoring_binaries, module.ansible_sap_install_hana, module.ansible_sap_install_solution]
 
   bastion_host_ip        = module.standard.access_host_or_ip
   ansible_host_or_ip     = module.standard.ansible_host_or_ip
