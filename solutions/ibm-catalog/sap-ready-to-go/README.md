@@ -80,8 +80,6 @@
 | Name | Type |
 |------|------|
 | [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.84.1/docs/data-sources/iam_auth_token) | data source |
-| [ibm_pi_catalog_images.catalog_images_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.84.1/docs/data-sources/pi_catalog_images) | data source |
-| [ibm_pi_image.custom_images](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.84.1/docs/data-sources/pi_image) | data source |
 
 ### Inputs
 
