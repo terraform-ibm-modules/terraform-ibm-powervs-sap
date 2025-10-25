@@ -2,6 +2,7 @@
 package test
 
 import (
+	"log"
 	"os"
 	"strings"
 	"testing"
@@ -9,12 +10,18 @@ import (
 	"github.com/gruntwork-io/terratest/modules/ssh"
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
 // Use existing resource group
 const resourceGroup = "geretain-test-resources"
 const defaultExampleTerraformDir = "solutions/ibm-catalog/sap-ready-to-go"
+
+// Define a struct with fields that match the structure of the YAML data
+const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
+
+var permanentResources map[string]interface{}
 
 var sharedInfoSvc *cloudinfo.CloudInfoService
 
@@ -23,6 +30,12 @@ var sharedInfoSvc *cloudinfo.CloudInfoService
 
 func TestMain(m *testing.M) {
 	sharedInfoSvc, _ = cloudinfo.NewCloudInfoServiceFromEnv("TF_VAR_ibmcloud_api_key", cloudinfo.CloudInfoServiceOptions{})
+
+	var err error
+	permanentResources, err = common.LoadMapFromYaml(yamlLocation)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// creating ssh keys
 	tSsh := new(testing.T)
@@ -60,6 +73,8 @@ func setupOptions(t *testing.T, prefix string, powervs_zone string) *testhelper.
 		"powervs_resource_group_name": options.ResourceGroup,
 		"external_access_ip":          "0.0.0.0/0",
 		"os_image_distro":             "SLES",
+		"existing_sm_instance_guid":   permanentResources["secretsManagerGuid"],
+		"existing_sm_instance_region": permanentResources["secretsManagerRegion"],
 		"enable_monitoring":           false,
 		"enable_scc_wp":               true,
 		"ansible_vault_password":      "SecurePassw0rd!",
