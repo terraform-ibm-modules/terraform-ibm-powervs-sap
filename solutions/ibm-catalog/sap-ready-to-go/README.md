@@ -65,7 +65,7 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.84.1 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.84.3 |
 | <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | 2.0.1 |
 
 ### Modules
@@ -73,15 +73,15 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../../modules/pi-sap-system-type1 | n/a |
-| <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 10.1.1 |
+| <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 10.2.1 |
 
 ### Resources
 
 | Name | Type |
 |------|------|
-| [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.84.1/docs/data-sources/iam_auth_token) | data source |
-| [ibm_pi_catalog_images.catalog_images_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.84.1/docs/data-sources/pi_catalog_images) | data source |
-| [ibm_pi_image.custom_images](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.84.1/docs/data-sources/pi_image) | data source |
+| [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.84.3/docs/data-sources/iam_auth_token) | data source |
+| [ibm_pi_catalog_images.catalog_images_ds](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.84.3/docs/data-sources/pi_catalog_images) | data source |
+| [ibm_pi_image.custom_images](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.84.3/docs/data-sources/pi_image) | data source |
 
 ### Inputs
 
