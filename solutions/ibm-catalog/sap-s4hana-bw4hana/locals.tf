@@ -1,7 +1,7 @@
 locals {
   powervs_hana_instance = {
     name                      = "hana"
-    image_id                  = local.hana_image_id
+    image_id                  = local.selected_hana_image
     sap_profile_id            = var.powervs_hana_instance_sap_profile_id
     additional_storage_config = var.powervs_hana_instance_additional_storage_config
   }
@@ -9,7 +9,7 @@ locals {
   powervs_netweaver_instance = {
     instance_count = 1
     name           = "nw"
-    image_id       = local.netweaver_image_id
+    image_id       = local.selected_netweaver_image
     processors     = var.powervs_netweaver_cpu_number
     memory         = var.powervs_netweaver_memory_size
     proc_type      = "shared"
