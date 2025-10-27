@@ -8,6 +8,6 @@
   "ssh_private_key": $SSH_PRV_KEY,
   "ibmcloud_api_key": $VALIDATION_APIKEY,
   "enable_monitoring": false,
-  "enable_scc_wp": true,
+  "enable_scc_wp": false,
   "ansible_vault_password" : "SecurePassw0rd!"
 }
