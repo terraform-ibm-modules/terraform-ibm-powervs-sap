@@ -7,7 +7,7 @@ locals {
   }
 
   powervs_netweaver_instance = {
-    instance_count = var.powervs_netweaver_instance_count
+    instance_count = 1
     name           = "nw"
     image_id       = local.selected_netweaver_image
     processors     = var.powervs_netweaver_cpu_number

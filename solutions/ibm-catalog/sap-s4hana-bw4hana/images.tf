@@ -16,21 +16,13 @@ locals {
     length(trim(var.powervs_custom_images.powervs_custom_image1.image_name, " ")) > 0 ?
     var.powervs_custom_images.powervs_custom_image1.image_name :
     ""
-    ) : (
-    var.os_image_distro == "SLES" ?
-    var.powervs_default_sap_images.sles_hana_image :
-    var.powervs_default_sap_images.rhel_hana_image
-  )
+  ) : var.powervs_default_sap_images.rhel_hana_image
 
   selected_netweaver_image = local.use_custom_images ? (
     length(trim(var.powervs_custom_images.powervs_custom_image2.image_name, " ")) > 0 ?
     var.powervs_custom_images.powervs_custom_image2.image_name :
     var.powervs_custom_images.powervs_custom_image1.image_name
-    ) : (
-    var.os_image_distro == "SLES" ?
-    var.powervs_default_sap_images.sles_nw_image :
-    var.powervs_default_sap_images.rhel_nw_image
-  )
+  ) : var.powervs_default_sap_images.rhel_nw_image
 
   fls_image_types               = ["stock-sap-fls", "stock-sap-netweaver-fls"]
   selected_hana_image_type      = local.use_custom_images || strcontains(local.selected_hana_image, "BYOL") ? "byol" : "stock-sap-fls"

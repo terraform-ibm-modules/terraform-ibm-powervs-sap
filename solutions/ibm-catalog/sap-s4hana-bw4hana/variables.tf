@@ -34,21 +34,10 @@ variable "powervs_sap_network_cidr" {
   default     = "10.51.0.0/24"
 }
 
-variable "os_image_distro" {
-  description = "Image distribution to use for all instances(HANA, NetWeaver). OS release versions may be specified in 'powervs_sap_default_images' optional parameters below."
-  type        = string
-
-  validation {
-    condition     = (upper(var.os_image_distro) == "RHEL" || upper(var.os_image_distro) == "SLES")
-    error_message = "Supported values are 'RHEL' or 'SLES' only."
-  }
-}
-
 variable "external_access_ip" {
   description = "Specify the IP address or CIDR to login through SSH to the environment after deployment. Access to this environment will be allowed only from this IP address."
   type        = string
 }
-
 
 #####################################################
 # PowerVS HANA Instance parameters
@@ -102,20 +91,14 @@ variable "powervs_hana_instance_additional_storage_config" {
 # PowerVS NetWeaver Instance parameters
 #####################################################
 
-variable "powervs_netweaver_instance_count" {
-  description = "Number of PowerVS SAP NetWeaver instances that should be created. 'powervs_netweaver_instance_count' cannot exceed 10."
-  type        = number
-  default     = 1
-}
-
 variable "powervs_netweaver_cpu_number" {
-  description = "Number of CPUs for each PowerVS SAP NetWeaver instance."
+  description = "Number of CPUs for PowerVS SAP NetWeaver instance."
   type        = string
   default     = "3"
 }
 
 variable "powervs_netweaver_memory_size" {
-  description = "Memory size for each PowerVS SAP NetWeaver instance."
+  description = "Memory size for PowerVS SAP NetWeaver instance."
   type        = string
   default     = "32"
 }
@@ -194,36 +177,32 @@ variable "vpc_intel_images" {
 }
 
 variable "powervs_default_sap_images" {
-  description = "Default SUSE and Red Hat Linux Full Linux subscription images to use for PowerVS SAP HANA and SAP NetWeaver instances. If you're using a byol or a custom RHEL/SLES image, additionally specify the optional values for 'powervs_os_registration_username', 'powervs_os_registration_password' and 'ansible_vault_password'"
+  description = "Default Red Hat Linux Full Linux subscription images to use for PowerVS SAP HANA and SAP NetWeaver instances. If you're using a byol or a custom RHEL image, additionally specify the optional values for 'powervs_os_registration_username', 'powervs_os_registration_password' and 'ansible_vault_password'"
   type = object({
-    sles_hana_image = string
-    sles_nw_image   = string
     rhel_hana_image = string
     rhel_nw_image   = string
   })
   default = {
-    "sles_hana_image" : "SLES15-SP6-SAP",
     "rhel_hana_image" : "RHEL9-SP4-SAP",
-    "sles_nw_image" : "SLES15-SP6-SAP-NETWEAVER",
     "rhel_nw_image" : "RHEL9-SP4-SAP-NETWEAVER"
   }
 }
 
 variable "powervs_os_registration_username" {
-  description = "If you're using a byol or a custom RHEL/SLES image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS)."
+  description = "If you're using a byol or a custom RHEL image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS)."
   type        = string
   default     = ""
 }
 
 variable "powervs_os_registration_password" {
-  description = "If you're using a byol or a custom RHEL/SLES image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS)."
+  description = "If you're using a byol or a custom RHEL image for SAP HANA and Netweaver you need to provide your OS registration credentials here. Leave empty if you're using an IBM provided subscription (FLS)."
   type        = string
   sensitive   = true
   default     = ""
 }
 
 variable "powervs_custom_images" {
-  description = "Optionally import up to three custom images from Cloud Object Storage into PowerVS workspace. Requires 'powervs_custom_image_cos_configuration' to be set. image_name: string, must be unique. Name of image inside PowerVS workspace. file_name: string, object key of image inside COS bucket. storage_tier: string, storage tier which image will be stored in after import. Supported values: tier0, tier1, tier3, tier5k. sap_type: optional string, Supported values: null, Hana and Netweaver"
+  description = "Optionally import up to three custom images from Cloud Object Storage into PowerVS workspace. Requires 'powervs_custom_image_cos_configuration' to be set. image_name: string, must be unique. Name of image inside PowerVS workspace. file_name: string, object key of image inside COS bucket. storage_tier: string, storage tier which image will be stored in after import. Supported values: tier0, tier1, tier3, tier5k. sap_type: optional string, Supported values: Hana and Netweaver"
   type = object({
     powervs_custom_image1 = object({
       image_name   = string
@@ -238,6 +217,7 @@ variable "powervs_custom_images" {
       sap_type     = optional(string)
     })
   })
+
   default = {
     "powervs_custom_image1" : {
       "image_name" : "",
@@ -275,6 +255,115 @@ variable "powervs_custom_image_cos_service_credentials" {
   default     = null
 }
 
+#####################################################
+# Parameters for SAP Installation
+#####################################################
+
+variable "sap_solution" {
+  description = "SAP Solution to be installed on Power Virtual Server."
+  type        = string
+  validation {
+    condition     = contains(["s4hana-2023", "s4hana-2022", "s4hana-2021", "s4hana-2020", "bw4hana-2021"], var.sap_solution) ? true : false
+    error_message = "Solution value has to be one of 's4hana-2023', 's4hana-2022', 's4hana-2021', 's4hana-2020', 'bw4hana-2021'"
+  }
+}
+
+variable "ibmcloud_cos_configuration" {
+  description = "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. 'cos_monitoring_software_path' is optional and must contain x86_64 SAPCAR and SAP HANA client binaries required for configuring monitoring instance. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path', 'cos_solution_software_path' and 'cos_monitoring_software_path'."
+  type = object({
+    cos_region                   = string
+    cos_bucket_name              = string
+    cos_hana_software_path       = string
+    cos_solution_software_path   = string
+    cos_monitoring_software_path = optional(string)
+    cos_swpm_mp_stack_file_name  = string
+  })
+  default = {
+    "cos_region" : "eu-geo",
+    "cos_bucket_name" : "powervs-automation",
+    "cos_hana_software_path" : "HANA_DB/rev87",
+    "cos_solution_software_path" : "S4HANA_2023",
+    "cos_monitoring_software_path" : "HANA_CLIENT/x86_64",
+    "cos_swpm_mp_stack_file_name" : ""
+  }
+}
+
+variable "ibmcloud_cos_service_credentials" {
+  description = "IBM Cloud Object Storage instance service credentials to access the bucket in the instance.[json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials)"
+  type        = string
+  sensitive   = true
+}
+
+variable "sap_hana_master_password" {
+  description = "SAP HANA master password."
+  type        = string
+  sensitive   = true
+
+  validation {
+    condition     = length(var.sap_hana_master_password) >= 8 && length(var.sap_hana_master_password) <= 30 && can(regex("[A-Z]", var.sap_hana_master_password)) && can(regex("[a-z]", var.sap_hana_master_password)) && can(regex("[0-9]", var.sap_hana_master_password)) && !can(regex("[\\\\\"]", var.sap_hana_master_password))
+    error_message = "The SAP HANA master password must be 8-30 characters long containing at least one lower character (a-z), one upper character (A-Z) and one digit (0-9), and must not include a backslash (\\) or double quote (\")."
+  }
+}
+
+variable "sap_hana_vars" {
+  description = "SAP HANA SID and instance number."
+  type = object({
+    sap_hana_install_sid    = string
+    sap_hana_install_number = string
+  })
+  default = {
+    "sap_hana_install_sid" : "HDB",
+    "sap_hana_install_number" : "02"
+  }
+  validation {
+    condition     = can(regex("^[A-Z][A-Z0-9]{2}$", var.sap_hana_vars.sap_hana_install_sid))
+    error_message = "The provided sap_hana_vars configuration is invalid. The sap_hana_install_sid value must consist of exactly three alphanumeric characters, all uppercase, and the first character must be a letter."
+  }
+  validation {
+    condition     = can(regex("^[0-9]{2}$", var.sap_hana_vars.sap_hana_install_number))
+    error_message = "The sap_hana_install_number must be a numeric value between 00 and 99. For single-digit numbers, append a leading zero."
+  }
+  validation {
+    condition = length(distinct([
+      var.sap_hana_vars.sap_hana_install_number,
+      var.sap_solution_vars.sap_swpm_ascs_instance_nr,
+      var.sap_solution_vars.sap_swpm_pas_instance_nr
+    ])) == 3
+
+    error_message = "HANA (sap_hana_install_number), ASCS (sap_swpm_ascs_instance_nr), and PAS (sap_swpm_pas_instance_nr) instance numbers must not be the same."
+  }
+}
+
+variable "sap_swpm_master_password" {
+  description = "SAP SWPM master password."
+  type        = string
+  sensitive   = true
+  validation {
+    condition     = length(var.sap_swpm_master_password) >= 8 && length(var.sap_swpm_master_password) <= 30 && can(regex("[A-Z]", var.sap_swpm_master_password)) && can(regex("[a-z]", var.sap_swpm_master_password)) && can(regex("[0-9]", var.sap_swpm_master_password)) && !can(regex("[\\\\\"]", var.sap_swpm_master_password))
+    error_message = "The SAP Software Provisioning Manager master password must be 8-30 characters long containing at least one lower character (a-z), one upper character (A-Z) and one digit (0-9), and must not include a backslash (\\) or double quote (\")."
+  }
+}
+
+variable "sap_solution_vars" {
+  description = "SAP SID, ASCS and PAS instance numbers and service/protectedwebmethods parameters."
+  type = object({
+    sap_swpm_sid                         = string
+    sap_swpm_ascs_instance_nr            = string
+    sap_swpm_pas_instance_nr             = string
+    sap_swpm_service_protectedwebmethods = string
+
+  })
+  default = {
+    "sap_swpm_sid" : "S4H",
+    "sap_swpm_ascs_instance_nr" : "00",
+    "sap_swpm_pas_instance_nr" : "01",
+    "sap_swpm_service_protectedwebmethods" : "SDEFAULT -GetQueueStatistic -ABAPGetWPTable -EnqGetStatistic -GetProcessList -GetEnvironment -BAPGetSystemWPTable"
+  }
+  validation {
+    condition     = var.sap_solution_vars.sap_swpm_ascs_instance_nr != var.sap_solution_vars.sap_swpm_pas_instance_nr
+    error_message = "ASCS and PAS instance number must not be same"
+  }
+}
 
 #####################################################
 # Optional Parameters VPN and Secrets Manager
@@ -315,11 +404,30 @@ variable "existing_sm_instance_region" {
 }
 
 #####################################################
-# Parameters Monitoring
+# Parameters for Monitoring
 #####################################################
+
 variable "enable_monitoring" {
-  description = "Specify whether Monitoring will be enabled. This creates a new IBM Cloud Monitoring Instance."
+  description = "Specify whether Monitoring will be enabled. This includes the creation of an IBM Cloud Monitoring Instance and an Intel Monitoring Instance to host the services."
   type        = bool
+}
+
+variable "sap_monitoring_vars" {
+  description = "Configuration details for SAP monitoring dashboard. Takes effect only when a monitoring instance was deployed as part of Power Virtual Server with VPC landing zone deployment. If 'config_override' is true, an existing configuration will be overwritten, 'sap_monitoring_nr' Two-digit incremental number starting with 01 up to 99. This is not a existing SAP ID, but a pure virtual number and 'sap_monitoring_solution_name' is a virtual arbitrary short name to recognize SAP System."
+  type = object({
+    config_override              = bool
+    sap_monitoring_nr            = string
+    sap_monitoring_solution_name = string
+  })
+  default = {
+    "config_override" : false,
+    "sap_monitoring_nr" : "01",
+    "sap_monitoring_solution_name" : ""
+  }
+  validation {
+    condition     = (length(var.sap_monitoring_vars.sap_monitoring_nr) == 2 && tonumber(var.sap_monitoring_vars.sap_monitoring_nr) >= 0 && tonumber(var.sap_monitoring_vars.sap_monitoring_nr) <= 99) || var.sap_monitoring_vars.sap_monitoring_nr == ""
+    error_message = "sap_monitoring_nr should be a 2-digit number between 00 and 99. or empty"
+  }
 }
 
 #################################################
@@ -331,11 +439,18 @@ variable "enable_scc_wp" {
   type        = bool
 }
 
+#####################################################
+# Other Parameters
+#####################################################
+
 variable "ansible_vault_password" {
   description = "Vault password to encrypt ansible playbooks that contain sensitive information. Required when SCC workload Protection is enabled. Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]_{|}~."
   type        = string
   sensitive   = true
-  default     = ""
+  validation {
+    condition     = length(var.ansible_vault_password) >= 0
+    error_message = "ansible_vault_password is required."
+  }
 }
 
 variable "tags" {
