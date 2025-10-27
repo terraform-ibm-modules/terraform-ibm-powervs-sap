@@ -8,9 +8,8 @@ offerings:
     variations:
       - name: sap-ready-to-go
         mark_ready: false
-        install_type: extension
-        import_only: true
+        install_type: fullstack
       - name: sap-s4hana-bw4hana
         mark_ready: false
-        install_type: extension
+        install_type: fullstack
         import_only: true
