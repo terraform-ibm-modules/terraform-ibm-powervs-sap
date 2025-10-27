@@ -282,7 +282,12 @@
             },
             {
               "key": "client_to_site_vpn",
-              "required": true
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "code_editor"
+              }
             },
             {
               "key": "enable_monitoring",
@@ -293,7 +298,12 @@
               "required": true
             },
             {
-              "key": "nfs_server_config"
+              "key": "nfs_server_config",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "code_editor"
+              }
             },
             {
               "key": "powervs_hana_instance_custom_storage_config",
@@ -825,7 +835,12 @@
             },
             {
               "key": "client_to_site_vpn",
-              "required": true
+              "required": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "code_editor"
+              }
             },
             {
               "key": "enable_monitoring",
@@ -836,7 +851,12 @@
               "required": true
             },
             {
-              "key": "nfs_server_config"
+              "key": "nfs_server_config",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "code_editor"
+              }
             },
             {
               "key": "powervs_hana_instance_custom_storage_config",
