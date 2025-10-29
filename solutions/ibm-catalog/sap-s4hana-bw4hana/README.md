@@ -46,10 +46,9 @@
 - Creates and configures one PowerVS instance for SAP HANA based on best practices for HANA database.
 - Creates and configures one PowerVS instance for SAP NetWeaver based on best practices, hosting the PAS and ASCS instances.
 - Optionally let's the user choose a byol or custom os image for the HANA and Netweaver PowerVS instances and activate it with user provided os registration credentials.
-- Creates and configures one optional PowerVS instance for sharing SAP files between other system instances.
 - Connects all created PowerVS instances to a proxy server specified by IP address or hostname.
-- Optionally connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
-- Optionally configures a shared NFS directory on all created PowerVS instances.
+- Connects all created PowerVS instances to an NTP server and DNS forwarder specified by IP address or hostname.
+- Configures a shared NFS directory on all created PowerVS instances.
 - Optionally configures the monitoring host to collect relevant information from the Database and application servers and send it to the IBM Cloud® Monitoring Instance
 - Optionally installs Sysdig agent and configures connection to [IBM Cloud Security and Compliance Center Workload Protection](https://cloud.ibm.com/docs/workload-protection)
 - Supports installation of **S/4HANA2023, S/4HANA2022, S/4HANA2021, S/4HANA2020, BW/4HANA2021**.
