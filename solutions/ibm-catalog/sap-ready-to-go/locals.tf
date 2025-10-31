@@ -31,7 +31,7 @@ locals {
     squid = {
       enable               = true
       squid_server_ip_port = module.standard.proxy_host_or_ip_port
-      no_proxy_hosts       = "161.0.0.0/0,${var.vpc_subnet_cidrs.vpn},${var.vpc_subnet_cidrs.mgmt},${var.vpc_subnet_cidrs.vpe},${var.vpc_subnet_cidrs.edge},${var.powervs_sap_network_cidr != null ? "${var.powervs_sap_network_cidr}," : ""}${var.client_to_site_vpn.client_ip_pool}"
+      no_proxy_hosts       = "161.0.0.0/8,${var.vpc_subnet_cidrs.vpn},${var.vpc_subnet_cidrs.mgmt},${var.vpc_subnet_cidrs.vpe},${var.vpc_subnet_cidrs.edge},${var.powervs_sap_network_cidr != null ? "${var.powervs_sap_network_cidr}," : ""}${var.client_to_site_vpn.client_ip_pool}"
     }
     nfs = {
       enable          = true
