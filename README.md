@@ -48,8 +48,8 @@ This repository contains deployable architecture solutions that help in deployin
 
 |                                  Variation                                  | Available on IBM Catalog | Creates PowerVS with VPC landing zone | Creates PowerVS HANA Instance | Creates PowerVS NW Instances | Performs PowerVS OS Config | Performs PowerVS SAP Tuning | Install SAP software |
 |:---------------------------------------------------------------------------:|:------------------------:|:-------------------------------------:|:-----------------------------:|:----------------------------:|:--------------------------:|:---------------------------:|:--------------------:|
-| [IBM catalog PowerVS SAP Ready]( ./solutions/ibm-catalog/sap-ready-to-go/ ) |    :heavy_check_mark:    |    :heavy_check_mark:    |    :heavy_check_mark:    |               1               |            0 to N            |     :heavy_check_mark:     |      :heavy_check_mark:     |          N/A         |
-| [IBM catalog SAP S/4HANA or BW/4HANA variation]( ./solutions/ibm-catalog/sap-s4hana-bw4hana ) |    :heavy_check_mark:    |    :heavy_check_mark:    |    :heavy_check_mark:    |               1               |            1            |     :heavy_check_mark:     |      :heavy_check_mark:     |          :heavy_check_mark:         |
+| [IBM catalog PowerVS SAP Ready]( ./solutions/ibm-catalog/sap-ready-to-go/ ) |    :heavy_check_mark:    |    :heavy_check_mark:    |    :heavy_check_mark:    |               1               |            0 to N            |     :heavy_check_mark:     |               N/A         |
+| [IBM catalog SAP S/4HANA or BW/4HANA variation]( ./solutions/ibm-catalog/sap-s4hana-bw4hana ) |    :heavy_check_mark:    |    :heavy_check_mark:    |    :heavy_check_mark:    |               1               |            1            |     :heavy_check_mark:     |                :heavy_check_mark:         |
 
 
 
