@@ -532,7 +532,8 @@
               }
             ]
           },
-          "terraform_version": "1.10.5"
+          "terraform_version": "1.10.5",
+          "ignore_readme": true
         },
         {
           "label": "SAP S/4HANA or BW/4HANA",
@@ -1065,7 +1066,8 @@
               }
             ]
           },
-          "terraform_version": "1.10.5"
+          "terraform_version": "1.10.5",
+          "ignore_readme": true
         }
       ]
     }
