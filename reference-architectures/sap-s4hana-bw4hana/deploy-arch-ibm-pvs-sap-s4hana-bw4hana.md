@@ -59,6 +59,35 @@ IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that allows
 ## Components
 {: ##sap-s4hana-bw4hana-components}
 
+
+### VPC for SAP - architecture decisions
+{: #sap-s4hana-bw4hana-vpc-components}
+
+| Requirement | Component | Choice | Alternative choice |
+|-------------|-----------|--------------------|--------------------|
+|* Ensure public internet connectivity  \n * Isolate most virtual instances to not be reachable directly from the public internet|Edge VPC service with network services security group.|Create a separate security group service where public internet connectivity is allowed to be configured| |
+|* Provide infrastructure administration access  \n * Limit the number of infrastructure administration entry points to ensure security audit|Edge VPC service with management security group.|Create a separate security group where SSH connectivity from outside is allowed| |
+|* Provide infrastructure for service management components like backup, monitoring, IT service management, shared storage  \n * Ensure you can reach all IBM Cloud and on-premises services|Client to site VPN, NFS as a service(NFSaaS) and security groups |Create a client to site VPN and VPE full strict security groups rules without direct public internet connectivity and without direct SSH access| |
+|* Allow customer to choose operating system from two most widely used commercial Linux operating system offerings  \n * Support new OS releases|Linux operating system|Red Hat Enterprise Linux (RHEL)| |
+|* Create a virtual server instance as the only management access point to the landscape|Bastion host VPC instance|Create a Linux VPC instance that acts as a bastion host. Configure ACL and security group rules to allow SSH connectivity (port 22). Add a public IP address to the VPC instance. Allow connectivity from a restricted and limited number of public IP addresses. Allow connectivity from IP addresses of the Schematics engine nodes| |
+|* Create a virtual server instance that can act as an internet proxy server and to host basic management services like DNS, NTP, NFS|Network services VPC instance|Create a Linux VPC instance that can host management components. Preconfigure ACL and security group rules to allow traffic over private networks only.|Configure application load balancer to act as proxy server manually, Modify number of virtual server instances and allowed ports in preset or perform the modifications manually|
+|* Ensure financial services compliancy for VPC services  \n * Perform network setup of all created services  \n * Perform network isolation of all created services  \n * Ensure all created services are interconnected |Secure landing zone components|Create a minimum set of required components for a secure landing zone|Create a modified set of required components for a secure landing zone in preset|
+|* Allow customer to optionally enable monitoring in the deployment|IBM Cloud® monitoring instance and Monitoring Host VPC Instance|Optionally, create or import an existing IBM Cloud® monitoring instance (customer provided details) and create and configure the Monitoring Host VPC instance to  collect information and send it to the IBM Cloud® monitoring instance.| |
+|* Allow customer to optionally enable [Security and Compliance Center Workload Protection](/docs/workload-protection) in the deployment \n * Collect posture management information, enable vulnerability scanning and threat detection|IBM Cloud® Security and Compliance Center Workload Protection and SCC Workload Protection agent on all VPC instances in the deployment.|Optionally, create an IBM Cloud® Security and Compliance Center Workload Protection instance and install and setup the SCC Workload Protection agent on all VPC instances in the deployment (bastion, network services, monitoring hosts).| |
+{: caption="Table 1. VPC architecture decisions" caption-side="bottom"}
+
+### PowerVS workspace for SAP - architecture decisions
+{: #sap-s4hana-bw4hana-workspace-components}
+
+| Requirement | Component | Choice | Alternative choice |
+|-------------|-----------|--------------------|--------------------|
+|* Connect PowerVS workspace with VPC services|Transit gateway| Set up a local transit gateway| |
+|* Configure the network for management of all instances  \n * Throughput and latency are not relevant|Management network|Configure private network with default configurations| |
+|* Configure separate network for backup purposes with higher data throughput|Backup network|Configure separate private network with default configurations. Network characteristics might be adapted by the users manually (for example to improve throughput)| |
+|* Allow optional import of custom OS images from Cloud Object Storage|Custom OS images|Import up to three images from COS into the PowerVS workspace.|Modify the optional input parameters that specify the list of custom OS images and the COS configuration and credentials .|
+|* Preload a public SSH key that is injected into every OS deployment|Preloaded SSH public key|Preload customer specified SSH public key| |
+{: caption="Table 2. PowerVS workspace architecture decisions" caption-side="bottom"}
+
 ### PowerVS networks for SAP - architecture decisions
 {: ##sap-s4hana-bw4hana-pvs-components}
 
