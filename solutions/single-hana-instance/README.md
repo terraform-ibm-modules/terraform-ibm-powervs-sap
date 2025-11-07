@@ -29,7 +29,7 @@ It provisions the following components in IBM Cloud:
 |------|--------|---------|
 | <a name="module_configure_os_for_sap"></a> [configure\_os\_for\_sap](#module\_configure\_os\_for\_sap) | ../../modules/ansible | n/a |
 | <a name="module_hana_storage_calculation"></a> [hana\_storage\_calculation](#module\_hana\_storage\_calculation) | ../../modules/pi-hana-storage-config | n/a |
-| <a name="module_sap_hana_instance"></a> [sap\_hana\_instance](#module\_sap\_hana\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.8.2 |
+| <a name="module_sap_hana_instance"></a> [sap\_hana\_instance](#module\_sap\_hana\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.8.3 |
 
 ### Resources
 
