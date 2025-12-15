@@ -63,6 +63,7 @@
           "name": "sap-ready-to-go",
           "install_type": "fullstack",
           "working_directory": "solutions/ibm-catalog/sap-ready-to-go",
+          "short_description": "'SAP ready PowerVS' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape that builds on the foundation of the 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA and SAP NetWeaver are deployed and preconfigured for SAP installation.",
           "configuration": [
             {
               "key": "powervs_zone",
@@ -530,6 +531,7 @@
           "name": "sap-s4hana-bw4hana",
           "install_type": "fullstack",
           "working_directory": "solutions/ibm-catalog/sap-s4hana-bw4hana",
+          "short_description": "'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape that builds on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA and SAP NetWeaver are deployed and preconfigured for SAP installation. S/4HANA or BW/4HANA solution is installed based on the selected version.",
           "configuration": [
             {
               "key": "powervs_zone",
