@@ -11,7 +11,7 @@ module "hana_storage_calculation" {
 
 module "sap_hana_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.8.5"
+  version = "2.8.6"
 
   pi_workspace_guid          = var.powervs_workspace_guid
   pi_ssh_public_key_name     = var.powervs_ssh_public_key_name

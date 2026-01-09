@@ -25,7 +25,7 @@ It provisions the following components in IBM Cloud:
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_configure_os_for_sap"></a> [configure\_os\_for\_sap](#module\_configure\_os\_for\_sap) | ../../modules/ansible | n/a |
-| <a name="module_sap_netweaver_instance"></a> [sap\_netweaver\_instance](#module\_sap\_netweaver\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.8.5 |
+| <a name="module_sap_netweaver_instance"></a> [sap\_netweaver\_instance](#module\_sap\_netweaver\_instance) | terraform-ibm-modules/powervs-instance/ibm | 2.8.6 |
 
 ### Resources
 
