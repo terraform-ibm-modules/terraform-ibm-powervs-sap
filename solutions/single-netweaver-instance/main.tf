@@ -4,7 +4,7 @@
 
 module "sap_netweaver_instance" {
   source  = "terraform-ibm-modules/powervs-instance/ibm"
-  version = "2.8.5"
+  version = "2.8.6"
 
 
   pi_workspace_guid          = var.powervs_workspace_guid
