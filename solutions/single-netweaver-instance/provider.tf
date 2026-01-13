@@ -4,6 +4,7 @@ locals {
     "syd05"        = "syd"
     "sao01"        = "sao"
     "sao04"        = "sao"
+    "sao05"        = "sao"
     "tor01"        = "tor"
     "mon01"        = "mon"
     "eu-de-1"      = "eu-de"

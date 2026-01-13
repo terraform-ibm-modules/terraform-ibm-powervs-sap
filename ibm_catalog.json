@@ -124,6 +124,10 @@
                   "value": "sao04"
                 },
                 {
+                  "displayname": "Sao Paulo 05 (sao05)",
+                  "value": "sao05"
+                },
+                {
                   "displayname": "Sydney 04 (syd04)",
                   "value": "syd04"
                 },
@@ -532,7 +536,7 @@
               {
                 "diagram": {
                   "caption": "Full SAP environment provisioned on a 'Power Virtual Server with VPC landing zone'",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/refs/tags/v5.0.1/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/refs/tags/v5.0.2/reference-architectures/sap-ready-to-go/deploy-arch-ibm-pvs-sap-ready-to-go.svg",
                   "type": "image/svg+xml"
                 },
                 "description": "'SAP ready PowerVS' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of the 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA and SAP NetWeaver are deployed and preconfigured for SAP installation.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power Virtual Server with VPC landing zone' are leveraged.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration."
@@ -605,6 +609,10 @@
                 {
                   "displayname": "Sao Paulo 04 (sao04)",
                   "value": "sao04"
+                },
+                {
+                  "displayname": "Sao Paulo 05 (sao05)",
+                  "value": "sao05"
                 },
                 {
                   "displayname": "Sydney 04 (syd04)",
@@ -1072,7 +1080,7 @@
               {
                 "diagram": {
                   "caption": "Full SAP S/4HANA or BW/4HANA environment provisioned on a 'Power Virtual Server with VPC landing zone'",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/refs/tags/v5.0.1/reference-architectures/sap-s4hana-bw4hana/deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/refs/tags/v5.0.2/reference-architectures/sap-s4hana-bw4hana/deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg",
                   "type": "image/svg+xml"
                 },
                 "description": "'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA and SAP NetWeaver are deployed and preconfigured for SAP installation. S/4HANA or BW/4HANA solution is installed based on selected version. \n\nServices such as DNS, NTP and NFS runs in VPC.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration. Additionally if a Monitoring Instance is enabled, this solution will then install and enable SAP monitoring Dashboard if binaries are provided."
