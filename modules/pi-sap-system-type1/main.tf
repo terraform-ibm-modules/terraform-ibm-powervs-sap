@@ -2,7 +2,7 @@
 # Set server type based on region
 #####################################################
 locals {
-  p10_unsupported_regions = ["che01", "lon04", "mon01", "syd04", "syd05", "tor01", "us-east"] # datacenters that don't support P10 yet
+  p10_unsupported_regions = ["che01", "mon01", "us-east"] # datacenters that don't support P10 yet
   server_type             = contains(local.p10_unsupported_regions, var.pi_region) ? "s922" : "s1022"
 }
 
