@@ -23,7 +23,7 @@ locals {
       name  = "shared"
       size  = 200
       count = 1
-      tier  = "tier3"
+      tier  = "tier0"
       mount = "/hana/shared"
     }
   ]
