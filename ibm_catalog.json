@@ -177,7 +177,14 @@
             {
               "key": "prefix",
               "required": true,
-              "default_value": ""
+              "default_value": "",
+              "value_constraints": [
+                {
+                  "type": "regex",
+                  "description": "Prefix must start with a letter, be 1-8 characters long, and contain only letters and digits.",
+                  "value": "^[a-z](?:[a-z0-9-]{0,6}[a-z0-9])?$"
+                }
+              ]
             },
             {
               "key": "os_image_distro",
@@ -667,7 +674,14 @@
             {
               "key": "prefix",
               "required": true,
-              "default_value": ""
+              "default_value": "",
+              "value_constraints": [
+                {
+                  "type": "regex",
+                  "description": "Prefix must start with a letter, be 1-8 characters long, and contain only letters and digits.",
+                  "value": "^[a-z](?:[a-z0-9-]{0,6}[a-z0-9])?$"
+                }
+              ]
             },
             {
               "key": "powervs_hana_instance_sap_profile_id",
