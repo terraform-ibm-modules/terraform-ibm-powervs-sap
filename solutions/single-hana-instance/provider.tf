@@ -23,6 +23,8 @@ locals {
     "wdc06"        = "us-east"
     "wdc07"        = "us-east"
     "wdc06-pvs-01" = "us-east"
+    "che02"        = "che"
+    "che03"        = "che"
   }
 
 }
