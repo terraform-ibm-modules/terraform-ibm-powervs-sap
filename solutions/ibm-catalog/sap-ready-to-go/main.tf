@@ -6,7 +6,7 @@
 
 module "standard" {
   source  = "terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone"
-  version = "11.1.2"
+  version = "11.1.5"
 
   providers = {
     ibm.ibm-is = ibm.ibm-is
