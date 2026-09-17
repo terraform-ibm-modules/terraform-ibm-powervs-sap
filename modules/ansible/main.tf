@@ -18,7 +18,9 @@ resource "random_id" "filename" {
 }
 
 locals {
-  private_key_file = "/root/.ssh/id_rsa_${substr(random_id.filename.b64_url, 0, 4)}"
+  private_key_file    = "/root/.ssh/id_rsa_${substr(random_id.filename.b64_url, 0, 4)}"
+  vault_password_file = "/root/vault_password_file_${substr(random_id.filename.b64_url, 0, 4)}"
+  ansible_config_file = "/root/ansible_${substr(random_id.filename.b64_url, 0, 4)}.cfg"
 }
 ##############################################################
 # 1. Execute shell script to install ansible roles/collections
@@ -105,7 +107,9 @@ resource "terraform_data" "execute_playbooks" {
         "ansible_playbook_file" : local.dst_playbook_file_path,
         "ansible_log_path" : local.dst_files_dir,
         "ansible_inventory" : local.dst_inventory_file_path,
-        "ansible_private_key_file" : local.private_key_file
+        "ansible_private_key_file" : local.private_key_file,
+        "ansible_config_file" : local.ansible_config_file,
+        "ansible_vault_password_file" : local.vault_password_file
     })
     destination = local.dst_script_file_path
   }
@@ -166,8 +170,8 @@ resource "terraform_data" "execute_playbooks_with_vault" {
   #########  Encrypting the ansible playbook file with sensitive information using ansible vault  #########
   provisioner "remote-exec" {
     inline = [
-      "echo ${var.ansible_vault_password} > password_file",
-      "ansible-vault encrypt ${local.dst_playbook_file_path} --vault-password-file password_file"
+      "echo ${var.ansible_vault_password} > ${local.vault_password_file}",
+      "ansible-vault encrypt ${local.dst_playbook_file_path} --vault-password-file ${local.vault_password_file}"
     ]
   }
 
@@ -184,7 +188,9 @@ resource "terraform_data" "execute_playbooks_with_vault" {
         "ansible_playbook_file" : local.dst_playbook_file_path,
         "ansible_log_path" : local.dst_files_dir,
         "ansible_inventory" : local.dst_inventory_file_path,
-        "ansible_private_key_file" : local.private_key_file
+        "ansible_private_key_file" : local.private_key_file,
+        "ansible_config_file" : local.ansible_config_file,
+        "ansible_vault_password_file" : local.vault_password_file
     })
     destination = local.dst_script_file_path
   }
@@ -211,7 +217,7 @@ resource "terraform_data" "execute_playbooks_with_vault" {
   # files with sensitive information and private ssh key
   provisioner "remote-exec" {
     inline = [
-      "rm -rf password_file",
+      "rm -rf ${local.vault_password_file}",
       "rm -rf ${local.private_key_file}"
     ]
   }
