@@ -1,0 +1,38 @@
+# ------------------------------------------------------------------------
+# SAP general/NetWeaver preconfigure + reboot. Runs as its own playbook,
+# after playbook-webdispatcher-swap-setup.yml.tftpl has already completed
+# (separate ansible-playbook invocation, own SSH session) — its own
+# gather_facts here picks up the swap that playbook already enabled, with
+# no staleness risk, since that's a completed prior run's real system
+# state, not something changing mid-play.
+# ------------------------------------------------------------------------
+---
+- name: Web Dispatcher VSI SAP preconfigure
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    sap_domain: ${sap_domain}
+
+  tasks:
+    # --- sap_general_preconfigure + sap_netweaver_preconfigure ---
+    # fail_if_reboot_required: false on both roles below downgrades
+    # the role's own reboot-required failure to a
+    # warning, then do a single deliberate reboot below instead of letting
+    # each role reboot itself mid-play.
+
+    - name: Run SAP general preconfigure
+      ansible.builtin.include_role:
+        name: redhat.sap_install.sap_general_preconfigure
+      vars:
+        sap_general_preconfigure_fail_if_reboot_required: false
+
+    - name: Run SAP Netweaver preconfigure
+      ansible.builtin.include_role:
+        name: redhat.sap_install.sap_netweaver_preconfigure
+      vars:
+        sap_netweaver_preconfigure_fail_if_reboot_required: false
+
+    - name: Reboot and wait for the host to come back
+      ansible.builtin.reboot:

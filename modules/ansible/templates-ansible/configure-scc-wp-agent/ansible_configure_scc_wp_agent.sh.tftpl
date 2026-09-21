@@ -5,18 +5,22 @@ ansible_playbook=${ansible_playbook_file}
 ansible_log_path=${ansible_log_path}
 ansible_inventory=${ansible_inventory}
 ansible_private_key_file=${ansible_private_key_file}
+ansible_config_file=${ansible_config_file}
+ansible_vault_password_file=${ansible_vault_password_file}
 
-# Create ansible.cfg file
+# Create ansible.cfg file (per-run unique path + ANSIBLE_CONFIG so concurrent
+# modules/ansible runs on the same control node don't truncate a shared ./ansible.cfg)
 ansible_playbook_name=$(basename $${ansible_playbook})
-echo -e "[defaults]\nhost_key_checking=False" >ansible.cfg
+echo -e "[defaults]\nhost_key_checking=False" >"$${ansible_config_file}"
+export ANSIBLE_CONFIG=$${ansible_config_file}
 export ANSIBLE_LOG_PATH=$${ansible_log_path}/$${ansible_playbook_name}.$(date "+%Y.%m.%d-%H.%M.%S").log
 export ANSIBLE_PRIVATE_KEY_FILE=$${ansible_private_key_file}
 
 #Execute ansible playbook
-unbuffer ansible-playbook -i $${ansible_inventory} $${ansible_playbook} --vault-password-file password_file
+unbuffer ansible-playbook -i $${ansible_inventory} $${ansible_playbook} --vault-password-file "$${ansible_vault_password_file}"
 if [ $? -ne 0 ]; then
     rm -rf $${ansible_private_key_file}
-    rm -rf password_file
+    rm -rf "$${ansible_vault_password_file}"
     exit 1
 fi
 echo \"Playbook command successful\"

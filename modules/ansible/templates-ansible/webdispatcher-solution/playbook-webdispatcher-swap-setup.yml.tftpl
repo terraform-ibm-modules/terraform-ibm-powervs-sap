@@ -1,0 +1,191 @@
+# ------------------------------------------------------------------------
+# Web Dispatcher VSI: RHEL-for-SAP repos, NFS mount for install binaries,
+# and swap. Split into its own playbook (rather than combined with the
+# sap_general_preconfigure/sap_netweaver_preconfigure roles) specifically so
+# that a separate ansible-playbook run — with its own fresh gather_facts —
+# sits between this playbook enabling swap and the preconfigure roles
+# checking ansible_swaptotal_mb. Combined into a single play, that fact is
+# gathered once at play start (before swap exists) and never refreshed,
+# so the preconfigure roles see stale "0 MB swap" even after swap is
+# successfully enabled earlier in the same play. Matches the same pattern
+# HANA/NetWeaver already use (linux-init vs configure-os-for-sap as two
+# separate playbook invocations), which is why they never hit this bug.
+# ------------------------------------------------------------------------
+---
+- name: Web Dispatcher VSI swap and NFS setup
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    webdisp_swap_min_mb: 20480    # SWPM's actual minimum requirement
+    webdisp_swap_target_mb: 25600 # 25GB target, same convention as webdisp-01/02's attached swap volume
+    webdisp_swapfile_path: /swapfile
+    webdisp_nfs_mount_path: ${webdisp_nfs_mount_path}
+    webdisp_nfs_server_path: ${webdisp_nfs_server_path}
+    webdisp_nfs_fstype: ${webdisp_nfs_fstype}
+    webdisp_nfs_opts: ${webdisp_nfs_opts}
+
+  tasks:
+    # Uses subscription-manager directly (ansible.builtin.command) rather than a
+    # community.general module, since only ibm.power_linux_sap/redhat.sap_install
+    # are confirmed installed on this ansible host — avoids an unverified collection dependency.
+    - name: Enable required RHEL-for-SAP repos
+      ansible.builtin.command: >
+        subscription-manager repos
+        --enable=rhel-9-for-{{ ansible_architecture }}-baseos-e4s-rpms
+        --enable=rhel-9-for-{{ ansible_architecture }}-appstream-e4s-rpms
+        --enable=rhel-9-for-{{ ansible_architecture }}-sap-solutions-e4s-rpms
+        --enable=rhel-9-for-{{ ansible_architecture }}-sap-netweaver-e4s-rpms
+      changed_when: true   # subscription-manager doesn't report change state cleanly; always report changed, idempotent to re-run either way
+
+    # --- rhel-system-roles-sap ---
+    - name: Install rhel-system-roles-sap
+      ansible.builtin.dnf:
+        name: rhel-system-roles-sap
+        state: present
+
+    # `expect` (provides `unbuffer`) is normally installed by
+    # modules/ansible/ansible_node_packages.sh, but only when
+    # configure_ansible_host=true — not the case for this VSI. Install it
+    # here so the later SWPM-install launcher script (which does use
+    # `unbuffer`) has it available when that step runs.
+    - name: Install expect (provides unbuffer, needed by later install scripts)
+      ansible.builtin.dnf:
+        name: expect
+        state: present
+
+    # --- NFS mount for install binaries — matches the HANA/NetWeaver
+    # pattern (module.standard's network-services NFS share), not a direct
+    # per-VSI download. ansible.builtin.mount handles both the immediate
+    # mount and the fstab entry (state: mounted), so this survives the
+    # reboot the follow-on preconfigure playbook triggers.
+    - name: Ensure nfs-utils is installed
+      ansible.builtin.dnf:
+        name: nfs-utils
+        state: present
+
+    - name: Ensure the NFS mount point directory exists
+      ansible.builtin.file:
+        path: "{{ webdisp_nfs_mount_path }}"
+        state: directory
+        mode: '0755'
+
+    - name: Mount the shared install-binaries NFS share
+      ansible.builtin.mount:
+        path: "{{ webdisp_nfs_mount_path }}"
+        src: "{{ webdisp_nfs_server_path }}"
+        fstype: "{{ webdisp_nfs_fstype }}"
+        opts: "{{ webdisp_nfs_opts }}"
+        state: mounted
+
+    # --- swap, >= 20480 MB ---
+    - name: Check current swap total (MB)
+      ansible.builtin.set_fact:
+        webdisp_swap_total_mb: "{{ ansible_swaptotal_mb | default(0) }}"
+
+    # Needed to exclude already-active swap devices from the spare-device
+    # search below. A device already in use as raw (unpartitioned) swap —
+    # e.g. webdisp-03's own /dev/vdd — has no partitions and no LVM holders,
+    # so without this check it would be indistinguishable from a genuine
+    # spare device and could get mkswap'd again, silently orphaning the
+    # existing fstab line and creating a duplicate with a new UUID.
+    - name: List currently active swap devices
+      ansible.builtin.command: swapon --show=NAME --noheadings --raw
+      register: webdisp_active_swap
+      changed_when: false
+      failed_when: false
+
+    - name: Look for a spare, unmounted, unformatted block device
+      ansible.builtin.set_fact:
+        webdisp_spare_device: "{{ item.key }}"
+      loop: "{{ ansible_devices | dict2items }}"
+      when:
+        - webdisp_swap_total_mb | int < webdisp_swap_min_mb
+        - webdisp_spare_device is not defined   # first match wins — without this, the LAST matching device in the loop silently overwrites earlier matches
+        - item.value.partitions | length == 0
+        - item.value.holders | length == 0
+        - "'GB' in item.value.size"   # explicit unit check — avoids misreading e.g. '394.00 KB' as size 394
+        - (item.value.size | regex_search('^[0-9.]+') | float) > 15
+        - item.key != 'sr0'
+        - ('/dev/' + item.key) not in webdisp_active_swap.stdout_lines
+      loop_control:
+        label: "{{ item.key }}"
+
+    - name: Format and enable the spare block device as swap (if found)
+      when:
+        - webdisp_swap_total_mb | int < webdisp_swap_min_mb
+        - webdisp_spare_device is defined
+      block:
+        - name: mkswap on the spare device
+          ansible.builtin.command: "mkswap /dev/{{ webdisp_spare_device }}"
+
+        - name: Get the device UUID
+          ansible.builtin.command: "blkid -s UUID -o value /dev/{{ webdisp_spare_device }}"
+          register: webdisp_swap_uuid
+
+        - name: Add fstab entry (UUID-based, no stray-space bug)
+          ansible.builtin.lineinfile:
+            path: /etc/fstab
+            line: "UUID={{ webdisp_swap_uuid.stdout }}  none  swap  sw  0  0"
+            state: present
+
+        - name: Enable swap
+          ansible.builtin.command: "swapon /dev/{{ webdisp_spare_device }}"
+
+    - name: Create a swap file instead (only if no spare device was found)
+      when:
+        - webdisp_swap_total_mb | int < webdisp_swap_min_mb
+        - webdisp_spare_device is not defined
+      block:
+        # ansible_mounts is already gathered (gather_facts: true above) and
+        # carries size_available in bytes per mount — no need to shell out to
+        # df for something Ansible already collected.
+        - name: Fail loudly if there isn't enough room for a swap file (attach a volume instead — see guide)
+          ansible.builtin.fail:
+            msg: "Not enough free space on / for a {{ webdisp_swap_target_mb }}MB swap file. Attach a dedicated block volume via console first (guide Step B item 10, third branch), then re-run this playbook."
+          vars:
+            webdisp_root_free_mb: "{{ (ansible_mounts | selectattr('mount', 'equalto', '/') | map(attribute='size_available') | first | int) // 1048576 }}"
+          when: (webdisp_root_free_mb | int) < (webdisp_swap_target_mb + 1024)
+
+        - name: Create the swap file
+          ansible.builtin.command: "fallocate -l {{ webdisp_swap_target_mb }}M {{ webdisp_swapfile_path }}"
+          args:
+            creates: "{{ webdisp_swapfile_path }}"
+
+        - name: chmod 600 the swap file
+          ansible.builtin.file:
+            path: "{{ webdisp_swapfile_path }}"
+            mode: '0600'
+
+        - name: mkswap on the file
+          ansible.builtin.command: "mkswap {{ webdisp_swapfile_path }}"
+
+        - name: Add fstab entry
+          ansible.builtin.lineinfile:
+            path: /etc/fstab
+            line: "{{ webdisp_swapfile_path }} none swap sw 0 0"
+            state: present
+
+        - name: Enable swap
+          ansible.builtin.command: "swapon {{ webdisp_swapfile_path }}"
+
+    - name: Verify fstab parses cleanly (guide's confirmed gotcha check)
+      ansible.builtin.command: findmnt --verify
+      register: webdisp_findmnt_verify
+      failed_when: false
+      changed_when: false
+
+    - name: Report fstab verification result
+      ansible.builtin.debug:
+        msg: "{{ webdisp_findmnt_verify.stdout_lines + webdisp_findmnt_verify.stderr_lines }}"
+
+    # This was informational-only before (failed_when: false above) — fine
+    # when a human would reboot manually later and could react to the
+    # warning. The follow-on preconfigure playbook triggers an automatic
+    # reboot, so a broken fstab must stop the play here — otherwise swap
+    # would silently fail to come back on that reboot, unnoticed.
+    - name: Fail if fstab is broken before the follow-on playbook's automatic reboot
+      ansible.builtin.fail:
+        msg: "findmnt --verify reported fstab errors (see previous task's output) — fix /etc/fstab before continuing."
+      when: webdisp_findmnt_verify.rc != 0
