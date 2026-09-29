@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------
 # SAP general/NetWeaver preconfigure + reboot. Runs as its own playbook,
-# after playbook-webdispatcher-swap-setup.yml.tftpl has already completed
+# after playbook-webdispatcher-swap-and-nfs-setup.yml.tftpl has already completed
 # (separate ansible-playbook invocation, own SSH session) — its own
 # gather_facts here picks up the swap that playbook already enabled, with
 # no staleness risk, since that's a completed prior run's real system

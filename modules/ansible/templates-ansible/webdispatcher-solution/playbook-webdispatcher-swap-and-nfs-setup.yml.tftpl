@@ -27,32 +27,34 @@
     webdisp_nfs_opts: ${webdisp_nfs_opts}
 
   tasks:
-    # Uses subscription-manager directly (ansible.builtin.command) rather than a
-    # community.general module, since only ibm.power_linux_sap/redhat.sap_install
-    # are confirmed installed on this ansible host — avoids an unverified collection dependency.
+    # community.general.rhsm_repository instead of raw subscription-manager
+    # command, matching ibm.power_linux_sap's own powervs_os_registration
+    # role (https://github.com/IBM/ansible-power-linux-sap/blob/main/roles/powervs_os_registration/tasks/rhel_byol.yml).
+    # community.general ships as a declared dependency of ibm.power_linux_sap,
+    # which is already confirmed installed on this ansible host.
     - name: Enable required RHEL-for-SAP repos
-      ansible.builtin.command: >
-        subscription-manager repos
-        --enable=rhel-9-for-{{ ansible_architecture }}-baseos-e4s-rpms
-        --enable=rhel-9-for-{{ ansible_architecture }}-appstream-e4s-rpms
-        --enable=rhel-9-for-{{ ansible_architecture }}-sap-solutions-e4s-rpms
-        --enable=rhel-9-for-{{ ansible_architecture }}-sap-netweaver-e4s-rpms
-      changed_when: true   # subscription-manager doesn't report change state cleanly; always report changed, idempotent to re-run either way
+      community.general.rhsm_repository:
+        name: "{{ item }}"
+        state: enabled
+      loop:
+        - rhel-9-for-{{ ansible_architecture }}-baseos-e4s-rpms
+        - rhel-9-for-{{ ansible_architecture }}-appstream-e4s-rpms
+        - rhel-9-for-{{ ansible_architecture }}-sap-solutions-e4s-rpms
+        - rhel-9-for-{{ ansible_architecture }}-sap-netweaver-e4s-rpms
 
-    # --- rhel-system-roles-sap ---
-    - name: Install rhel-system-roles-sap
-      ansible.builtin.dnf:
-        name: rhel-system-roles-sap
-        state: present
-
+    # --- rhel-system-roles-sap, expect, nfs-utils ---
     # `expect` (provides `unbuffer`) is normally installed by
     # modules/ansible/ansible_node_packages.sh, but only when
-    # configure_ansible_host=true — not the case for this VSI. Install it
+    # configure_ansible_host=true — not the case for this VSI. Installed
     # here so the later SWPM-install launcher script (which does use
-    # `unbuffer`) has it available when that step runs.
-    - name: Install expect (provides unbuffer, needed by later install scripts)
+    # `unbuffer`) has it available when that step runs. `nfs-utils` is
+    # needed for the NFS mount below.
+    - name: Install required packages
       ansible.builtin.dnf:
-        name: expect
+        name:
+          - rhel-system-roles-sap
+          - expect
+          - nfs-utils
         state: present
 
     # --- NFS mount for install binaries — matches the HANA/NetWeaver
@@ -60,11 +62,6 @@
     # per-VSI download. ansible.builtin.mount handles both the immediate
     # mount and the fstab entry (state: mounted), so this survives the
     # reboot the follow-on preconfigure playbook triggers.
-    - name: Ensure nfs-utils is installed
-      ansible.builtin.dnf:
-        name: nfs-utils
-        state: present
-
     - name: Ensure the NFS mount point directory exists
       ansible.builtin.file:
         path: "{{ webdisp_nfs_mount_path }}"

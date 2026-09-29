@@ -24,6 +24,7 @@
     - One VSI for management (jump/bastion)
     - One VSI for network-services configured as squid proxy, NTP and DNS servers(using Ansible Galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/). This VSI also acts as central ansible execution node.
     - Optional VSI for Monitoring host
+    - Optional two VSIs for SAP Web Dispatcher, in a dedicated subnet and security group, fronted by a TCP-passthrough [Application Load Balancer](https://cloud.ibm.com/docs/vpc?topic=vpc-load-balancers-about) for SAP HTTP(S) ingress
     - Optional [Client to site VPN server](https://cloud.ibm.com/docs/vpc?topic=vpc-vpn-client-to-site-overview)
     - Optional [File storage share](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=ui)
     - Optional [Network load balancer](https://cloud.ibm.com/docs/vpc?group=network-load-balancer)
@@ -117,7 +118,7 @@
 | <a name="module_ansible_sap_install_hana"></a> [ansible\_sap\_install\_hana](#module\_ansible\_sap\_install\_hana) | ../../../modules/ansible | n/a |
 | <a name="module_ansible_sap_install_solution"></a> [ansible\_sap\_install\_solution](#module\_ansible\_sap\_install\_solution) | ../../../modules/ansible | n/a |
 | <a name="module_ansible_webdisp_os_prereqs"></a> [ansible\_webdisp\_os\_prereqs](#module\_ansible\_webdisp\_os\_prereqs) | ../../../modules/ansible | n/a |
-| <a name="module_ansible_webdisp_swap_setup"></a> [ansible\_webdisp\_swap\_setup](#module\_ansible\_webdisp\_swap\_setup) | ../../../modules/ansible | n/a |
+| <a name="module_ansible_webdisp_swap_and_nfs_setup"></a> [ansible\_webdisp\_swap\_and\_nfs\_setup](#module\_ansible\_webdisp\_swap\_and\_nfs\_setup) | ../../../modules/ansible | n/a |
 | <a name="module_ibmcloud_cos_download_hana_binaries"></a> [ibmcloud\_cos\_download\_hana\_binaries](#module\_ibmcloud\_cos\_download\_hana\_binaries) | ../../../modules/ibmcloud-cos | n/a |
 | <a name="module_ibmcloud_cos_download_monitoring_binaries"></a> [ibmcloud\_cos\_download\_monitoring\_binaries](#module\_ibmcloud\_cos\_download\_monitoring\_binaries) | ../../../modules/ibmcloud-cos | n/a |
 | <a name="module_ibmcloud_cos_download_netweaver_binaries"></a> [ibmcloud\_cos\_download\_netweaver\_binaries](#module\_ibmcloud\_cos\_download\_netweaver\_binaries) | ../../../modules/ibmcloud-cos | n/a |

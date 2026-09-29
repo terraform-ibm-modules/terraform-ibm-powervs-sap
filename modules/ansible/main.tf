@@ -109,7 +109,6 @@ resource "terraform_data" "execute_playbooks" {
         "ansible_inventory" : local.dst_inventory_file_path,
         "ansible_private_key_file" : local.private_key_file,
         "ansible_config_file" : local.ansible_config_file,
-        "ansible_vault_password_file" : local.vault_password_file
     })
     destination = local.dst_script_file_path
   }

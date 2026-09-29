@@ -347,11 +347,15 @@ variable "sap_webdisp_vars" {
     "sap_swpm_webdisp_instance_nr" : "21"
   }
   validation {
-    condition     = can(regex("^[A-Z][A-Z0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_sid))
+    condition     = !var.enable_webdispatcher || var.sap_webdisp_vars != null
+    error_message = "sap_webdisp_vars must not be null when enable_webdispatcher is true."
+  }
+  validation {
+    condition     = !var.enable_webdispatcher || can(regex("^[A-Z][A-Z0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_sid))
     error_message = "The provided sap_webdisp_vars configuration is invalid. The sap_swpm_webdisp_sid value must consist of exactly three alphanumeric characters, all uppercase, and the first character must be a letter."
   }
   validation {
-    condition     = can(regex("^[0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr))
+    condition     = !var.enable_webdispatcher || can(regex("^[0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr))
     error_message = "The sap_swpm_webdisp_instance_nr must be a numeric value between 00 and 99. For single-digit numbers, append a leading zero."
   }
 }
@@ -481,7 +485,7 @@ variable "webdispatcher_lb_type" {
   default     = "public"
 
   validation {
-    condition     = contains(["public", "private"], var.webdispatcher_lb_type)
+    condition     = !var.enable_webdispatcher || contains(["public", "private"], var.webdispatcher_lb_type)
     error_message = "webdispatcher_lb_type must be 'public' or 'private'."
   }
 }

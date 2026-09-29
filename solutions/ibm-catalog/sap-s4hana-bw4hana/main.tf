@@ -80,7 +80,7 @@ module "ibmcloud_cos_download_webdispatcher_binaries" {
   }
 }
 
-module "ansible_webdisp_swap_setup" {
+module "ansible_webdisp_swap_and_nfs_setup" {
   source                 = "../../../modules/ansible"
   count                  = var.enable_webdispatcher ? 1 : 0
   depends_on             = [module.standard]
@@ -91,9 +91,9 @@ module "ansible_webdisp_swap_setup" {
   # collection confirmed present there from the HANA/NetWeaver
   # SWPM install using it identically
   src_script_template_name   = "configure-os-for-sap/ansible_exec.sh.tftpl"
-  dst_script_file_name       = "${var.prefix}-webdisp_swap_setup.sh"
-  src_playbook_template_name = "webdispatcher-solution/playbook-webdispatcher-swap-setup.yml.tftpl"
-  dst_playbook_file_name     = "${var.prefix}-webdisp-playbook-swap-setup.yml"
+  dst_script_file_name       = "${var.prefix}-webdisp_swap_and_nfs_setup.sh"
+  src_playbook_template_name = "webdispatcher-solution/playbook-webdispatcher-swap-and-nfs-setup.yml.tftpl"
+  dst_playbook_file_name     = "${var.prefix}-webdisp-playbook-swap-and-nfs-setup.yml"
   playbook_template_vars = {
     "webdisp_nfs_mount_path" : local.powervs_network_services_config.nfs.nfs_client_path,
     "webdisp_nfs_server_path" : local.powervs_network_services_config.nfs.nfs_server_path,
@@ -101,7 +101,7 @@ module "ansible_webdisp_swap_setup" {
     "webdisp_nfs_opts" : local.powervs_network_services_config.nfs.opts,
   }
   src_inventory_template_name = "webdispatcher-instance-inventory.tftpl"
-  dst_inventory_file_name     = "${var.prefix}-webdisp-instance-inventory-swap-setup"
+  dst_inventory_file_name     = "${var.prefix}-webdisp-instance-inventory-swap-and-nfs-setup"
   inventory_template_vars     = { "webdisp_vsi_ips" : join("\n", module.standard.webdispatcher_vsi_ips) }
 }
 
@@ -109,7 +109,7 @@ module "ansible_webdisp_swap_setup" {
 module "ansible_webdisp_os_prereqs" {
   source                     = "../../../modules/ansible"
   count                      = var.enable_webdispatcher ? 1 : 0
-  depends_on                 = [module.ansible_webdisp_swap_setup]
+  depends_on                 = [module.ansible_webdisp_swap_and_nfs_setup]
   bastion_host_ip            = module.standard.access_host_or_ip
   ansible_host_or_ip         = module.standard.ansible_host_or_ip
   ssh_private_key            = var.ssh_private_key
