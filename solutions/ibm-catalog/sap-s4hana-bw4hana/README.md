@@ -72,6 +72,22 @@
 2. The **ansible vault password** will be used to encrypt the Ansible playbook file created during deployment. This playbook file will be placed under `/root/terraform_files/sap-hana-install.yml` on the **HANA instance** and `/root/terraform_files/sap-swpm-install-vars.yml` on the **NetWeaver Instance**.
 3. This file can be decrypted using the same value passed to variable **'ansible_vault_password'** during deployment. Use the command `ansible-vault decrypt /root/terraform_files/sap-swpm-install-vars.yml` and enter the password when prompted.
 
+### Web Dispatcher: connectivity, security, and first access (if `enable_webdispatcher = true`)
+
+**Traffic path:** external clients reach a TCP-passthrough Application Load Balancer (ALB), which forwards to one of the two Web Dispatcher VSIs on `webdispatcher_listener_port`. Web Dispatcher terminates TLS and proxies to the SAP application servers over the private network.
+
+**Security posture:**
+- Only `webdispatcher_listener_port` on the ALB is internet-facing when `webdispatcher_lb_type = "public"`. SSH and all other management access to the Web Dispatcher VSIs remains private-network-only.
+- The ALB is a plain TCP-passthrough listener, not a Layer-7/WAF load balancer, since TLS terminates on Web Dispatcher itself, not on the ALB.
+- Web Dispatcher is deployed with a self-signed certificate by default, so browsers and API clients will show a certificate warning on first connection — this is expected until a proper certificate is installed.
+- For a more conservative posture, set `webdispatcher_lb_type = "private"` and reach Web Dispatcher through the existing `client_to_site_vpn` instead of exposing it on the public internet.
+
+**First access after deployment:**
+1. Find the ALB's hostname: `ibmcloud is load-balancers` (look for the Web Dispatcher ALB by name/prefix), then `ibmcloud is load-balancer <id>` for its hostname.
+2. Confirm both Web Dispatcher VSIs are healthy pool members: `ibmcloud is load-balancer-pool-members <load-balancer-id> <pool-id>`.
+3. Open `https://<alb-hostname>:<webdispatcher_listener_port>/sap/wdisp/admin/public/default.html` in a browser to reach the Web Dispatcher admin page (accept the self-signed certificate warning).
+4. Point application/SAPGUI traffic at the same `<alb-hostname>:<webdispatcher_listener_port>` — Web Dispatcher routes it to the backend application servers.
+
 ## Storage setup
 
 ### 1. HANA Instance:
