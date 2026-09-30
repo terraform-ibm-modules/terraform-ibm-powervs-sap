@@ -2,14 +2,14 @@
 
 copyright:
   years: 2024, 2025, 2026
-lastupdated: "2026-08-18"
+lastupdated: "2026-09-17"
 keywords:
 subcollection: deployable-reference-architectures
 authors:
   - name: Arnold Beilmann
   - name: Suraj Bharadwaj
   - name: Ludwig Mueller
-  - name: Trilochan Pandey
+  - name: Babitha Padiri
 production: true
 deployment-url: https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-sap-9aa6135e-75d5-467e-9f4a-ac2a21c069b8-global
 docs: https://cloud.ibm.com/docs/sap-powervs
@@ -18,7 +18,7 @@ use-case: ITServiceManagement
 industry: Technology
 compliance: SAPCertified
 content-type: reference-architecture
-version: v6.2.0
+version: v6.3.0
 related_links:
   - title: 'SAP in IBM Cloud documentation'
     url: 'https://cloud.ibm.com/docs/sap'
@@ -34,7 +34,7 @@ related_links:
 {: toc-industry="Technology"}
 {: toc-use-case="ITServiceManagement"}
 {: toc-compliance="SAPCertified"}
-{: toc-version="v6.2.0"}
+{: toc-version="v6.3.0"}
 
 'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape built on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA and SAP NetWeaver are deployed and pre-configured for SAP installation. The S/4HANA or BW/4HANA solution is installed based on the selected version.
 
@@ -43,6 +43,8 @@ Services such as DNS, NTP, and NFS runs in VPC.
 Transit gateway connections provide the network bridge between the IBM Power infrastructure and the IBM Cloud® VPC and public internet.
 
 The resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the VPC landing zone and the network connectivity configuration. Additionally, it will also setup Monitoring and SCC Workload Protection if the features were enabled during the landing zone deployment.
+
+Optionally, a highly available SAP Web Dispatcher tier can be provisioned: two RHEL VPC instances in a dedicated subnet and security group, fronted by an application load balancer, with the SAP Web Dispatcher software downloaded from Cloud Object Storage and installed by SWPM. It provides HTTP(S) load balancing and a single entry point to the SAP system's web services.
 
 ## Architecture diagram
 {: #sap-s4hana-bw4hana-architecture-diagram}
@@ -74,6 +76,7 @@ IBM Cloud Power Virtual Servers (PowerVS) is a public cloud offering that allows
 |* Ensure financial services compliancy for VPC services  \n * Perform network setup of all created services  \n * Perform network isolation of all created services  \n * Ensure all created services are interconnected |Secure landing zone components|Create a minimum set of required components for a secure landing zone|Create a modified set of required components for a secure landing zone in preset|
 |* Allow customer to optionally enable monitoring in the deployment|IBM Cloud® monitoring instance and Monitoring Host VPC Instance|Optionally, create or import an existing IBM Cloud® monitoring instance (customer provided details) and create and configure the Monitoring Host VPC instance to  collect information and send it to the IBM Cloud® monitoring instance.| |
 |* Allow customer to optionally enable [Security and Compliance Center Workload Protection](/docs/workload-protection) in the deployment \n * Collect posture management information, enable vulnerability scanning and threat detection|IBM Cloud® Security and Compliance Center Workload Protection and SCC Workload Protection agent on all VPC instances in the deployment.|Optionally, create an IBM Cloud® Security and Compliance Center Workload Protection instance and install and setup the SCC Workload Protection agent on all VPC instances in the deployment (bastion, network services, monitoring hosts).| |
+|* Allow customer to optionally deploy a highly available SAP Web Dispatcher tier for HTTP(S) load balancing and a single entry point to the SAP system's web services|SAP Web Dispatcher VPC instances, dedicated subnet and security group, and an application load balancer|Optionally, create two RHEL VPC instances in a dedicated `vsi-webdispatcher` subnet, front them with a TCP pass-through application load balancer, download the Web Dispatcher binaries from Cloud Object Storage and install SAP Web Dispatcher by using SWPM.|Deploy a single Web Dispatcher instance or install and configure SAP Web Dispatcher manually|
 {: caption="Table 1. VPC architecture decisions" caption-side="bottom"}
 
 ### PowerVS workspace for SAP - architecture decisions

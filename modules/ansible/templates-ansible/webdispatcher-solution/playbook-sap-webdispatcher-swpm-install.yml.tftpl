@@ -1,0 +1,117 @@
+# ------------------------------------------------------------------------
+# SAP Web Dispatcher install via SWPM, driven by redhat.sap_install.sap_swpm.
+#
+# This is a GENERIC (standalone) product install — NW_Webdispatcher, not a
+# full ABAP/Java system
+#   webdisp-01 /usr/sap/WFP/SYS/profile/WFP_W21_webdisp-01
+#     SAPSYSTEMNAME = WFP                    -> sap_swpm_sid
+#     SAPSYSTEM = 21 / INSTANCE_NAME = W21   -> sap_swpm_wd_instance_nr
+#     icm/server_port_0 = PROT=HTTPS,PORT=44321
+#                            -> rendered by the role as 443 + instance_nr
+#     icm/max_conn = 500     -> sap_swpm_wd_backend_scenario_size
+#     wdisp/system_0 = SID=..., MSHOST=..., MSPORT=..., SSL_ENCRYPT=2
+#                            -> the backend block below
+# ------------------------------------------------------------------------
+---
+- name: Ansible Play for executing SAP Web Dispatcher SWPM install
+  hosts: all
+  become: true
+
+  vars:
+    sap_swpm_ansible_role_mode: default
+    # Defined in Terraform (local.sap_swpm_webdisp_product_catalog_id in
+    # main.tf), not hardcoded here — same pattern main.tf already uses for
+    # NetWeaver (local.product_catalog_map lookup), so a catalog-ID/version
+    # change is a Terraform-side edit, not an Ansible playbook edit.
+    sap_swpm_product_catalog_id: '${sap_swpm_product_catalog_id}'
+
+    # Web Dispatcher is SWPM's "Generic Installation Options" catalog entry,
+    # not a full ABAP/Java system. Without this, the role's pre_install task
+    # (tasks/pre_install/prepare_software.yml, "Full SAP System" block, gated
+    # on `not sap_swpm_generic`) hard-fails looking for igsexe*.sar / IGS
+    # Helper / SAPEXEDB / SAPEXE — none of which Web Dispatcher needs, and
+    # none of which webdisp-01/02 ever had (both only have the same 4 files:
+    # SAPCAR, SAPHOSTAGENT, SAPWEBDISP, SWPM).
+    sap_swpm_generic: true
+
+    # Software
+    sap_swpm_software_path: '${sap_install_media_detect_directory}'
+    sap_swpm_sapcar_path: '${sap_install_media_detect_directory}'
+    sap_swpm_swpm_path: '${sap_install_media_detect_directory}'
+
+    # Identity — SID WFP, same as webdisp-01/02
+    sap_swpm_sid: '${sap_swpm_webdisp_sid}'
+    sap_swpm_master_password: '${sap_swpm_webdisp_master_password}'
+    sap_swpm_fqdn: '${sap_domain}'
+    sap_swpm_update_etchosts: true
+    sap_swpm_install_saphostagent: true
+
+    # Web Dispatcher instance. Ports are NOT set directly — the role's
+    # inifile template derives them from the instance number as
+    # wdHTTPPort = 80<nr> and wdHTTPSPort = 443<nr>. Instance "21" therefore
+    # reproduces webdisp-01/02's icm/server_port_0 PORT=44321 exactly.
+    sap_swpm_wd_instance_nr: '${sap_swpm_webdisp_instance_nr}'
+
+    # sap_swpm_wd_virtual_host must exactly match `hostname` on the VM. When
+    # this VSI comes from the Terraform-managed enable_webdispatcher group,
+    # its real hostname includes a random suffix the landing-zone-vsi module
+    # generates (e.g. <prefix>-webdispatcher-63d6-001) that Terraform can't
+    # predict in advance. Resolved via Ansible's own gathered fact at runtime
+    # instead of a Terraform-templated value — deliberately no dollar-brace
+    # interpolation on this line, so templatefile() leaves it untouched for
+    # Ansible to resolve.
+    sap_swpm_wd_virtual_host: "{{ ansible_hostname }}"
+
+    # Back-end system connectivity (renders wdisp/system_0 in the profile).
+    #
+    # scenario_size is REQUIRED whenever system_connectivity is true: it is
+    # what SWPM's 'askMsParameter' step validates, and leaving it unset was
+    # what made that step abort with "Start SAPinst in interactive mode to
+    # solve this problem". 500 matches webdisp-01/02's icm/max_conn = 500.
+    #
+    # Unlike the manual GUI installs — which left wdisp/system_0 pointing at
+    # the Web Dispatcher itself (SID=WFP, MSHOST=webdisp-01, MSPORT=8000) —
+    # these point at the real S4H backend, verified reachable from this host
+    # (curl http://<ms_host>:<ms_http_port>/msgserver/text/logon -> HTTP 200).
+    sap_swpm_wd_system_connectivity: true
+    sap_swpm_wd_backend_sid: '${sap_swpm_nw_sid}'
+    sap_swpm_wd_backend_ms_host: '${sap_swpm_nw_ms_host}'
+    sap_swpm_wd_backend_ms_http_port: '${sap_swpm_nw_ms_port}'
+    sap_swpm_wd_backend_scenario_size: '500'
+
+    # ICF activation needs RFC credentials to the backend; the manual installs
+    # did not activate it, so neither do we (role default is false anyway —
+    # stated explicitly so the rfc* inifile entries are knowingly left empty).
+    sap_swpm_wd_activate_icf: false
+
+    # Sections to render into inifile.params.
+    #
+    # Both variables are set to the same list on purpose. The role aliases
+    # sap_swpm_inifile_list -> sap_swpm_inifile_sections_list only
+    # `when: sap_swpm_inifile_sections_list is undefined`
+    # (tasks/pre_install.yml) — but that variable ships with a NON-EMPTY
+    # default in the role's defaults/main.yml (a full HANA-oriented list), so
+    # it is never undefined, the alias never fires, and setting only
+    # sap_swpm_inifile_list is silently ignored.
+    #
+    # Confirmed on this deployment: a run with only sap_swpm_inifile_list
+    # produced an inifile.params full of HANA/ASCS/PAS sections we never asked
+    # for and NO nw_config_webdisp_generic section at all — so askMsParameter
+    # had no Web Dispatcher parameters to validate and aborted.
+    #
+    # Assigning sap_swpm_inifile_sections_list here overrides the role default
+    # by normal Ansible play-vars precedence. The YAML anchor keeps a single
+    # source of truth for the list.
+    sap_swpm_inifile_list: &sap_swpm_wd_inifile_list
+      - swpm_installation_media
+      - credentials
+      - nw_config_other
+      - nw_config_webdisp_generic
+      - sap_os_linux_user
+      - nw_config_host_agent
+    sap_swpm_inifile_sections_list: *sap_swpm_wd_inifile_list
+
+  tasks:
+    - name: Execute Ansible Role sap_swpm for Web Dispatcher
+      ansible.builtin.include_role:
+        name: redhat.sap_install.sap_swpm
