@@ -19,7 +19,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.71.3 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1 |
@@ -27,7 +27,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_ansible_pi_netweaver_primary_instance_exportfs"></a> [ansible\_pi\_netweaver\_primary\_instance\_exportfs](#module\_ansible\_pi\_netweaver\_primary\_instance\_exportfs) | ../ansible | n/a |
 | <a name="module_ansible_pi_netweaver_secondary_instances_sapmnt_mount"></a> [ansible\_pi\_netweaver\_secondary\_instances\_sapmnt\_mount](#module\_ansible\_pi\_netweaver\_secondary\_instances\_sapmnt\_mount) | ../ansible | n/a |
 | <a name="module_ansible_sap_instance_init"></a> [ansible\_sap\_instance\_init](#module\_ansible\_sap\_instance\_init) | ../ansible | n/a |
@@ -40,13 +40,13 @@ The Power Virtual Server for SAP module automates the following tasks:
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [time_sleep.wait_1_min](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_ansible_vault_password"></a> [ansible\_vault\_password](#input\_ansible\_vault\_password) | Vault password to encrypt OS registration parameters. Only required with customer provided linux subscription (pi\_os\_registration). Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]\_{\|}~. | `string` | `""` | no |
 | <a name="input_pi_hana_instance"></a> [pi\_hana\_instance](#input\_pi\_hana\_instance) | PowerVS SAP HANA instance hostname (non FQDN). Will get the form of <var.prefix>-<var.pi\_hana\_instance.name>. Max length of final hostname must be <= 13 characters.'sap\_profile\_id' Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional 'pi\_hana\_instance\_custom\_storage\_config' parameter. 'additional\_storage\_config' additional File systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. | <pre>object({<br/>    name           = string<br/>    image_id       = string<br/>    sap_profile_id = string<br/>    additional_storage_config = list(object({<br/>      name  = string<br/>      size  = string<br/>      count = string<br/>      tier  = string<br/>      mount = string<br/>    }))<br/>  })</pre> | <pre>{<br/>  "additional_storage_config": [<br/>    {<br/>      "count": "1",<br/>      "mount": "/usr/sap",<br/>      "name": "usrsap",<br/>      "size": "50",<br/>      "tier": "tier3"<br/>    }<br/>  ],<br/>  "image_id": "insert_value_here",<br/>  "name": "hana",<br/>  "sap_profile_id": "ush1-4x256"<br/>}</pre> | no |
 | <a name="input_pi_hana_instance_custom_storage_config"></a> [pi\_hana\_instance\_custom\_storage\_config](#input\_pi\_hana\_instance\_custom\_storage\_config) | Custom file systems to be created and attached to PowerVS SAP HANA instance. 'size' is in GB. 'count' specify over how many storage volumes the file system will be striped. 'tier' specifies the storage tier in PowerVS workspace. 'mount' specifies the target mount point on OS. If not specified, volumes for '/hana/data', '/hana/log', '/hana/shared' are automatically calculated and created. | <pre>list(object({<br/>    name  = string<br/>    size  = string<br/>    count = string<br/>    tier  = string<br/>    mount = string<br/>  }))</pre> | <pre>[<br/>  {<br/>    "count": "",<br/>    "mount": "",<br/>    "name": "",<br/>    "size": "",<br/>    "tier": ""<br/>  }<br/>]</pre> | no |
@@ -64,7 +64,7 @@ The Power Virtual Server for SAP module automates the following tasks:
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP of Provided Bastion/JumpServer Host |
 | <a name="output_pi_hana_instance_ips"></a> [pi\_hana\_instance\_ips](#output\_pi\_hana\_instance\_ips) | All private IPS of HANA instance |
 | <a name="output_pi_hana_instance_management_ip"></a> [pi\_hana\_instance\_management\_ip](#output\_pi\_hana\_instance\_management\_ip) | Management IP of HANA Instance |
