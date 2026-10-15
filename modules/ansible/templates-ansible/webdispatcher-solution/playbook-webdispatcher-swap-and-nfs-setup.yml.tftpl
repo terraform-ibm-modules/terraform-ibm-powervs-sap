@@ -83,7 +83,7 @@
 
     # Needed to exclude already-active swap devices from the spare-device
     # search below. A device already in use as raw (unpartitioned) swap —
-    # e.g. webdisp-03's own /dev/vdd — has no partitions and no LVM holders,
+    # e.g. A vm's own /dev/vdd — has no partitions and no LVM holders,
     # so without this check it would be indistinguishable from a genuine
     # spare device and could get mkswap'd again, silently orphaning the
     # existing fstab line and creating a duplicate with a new UUID.

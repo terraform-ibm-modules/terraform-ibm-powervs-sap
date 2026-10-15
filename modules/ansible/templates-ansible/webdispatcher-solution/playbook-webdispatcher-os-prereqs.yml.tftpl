@@ -21,6 +21,15 @@
     # the role's own reboot-required failure to a
     # warning, then do a single deliberate reboot below instead of letting
     # each role reboot itself mid-play.
+    #
+    # The reboot is conditional so that re-running this playbook is idempotent:
+    # it reboots only when (a) this host has no marker file yet, i.e. the
+    # reboot after the first successful preconfigure has not happened, or
+    # (b) a role reports that a reboot is required. The marker is written only
+    # after the reboot task succeeds, so a run that fails before or during the
+    # reboot is retried with a reboot. Note: if a preconfigure variable is
+    # changed later and the playbook is re-run, the change is applied but the
+    # host is rebooted only if a role flags it as required.
 
     - name: Run SAP general preconfigure
       ansible.builtin.include_role:
@@ -34,5 +43,24 @@
       vars:
         sap_netweaver_preconfigure_fail_if_reboot_required: false
 
-    - name: Reboot and wait for the host to come back
+    - name: Check whether the prerequisites reboot has already been done
+      ansible.builtin.stat:
+        path: /var/lib/webdisp-prereqs-rebooted
+      register: webdisp_reboot_marker
+
+    # throttle: 1 reboots one host at a time, so the other Web Dispatcher VSI
+    # keeps serving behind the load balancer during a re-run reboot.
+    - name: Reboot and wait for the host to come back (only when needed)
       ansible.builtin.reboot:
+      throttle: 1
+      when: >
+        (not webdisp_reboot_marker.stat.exists) or
+        (sap_general_preconfigure_fact_reboot_required | default(false)) or
+        (sap_netweaver_preconfigure_fact_reboot_required | default(false))
+
+    - name: Record that the prerequisites reboot has been done
+      ansible.builtin.file:
+        path: /var/lib/webdisp-prereqs-rebooted
+        state: touch
+        modification_time: preserve
+        access_time: preserve

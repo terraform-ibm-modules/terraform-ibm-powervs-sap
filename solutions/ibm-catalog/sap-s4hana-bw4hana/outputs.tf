@@ -49,9 +49,12 @@ output "sap_monitoring_vars" {
 }
 
 output "sap_webdispatcher_vars" {
-  description = "SAP Web Dispatcher details: whether enabled, SID/instance number, and the 2 provisioned VSIs' private IPs (empty list when enable_webdispatcher is false)."
-  value = merge(var.sap_webdisp_vars, {
-    enabled               = var.enable_webdispatcher
+  description = "SAP Web Dispatcher details: whether enabled, SID/instance number, and the 2 provisioned VSIs' private IPs (empty list when vsi_webdispatcher.enable is false)."
+  value = merge({
+    sap_swpm_webdisp_sid         = var.sap_webdisp_vars.sap_swpm_webdisp_sid
+    sap_swpm_webdisp_instance_nr = var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr
+    }, {
+    enabled               = var.vsi_webdispatcher.enable
     webdispatcher_vsi_ips = module.standard.webdispatcher_vsi_ips
   })
 }

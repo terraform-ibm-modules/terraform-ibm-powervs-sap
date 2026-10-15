@@ -336,30 +336,6 @@ variable "sap_hana_vars" {
   }
 }
 
-variable "sap_webdisp_vars" {
-  description = "SAP Web Dispatcher SID and instance number."
-  type = object({
-    sap_swpm_webdisp_sid         = string
-    sap_swpm_webdisp_instance_nr = string
-  })
-  default = {
-    "sap_swpm_webdisp_sid" : "WFP",
-    "sap_swpm_webdisp_instance_nr" : "21"
-  }
-  validation {
-    condition     = !var.enable_webdispatcher || var.sap_webdisp_vars != null
-    error_message = "sap_webdisp_vars must not be null when enable_webdispatcher is true."
-  }
-  validation {
-    condition     = !var.enable_webdispatcher || can(regex("^[A-Z][A-Z0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_sid))
-    error_message = "The provided sap_webdisp_vars configuration is invalid. The sap_swpm_webdisp_sid value must consist of exactly three alphanumeric characters, all uppercase, and the first character must be a letter."
-  }
-  validation {
-    condition     = !var.enable_webdispatcher || can(regex("^[0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr))
-    error_message = "The sap_swpm_webdisp_instance_nr must be a numeric value between 00 and 99. For single-digit numbers, append a leading zero."
-  }
-}
-
 variable "sap_swpm_master_password" {
   description = "SAP SWPM master password."
   type        = string
@@ -407,6 +383,11 @@ variable "client_to_site_vpn" {
     "enable" : true,
     "client_ip_pool" : "192.168.0.0/16",
     "vpn_client_access_group_users" : []
+  }
+
+  validation {
+    condition     = !var.vsi_webdispatcher.enable || var.client_to_site_vpn.enable
+    error_message = "vsi_webdispatcher.enable requires the VPN: the Web Dispatcher uses a private load balancer, which is reachable only over the private network. Set client_to_site_vpn.enable to true when vsi_webdispatcher.enable is true."
   }
 }
 
@@ -467,38 +448,41 @@ variable "enable_scc_wp" {
 #################################################
 # Parameters for webdispatcher
 #################################################
-variable "enable_webdispatcher" {
-  description = "Whether to provision the Terraform-managed Web Dispatcher VSI+ALB group (2 VSIs, dedicated subnet/security group, TCP-passthrough ALB) via the landing-zone module's opt-in feature."
-  type        = bool
-  default     = false
-}
-
-variable "webdispatcher_vsi_profile" {
-  description = "Compute profile of the Web Dispatcher VSIs."
-  type        = string
-  default     = "cxf-2x4"
-}
-
-variable "webdispatcher_lb_type" {
-  description = "Whether the Web Dispatcher ALB is 'public' or 'private'."
-  type        = string
-  default     = "public"
+variable "sap_webdisp_vars" {
+  description = "SAP Web Dispatcher settings. 'sap_swpm_webdisp_sid' is the three-character uppercase SAP SID and 'sap_swpm_webdisp_instance_nr' the two-digit instance number. 'lb_type' is the type of the Application Load Balancer in front of the Web Dispatcher VSIs; only 'private' is supported, so the ALB is reachable only over the private network (client_to_site_vpn must be enabled). 'listener_port' is the ALB listener port (also the backend pool member and health-check port) and must equal 443<sap_swpm_webdisp_instance_nr>, SAP's own convention for the Web Dispatcher HTTPS port. The load balancer settings only take effect when vsi_webdispatcher.enable is true."
+  type = object({
+    sap_swpm_webdisp_sid         = optional(string, "WFP")
+    sap_swpm_webdisp_instance_nr = optional(string, "21")
+    lb_type                      = optional(string, "private")
+    listener_port                = optional(number, 44321)
+  })
+  default = {}
 
   validation {
-    condition     = !var.enable_webdispatcher || contains(["public", "private"], var.webdispatcher_lb_type)
-    error_message = "webdispatcher_lb_type must be 'public' or 'private'."
+    condition     = !var.vsi_webdispatcher.enable || can(regex("^[A-Z][A-Z0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_sid))
+    error_message = "The provided sap_webdisp_vars configuration is invalid. The sap_swpm_webdisp_sid value must consist of exactly three alphanumeric characters, all uppercase, and the first character must be a letter."
+  }
+  validation {
+    condition     = !var.vsi_webdispatcher.enable || can(regex("^[0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr))
+    error_message = "The sap_swpm_webdisp_instance_nr must be a numeric value between 00 and 99. For single-digit numbers, append a leading zero."
+  }
+  validation {
+    condition     = var.sap_webdisp_vars.lb_type == "private"
+    error_message = "sap_webdisp_vars.lb_type must be 'private'. It is the only supported value."
+  }
+  validation {
+    condition     = !var.vsi_webdispatcher.enable || !can(regex("^[0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr)) || var.sap_webdisp_vars.listener_port == tonumber("443${var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr}")
+    error_message = "sap_webdisp_vars.listener_port must equal 443<sap_swpm_webdisp_instance_nr> (e.g. 44321 for instance number 21) to match SAP's Web Dispatcher HTTPS port; otherwise the ALB would route to a port Web Dispatcher isn't listening on. Only enforced when vsi_webdispatcher.enable is true."
   }
 }
 
-variable "webdispatcher_listener_port" {
-  description = "ALB listener port for Web Dispatcher traffic (also the backend pool member + health-check port). Must equal 443<sap_webdisp_vars.sap_swpm_webdisp_instance_nr> — SAP's own convention for Web Dispatcher's HTTPS port — since the SAP-side port isn't independently configurable."
-  type        = number
-  default     = 44321
-
-  validation {
-    condition     = !var.enable_webdispatcher || var.webdispatcher_listener_port == tonumber("443${var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr}")
-    error_message = "webdispatcher_listener_port (${var.webdispatcher_listener_port}) must equal 443${var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr} to match sap_webdisp_vars.sap_swpm_webdisp_instance_nr — otherwise the ALB would route to a port Web Dispatcher isn't listening on. Only enforced when enable_webdispatcher is true."
-  }
+variable "vsi_webdispatcher" {
+  description = "Configuration of the optional SAP Web Dispatcher VSIs (2 Terraform-managed VSIs with a dedicated subnet/security group and a TCP-passthrough ALB via the landing-zone module). 'enable' turns the feature on and 'vsi_profile' is the compute profile of the VSIs."
+  type = object({
+    enable      = optional(bool, false)
+    vsi_profile = optional(string, "cxf-2x4")
+  })
+  default = {}
 }
 
 #####################################################
@@ -526,7 +510,7 @@ variable "tags" {
 #####################################################
 
 variable "vpc_subnet_cidrs" {
-  description = "CIDR values for the VPC subnets to be created. It's customer responsibility that none of the defined networks collide, including the PowerVS subnets and VPN client pool. The 'webdispatcher' key is optional and defaults to '10.30.50.0/24'; it is only used when 'enable_webdispatcher' is true."
+  description = "CIDR values for the VPC subnets to be created. It's customer responsibility that none of the defined networks collide, including the PowerVS subnets and VPN client pool. The 'webdispatcher' key is optional and defaults to '10.30.50.0/24'; it is only used when 'vsi_webdispatcher.enable' is true."
   type = object({
     vpn           = string
     mgmt          = string

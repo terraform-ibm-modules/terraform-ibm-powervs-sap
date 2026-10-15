@@ -881,14 +881,6 @@
               }
             },
             {
-              "key": "sap_webdisp_vars",
-              "custom_config": {
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "type": "code_editor"
-              }
-            },
-            {
               "key": "sap_domain",
               "required": true
             },
@@ -910,16 +902,20 @@
               "required": true
             },
             {
-              "key": "enable_webdispatcher"
+              "key": "sap_webdisp_vars",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "code_editor"
+              }
             },
             {
-              "key": "webdispatcher_vsi_profile"
-            },
-            {
-              "key": "webdispatcher_lb_type"
-            },
-            {
-              "key": "webdispatcher_listener_port"
+              "key": "vsi_webdispatcher",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "type": "code_editor"
+              }
             },
             {
               "key": "nfs_server_config",

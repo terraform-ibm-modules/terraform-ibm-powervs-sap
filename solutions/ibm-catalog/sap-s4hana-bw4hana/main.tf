@@ -37,30 +37,40 @@ module "standard" {
   } })
   powervs_custom_image_cos_configuration       = var.powervs_custom_image_cos_configuration
   powervs_custom_image_cos_service_credentials = var.powervs_custom_image_cos_service_credentials
-  client_to_site_vpn                           = var.client_to_site_vpn
-  sm_service_plan                              = var.sm_service_plan
-  existing_sm_instance_guid                    = var.existing_sm_instance_guid
-  existing_sm_instance_region                  = var.existing_sm_instance_region
-  enable_monitoring                            = var.enable_monitoring
-  enable_monitoring_host                       = var.enable_monitoring
-  enable_scc_wp                                = var.enable_scc_wp
-  ansible_vault_password                       = var.ansible_vault_password
-  vpc_subnet_cidrs                             = var.vpc_subnet_cidrs
-  enable_webdispatcher                         = var.enable_webdispatcher
-  webdispatcher_vsi_profile                    = var.webdispatcher_vsi_profile
-  webdispatcher_lb_type                        = var.webdispatcher_lb_type
-  webdispatcher_listener_port                  = var.webdispatcher_listener_port
+  # The private Web Dispatcher ALB lives in its own subnet, which the landing-zone module does not route to VPN clients by default.
+  client_to_site_vpn = {
+    enable                        = var.client_to_site_vpn.enable
+    client_ip_pool                = var.client_to_site_vpn.client_ip_pool
+    vpn_client_access_group_users = var.client_to_site_vpn.vpn_client_access_group_users
+    powervs_server_routes = var.vsi_webdispatcher.enable && var.client_to_site_vpn.enable ? [{
+      route_name  = "vpc-webdispatcher"
+      destination = var.vpc_subnet_cidrs.webdispatcher
+      action      = "deliver"
+    }] : null
+  }
+  sm_service_plan             = var.sm_service_plan
+  existing_sm_instance_guid   = var.existing_sm_instance_guid
+  existing_sm_instance_region = var.existing_sm_instance_region
+  enable_monitoring           = var.enable_monitoring
+  enable_monitoring_host      = var.enable_monitoring
+  enable_scc_wp               = var.enable_scc_wp
+  ansible_vault_password      = var.ansible_vault_password
+  vpc_subnet_cidrs            = var.vpc_subnet_cidrs
+  enable_webdispatcher        = var.vsi_webdispatcher.enable
+  webdispatcher_vsi_profile   = var.vsi_webdispatcher.vsi_profile
+  webdispatcher_lb_type       = var.sap_webdisp_vars.lb_type
+  webdispatcher_listener_port = var.sap_webdisp_vars.listener_port
 }
 
 #####################################################
 # Web Dispatcher: binaries download, OS prerequisites,
-# and SWPM install for the 2 VSIs the enable_webdispatcher
+# and SWPM install for the 2 VSIs the vsi_webdispatcher.enable
 # feature above provisions.
 #####################################################
 
 module "ibmcloud_cos_download_webdispatcher_binaries" {
   source = "../../../modules/ibmcloud-cos"
-  count  = var.enable_webdispatcher ? 1 : 0
+  count  = var.vsi_webdispatcher.enable ? 1 : 0
   depends_on = [
     module.standard,
     module.ibmcloud_cos_download_hana_binaries,
@@ -82,7 +92,7 @@ module "ibmcloud_cos_download_webdispatcher_binaries" {
 
 module "ansible_webdisp_swap_and_nfs_setup" {
   source                 = "../../../modules/ansible"
-  count                  = var.enable_webdispatcher ? 1 : 0
+  count                  = var.vsi_webdispatcher.enable ? 1 : 0
   depends_on             = [module.standard]
   bastion_host_ip        = module.standard.access_host_or_ip
   ansible_host_or_ip     = module.standard.ansible_host_or_ip
@@ -108,7 +118,7 @@ module "ansible_webdisp_swap_and_nfs_setup" {
 
 module "ansible_webdisp_os_prereqs" {
   source                     = "../../../modules/ansible"
-  count                      = var.enable_webdispatcher ? 1 : 0
+  count                      = var.vsi_webdispatcher.enable ? 1 : 0
   depends_on                 = [module.ansible_webdisp_swap_and_nfs_setup]
   bastion_host_ip            = module.standard.access_host_or_ip
   ansible_host_or_ip         = module.standard.ansible_host_or_ip
@@ -128,7 +138,10 @@ module "ansible_webdisp_os_prereqs" {
 
 locals {
   sap_swpm_webdisp_product_catalog_id = "NW_Webdispatcher:NW750.IND.PD"
-  webdisp_swpm_playbook_vars = merge(var.sap_webdisp_vars, {
+  webdisp_swpm_playbook_vars = merge({
+    sap_swpm_webdisp_sid         = var.sap_webdisp_vars.sap_swpm_webdisp_sid
+    sap_swpm_webdisp_instance_nr = var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr
+    }, {
     sap_swpm_product_catalog_id        = local.sap_swpm_webdisp_product_catalog_id
     sap_swpm_webdisp_master_password   = var.sap_swpm_master_password
     sap_domain                         = var.sap_domain
@@ -144,7 +157,7 @@ locals {
 
 module "ansible_install_webdispatcher" {
   source = "../../../modules/ansible"
-  count  = var.enable_webdispatcher ? 1 : 0
+  count  = var.vsi_webdispatcher.enable ? 1 : 0
   depends_on = [
     module.ibmcloud_cos_download_webdispatcher_binaries,
     module.ansible_webdisp_os_prereqs,
