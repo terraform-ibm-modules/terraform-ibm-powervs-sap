@@ -82,9 +82,10 @@ variable "powervs_networks" {
   description = "Existing list of private subnet ids to be attached to an instance. The first element will become the primary interface. Run 'ibmcloud pi subnets' to list available subnets."
   type = list(
     object({
-      name = string
-      id   = string
-      cidr = optional(string)
+      name   = string
+      id     = string
+      cidr   = optional(string)
+      nsg_id = optional(string)
     })
   )
 }
