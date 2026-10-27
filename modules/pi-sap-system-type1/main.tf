@@ -2,7 +2,6 @@
 # Set server type based on region
 #####################################################
 locals {
-  # tflint-ignore: terraform_unused_declarations
   server_type = "s1022"
 }
 

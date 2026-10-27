@@ -7,11 +7,6 @@ variable "pi_workspace_guid" {
   description = "PowerVS infrastructure workspace guid. The GUID of the resource instance."
   type        = string
 }
-# tflint-ignore: terraform_unused_declarations
-variable "pi_region" {
-  description = "The region of the PowerVS workspace where the instances will be deployed. Needed to determine server type for NetWeaver instances."
-  type        = string
-}
 
 variable "pi_ssh_public_key_name" {
   description = "Existing PowerVS SSH Public Key Name."
