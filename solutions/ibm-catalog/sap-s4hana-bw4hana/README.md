@@ -24,6 +24,11 @@
     - One VSI for management (jump/bastion)
     - One VSI for network-services configured as squid proxy, NTP and DNS servers(using Ansible Galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/). This VSI also acts as central ansible execution node.
     - Optional VSI for Monitoring host
+    - Optional **SAP Web Dispatcher** tier (`vsi_webdispatcher.enable`, requires `client_to_site_vpn.enable`):
+        - Two RHEL VSIs for SAP Web Dispatcher in a dedicated `vsi-webdispatcher` subnet (CIDR from `vpc_subnet_cidrs.webdispatcher`, default `10.30.50.0/24`)
+        - A dedicated security group for the Web Dispatcher VSIs
+        - A private [Application Load Balancer](https://cloud.ibm.com/docs/vpc?topic=vpc-load-balancers) (TCP pass-through) in front of both Web Dispatcher VSIs, which provides a single entry point and distributes HTTPS traffic between them. The listener, backend pool and health check use port `443<instance number>` (default `44321`), and the load balancer is reachable only over the private network (through the client to site VPN).
+        - A route from the PowerVS workspace to the Web Dispatcher subnet
     - Optional [Client to site VPN server](https://cloud.ibm.com/docs/vpc?topic=vpc-vpn-client-to-site-overview)
     - Optional [File storage share](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=ui)
     - Optional [Network load balancer](https://cloud.ibm.com/docs/vpc?group=network-load-balancer)
@@ -53,6 +58,7 @@
 - Optionally installs Sysdig agent and configures connection to [IBM Cloud Security and Compliance Center Workload Protection](https://cloud.ibm.com/docs/workload-protection)
 - Supports installation of **S/4HANA2023, S/4HANA2022, S/4HANA2021, S/4HANA2020, BW/4HANA2021**.
 - Supports installation using **Maintenance Planner** as well.
+- Optionally (`vsi_webdispatcher.enable`) configures the two SAP Web Dispatcher VSIs: enables the RHEL for SAP repositories, mounts the shared NFS share, sets up swap, runs the SAP general and NetWeaver preconfigure roles, downloads the Web Dispatcher binaries from Cloud Object Storage and installs SAP Web Dispatcher with SWPM.
 - Optionally installs and configures SAP Monitoring host and dashboard, if monitoring instance was deployed as part of [Power Virtual Server with VPC landing zone deployment](https://cloud.ibm.com/catalog/architecture/deploy-arch-ibm-pvs-inf-2dd486c7-b317-4aaa-907b-42671485ad96-global?catalog_query=aHR0cHM6Ly9jbG91ZC5pYm0uY29tL2NhdGFsb2c%2Fc2VhcmNoPXBvd2VyI3NlYXJjaF9yZXN1bHRz).
 
 
