@@ -1097,7 +1097,7 @@
               },
               {
                 "title": "Number of Intel Virtual Server Instance",
-                "description": "2"
+                "description": "2 (4 when the optional SAP Web Dispatcher is enabled)"
               },
               {
                 "title": "Number of VPCs",
@@ -1132,6 +1132,10 @@
                 "description": "Optional"
               },
               {
+                "title": "SAP Web Dispatcher  with application load balancer",
+                "description": "Optional"
+              },
+              {
                 "title": "Bring your own image to PowerVS",
                 "description": "Optional"
               }
@@ -1143,7 +1147,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/refs/tags/v6.4.0/reference-architectures/sap-s4hana-bw4hana/deploy-arch-ibm-pvs-sap-s4hana-bw4hana.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA and SAP NetWeaver are deployed and preconfigured for SAP installation. S/4HANA or BW/4HANA solution is installed based on selected version. \n\nServices such as DNS, NTP and NFS runs in VPC.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration. Additionally if a Monitoring Instance is enabled, this solution will then install and enable SAP monitoring Dashboard if binaries are provided."
+                "description": "'SAP S/4HANA or BW/4HANA' variation of 'Power Virtual Server for SAP HANA' creates a basic and expandable SAP system landscape builds on the foundation of 'Power Virtual Server with VPC landing zone'. PowerVS instances for SAP HANA and SAP NetWeaver are deployed and preconfigured for SAP installation. S/4HANA or BW/4HANA solution is installed based on selected version. \n\nServices such as DNS, NTP and NFS runs in VPC.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management and the network connectivity configuration. Additionally if a Monitoring Instance is enabled, this solution will then install and enable SAP monitoring Dashboard if binaries are provided.\n\nOptionally, a highly available SAP Web Dispatcher tier can be provisioned: two RHEL VPC instances in a dedicated subnet and security group, fronted by an application load balancer, with the SAP Web Dispatcher software downloaded from Cloud Object Storage and installed by SWPM. It provides HTTP(S) load balancing and a single entry point to the SAP system's web services."
               }
             ]
           },
