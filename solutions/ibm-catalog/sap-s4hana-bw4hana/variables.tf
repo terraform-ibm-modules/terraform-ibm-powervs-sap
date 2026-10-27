@@ -271,12 +271,13 @@ variable "sap_solution" {
 variable "ibmcloud_cos_configuration" {
   description = "Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos_hana_software_path' must contain only binaries required for HANA DB installation. 'cos_solution_software_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. 'cos_monitoring_software_path' is optional and must contain x86_64 SAPCAR and SAP HANA client binaries required for configuring monitoring instance. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos_solution_software_path' directory. Avoid inserting '/' at the beginning for 'cos_hana_software_path', 'cos_solution_software_path' and 'cos_monitoring_software_path'."
   type = object({
-    cos_region                   = string
-    cos_bucket_name              = string
-    cos_hana_software_path       = string
-    cos_solution_software_path   = string
-    cos_monitoring_software_path = optional(string)
-    cos_swpm_mp_stack_file_name  = string
+    cos_region                      = string
+    cos_bucket_name                 = string
+    cos_hana_software_path          = string
+    cos_solution_software_path      = string
+    cos_monitoring_software_path    = optional(string)
+    cos_webdispatcher_software_path = optional(string, "SAP_Web_Dispatcher")
+    cos_swpm_mp_stack_file_name     = string
   })
   default = {
     "cos_region" : "eu-geo",
@@ -284,6 +285,7 @@ variable "ibmcloud_cos_configuration" {
     "cos_hana_software_path" : "HANA_DB/rev87",
     "cos_solution_software_path" : "S4HANA_2023",
     "cos_monitoring_software_path" : "HANA_CLIENT/x86_64",
+    "cos_webdispatcher_software_path" : "SAP_Web_Dispatcher",
     "cos_swpm_mp_stack_file_name" : ""
   }
 }
@@ -382,6 +384,11 @@ variable "client_to_site_vpn" {
     "client_ip_pool" : "192.168.0.0/16",
     "vpn_client_access_group_users" : []
   }
+
+  validation {
+    condition     = !var.vsi_webdispatcher.enable || var.client_to_site_vpn.enable
+    error_message = "vsi_webdispatcher.enable requires the VPN: the Web Dispatcher uses a private load balancer, which is reachable only over the private network. Set client_to_site_vpn.enable to true when vsi_webdispatcher.enable is true."
+  }
 }
 
 variable "sm_service_plan" {
@@ -438,6 +445,45 @@ variable "enable_scc_wp" {
   description = "Set to true to enable SCC Workload Protection and install and configure the SCC Workload Protection agent on all VSIs and PowerVS instances in this deployment."
   type        = bool
 }
+#################################################
+# Parameters for webdispatcher
+#################################################
+variable "sap_webdisp_vars" {
+  description = "SAP Web Dispatcher settings. 'sap_swpm_webdisp_sid' is the three-character uppercase SAP SID and 'sap_swpm_webdisp_instance_nr' the two-digit instance number. 'lb_type' is the type of the Application Load Balancer in front of the Web Dispatcher VSIs; only 'private' is supported, so the ALB is reachable only over the private network (client_to_site_vpn must be enabled). 'listener_port' is the ALB listener port (also the backend pool member and health-check port) and must equal 443<sap_swpm_webdisp_instance_nr>, SAP's own convention for the Web Dispatcher HTTPS port. The load balancer settings only take effect when vsi_webdispatcher.enable is true."
+  type = object({
+    sap_swpm_webdisp_sid         = optional(string, "WFP")
+    sap_swpm_webdisp_instance_nr = optional(string, "21")
+    lb_type                      = optional(string, "private")
+    listener_port                = optional(number, 44321)
+  })
+  default = {}
+
+  validation {
+    condition     = !var.vsi_webdispatcher.enable || can(regex("^[A-Z][A-Z0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_sid))
+    error_message = "The provided sap_webdisp_vars configuration is invalid. The sap_swpm_webdisp_sid value must consist of exactly three alphanumeric characters, all uppercase, and the first character must be a letter."
+  }
+  validation {
+    condition     = !var.vsi_webdispatcher.enable || can(regex("^[0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr))
+    error_message = "The sap_swpm_webdisp_instance_nr must be a numeric value between 00 and 99. For single-digit numbers, append a leading zero."
+  }
+  validation {
+    condition     = var.sap_webdisp_vars.lb_type == "private"
+    error_message = "sap_webdisp_vars.lb_type must be 'private'. It is the only supported value."
+  }
+  validation {
+    condition     = !var.vsi_webdispatcher.enable || !can(regex("^[0-9]{2}$", var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr)) || var.sap_webdisp_vars.listener_port == tonumber("443${var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr}")
+    error_message = "sap_webdisp_vars.listener_port must equal 443<sap_swpm_webdisp_instance_nr> (e.g. 44321 for instance number 21) to match SAP's Web Dispatcher HTTPS port; otherwise the ALB would route to a port Web Dispatcher isn't listening on. Only enforced when vsi_webdispatcher.enable is true."
+  }
+}
+
+variable "vsi_webdispatcher" {
+  description = "Configuration of the optional SAP Web Dispatcher VSIs (2 Terraform-managed VSIs with a dedicated subnet/security group and a TCP-passthrough ALB via the landing-zone module). 'enable' turns the feature on and 'vsi_profile' is the compute profile of the VSIs."
+  type = object({
+    enable      = optional(bool, false)
+    vsi_profile = optional(string, "cxf-2x4")
+  })
+  default = {}
+}
 
 #####################################################
 # Other Parameters
@@ -464,12 +510,13 @@ variable "tags" {
 #####################################################
 
 variable "vpc_subnet_cidrs" {
-  description = "CIDR values for the VPC subnets to be created. It's customer responsibility that none of the defined networks collide, including the PowerVS subnets and VPN client pool."
+  description = "CIDR values for the VPC subnets to be created. It's customer responsibility that none of the defined networks collide, including the PowerVS subnets and VPN client pool. The 'webdispatcher' key is optional and defaults to '10.30.50.0/24'; it is only used when 'vsi_webdispatcher.enable' is true."
   type = object({
-    vpn  = string
-    mgmt = string
-    vpe  = string
-    edge = string
+    vpn           = string
+    mgmt          = string
+    vpe           = string
+    edge          = string
+    webdispatcher = optional(string, "10.30.50.0/24")
   })
   default = {
     "vpn"  = "10.30.10.0/24"

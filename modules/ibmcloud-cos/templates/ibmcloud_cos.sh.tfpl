@@ -8,7 +8,7 @@ where:
     -h  show this help text
     -i  cos api key"
 
-options=':hi:v:p:d:'
+options=':hi:'
 while getopts $options option; do
     case "$option" in
     h)
@@ -35,19 +35,40 @@ if [ ! "$cos_api_key" ]; then
     exit 1
 fi
 
-export IBMCLOUD_API_KEY=$cos_api_key
+export IBMCLOUD_API_KEY="$cos_api_key"
 export IBMCOS_REGION="${cos_region}"
 export IBMCOS_SERVICE_INSTANCE_CRN="${cos_resource_instance_id}"
 export IBMCOS_BUCKET="${cos_bucket_name}"
 export COS_FOLDER_NAME="${cos_dir_name}"
 export DOWNLOAD_DIRECTORY="${download_dir_path}"
+# Strip any trailing slash the caller may have supplied — the prefix filter
+# below always appends exactly one "/", so a value already ending in "/"
+# would otherwise produce a double slash that matches zero objects.
+COS_FOLDER_NAME="$${COS_FOLDER_NAME%/}"
 
-# Install IBM Cloud CLI
-curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+# Install IBM Cloud CLI (skipped if already present — this script runs once
+# per COS folder, and all downloads for one deployment target the same host,
+# so every call after the first would otherwise redo this network install)
+if command -v ibmcloud >/dev/null 2>&1; then
+    echo "ibmcloud CLI already installed, skipping install"
+else
+    echo "ibmcloud CLI not found, installing..."
+    curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+fi
 ibmcloud config --check-version false
 
-# Install plugin for COS cmd's
-ibmcloud plugin install cloud-object-storage -f
+# Install plugin for COS cmd's (same idempotency reasoning as above)
+if ibmcloud plugin list | grep -q cloud-object-storage; then
+    echo "cloud-object-storage plugin already installed, skipping install"
+else
+    echo "cloud-object-storage plugin not found, installing..."
+    ibmcloud plugin install cloud-object-storage -f
+fi
+
+# jq is used below to parse the COS object listing (ships in RHEL's own
+# AppStream repo, confirmed present on this image already, but installed
+# explicitly here too so this script doesn't silently depend on that)
+command -v jq >/dev/null 2>&1 || dnf install -y jq
 
 # LogIn to the IBM Cloud with IBM API key:
 # Attempt login
@@ -59,20 +80,40 @@ else
 fi
 
 # Config COS CRN
-ibmcloud cos config crn --crn $IBMCOS_SERVICE_INSTANCE_CRN --force
+ibmcloud cos config crn --crn "$IBMCOS_SERVICE_INSTANCE_CRN" --force
 
-mkdir -p $DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME
+mkdir -p "$DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME"
 
-IBMCOS_BUCKET_FILES_LIST=$(ibmcloud cos objects --bucket $IBMCOS_BUCKET --region $IBMCOS_REGION | awk '/^Name/{p=1;next}p {print $1}' | grep $COS_FOLDER_NAME)
 
-for FILENAME in $IBMCOS_BUCKET_FILES_LIST; do
+# jq filter drops "folder marker" objects: zero-byte keys ending in "/" that the
+# COS console (and some SDKs) create to represent an otherwise-empty folder. The
+# "$COS_FOLDER_NAME/" prefix listing returns the marker for the folder itself
+# plus any nested sub-folder markers; basename() would strip the trailing slash
+# and they would be fetched as stray zero-byte files into the download directory,
+# polluting SWPM's media-detect scan (or aborting the run under "set -e" if
+# object-get rejects the "/"-suffixed key). Filtering here rather than in the
+# loop also lets the empty-list check below catch a folder that exists but holds
+# nothing but a marker.
+IBMCOS_BUCKET_FILES_LIST=$(ibmcloud cos objects --bucket "$IBMCOS_BUCKET" --region "$IBMCOS_REGION" --prefix "$COS_FOLDER_NAME/" --output json | jq -r '.Contents[]?.Key | select(endswith("/") | not)')
+
+# A prefix match on a nonexistent/mistyped folder is not an API error — COS
+# returns a normal 0-exit-code response with no "Contents" field at all, so
+# without this check a typo'd cos_dir_name would silently download nothing
+# and only surface as a confusing failure much later, deep in an install role.
+if [ -z "$IBMCOS_BUCKET_FILES_LIST" ]; then
+    echo "No objects found under prefix '$COS_FOLDER_NAME/' in bucket '$IBMCOS_BUCKET' (region '$IBMCOS_REGION') — check cos_dir_name, cos_bucket_name, and cos_region for a typo." >&2
+    exit 1
+fi
+
+while IFS= read -r FILENAME; do
+    [ -z "$FILENAME" ] && continue
     echo "Downloading $FILENAME"
-    FILENAME_ONLY=$(echo $FILENAME | awk '{gsub(".*/", ""); print}')
-    if [ ! -f $DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME/$FILENAME_ONLY ]; then
-        yes y | ibmcloud cos object-get --bucket $IBMCOS_BUCKET --key $FILENAME --region=$IBMCOS_REGION $DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME/$FILENAME_ONLY
+    FILENAME_ONLY=$(basename "$FILENAME")
+    if [ ! -f "$DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME/$FILENAME_ONLY" ]; then
+        ibmcloud cos object-get --bucket "$IBMCOS_BUCKET" --key "$FILENAME" --region="$IBMCOS_REGION" --force "$DOWNLOAD_DIRECTORY/$COS_FOLDER_NAME/$FILENAME_ONLY"
     else
         echo "File already exists"
     fi
-done
+done <<< "$IBMCOS_BUCKET_FILES_LIST"
 
 ibmcloud logout
