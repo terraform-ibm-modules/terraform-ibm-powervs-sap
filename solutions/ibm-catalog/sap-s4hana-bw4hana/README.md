@@ -24,7 +24,6 @@
     - One VSI for management (jump/bastion)
     - One VSI for network-services configured as squid proxy, NTP and DNS servers(using Ansible Galaxy collection roles [ibm.power_linux_sap collection](https://galaxy.ansible.com/ui/repo/published/ibm/power_linux_sap/). This VSI also acts as central ansible execution node.
     - Optional VSI for Monitoring host
-    - Optional two VSIs for SAP Web Dispatcher, in a dedicated subnet and security group, fronted by a TCP-passthrough [Application Load Balancer](https://cloud.ibm.com/docs/vpc?topic=vpc-load-balancers-about) for SAP HTTP(S) ingress
     - Optional [Client to site VPN server](https://cloud.ibm.com/docs/vpc?topic=vpc-vpn-client-to-site-overview)
     - Optional [File storage share](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=ui)
     - Optional [Network load balancer](https://cloud.ibm.com/docs/vpc?group=network-load-balancer)
@@ -72,22 +71,6 @@
 2. The **ansible vault password** will be used to encrypt the Ansible playbook file created during deployment. This playbook file will be placed under `/root/terraform_files/sap-hana-install.yml` on the **HANA instance** and `/root/terraform_files/sap-swpm-install-vars.yml` on the **NetWeaver Instance**.
 3. This file can be decrypted using the same value passed to variable **'ansible_vault_password'** during deployment. Use the command `ansible-vault decrypt /root/terraform_files/sap-swpm-install-vars.yml` and enter the password when prompted.
 
-### Web Dispatcher: connectivity, security, and first access (if `vsi_webdispatcher.enable = true`)
-
-**Traffic path:** VPN clients reach a TCP-passthrough Application Load Balancer (ALB), which forwards to one of the two Web Dispatcher VSIs on `sap_webdisp_vars.listener_port`. Web Dispatcher terminates TLS and proxies to the SAP application servers over the private network.
-
-**Security posture:**
-- The ALB is private (`sap_webdisp_vars.lb_type` only accepts `"private"`) and is not exposed to the internet. It is reached through the `client_to_site_vpn`, which must be enabled when `vsi_webdispatcher.enable = true`. SSH and all other management access to the Web Dispatcher VSIs is private-network-only as well.
-- The ALB is a plain TCP-passthrough listener, not a Layer-7/WAF load balancer, since TLS terminates on Web Dispatcher itself, not on the ALB.
-- Web Dispatcher is deployed with a self-signed certificate by default, so browsers and API clients will show a certificate warning on first connection — this is expected until a proper certificate is installed.
-- A VPN server route for the Web Dispatcher subnet (`vpc_subnet_cidrs.webdispatcher`) is added automatically, so VPN clients can reach the ALB. The ALB hostname resolves to private IPs only through VPC DNS; if it does not resolve from your VPN client, use the ALB's private IP address instead.
-
-**First access after deployment:**
-1. Find the ALB's hostname: `ibmcloud is load-balancers` (look for the Web Dispatcher ALB by name/prefix), then `ibmcloud is load-balancer <id>` for its hostname.
-2. Confirm both Web Dispatcher VSIs are healthy pool members: `ibmcloud is load-balancer-pool-members <load-balancer-id> <pool-id>`.
-3. Open `https://<alb-hostname>:<sap_webdisp_vars.listener_port>/sap/wdisp/admin/public/default.html` in a browser to reach the Web Dispatcher admin page (accept the self-signed certificate warning).
-4. Point application/SAPGUI traffic at the same `<alb-hostname>:<sap_webdisp_vars.listener_port>` — Web Dispatcher routes it to the backend application servers.
-
 ## Storage setup
 
 ### 1. HANA Instance:
@@ -120,38 +103,34 @@
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 2.7.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 2.8.0 |
 | <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | 2.0.1 |
 
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
-| <a name="module_ansible_install_webdispatcher"></a> [ansible\_install\_webdispatcher](#module\_ansible\_install\_webdispatcher) | ../../../modules/ansible | n/a |
+| ---- | ------ | ------- |
 | <a name="module_ansible_monitoring_sap_install_solution"></a> [ansible\_monitoring\_sap\_install\_solution](#module\_ansible\_monitoring\_sap\_install\_solution) | ../../../modules/ansible | n/a |
 | <a name="module_ansible_sap_install_hana"></a> [ansible\_sap\_install\_hana](#module\_ansible\_sap\_install\_hana) | ../../../modules/ansible | n/a |
 | <a name="module_ansible_sap_install_solution"></a> [ansible\_sap\_install\_solution](#module\_ansible\_sap\_install\_solution) | ../../../modules/ansible | n/a |
-| <a name="module_ansible_webdisp_os_prereqs"></a> [ansible\_webdisp\_os\_prereqs](#module\_ansible\_webdisp\_os\_prereqs) | ../../../modules/ansible | n/a |
-| <a name="module_ansible_webdisp_swap_and_nfs_setup"></a> [ansible\_webdisp\_swap\_and\_nfs\_setup](#module\_ansible\_webdisp\_swap\_and\_nfs\_setup) | ../../../modules/ansible | n/a |
 | <a name="module_ibmcloud_cos_download_hana_binaries"></a> [ibmcloud\_cos\_download\_hana\_binaries](#module\_ibmcloud\_cos\_download\_hana\_binaries) | ../../../modules/ibmcloud-cos | n/a |
 | <a name="module_ibmcloud_cos_download_monitoring_binaries"></a> [ibmcloud\_cos\_download\_monitoring\_binaries](#module\_ibmcloud\_cos\_download\_monitoring\_binaries) | ../../../modules/ibmcloud-cos | n/a |
 | <a name="module_ibmcloud_cos_download_netweaver_binaries"></a> [ibmcloud\_cos\_download\_netweaver\_binaries](#module\_ibmcloud\_cos\_download\_netweaver\_binaries) | ../../../modules/ibmcloud-cos | n/a |
-| <a name="module_ibmcloud_cos_download_webdispatcher_binaries"></a> [ibmcloud\_cos\_download\_webdispatcher\_binaries](#module\_ibmcloud\_cos\_download\_webdispatcher\_binaries) | ../../../modules/ibmcloud-cos | n/a |
 | <a name="module_sap_system"></a> [sap\_system](#module\_sap\_system) | ../../../modules/pi-sap-system-type1 | n/a |
 | <a name="module_standard"></a> [standard](#module\_standard) | terraform-ibm-modules/powervs-infrastructure/ibm//modules/powervs-vpc-landing-zone | 11.4.0 |
 
 ### Resources
 
 | Name | Type |
-|------|------|
-| [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/2.7.0/docs/data-sources/iam_auth_token) | data source |
+| ---- | ---- |
+| [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/2.8.0/docs/data-sources/iam_auth_token) | data source |
 
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_ansible_vault_password"></a> [ansible\_vault\_password](#input\_ansible\_vault\_password) | Vault password to encrypt ansible playbooks that contain sensitive information. Required when SCC workload Protection is enabled. Password requirements: 15-100 characters and at least one uppercase letter, one lowercase letter, one number, and one special character. Allowed characters: A-Z, a-z, 0-9, !#$%&()*+-.:;<=>?@[]\_{\|}~. | `string` | n/a | yes |
 | <a name="input_client_to_site_vpn"></a> [client\_to\_site\_vpn](#input\_client\_to\_site\_vpn) | VPN configuration - the client ip pool and list of users email ids to access the environment. If enabled, then a Secret Manager instance is also provisioned with certificates generated. See optional parameters to reuse an existing Secrets manager instance. | <pre>object({<br/>    enable                        = bool<br/>    client_ip_pool                = string<br/>    vpn_client_access_group_users = list(string)<br/>  })</pre> | <pre>{<br/>  "client_ip_pool": "192.168.0.0/16",<br/>  "enable": true,<br/>  "vpn_client_access_group_users": []<br/>}</pre> | no |
 | <a name="input_enable_monitoring"></a> [enable\_monitoring](#input\_enable\_monitoring) | Specify whether Monitoring will be enabled. This includes the creation of an IBM Cloud Monitoring Instance and an Intel Monitoring Instance to host the services. | `bool` | n/a | yes |
@@ -160,7 +139,7 @@
 | <a name="input_existing_sm_instance_region"></a> [existing\_sm\_instance\_region](#input\_existing\_sm\_instance\_region) | Required if value is passed into `var.existing_sm_instance_guid`. | `string` | `null` | no |
 | <a name="input_external_access_ip"></a> [external\_access\_ip](#input\_external\_access\_ip) | Specify the IP address or CIDR to login through SSH to the environment after deployment. Access to this environment will be allowed only from this IP address. | `string` | n/a | yes |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | IBM Cloud platform API key needed to deploy IAM enabled resources. | `string` | n/a | yes |
-| <a name="input_ibmcloud_cos_configuration"></a> [ibmcloud\_cos\_configuration](#input\_ibmcloud\_cos\_configuration) | Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos\_hana\_software\_path' must contain only binaries required for HANA DB installation. 'cos\_solution\_software\_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. 'cos\_monitoring\_software\_path' is optional and must contain x86\_64 SAPCAR and SAP HANA client binaries required for configuring monitoring instance. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos\_solution\_software\_path' directory. Avoid inserting '/' at the beginning for 'cos\_hana\_software\_path', 'cos\_solution\_software\_path' and 'cos\_monitoring\_software\_path'. | <pre>object({<br/>    cos_region                      = string<br/>    cos_bucket_name                 = string<br/>    cos_hana_software_path          = string<br/>    cos_solution_software_path      = string<br/>    cos_monitoring_software_path    = optional(string)<br/>    cos_webdispatcher_software_path = optional(string, "SAP_Web_Dispatcher")<br/>    cos_swpm_mp_stack_file_name     = string<br/>  })</pre> | <pre>{<br/>  "cos_bucket_name": "powervs-automation",<br/>  "cos_hana_software_path": "HANA_DB/rev87",<br/>  "cos_monitoring_software_path": "HANA_CLIENT/x86_64",<br/>  "cos_region": "eu-geo",<br/>  "cos_solution_software_path": "S4HANA_2023",<br/>  "cos_swpm_mp_stack_file_name": "",<br/>  "cos_webdispatcher_software_path": "SAP_Web_Dispatcher"<br/>}</pre> | no |
+| <a name="input_ibmcloud_cos_configuration"></a> [ibmcloud\_cos\_configuration](#input\_ibmcloud\_cos\_configuration) | Cloud Object Storage instance containing SAP installation files that will be downloaded to NFS share. 'cos\_hana\_software\_path' must contain only binaries required for HANA DB installation. 'cos\_solution\_software\_path' must contain only binaries required for S/4HANA or BW/4HANA installation and must not contain any IMDB files. 'cos\_monitoring\_software\_path' is optional and must contain x86\_64 SAPCAR and SAP HANA client binaries required for configuring monitoring instance. The binaries required for installation can be found [here](https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/blob/main/solutions/ibm-catalog/sap-s4hana-bw4hana/docs/s4hana23_bw4hana21_binaries.md) If you have an optional stack xml file (maintenance planner), place it under the 'cos\_solution\_software\_path' directory. Avoid inserting '/' at the beginning for 'cos\_hana\_software\_path', 'cos\_solution\_software\_path' and 'cos\_monitoring\_software\_path'. | <pre>object({<br/>    cos_region                   = string<br/>    cos_bucket_name              = string<br/>    cos_hana_software_path       = string<br/>    cos_solution_software_path   = string<br/>    cos_monitoring_software_path = optional(string)<br/>    cos_swpm_mp_stack_file_name  = string<br/>  })</pre> | <pre>{<br/>  "cos_bucket_name": "powervs-automation",<br/>  "cos_hana_software_path": "HANA_DB/rev87",<br/>  "cos_monitoring_software_path": "HANA_CLIENT/x86_64",<br/>  "cos_region": "eu-geo",<br/>  "cos_solution_software_path": "S4HANA_2023",<br/>  "cos_swpm_mp_stack_file_name": ""<br/>}</pre> | no |
 | <a name="input_ibmcloud_cos_service_credentials"></a> [ibmcloud\_cos\_service\_credentials](#input\_ibmcloud\_cos\_service\_credentials) | IBM Cloud Object Storage instance service credentials to access the bucket in the instance.[json example of service credential](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-credentials) | `string` | n/a | yes |
 | <a name="input_nfs_server_config"></a> [nfs\_server\_config](#input\_nfs\_server\_config) | Configuration for the NFS server. 'size' is in GB, 'iops' is maximum input/output operation performance bandwidth per second, 'mount\_path' defines the target mount point on os. Set 'configure\_nfs\_server' to false to ignore creating file storage share. | <pre>object({<br/>    size       = number<br/>    iops       = number<br/>    mount_path = string<br/>  })</pre> | <pre>{<br/>  "iops": 600,<br/>  "mount_path": "/nfs",<br/>  "size": 200<br/>}</pre> | no |
 | <a name="input_powervs_custom_image_cos_configuration"></a> [powervs\_custom\_image\_cos\_configuration](#input\_powervs\_custom\_image\_cos\_configuration) | Cloud Object Storage bucket containing custom PowerVS images. bucket\_name: string, name of the COS bucket. bucket\_access: string, possible values: public, private (private requires powervs\_custom\_image\_cos\_service\_credentials). bucket\_region: string, COS bucket region | <pre>object({<br/>    bucket_name   = string<br/>    bucket_access = string<br/>    bucket_region = string<br/>  })</pre> | <pre>{<br/>  "bucket_access": "",<br/>  "bucket_name": "",<br/>  "bucket_region": ""<br/>}</pre> | no |
@@ -186,19 +165,17 @@
 | <a name="input_sap_solution"></a> [sap\_solution](#input\_sap\_solution) | SAP Solution to be installed on Power Virtual Server. | `string` | n/a | yes |
 | <a name="input_sap_solution_vars"></a> [sap\_solution\_vars](#input\_sap\_solution\_vars) | SAP SID, ASCS and PAS instance numbers and service/protectedwebmethods parameters. | <pre>object({<br/>    sap_swpm_sid                         = string<br/>    sap_swpm_ascs_instance_nr            = string<br/>    sap_swpm_pas_instance_nr             = string<br/>    sap_swpm_service_protectedwebmethods = string<br/><br/>  })</pre> | <pre>{<br/>  "sap_swpm_ascs_instance_nr": "00",<br/>  "sap_swpm_pas_instance_nr": "01",<br/>  "sap_swpm_service_protectedwebmethods": "SDEFAULT -GetQueueStatistic -ABAPGetWPTable -EnqGetStatistic -GetProcessList -GetEnvironment -BAPGetSystemWPTable",<br/>  "sap_swpm_sid": "S4H"<br/>}</pre> | no |
 | <a name="input_sap_swpm_master_password"></a> [sap\_swpm\_master\_password](#input\_sap\_swpm\_master\_password) | SAP SWPM master password. | `string` | n/a | yes |
-| <a name="input_sap_webdisp_vars"></a> [sap\_webdisp\_vars](#input\_sap\_webdisp\_vars) | SAP Web Dispatcher settings. 'sap\_swpm\_webdisp\_sid' is the three-character uppercase SAP SID and 'sap\_swpm\_webdisp\_instance\_nr' the two-digit instance number. 'lb\_type' is the type of the Application Load Balancer in front of the Web Dispatcher VSIs; only 'private' is supported, so the ALB is reachable only over the private network (client\_to\_site\_vpn must be enabled). 'listener\_port' is the ALB listener port (also the backend pool member and health-check port) and must equal 443<sap\_swpm\_webdisp\_instance\_nr>, SAP's own convention for the Web Dispatcher HTTPS port. The load balancer settings only take effect when vsi\_webdispatcher.enable is true. | <pre>object({<br/>    sap_swpm_webdisp_sid         = optional(string, "WFP")<br/>    sap_swpm_webdisp_instance_nr = optional(string, "21")<br/>    lb_type                      = optional(string, "private")<br/>    listener_port                = optional(number, 44321)<br/>  })</pre> | `{}` | no |
 | <a name="input_sm_service_plan"></a> [sm\_service\_plan](#input\_sm\_service\_plan) | The service/pricing plan to use when provisioning a new Secrets Manager instance. Allowed values: `standard` and `trial`. Only used if `existing_sm_instance_guid` is set to null. | `string` | `"standard"` | no |
 | <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private SSH key (RSA format) used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'ssh\_public\_key' which was created previously. The key is temporarily stored and deleted. For more information about SSH keys, see [SSH keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys). | `string` | n/a | yes |
 | <a name="input_ssh_public_key"></a> [ssh\_public\_key](#input\_ssh\_public\_key) | Public SSH Key for VSI creation. Must be an RSA key with a key size of either 2048 bits or 4096 bits (recommended). Must be a valid SSH key that does not already exist in the deployment region. | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | List of tag names for the IBM Cloud resources created. | `list(string)` | `[]` | no |
 | <a name="input_vpc_intel_images"></a> [vpc\_intel\_images](#input\_vpc\_intel\_images) | Stock OS image names for creating VPC landing zone VSI instances: RHEL (management and network services) and SLES (monitoring). | <pre>object({<br/>    rhel_image = string<br/>    sles_image = string<br/>  })</pre> | <pre>{<br/>  "rhel_image": "ibm-redhat-9-6-amd64-sap-applications-1",<br/>  "sles_image": "ibm-sles-15-7-amd64-sap-applications-1"<br/>}</pre> | no |
-| <a name="input_vpc_subnet_cidrs"></a> [vpc\_subnet\_cidrs](#input\_vpc\_subnet\_cidrs) | CIDR values for the VPC subnets to be created. It's customer responsibility that none of the defined networks collide, including the PowerVS subnets and VPN client pool. The 'webdispatcher' key is optional and defaults to '10.30.50.0/24'; it is only used when 'vsi\_webdispatcher.enable' is true. | <pre>object({<br/>    vpn           = string<br/>    mgmt          = string<br/>    vpe           = string<br/>    edge          = string<br/>    webdispatcher = optional(string, "10.30.50.0/24")<br/>  })</pre> | <pre>{<br/>  "edge": "10.30.40.0/24",<br/>  "mgmt": "10.30.20.0/24",<br/>  "vpe": "10.30.30.0/24",<br/>  "vpn": "10.30.10.0/24"<br/>}</pre> | no |
-| <a name="input_vsi_webdispatcher"></a> [vsi\_webdispatcher](#input\_vsi\_webdispatcher) | Configuration of the optional SAP Web Dispatcher VSIs (2 Terraform-managed VSIs with a dedicated subnet/security group and a TCP-passthrough ALB via the landing-zone module). 'enable' turns the feature on and 'vsi\_profile' is the compute profile of the VSIs. | <pre>object({<br/>    enable      = optional(bool, false)<br/>    vsi_profile = optional(string, "cxf-2x4")<br/>  })</pre> | `{}` | no |
+| <a name="input_vpc_subnet_cidrs"></a> [vpc\_subnet\_cidrs](#input\_vpc\_subnet\_cidrs) | CIDR values for the VPC subnets to be created. It's customer responsibility that none of the defined networks collide, including the PowerVS subnets and VPN client pool. | <pre>object({<br/>    vpn  = string<br/>    mgmt = string<br/>    vpe  = string<br/>    edge = string<br/>  })</pre> | <pre>{<br/>  "edge": "10.30.40.0/24",<br/>  "mgmt": "10.30.20.0/24",<br/>  "vpe": "10.30.30.0/24",<br/>  "vpn": "10.30.10.0/24"<br/>}</pre> | no |
 
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP of Provided Bastion/JumpServer Host. |
 | <a name="output_infrastructure_data"></a> [infrastructure\_data](#output\_infrastructure\_data) | PowerVS infrastructure details. |
 | <a name="output_powervs_hana_instance_ips"></a> [powervs\_hana\_instance\_ips](#output\_powervs\_hana\_instance\_ips) | All private IPS of HANA instance. |
@@ -209,5 +186,4 @@
 | <a name="output_sap_hana_vars"></a> [sap\_hana\_vars](#output\_sap\_hana\_vars) | SAP HANA system details. |
 | <a name="output_sap_monitoring_vars"></a> [sap\_monitoring\_vars](#output\_sap\_monitoring\_vars) | SAP Monitoring Instance details. |
 | <a name="output_sap_solution_vars"></a> [sap\_solution\_vars](#output\_sap\_solution\_vars) | SAP NetWeaver system details. |
-| <a name="output_sap_webdispatcher_vars"></a> [sap\_webdispatcher\_vars](#output\_sap\_webdispatcher\_vars) | SAP Web Dispatcher details: whether enabled, SID/instance number, and the 2 provisioned VSIs' private IPs (empty list when vsi\_webdispatcher.enable is false). |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
