@@ -122,7 +122,7 @@
 | <a name="module_ansible_monitoring_sap_install_solution"></a> [ansible\_monitoring\_sap\_install\_solution](#module\_ansible\_monitoring\_sap\_install\_solution) | ../../../modules/ansible | n/a |
 | <a name="module_ansible_sap_install_hana"></a> [ansible\_sap\_install\_hana](#module\_ansible\_sap\_install\_hana) | ../../../modules/ansible | n/a |
 | <a name="module_ansible_sap_install_solution"></a> [ansible\_sap\_install\_solution](#module\_ansible\_sap\_install\_solution) | ../../../modules/ansible | n/a |
-| <a name="module_ansible_webdisp_os_prereqs"></a> [ansible\_webdisp\_os\_prereqs](#module\_ansible\_webdisp\_os\_prereqs) | ../../../modules/ansible | n/a |
+| <a name="module_ansible_webdisp_os_init"></a> [ansible\_webdisp\_os\_init](#module\_ansible\_webdisp\_os\_init) | ../../../modules/ansible | n/a |
 | <a name="module_ansible_webdisp_swap_and_nfs_setup"></a> [ansible\_webdisp\_swap\_and\_nfs\_setup](#module\_ansible\_webdisp\_swap\_and\_nfs\_setup) | ../../../modules/ansible | n/a |
 | <a name="module_ibmcloud_cos_download_hana_binaries"></a> [ibmcloud\_cos\_download\_hana\_binaries](#module\_ibmcloud\_cos\_download\_hana\_binaries) | ../../../modules/ibmcloud-cos | n/a |
 | <a name="module_ibmcloud_cos_download_monitoring_binaries"></a> [ibmcloud\_cos\_download\_monitoring\_binaries](#module\_ibmcloud\_cos\_download\_monitoring\_binaries) | ../../../modules/ibmcloud-cos | n/a |
