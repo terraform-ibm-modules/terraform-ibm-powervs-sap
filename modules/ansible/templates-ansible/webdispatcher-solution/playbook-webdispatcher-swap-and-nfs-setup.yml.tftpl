@@ -1,15 +1,6 @@
 # ------------------------------------------------------------------------
 # Web Dispatcher VSI: RHEL-for-SAP repos, NFS mount for install binaries,
-# and swap. Split into its own playbook (rather than combined with the
-# sap_general_preconfigure/sap_netweaver_preconfigure roles) specifically so
-# that a separate ansible-playbook run — with its own fresh gather_facts —
-# sits between this playbook enabling swap and the preconfigure roles
-# checking ansible_swaptotal_mb. Combined into a single play, that fact is
-# gathered once at play start (before swap exists) and never refreshed,
-# so the preconfigure roles see stale "0 MB swap" even after swap is
-# successfully enabled earlier in the same play. Matches the same pattern
-# HANA/NetWeaver already use (linux-init vs configure-os-for-sap as two
-# separate playbook invocations), which is why they never hit this bug.
+# and swap.
 # ------------------------------------------------------------------------
 ---
 - name: Web Dispatcher VSI swap and NFS setup
@@ -27,13 +18,6 @@
     webdisp_nfs_opts: ${webdisp_nfs_opts}
 
   tasks:
-    # community.general.rhsm_repository instead of raw subscription-manager
-    # command, matching ibm.power_linux_sap's own powervs_os_registration
-    # role (https://github.com/IBM/ansible-power-linux-sap/blob/main/roles/powervs_os_registration/tasks/rhel_byol.yml).
-    # community.general ships as a declared dependency of ibm.power_linux_sap,
-    # which is already confirmed installed on this ansible host.
-    # The module lists every repo on each call, so all four are passed as one
-    # list instead of looping (a loop would repeat that listing four times).
     - name: Enable required RHEL-for-SAP repos
       community.general.rhsm_repository:
         name:
@@ -43,13 +27,6 @@
           - rhel-9-for-{{ ansible_architecture }}-sap-netweaver-e4s-rpms
         state: enabled
 
-    # --- rhel-system-roles-sap, expect, nfs-utils ---
-    # `expect` (provides `unbuffer`) is normally installed by
-    # modules/ansible/ansible_node_packages.sh, but only when
-    # configure_ansible_host=true — not the case for this VSI. Installed
-    # here so the later SWPM-install launcher script (which does use
-    # `unbuffer`) has it available when that step runs. `nfs-utils` is
-    # needed for the NFS mount below.
     - name: Install required packages
       ansible.builtin.dnf:
         name:
@@ -58,24 +35,12 @@
           - nfs-utils
         state: present
 
-    # --- NFS mount for install binaries — matches the HANA/NetWeaver
-    # pattern (module.standard's network-services NFS share), not a direct
-    # per-VSI download. ansible.posix.mount handles both the immediate
-    # mount and the fstab entry (state: mounted), so this survives the
-    # reboot the follow-on preconfigure playbook triggers.
     - name: Ensure the NFS mount point directory exists
       ansible.builtin.file:
         path: "{{ webdisp_nfs_mount_path }}"
         state: directory
         mode: '0755'
 
-    # When the fstab entry changes for a share that is already mounted,
-    # state: mounted tries `mount -o remount` and only falls back to
-    # unmount + mount if that fails. For NFS, `-o remount` can exit 0 without
-    # actually changing the protocol version or source, so the live mount can
-    # silently stay on the old settings. Record whether the share was already
-    # mounted before this task, so a changed fstab entry can be fully applied
-    # below (a first-time mount needs nothing extra).
     - name: Record whether the NFS share is already mounted
       ansible.builtin.set_fact:
         webdisp_nfs_was_mounted: "{{ (ansible_mounts | selectattr('mount', 'equalto', webdisp_nfs_mount_path) | list | length) > 0 }}"
@@ -89,9 +54,6 @@
         state: mounted
       register: webdisp_nfs_mount_result
 
-    # Explicit unmount + mount, so the new settings really take effect. Fails
-    # loudly if the share is busy rather than leaving the live mount silently
-    # out of sync with fstab.
     - name: Re-apply changed NFS mount settings to the live mount
       when:
         - webdisp_nfs_was_mounted | bool
@@ -115,26 +77,12 @@
       ansible.builtin.set_fact:
         webdisp_swap_total_mb: "{{ ansible_swaptotal_mb | default(0) }}"
 
-    # Needed to exclude already-active swap devices from the spare-device
-    # search below. A device already in use as raw (unpartitioned) swap —
-    # e.g. A vm's own /dev/vdd — has no partitions and no LVM holders,
-    # so without this check it would be indistinguishable from a genuine
-    # spare device and could get mkswap'd again, silently orphaning the
-    # existing fstab line and creating a duplicate with a new UUID.
     - name: List currently active swap devices
       ansible.builtin.command: swapon --show=NAME --noheadings --raw
       register: webdisp_active_swap
       changed_when: false
       failed_when: false
 
-    # A whole-disk filesystem (e.g. /dev/vdb formatted XFS and mounted directly)
-    # has no partitions and no LVM holders, so the facts alone can't tell it
-    # apart from a truly blank disk. Probe each candidate for any on-disk
-    # signature: blkid -p exits 2 only when the device is blank. Any other rc
-    # (0 = signature found, or an unexpected error) is treated as "not safe to
-    # wipe", so a probe problem can never lead to mkswap on a disk with data.
-    # Only probes devices that pass the same size/partition filters as the
-    # search below, so loop/zram/etc. devices are never touched.
     - name: Probe unpartitioned candidate devices for existing signatures
       ansible.builtin.command: "blkid -p -o export /dev/{{ item.key }}"
       register: webdisp_blkid_probe
@@ -151,12 +99,6 @@
       loop_control:
         label: "{{ item.key }}"
 
-    # A device that only carries a swap signature (e.g. mkswap ran but swapon
-    # did not complete on an earlier run) is left eligible, so it is not
-    # mistaken for in-use data. Skipped loop items carry no rc and are ignored.
-    # "Blank" means rc == 2 AND stderr is defined: when blkid itself can't be
-    # executed, the command module also returns rc 2 but without stdout/stderr,
-    # and that must not be mistaken for a blank disk.
     - name: Collect devices that already carry a non-swap signature
       ansible.builtin.set_fact:
         webdisp_devices_with_signature: >-
@@ -191,10 +133,6 @@
         - webdisp_swap_total_mb | int < webdisp_swap_min_mb
         - webdisp_spare_device is defined
       block:
-        # A device that already carries a swap signature (e.g. an earlier run
-        # got as far as mkswap) is NOT re-formatted: mkswap would assign a new
-        # UUID and orphan any fstab line a previous run already wrote for it.
-        # Reusing the signature keeps the UUID, and so the fstab line, stable.
         - name: mkswap on the spare device (skipped if it already has a swap signature)
           ansible.builtin.command: "mkswap /dev/{{ webdisp_spare_device }}"
           when: >-
@@ -208,9 +146,6 @@
           register: webdisp_swap_uuid
           changed_when: false
 
-        # swapon BEFORE the fstab entry: if swapon fails, no fstab line has been
-        # written yet, so a retry can't leave a stale entry behind for a
-        # device that never became active.
         - name: Enable swap
           ansible.builtin.command: "swapon /dev/{{ webdisp_spare_device }}"
 
@@ -225,18 +160,11 @@
         - webdisp_swap_total_mb | int < webdisp_swap_min_mb
         - webdisp_spare_device is not defined
       block:
-        # If an earlier run already created the file (and then failed at
-        # mkswap/swapon), / has ~target MB less free space than at the start,
-        # so the room check below must not run again — the space is already
-        # spent on the file this branch would otherwise create.
         - name: Check whether the swap file already exists
           ansible.builtin.stat:
             path: "{{ webdisp_swapfile_path }}"
           register: webdisp_swapfile_stat
 
-        # ansible_mounts is already gathered (gather_facts: true above) and
-        # carries size_available in bytes per mount — no need to shell out to
-        # df for something Ansible already collected.
         - name: Fail loudly if there isn't enough room for a swap file (attach a volume instead — see guide)
           ansible.builtin.fail:
             msg: "Not enough free space on / for a {{ webdisp_swap_target_mb }}MB swap file. Attach a dedicated block volume via console first (guide Step B item 10, third branch), then re-run this playbook."
@@ -246,9 +174,6 @@
             - not webdisp_swapfile_stat.stat.exists
             - (webdisp_root_free_mb | int) < (webdisp_swap_target_mb + 1024)
 
-        # fallocate is used here; RHEL 9 documents dd for swap files. fallocate
-        # normally works on XFS, but if swapon ever reports "file has holes",
-        # switch this task to: dd if=/dev/zero of=<path> bs=1M count=<target MB>
         - name: Create the swap file
           ansible.builtin.command: "fallocate -l {{ webdisp_swap_target_mb }}M {{ webdisp_swapfile_path }}"
           args:
@@ -259,10 +184,6 @@
             path: "{{ webdisp_swapfile_path }}"
             mode: '0600'
 
-        # mkswap and swapon only run when needed: mkswap on an already-swap
-        # file would change its UUID, and swapon on an already-active swap
-        # file fails with "Device or resource busy". -p probes the file
-        # directly instead of trusting the blkid cache.
         - name: Check swap file signature
           ansible.builtin.command: "blkid -p -o value -s TYPE {{ webdisp_swapfile_path }}"
           register: webdisp_swapfile_type
@@ -293,11 +214,6 @@
       ansible.builtin.debug:
         msg: "{{ webdisp_findmnt_verify.stdout_lines + webdisp_findmnt_verify.stderr_lines }}"
 
-    # This was informational-only before (failed_when: false above) — fine
-    # when a human would reboot manually later and could react to the
-    # warning. The follow-on preconfigure playbook triggers an automatic
-    # reboot, so a broken fstab must stop the play here — otherwise swap
-    # would silently fail to come back on that reboot, unnoticed.
     - name: Fail if fstab is broken before the follow-on playbook's automatic reboot
       ansible.builtin.fail:
         msg: "findmnt --verify reported fstab errors (see previous task's output) — fix /etc/fstab before continuing."

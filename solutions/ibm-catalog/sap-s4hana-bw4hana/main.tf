@@ -62,122 +62,6 @@ module "standard" {
   webdispatcher_listener_port = var.sap_webdisp_vars.listener_port
 }
 
-#####################################################
-# Web Dispatcher: binaries download, OS prerequisites,
-# and SWPM install for the 2 VSIs the vsi_webdispatcher.enable
-# feature above provisions.
-#####################################################
-
-module "ibmcloud_cos_download_webdispatcher_binaries" {
-  source = "../../../modules/ibmcloud-cos"
-  count  = var.vsi_webdispatcher.enable ? 1 : 0
-  depends_on = [
-    module.standard,
-    module.ibmcloud_cos_download_hana_binaries,
-    module.ibmcloud_cos_download_netweaver_binaries,
-    module.ibmcloud_cos_download_monitoring_binaries,
-  ]
-  access_host_or_ip = module.standard.access_host_or_ip
-  target_server_ip  = module.standard.ansible_host_or_ip
-  ssh_private_key   = var.ssh_private_key
-  ibmcloud_cos_configuration = {
-    cos_apikey               = local.cos_apikey
-    cos_region               = var.ibmcloud_cos_configuration.cos_region
-    cos_resource_instance_id = local.cos_resource_instance_id
-    cos_bucket_name          = var.ibmcloud_cos_configuration.cos_bucket_name
-    cos_dir_name             = var.ibmcloud_cos_configuration.cos_webdispatcher_software_path
-    download_dir_path        = local.powervs_network_services_config.nfs.nfs_client_path
-  }
-}
-
-module "ansible_webdisp_swap_and_nfs_setup" {
-  source                 = "../../../modules/ansible"
-  count                  = var.vsi_webdispatcher.enable ? 1 : 0
-  depends_on             = [module.standard]
-  bastion_host_ip        = module.standard.access_host_or_ip
-  ansible_host_or_ip     = module.standard.ansible_host_or_ip
-  ssh_private_key        = var.ssh_private_key
-  configure_ansible_host = false # already bootstrapped on network-services - redhat.sap_install
-  # collection confirmed present there from the HANA/NetWeaver
-  # SWPM install using it identically
-  src_script_template_name   = "configure-os-for-sap/ansible_exec.sh.tftpl"
-  dst_script_file_name       = "${var.prefix}-webdisp_swap_and_nfs_setup.sh"
-  src_playbook_template_name = "webdispatcher-solution/playbook-webdispatcher-swap-and-nfs-setup.yml.tftpl"
-  dst_playbook_file_name     = "${var.prefix}-webdisp-playbook-swap-and-nfs-setup.yml"
-  playbook_template_vars = {
-    "webdisp_nfs_mount_path" : local.powervs_network_services_config.nfs.nfs_client_path,
-    "webdisp_nfs_server_path" : local.powervs_network_services_config.nfs.nfs_server_path,
-    "webdisp_nfs_fstype" : local.powervs_network_services_config.nfs.fstype,
-    "webdisp_nfs_opts" : local.powervs_network_services_config.nfs.opts,
-  }
-  src_inventory_template_name = "webdispatcher-instance-inventory.tftpl"
-  dst_inventory_file_name     = "${var.prefix}-webdisp-instance-inventory-swap-and-nfs-setup"
-  inventory_template_vars     = { "webdisp_vsi_ips" : join("\n", module.standard.webdispatcher_vsi_ips) }
-}
-
-
-module "ansible_webdisp_os_prereqs" {
-  source                     = "../../../modules/ansible"
-  count                      = var.vsi_webdispatcher.enable ? 1 : 0
-  depends_on                 = [module.ansible_webdisp_swap_and_nfs_setup]
-  bastion_host_ip            = module.standard.access_host_or_ip
-  ansible_host_or_ip         = module.standard.ansible_host_or_ip
-  ssh_private_key            = var.ssh_private_key
-  configure_ansible_host     = false
-  src_script_template_name   = "configure-os-for-sap/ansible_exec.sh.tftpl"
-  dst_script_file_name       = "${var.prefix}-webdisp_os_prereqs.sh"
-  src_playbook_template_name = "webdispatcher-solution/playbook-webdispatcher-os-prereqs.yml.tftpl"
-  dst_playbook_file_name     = "${var.prefix}-webdisp-playbook-os-prereqs.yml"
-  playbook_template_vars = {
-    "sap_domain" : var.sap_domain,
-  }
-  src_inventory_template_name = "webdispatcher-instance-inventory.tftpl"
-  dst_inventory_file_name     = "${var.prefix}-webdisp-instance-inventory-prereqs"
-  inventory_template_vars     = { "webdisp_vsi_ips" : join("\n", module.standard.webdispatcher_vsi_ips) }
-}
-
-locals {
-  sap_swpm_webdisp_product_catalog_id = "NW_Webdispatcher:NW750.IND.PD"
-  webdisp_swpm_playbook_vars = merge({
-    sap_swpm_webdisp_sid         = var.sap_webdisp_vars.sap_swpm_webdisp_sid
-    sap_swpm_webdisp_instance_nr = var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr
-    }, {
-    sap_swpm_product_catalog_id        = local.sap_swpm_webdisp_product_catalog_id
-    sap_swpm_webdisp_master_password   = var.sap_swpm_master_password
-    sap_domain                         = var.sap_domain
-    sap_install_media_detect_directory = "${var.nfs_server_config.mount_path}/${var.ibmcloud_cos_configuration.cos_webdispatcher_software_path}"
-    sap_swpm_nw_sid                    = var.sap_solution_vars.sap_swpm_sid
-    sap_swpm_nw_ms_host                = module.sap_system.pi_netweaver_instance_management_ips
-    # SAP message-server HTTP port convention: 81<ascs_instance_nr> — derived,
-    # not hardcoded, so this stays correct if sap_swpm_ascs_instance_nr is
-    # ever changed away from its "00" default.
-    sap_swpm_nw_ms_port = "81${var.sap_solution_vars.sap_swpm_ascs_instance_nr}"
-  })
-}
-
-module "ansible_install_webdispatcher" {
-  source = "../../../modules/ansible"
-  count  = var.vsi_webdispatcher.enable ? 1 : 0
-  depends_on = [
-    module.ibmcloud_cos_download_webdispatcher_binaries,
-    module.ansible_webdisp_os_prereqs,
-    module.ansible_sap_install_solution,
-  ]
-  bastion_host_ip             = module.standard.access_host_or_ip
-  ansible_host_or_ip          = module.standard.ansible_host_or_ip
-  ssh_private_key             = var.ssh_private_key
-  ansible_vault_password      = var.ansible_vault_password
-  configure_ansible_host      = false
-  src_script_template_name    = "s4hanab4hana-solution/install_swpm.sh.tftpl"
-  dst_script_file_name        = "${var.prefix}-webdisp_install_swpm.sh"
-  src_playbook_template_name  = "webdispatcher-solution/playbook-sap-webdispatcher-swpm-install.yml.tftpl"
-  dst_playbook_file_name      = "${var.prefix}-webdisp-playbook-sap-swpm-install.yml"
-  playbook_template_vars      = local.webdisp_swpm_playbook_vars
-  src_inventory_template_name = "webdispatcher-instance-inventory.tftpl"
-  dst_inventory_file_name     = "${var.prefix}-webdisp-instance-inventory"
-  inventory_template_vars     = { "webdisp_vsi_ips" : join("\n", module.standard.webdispatcher_vsi_ips) }
-}
-
 ######################################################
 # Deploy SAP S/4HANA or SAP BW/4HANA
 # 1 HANA instance
@@ -205,10 +89,9 @@ module "sap_system" {
 
 
 ######################################################
-# COS Service credentials
-# Download HANA binaries and SAP Solution binaries
+# Download binaries
+# SAP HANA, SAP Solution, Monitoring, Web Dispatcher
 # from IBM Cloud Object Storage(COS) to Ansible host
-# host NFS mount point
 ######################################################
 
 locals {
@@ -243,6 +126,15 @@ locals {
     cos_resource_instance_id = local.cos_resource_instance_id
     cos_bucket_name          = var.ibmcloud_cos_configuration.cos_bucket_name
     cos_dir_name             = var.ibmcloud_cos_configuration.cos_monitoring_software_path
+    download_dir_path        = local.powervs_network_services_config.nfs.nfs_client_path
+  }
+
+  ibmcloud_cos_webdispatcher_configuration = {
+    cos_apikey               = local.cos_apikey
+    cos_region               = var.ibmcloud_cos_configuration.cos_region
+    cos_resource_instance_id = local.cos_resource_instance_id
+    cos_bucket_name          = var.ibmcloud_cos_configuration.cos_bucket_name
+    cos_dir_name             = var.ibmcloud_cos_configuration.cos_webdispatcher_software_path
     download_dir_path        = local.powervs_network_services_config.nfs.nfs_client_path
   }
 }
@@ -281,6 +173,73 @@ module "ibmcloud_cos_download_monitoring_binaries" {
   ssh_private_key            = var.ssh_private_key
   ibmcloud_cos_configuration = local.ibmcloud_cos_monitoring_configuration
 }
+
+module "ibmcloud_cos_download_webdispatcher_binaries" {
+  source = "../../../modules/ibmcloud-cos"
+  count  = var.vsi_webdispatcher.enable ? 1 : 0
+  depends_on = [
+    module.standard,
+    module.ibmcloud_cos_download_netweaver_binaries,
+    module.ibmcloud_cos_download_monitoring_binaries,
+  ]
+
+  access_host_or_ip          = module.standard.access_host_or_ip
+  target_server_ip           = module.standard.ansible_host_or_ip
+  ssh_private_key            = var.ssh_private_key
+  ibmcloud_cos_configuration = local.ibmcloud_cos_webdispatcher_configuration
+}
+
+#####################################################
+# Webdispatcher host configuration on two intel VSIs
+#####################################################
+
+module "ansible_webdisp_swap_and_nfs_setup" {
+  source     = "../../../modules/ansible"
+  count      = var.vsi_webdispatcher.enable ? 1 : 0
+  depends_on = [module.standard]
+
+  bastion_host_ip            = module.standard.access_host_or_ip
+  ansible_host_or_ip         = module.standard.ansible_host_or_ip
+  ssh_private_key            = var.ssh_private_key
+  configure_ansible_host     = false
+  src_script_template_name   = "configure-os-for-sap/ansible_exec.sh.tftpl"
+  dst_script_file_name       = "${var.prefix}-webdisp_swap_and_nfs_setup.sh"
+  src_playbook_template_name = "webdispatcher-solution/playbook-webdispatcher-swap-and-nfs-setup.yml.tftpl"
+  dst_playbook_file_name     = "${var.prefix}-webdisp-playbook-swap-and-nfs-setup.yml"
+  playbook_template_vars = {
+    "webdisp_nfs_mount_path" : local.powervs_network_services_config.nfs.nfs_client_path,
+    "webdisp_nfs_server_path" : local.powervs_network_services_config.nfs.nfs_server_path,
+    "webdisp_nfs_fstype" : local.powervs_network_services_config.nfs.fstype,
+    "webdisp_nfs_opts" : local.powervs_network_services_config.nfs.opts,
+  }
+  src_inventory_template_name = "webdispatcher-instance-inventory.tftpl"
+  dst_inventory_file_name     = "${var.prefix}-webdisp-instance-inventory-swap-and-nfs-setup"
+  inventory_template_vars     = { "webdisp_vsi_ips" : join("\n", module.standard.webdispatcher_vsi_ips) }
+}
+
+
+module "ansible_webdisp_os_init" {
+  source     = "../../../modules/ansible"
+  count      = var.vsi_webdispatcher.enable ? 1 : 0
+  depends_on = [module.ansible_webdisp_swap_and_nfs_setup]
+
+  bastion_host_ip            = module.standard.access_host_or_ip
+  ansible_host_or_ip         = module.standard.ansible_host_or_ip
+  ssh_private_key            = var.ssh_private_key
+  configure_ansible_host     = false
+  src_script_template_name   = "configure-os-for-sap/ansible_exec.sh.tftpl"
+  dst_script_file_name       = "${var.prefix}-webdisp_os_init.sh"
+  src_playbook_template_name = "webdispatcher-solution/playbook-webdispatcher-os-init.yml.tftpl"
+  dst_playbook_file_name     = "${var.prefix}-webdisp-playbook-os-init.yml"
+  playbook_template_vars = {
+    "sap_domain" : var.sap_domain,
+  }
+  src_inventory_template_name = "webdispatcher-instance-inventory.tftpl"
+  dst_inventory_file_name     = "${var.prefix}-webdisp-instance-inventory-os-init"
+  inventory_template_vars     = { "webdisp_vsi_ips" : join("\n", module.standard.webdispatcher_vsi_ips) }
+}
+
+
 
 
 #####################################################
@@ -425,4 +384,52 @@ module "ansible_monitoring_sap_install_solution" {
   src_inventory_template_name = "monitoring-inventory.tftpl"
   dst_inventory_file_name     = "${var.prefix}-monitoring-instance-inventory"
   inventory_template_vars     = { "monitoring_host_ip" : local.monitoring_instance.monitoring_host_ip }
+}
+
+####################################################
+# Ansible Install SAP WEB Dispatcher
+#####################################################
+
+locals {
+  sap_swpm_webdisp_product_catalog_id = "NW_Webdispatcher:NW750.IND.PD"
+  webdisp_swpm_playbook_vars = merge({
+    sap_swpm_webdisp_sid         = var.sap_webdisp_vars.sap_swpm_webdisp_sid
+    sap_swpm_webdisp_instance_nr = var.sap_webdisp_vars.sap_swpm_webdisp_instance_nr
+    }, {
+    sap_swpm_product_catalog_id        = local.sap_swpm_webdisp_product_catalog_id
+    sap_swpm_webdisp_master_password   = var.sap_swpm_master_password
+    sap_domain                         = var.sap_domain
+    sap_install_media_detect_directory = "${var.nfs_server_config.mount_path}/${var.ibmcloud_cos_configuration.cos_webdispatcher_software_path}"
+    sap_swpm_nw_sid                    = var.sap_solution_vars.sap_swpm_sid
+    sap_swpm_nw_ms_host                = module.sap_system.pi_netweaver_instance_management_ips
+    # SAP message-server HTTP port convention: 81<ascs_instance_nr> — derived,
+    # not hardcoded, so this stays correct if sap_swpm_ascs_instance_nr is
+    # ever changed away from its "00" default.
+    sap_swpm_nw_ms_port = "81${var.sap_solution_vars.sap_swpm_ascs_instance_nr}"
+  })
+}
+
+module "ansible_install_webdispatcher" {
+  source = "../../../modules/ansible"
+  count  = var.vsi_webdispatcher.enable ? 1 : 0
+  depends_on = [
+    module.ibmcloud_cos_download_webdispatcher_binaries,
+    module.ansible_webdisp_os_init,
+    module.ansible_sap_install_solution,
+    module.ansible_monitoring_sap_install_solution
+  ]
+
+  bastion_host_ip             = module.standard.access_host_or_ip
+  ansible_host_or_ip          = module.standard.ansible_host_or_ip
+  ssh_private_key             = var.ssh_private_key
+  ansible_vault_password      = var.ansible_vault_password
+  configure_ansible_host      = false
+  src_script_template_name    = "s4hanab4hana-solution/install_swpm.sh.tftpl"
+  dst_script_file_name        = "${var.prefix}-webdisp_install_swpm.sh"
+  src_playbook_template_name  = "webdispatcher-solution/playbook-sap-webdispatcher-swpm-install.yml.tftpl"
+  dst_playbook_file_name      = "${var.prefix}-webdisp-playbook-sap-swpm-install.yml"
+  playbook_template_vars      = local.webdisp_swpm_playbook_vars
+  src_inventory_template_name = "webdispatcher-instance-inventory.tftpl"
+  dst_inventory_file_name     = "${var.prefix}-webdisp-instance-inventory"
+  inventory_template_vars     = { "webdisp_vsi_ips" : join("\n", module.standard.webdispatcher_vsi_ips) }
 }
